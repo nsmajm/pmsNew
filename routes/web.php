@@ -11,10 +11,11 @@
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
-
+//Route::get('/', function () {
+//    return view('welcome');
+//});
+Route::view('/','main');
 Route::view('/main','main')->name('main');
 Route::view('/form','form')->name('form');
 Route::view('/datatable','datatable')->name('datatable');
+Route::view('/onlyDatatable','onlyDatatable')->name('only.datatable');

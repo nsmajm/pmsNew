@@ -263,7 +263,7 @@
                                 <a href="#">Tables </a>
                                 <ul class="submenu">
                                     <li><a href="tables-basic.html">Basic Tables</a></li>
-                                    <li><a href="tables-datatable.html">Data Table</a></li>
+                                    <li><a href="{{route('only.datatable')}}">Data Table</a></li>
                                     <li><a href="tables-responsive.html">Responsive Table</a></li>
                                     <li><a href="tables-editable.html">Editable Table</a></li>
                                 </ul>
