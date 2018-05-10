@@ -19,7 +19,9 @@
                 <!-- Image Logo -->
                 <a href="{{route('main')}}" class="logo">
                     <img src="assets/images/logo-sm.png" alt="" height="22" class="logo-small">
-                    <img src="assets/images/logo.png" alt="" height="24" class="logo-large">
+                    
+                    <h3>PMS</h3>
+<!--                    <img src="assets/images/logo.png" alt="" height="24" class="logo-large">-->
                 </a>
 
             </div>

@@ -2600,7 +2600,7 @@ body {
 }
 
 #topnav .topbar-main {
-    background-color: #4d5467
+    background-color: #2A6496;
 }
 
 #topnav .topbar-main .logo {
@@ -2657,7 +2657,7 @@ body {
 }
 
 #topnav .navbar-custom {
-    background-color: #424858;
+    background-color: #1FB0E5;
     box-shadow: 0 1px 1px rgba(0, 0, 0, .1);
     padding-left: 0
 }
