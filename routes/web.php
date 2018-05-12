@@ -14,8 +14,12 @@
 //Route::get('/', function () {
 //    return view('welcome');
 //});
-Route::view('/','main');
+Route::view('/','login');
 Route::view('/main','main')->name('main');
 Route::view('/form','form')->name('form');
 Route::view('/datatable','datatable')->name('datatable');
 Route::view('/onlyDatatable','onlyDatatable')->name('only.datatable');
+
+Auth::routes();
+
+Route::get('/home', 'HomeController@index')->name('home');
