@@ -23,3 +23,13 @@ Route::view('/onlyDatatable','onlyDatatable')->name('only.datatable');
 Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
+
+//JOB
+Route::get('/job/add','JobController@add')->name('job.add');
+Route::get('/job/pending','JobController@pending')->name('job.pending');
+Route::get('/job/deadline','JobController@deadline')->name('job.deadline');
+
+
+//Feedback
+Route::get('/feedback','JobController@feedback')->name('job.feedback');
+

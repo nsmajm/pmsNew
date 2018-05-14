@@ -13,16 +13,16 @@
                     <a href="#"><i class="ti-light-bulb"></i>Job Info</a>
                     <ul class="submenu">
                         <li><a href="ui-buttons.html">Information</a></li>
-                        <li><a href="ui-cards.html">Pending Job</a></li>
+                        <li><a href="{{route('job.pending')}}">Pending Job</a></li>
                         <li><a href="{{route('datatable')}}">Job Tally</a></li>
-                        <li><a href="{{route('form')}}">Add New</a></li>
-                        <li><a href="ui-images.html">Feedback</a></li>
+                        <li><a href="{{route('job.add')}}">Add New</a></li>
+                        <li><a href="{{route('job.feedback')}}">Feedback</a></li>
                         <li class="has-submenu">
                             <a href="#">Deadline</a>
                             <ul class="submenu">
 
-                                <li><a href="form-summernote.html">Todays Deadline</a></li>
-                                <li><a href="form-xeditable.html">Tomorrows Deadline</a></li>
+                                <li><a href="{{route('job.deadline')}}">Todays Deadline</a></li>
+                                <li><a href="{{route('job.deadline')}}">Tomorrows Deadline</a></li>
                             </ul>
                         </li>
 

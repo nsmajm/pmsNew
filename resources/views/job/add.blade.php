@@ -2,25 +2,25 @@
 @section('content')
 
     {{--<div class="row">--}}
-        {{--<div class="col-sm-12">--}}
-            {{--<div class="page-title-box">--}}
-                {{--<div class="btn-group pull-right">--}}
-                    {{--<ol class="breadcrumb hide-phone p-0 m-0">--}}
-                        {{--<li class="breadcrumb-item"><a href="#">Upcube</a></li>--}}
-                        {{--<li class="breadcrumb-item"><a href="#">Forms</a></li>--}}
-                        {{--<li class="breadcrumb-item active">Form Elements</li>--}}
-                    {{--</ol>--}}
-                {{--</div>--}}
-                {{--<h4 class="page-title">Form Elements</h4>--}}
-            {{--</div>--}}
-        {{--</div>--}}
+    {{--<div class="col-sm-12">--}}
+    {{--<div class="page-title-box">--}}
+    {{--<div class="btn-group pull-right">--}}
+    {{--<ol class="breadcrumb hide-phone p-0 m-0">--}}
+    {{--<li class="breadcrumb-item"><a href="#">Upcube</a></li>--}}
+    {{--<li class="breadcrumb-item"><a href="#">Forms</a></li>--}}
+    {{--<li class="breadcrumb-item active">Form Elements</li>--}}
+    {{--</ol>--}}
+    {{--</div>--}}
+    {{--<h4 class="page-title">Form Elements</h4>--}}
+    {{--</div>--}}
+    {{--</div>--}}
     {{--</div>--}}
     <!-- end page title end breadcrumb -->
 
     <div class="row">
         <div class="col-12">
             <div class="card m-b-30">
-              <h4 class="mb-md-6" style="text-align: center">Add Job</h4>
+                <h4 class="mb-md-6" style="text-align: center">Add Job</h4>
 
                 <div class="card-body">
 
@@ -30,10 +30,10 @@
                     <div class="form-group row">
                         <label for="example-text-input" class="col-sm-2 col-form-label">Client Id</label>
                         <div class="col-sm-10">
-                           <select class="form-control">
-                               <option>Client Id</option>
+                            <select class="form-control">
+                                <option>Client Id</option>
 
-                           </select>
+                            </select>
                         </div>
                     </div>
 
