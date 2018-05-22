@@ -1,4 +1,11 @@
 @extends('main')
+@section('header')
+    <!-- jQuery & Bootstrap -->
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.0/umd/popper.min.js" integrity="sha384-cs/chFZiN24E4KMATLdqdvsezGxaGsi4hLGOzlXwp5UZB1LY//20VyM2taTB4QvJ" crossorigin="anonymous"></script>
+@endsection
+
+
 @section('content')
 
 
@@ -86,6 +93,29 @@
                             @endif
                         </div>
 
+                        <div class="form-group row">
+                            <label for="example-text-input" class="col-sm-2 col-form-label">Services</label>
+                            <div class="col-sm-10">
+                                <select name="service[]" id="service" class="form-control"  multiple="multiple" style="display: none;">
+                                    <option value="AL">Alabama</option>
+                                    <option value="AK">Alaska</option>
+                                    <option value="AZ">Arizona</option>
+                                    <option  value="AR">Arkansas</option>
+                                    <option selected value="CA">California</option>
+                                </select>
+
+
+                            </div>
+
+
+                            @if ($errors->has('clientService'))
+                                <span class="invalid-feedback">
+                                        <strong>{{ $errors->first('clientNumber') }}</strong>
+                            </span>
+                            @endif
+                        </div>
+
+
 
 
                         <div class="form-group row">
@@ -134,5 +164,17 @@
 
 
 
+
+@endsection
+@section('foot-js')
+<script src="{{url('public/dist/js/BsMultiSelect.js')}}"></script>
+
+
+    <script>
+        $(function(){
+            $("#service").dashboardCodeBsMultiSelect();
+
+        });
+    </script>
 
 @endsection
