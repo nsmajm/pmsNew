@@ -7,5 +7,12 @@ use App\Http\Controllers\Controller;
 
 class BriefController extends Controller
 {
-    //
+    public function check(){
+        return view('brief.check');
+    }
+
+    public function index(){
+
+        return view('brief.brief');
+    }
 }

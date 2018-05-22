@@ -12,7 +12,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
 
     <!-- App Icons -->
-    <link rel="shortcut icon" href="{{url('assets/images/favicon.ico')}}">
+    <link rel="shortcut icon" href="{{url('public/logo/TCL_logo.png')}}">
 
     <!-- App css -->
     <link href="{{url('assets/css/bootstrap.min.css')}}" rel="stylesheet" type="text/css" />
@@ -29,26 +29,31 @@
 <div class="wrapper-page">
 
     <div class="card">
-        <div class="card-body">
-
-            <h3 class="text-center mt-0 m-b-15">
+        <div class="card-header">
+            <h3 class="text-center">
                 <b class="waves-effect waves-light">PMS</b>
             </h3>
 
-            <h4 class="text-muted text-center font-18"><b>Sign In</b></h4>
+        </div>
+        <div class="card-body">
+
+
+            <div align="center">
+                <img src="{{url('public/logo/TCL_logo.png')}}" height="150" width="200">
+            </div>
 
             <div class="p-3">
                 <form class="form-horizontal m-t-20" action="http://themesdesign.in/upcube/layouts/horizontal/index.html">
 
                     <div class="form-group row">
                         <div class="col-12">
-                            <input class="form-control" type="text" required="" placeholder="Username">
+                            <input class="form-control" name="userId" type="text" placeholder="Username" required>
                         </div>
                     </div>
 
                     <div class="form-group row">
                         <div class="col-12">
-                            <input class="form-control" type="password" required="" placeholder="Password">
+                            <input class="form-control" name="password" type="password" placeholder="Password" required>
                         </div>
                     </div>
 
@@ -71,6 +76,15 @@
 
                 </form>
             </div>
+
+        </div>
+
+        <div class="card-footer">
+
+                <div style="text-align: center">
+                    © {{date('Y')}} Tech Cloud Limited .
+                </div>
+
 
         </div>
     </div>

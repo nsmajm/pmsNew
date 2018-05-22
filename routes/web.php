@@ -25,11 +25,25 @@ Auth::routes();
 Route::get('/home', 'HomeController@index')->name('home');
 
 //JOB
+Route::get('/job/information','JobController@information')->name('job.information');
 Route::get('/job/add','JobController@add')->name('job.add');
+Route::post('/job/insert','JobController@insert')->name('job.insert');
 Route::get('/job/pending','JobController@pending')->name('job.pending');
 Route::get('/job/deadline','JobController@deadline')->name('job.deadline');
 
+//END JOB
 
 //Feedback
 Route::get('/feedback','JobController@feedback')->name('job.feedback');
 
+
+//Brief
+Route::get('/brief/check','BriefController@check')->name('brief.check');
+Route::get('/brief/','BriefController@index')->name('brief.index');
+
+//Leave
+Route::get('/leave','LeaveController@index')->name('leave.index');
+
+//BILL
+Route::get('bill/add','BillController@addRate')->name('bill.addRate');
+Route::get('bill/summery','BillController@summery')->name('bill.summery');

@@ -4,7 +4,7 @@
     <div class="container-fluid">
         <div class="row">
             <div class="col-12">
-                © 2018 Tech Cloud Limited .
+                © {{date('Y')}} Tech Cloud Limited .
             </div>
         </div>
     </div>

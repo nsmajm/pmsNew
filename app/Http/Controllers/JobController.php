@@ -7,11 +7,20 @@ use App\Http\Controllers\Controller;
 
 class JobController extends Controller
 {
+    public function information(){
+
+
+        return view('job.information');
+    }
     public function add(){
 
         return view('job.add');
     }
 
+    public function insert(Request $r){
+
+        return $r;
+    }
     public function pending(){
         return view('job.pendingJob');
 
@@ -27,4 +36,6 @@ class JobController extends Controller
 
         return view('job.deadline');
     }
+
+
 }

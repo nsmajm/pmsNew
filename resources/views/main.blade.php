@@ -12,16 +12,9 @@
 
             <!-- Logo container-->
             <div class="logo">
-                <!-- Text Logo -->
-                <!--<a href="index.html" class="logo">-->
-                <!--Upcube-->
-                <!--</a>-->
                 <!-- Image Logo -->
                 <a href="{{route('main')}}" class="logo">
-                    {{--<img src="assets/images/logo-sm.png" alt="" height="22" class="logo-small">--}}
-                    
                     <h3>PMS</h3>
-<!--                    <img src="assets/images/logo.png" alt="" height="24" class="logo-large">-->
                 </a>
 
             </div>
@@ -127,7 +120,7 @@
                     <li class="list-inline-item dropdown notification-list">
                         <a class="nav-link dropdown-toggle arrow-none waves-effect nav-user" data-toggle="dropdown" href="#" role="button"
                            aria-haspopup="false" aria-expanded="false">
-                            <img src="{{url('assets/images/users/avatar-1.jpg')}}" alt="user" class="rounded-circle">
+                            <img src="{{url('public/assets/images/users/avatar-1.png')}}" alt="user" class="rounded-circle">
                         </a>
                         <div class="dropdown-menu dropdown-menu-right profile-dropdown ">
                             <a class="dropdown-item" href="#"><i class="dripicons-user text-muted"></i> Profile</a>

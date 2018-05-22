@@ -12,7 +12,7 @@
                 <li class="has-submenu">
                     <a href="#"><i class="ti-light-bulb"></i>Job Info</a>
                     <ul class="submenu">
-                        <li><a href="ui-buttons.html">Information</a></li>
+                        <li><a href="{{route('job.information')}}">Information</a></li>
                         <li><a href="{{route('job.pending')}}">Pending Job</a></li>
                         <li><a href="{{route('datatable')}}">Job Tally</a></li>
                         <li><a href="{{route('job.add')}}">Add New</a></li>
@@ -46,8 +46,8 @@
                 <li class="has-submenu">
                     <a href="#"><i class="ti-notepad"></i>Brief</a>
                     <ul class="submenu">
-                        <li><a href="advanced-animation.html">Brief Check</a></li>
-                        <li><a href="advanced-highlight.html">Brief</a></li>
+                        <li><a href="{{route('brief.check')}}">Brief Check</a></li>
+                        <li><a href="{{route('brief.index')}}">Brief</a></li>
                     </ul>
                 </li>
 
@@ -55,9 +55,9 @@
                 <li class="has-submenu">
                     <a href="#"><i class="ti-money"></i>Billing</a>
                     <ul class="submenu">
-                        <li><a href="advanced-animation.html">Add Rate</a></li>
+                        <li><a href="{{route('bill.addRate')}}">Add Rate</a></li>
                         <li><a href="advanced-highlight.html">Edit Bill</a></li>
-                        <li><a href="advanced-rating.html">Bill Summery</a></li>
+                        <li><a href="{{route('bill.summery')}}">Bill Summery</a></li>
                         <li><a href="advanced-nestable.html">Invoice</a></li>
                         <li><a href="advanced-nestable.html">Bill Copy</a></li>
                     </ul>
@@ -73,7 +73,7 @@
                 <li class="has-submenu">
                     <a href="#"><i class="ti-arrow-circle-down"></i>Other</a>
                     <ul class="submenu">
-                        <li><a href="advanced-animation.html">Leave</a></li>
+                        <li><a href="{{route('leave.index')}}">Leave</a></li>
                         <li><a href="advanced-nestable.html">Time Calculator</a></li>
 
                     </ul>
