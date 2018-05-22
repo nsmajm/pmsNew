@@ -27,16 +27,16 @@
 
                     <form method="post" action="{{route('job.insert')}}">
                     @csrf
+                        <div class="form-group row">
+                            <label for="example-text-input" class="col-sm-2 col-form-label">Client Id</label>
+                            <div class="col-sm-10">
+                                <select class="form-control">
+                                    <option>Client Id</option>
 
-                    <div class="form-group row">
-                        <label for="example-text-input" class="col-sm-2 col-form-label">Client Id</label>
-                        <div class="col-sm-10">
-                            <select class="form-control">
-                                <option>Client Id</option>
-
-                            </select>
+                                </select>
+                            </div>
                         </div>
-                    </div>
+
 
                     <div class="form-group row">
                         <label for="example-search-input" class="col-sm-2 col-form-label">Folder Name</label>

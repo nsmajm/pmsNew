@@ -24,6 +24,18 @@ Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
 
+
+
+//Client
+Route::get('/client/add','ClientController@add')->name('client.add');
+Route::post('/client/insert','ClientController@insert')->name('client.insert');
+Route::get('/client/show','ClientController@show')->name('client.show');
+
+//Service
+Route::get('/service/add','ServiceController@add')->name('service.add');
+Route::post('/service/insert','ServiceController@insert')->name('service.insert');
+Route::get('/service/show','ServiceController@show')->name('service.show');
+
 //JOB
 Route::get('/job/information','JobController@information')->name('job.information');
 Route::get('/job/add','JobController@add')->name('job.add');

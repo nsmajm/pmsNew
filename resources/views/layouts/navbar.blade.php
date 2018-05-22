@@ -75,6 +75,21 @@
                     <ul class="submenu">
                         <li><a href="{{route('leave.index')}}">Leave</a></li>
                         <li><a href="advanced-nestable.html">Time Calculator</a></li>
+                        <li class="has-submenu">
+                            <a href="#">Client</a>
+                            <ul class="submenu">
+                                <li><a href="{{route('client.add')}}">Add</a></li>
+                                <li><a href="{{route('client.show')}}">Show</a></li>
+                            </ul>
+                        </li>
+
+                        <li class="has-submenu">
+                            <a href="#">Service</a>
+                            <ul class="submenu">
+                                <li><a href="{{route('service.add')}}">Add</a></li>
+                                <li><a href="{{route('service.show')}}">Show</a></li>
+                            </ul>
+                        </li>
 
                     </ul>
                 </li>
