@@ -11,14 +11,13 @@
                 <div class="card-body">
 
 
-                    <form method="post" action="{{route('client.insert')}}">
+                    <form method="post" action="{{route('service.insert')}}">
                         @csrf
-
 
                         <div class="form-group row">
                             <label for="example-search-input" class="col-sm-2 col-form-label">Service Name</label>
                             <div class="col-sm-10">
-                                <input class="form-control" type="text" name="serviceName" placeholder="name" id="example-search-input">
+                                <input class="form-control" type="text" name="serviceName" placeholder="name" id="example-search-input" required>
                             </div>
                             @if ($errors->has('serviceName'))
                                 <span class="invalid-feedback">
@@ -30,15 +29,14 @@
                         <div class="form-group row">
                             <label for="example-email-input" class="col-sm-2 col-form-label">Complexity</label>
                             <div class="col-sm-10">
-                                <input class="form-control" name="complexity" type="text" placeholder="Complexity" id="example-email-input">
-                                @if ($errors->has('complexity'))
-                                    <span class="invalid-feedback">
-                                        <strong>{{ $errors->first('complexity') }}</strong>
-                            </span>
-                                @endif
+                                <select class="form-control" name="complexity">
+                                    <option selected>Select complexity</option>
+                                    @foreach(SERVICE_COMPLEXITY as $type)
+                                        <option >{{$type}}</option>
+                                    @endforeach
+                                </select>
                             </div>
                         </div>
-
 
 
                         <div class="form-group row">

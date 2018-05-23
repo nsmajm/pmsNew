@@ -5,3 +5,10 @@ define('SERVICE_TYPE',array(
     "QC",
     "Normal & Qc"
 ));
+
+define('SERVICE_COMPLEXITY',array(
+    "Basic",
+    "Normal",
+    "Medium",
+    "Advanced"
+));

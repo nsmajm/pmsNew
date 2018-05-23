@@ -28,9 +28,9 @@
                     </button>
 
                     <!--  Add Service Modal -->
-                    <div class="modal" id="addServiceModal" >
+                    <div style="text-align: center;" class="modal" id="addServiceModal" >
                         <div class="modal-dialog">
-                            <div class="modal-content" style="width: 180%">
+                            <div class="modal-content" style="width: 600px;">
 
                                 <!-- Modal Header -->
                                 <div class="modal-header">
@@ -39,50 +39,48 @@
                                 </div>
 
                                 <!-- Modal body -->
-                                <div class="modal-body" >
-                                    <form method="post" action="{{route('client.insert')}}">
+                                <div class="modal-body">
+                                    <form method="post" action="{{route('service.insert')}}">
                                         @csrf
 
 
                                         <div class="form-group row">
-                                            <label for="example-search-input" class="col-sm-2 col-form-label">Service Name</label>
-                                            <div class="col-sm-10">
-                                                <input class="form-control" type="text" name="serviceName" placeholder="name" id="example-search-input">
+                                            <label for="example-search-input" class="col-sm-3 col-form-label">Service Name</label>
+                                            <div class="col-sm-9">
+                                                <input class="form-control" type="text" name="serviceName" placeholder="name" id="example-search-input" required>
                                             </div>
                                             @if ($errors->has('serviceName'))
                                                 <span class="invalid-feedback">
                                         <strong>{{ $errors->first('serviceName')}}</strong>
-                            </span>
+                                        </span>
                                             @endif
                                         </div>
 
-                                        <div class="form-group row">
-                                            <label for="example-email-input" class="col-sm-2 col-form-label">Complexity</label>
-                                            <div class="col-sm-10">
-                                                <input class="form-control" name="complexity" type="text" placeholder="Complexity" id="example-email-input">
-                                                @if ($errors->has('complexity'))
-                                                    <span class="invalid-feedback">
-                                        <strong>{{ $errors->first('complexity') }}</strong>
-                            </span>
-                                                @endif
-                                            </div>
-                                        </div>
-
-
 
                                         <div class="form-group row">
-                                            <label for="example-email-input" class="col-sm-2 col-form-label">Type</label>
-                                            <div class="col-sm-10">
-                                                <select class="form-control" name="type">
-                                                    <option selected>Select type</option>
-                                                    <option >Normal</option>
-                                                    <option >QC</option>
-                                                    <option >Normal & QC</option>
-                                                    <option>Bangladesh</option>
+                                            <label for="example-email-input" class="col-sm-3 col-form-label">Complexity</label>
+                                            <div class="col-sm-9">
+                                                <select class="form-control" name="complexity">
+                                                    <option selected>Select complexity</option>
+                                                    @foreach(SERVICE_COMPLEXITY as $type)
+                                                        <option >{{$type}}</option>
+                                                    @endforeach
                                                 </select>
                                             </div>
                                         </div>
 
+
+                                        <div class="form-group row">
+                                            <label for="example-email-input" class="col-sm-3 col-form-label">Type</label>
+                                            <div class="col-sm-9">
+                                                <select class="form-control" name="type">
+                                                    <option selected>Select type</option>
+                                                    @foreach(SERVICE_TYPE as $type)
+                                                        <option >{{$type}}</option>
+                                                    @endforeach
+                                                </select>
+                                            </div>
+                                        </div>
 
 
 
@@ -119,75 +117,6 @@
                         </tr>
                         </thead>
 
-
-                        <tbody>
-                        <tr>
-                            <td>Tiger Nixon</td>
-                            <td>System Architect</td>
-                            <td>Edinburgh</td>
-
-                        </tr>
-                        <tr>
-                            <td>Garrett Winters</td>
-                            <td>Accountant</td>
-                            <td>Tokyo</td>
-
-                        </tr>
-                        <tr>
-                            <td>Ashton Cox</td>
-                            <td>Junior Technical Author</td>
-                            <td>San Francisco</td>
-
-                        </tr>
-                        <tr>
-                            <td>Cedric Kelly</td>
-                            <td>Senior Javascript Developer</td>
-                            <td>Edinburgh</td>
-
-                        </tr>
-                        <tr>
-                            <td>Airi Satou</td>
-                            <td>Accountant</td>
-                            <td>Tokyo</td>
-
-                        </tr>
-                        <tr>
-                            <td>Brielle Williamson</td>
-                            <td>Integration Specialist</td>
-                            <td>New York</td>
-
-                        </tr>
-                        <tr>
-                            <td>Herrod Chandler</td>
-                            <td>Sales Assistant</td>
-                            <td>San Francisco</td>
-                        </tr>
-
-                        <tr>
-                            <td>Rhona Davidson</td>
-                            <td>Integration Specialist</td>
-                            <td>Tokyo</td>
-
-                        </tr>
-                        <tr>
-                            <td>Colleen Hurst</td>
-                            <td>Javascript Developer</td>
-                            <td>San Francisco</td>
-
-                        </tr>
-                        <tr>
-                            <td>Sonya Frost</td>
-                            <td>Software Engineer</td>
-                            <td>Edinburgh</td>
-
-                        </tr>
-                        <tr>
-                            <td>Jena Gaines</td>
-                            <td>Office Manager</td>
-                            <td>London</td>
-                        </tr>
-
-                        </tbody>
                     </table>
 
                 </div>
@@ -200,15 +129,33 @@
 @endsection
 @section('foot-js')
 
+    <meta name="csrf-token" content="{{ csrf_token() }}" />
     <script src="{{url('public/assets/plugins/datatables/jquery.dataTables.min.js')}}"></script>
     <script src="{{url('public/assets/plugins/datatables/dataTables.bootstrap4.min.js')}}"></script>
     <!-- Buttons examples -->
     <script src="{{url('public/assets/plugins/datatables/dataTables.buttons.min.js')}}"></script>
     <script>
         $(document).ready( function () {
-            $('#datatable').DataTable();
+//            $('#datatable').DataTable();
 
-//            $().DataTable();
+
+            $('#datatable').DataTable({
+                processing: true,
+                serverSide: true,
+                Filter: true,
+                stateSave: true,
+                type:"POST",
+                "ajax":{
+                    "url": "{!! route('service.getData') !!}",
+                    "type": "POST",
+                    "data":{ _token: "{{csrf_token()}}"},
+                },
+                columns: [
+                    { data: 'serviceName', name: 'serviceName' },
+                    { data: 'complexity', name: 'complexity' },
+                    { data: 'type', name: 'type'},
+                ]
+            });
         } );
     </script>
 

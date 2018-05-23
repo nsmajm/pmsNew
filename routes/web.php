@@ -14,8 +14,10 @@
 //Route::get('/', function () {
 //    return view('welcome');
 //});
-Route::view('/','login');
-Route::view('/main','main')->name('main');
+Route::get('/','Auth\LoginController@loginForm');
+
+Route::get('/dashboard','DashboardController@index')->name('main');
+
 Route::view('/form','form')->name('form');
 Route::view('/datatable','datatable')->name('datatable');
 Route::view('/onlyDatatable','onlyDatatable')->name('only.datatable');
@@ -34,6 +36,7 @@ Route::get('/client/show','ClientController@show')->name('client.show');
 //Service
 Route::get('/service/add','ServiceController@add')->name('service.add');
 Route::post('/service/insert','ServiceController@insert')->name('service.insert');
+Route::post('/service/show','ServiceController@getData')->name('service.getData');
 Route::get('/service/show','ServiceController@show')->name('service.show');
 
 //JOB

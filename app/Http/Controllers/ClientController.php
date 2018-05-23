@@ -4,22 +4,95 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\User;
+use App\Service;
+use App\Client;
+use App\Status;
+use App\Country;
+use App\ClientServiceRelation;
+use App\Timezone;
+use Session;
+use Hash;
 
 class ClientController extends Controller
 {
     public function add(){
+        $services=Service::select('serviceId','serviceName')->get();
+        $countries=Country::get();
+        $timezones=Timezone::get();
 
-        return view('client.add');
+
+
+        return view('client.add')
+                    ->with('services',$services)
+                    ->with('countries',$countries)
+                    ->with('timezones',$timezones);
 
     }
 
     public function insert(Request $r){
+        $this->validate($r,[
+            'clientName'=>'required|max:45',
+            'contactPerson' => 'max:45',
+            'clientEmail' => 'required|max:45',
+            'clientNumber' => 'required|max:45',
+            'companyName' => 'required|max:45',
+            'country' => 'required',
+        ]);
+
+        $status=Status::where('statusType','userStatus')
+            ->where('statusName','active')
+            ->first();
 
 
-        return $r;
+        $password=Hash::make($r->password);
+
+        $user=new User();
+        $user->name=$r->companyName;
+        $user->loginId=$r->clientEmail;
+        $user->userType='client';
+        $user->statusId=$status->statusId;
+        $user->password=$password;
+        $user->save();
+
+
+        $client=new Client();
+        $client->userId=$user->userId;
+        $client->clientName=$r->clientName;
+        $client->companyName=$r->companyName;
+        $client->contactPerson=$r->contactPerson;
+        $client->email=$r->clientEmail;
+        $client->phoneNumber=$r->clientNumber;
+        $client->countryId=$r->country;
+        $client->timezoneId=$r->timezone;
+        $client->save();
+
+
+
+
+
+        if($r->service){
+            foreach ($r->service as $serviceId){
+
+                $clientServiceRelation=new ClientServiceRelation();
+                $clientServiceRelation->serviceId=$serviceId;
+                $clientServiceRelation->clientId=$client->clientId;
+                $clientServiceRelation->save();
+
+            }
+
+
+        }
+
+        
+
+        Session::flash('message', 'Client Added Successfully!');
+        return back();
     }
 
     public function show(){
+
+
 
         return view('client.show');
     }

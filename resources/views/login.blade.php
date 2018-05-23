@@ -43,33 +43,54 @@
             </div>
 
             <div class="p-3">
-                <form class="form-horizontal m-t-20" action="http://themesdesign.in/upcube/layouts/horizontal/index.html">
+                <form method="POST" class="form-horizontal m-t-20" action="{{ route('login') }}">
+                    @csrf
 
                     <div class="form-group row">
                         <div class="col-12">
-                            <input class="form-control" name="userId" type="text" placeholder="Username" required>
+                            {{--<input class="form-control" name="loginId" type="text" placeholder="login id" required>--}}
+                            <input id="loginId" type="text" class="form-control{{ $errors->has('loginId') ? ' is-invalid' : '' }}" name="loginId" value="{{ old('loginId') }}" required autofocus>
+
+
+                        @if ($errors->has('loginId'))
+                                <span class="invalid-feedback">
+                                        <strong>{{ $errors->first('loginId') }}</strong>
+                                    </span>
+                            @endif
                         </div>
                     </div>
 
                     <div class="form-group row">
                         <div class="col-12">
                             <input class="form-control" name="password" type="password" placeholder="Password" required>
+                            {{--<input id="password" type="password" class="form-control{{ $errors->has('password') ? ' is-invalid' : '' }}" name="password" required>--}}
+
+                            @if ($errors->has('password'))
+                                <span class="invalid-feedback">
+                                        <strong>{{ $errors->first('password') }}</strong>
+                                    </span>
+                            @endif
                         </div>
                     </div>
 
                     <div class="form-group row">
                         <div class="col-12">
                             <div class="custom-control custom-checkbox">
-                                <input type="checkbox" class="custom-control-input" id="customCheck1">
-                                <label class="custom-control-label" for="customCheck1">Remember me</label>
+                                <input type="checkbox" name="remember" {{ old('remember') ? 'checked' : '' }}> {{ __('Remember Me') }}
+
                             </div>
                         </div>
                     </div>
 
                     <div class="form-group text-center row m-t-20">
                         <div class="col-12">
-                            {{--<button class="btn btn-info btn-block waves-effect waves-light" type="submit">Log In</button>--}}
-                            <a class="btn btn-info btn-block waves-effect waves-light" href="{{route('main')}}">Log In</a>
+                            <button class="btn btn-info btn-block waves-effect waves-light" type="submit">Log In</button>
+
+
+                            {{--<button type="submit" class="btn btn-info btn-block waves-effect waves-light">--}}
+                                {{--{{ __('Login') }}--}}
+                            {{--</button>--}}
+
                         </div>
                     </div>
 

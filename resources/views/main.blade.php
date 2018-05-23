@@ -1,5 +1,10 @@
 @include('layouts/header')
+<style>
+    .alert-feedback{
+        color: red;
+    }
 
+</style>
 <body>
 
 <!-- Loader -->
@@ -118,6 +123,7 @@
                     </li>
                     <!-- User-->
                     <li class="list-inline-item dropdown notification-list">
+                      <b style="color: white">{{ Auth::user()->name }}</b>
                         <a class="nav-link dropdown-toggle arrow-none waves-effect nav-user" data-toggle="dropdown" href="#" role="button"
                            aria-haspopup="false" aria-expanded="false">
                             <img src="{{url('public/assets/images/users/avatar-1.png')}}" alt="user" class="rounded-circle">
@@ -127,7 +133,19 @@
                             <a class="dropdown-item" href="#"><i class="dripicons-wallet text-muted"></i>Team</a>
                             <a class="dropdown-item" href="#"><i class="dripicons-gear text-muted"></i>Change Password</a>
                             <div class="dropdown-divider"></div>
-                            <a class="dropdown-item" href="#"><i class="dripicons-exit text-muted"></i> Logout</a>
+
+
+                            {{--Logout Button--}}
+                            <a class="dropdown-item" href="{{ route('logout') }}"
+                               onclick="event.preventDefault();
+                                                     document.getElementById('logout-form').submit();">
+                                {{ __('Logout') }}
+                            </a>
+
+
+                            <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+                                @csrf
+                            </form>
                         </div>
                     </li>
                     <li class="menu-item list-inline-item">
@@ -159,6 +177,9 @@
 
 <div class="wrapper">
     <div class="container-fluid">
+        @if(Session::has('message'))
+            <p class="alert alert-info">{{ Session::get('message') }}</p>
+        @endif
 
         @yield('content')
 
