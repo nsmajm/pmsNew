@@ -1,21 +1,13 @@
 @extends('main')
+@section('header')
+    <link href="{{url('public/assets/plugins/bootstrap-datepicker/css/bootstrap-datepicker.min.css')}}" rel="stylesheet">
+@endsection
+
 @section('content')
 
-    {{--<div class="row">--}}
-    {{--<div class="col-sm-12">--}}
-    {{--<div class="page-title-box">--}}
-    {{--<div class="btn-group pull-right">--}}
-    {{--<ol class="breadcrumb hide-phone p-0 m-0">--}}
-    {{--<li class="breadcrumb-item"><a href="#">Upcube</a></li>--}}
-    {{--<li class="breadcrumb-item"><a href="#">Forms</a></li>--}}
-    {{--<li class="breadcrumb-item active">Form Elements</li>--}}
-    {{--</ol>--}}
-    {{--</div>--}}
-    {{--<h4 class="page-title">Form Elements</h4>--}}
-    {{--</div>--}}
-    {{--</div>--}}
-    {{--</div>--}}
-    <!-- end page title end breadcrumb -->
+
+
+
 
     <div class="row">
         <div class="col-12">
@@ -30,9 +22,11 @@
                         <div class="form-group row">
                             <label for="example-text-input" class="col-sm-2 col-form-label">Client Id</label>
                             <div class="col-sm-10">
-                                <select class="form-control">
-                                    <option>Client Id</option>
-
+                                <select class="form-control" name="clientName">
+                                    <option value="">Select Client</option>
+                                    @foreach($clients as $client)
+                                        <option value="{{$client->clientId}}">{{$client->clientName}}</option>
+                                    @endforeach
                                 </select>
                             </div>
                         </div>
@@ -53,19 +47,19 @@
                     <div class="form-group row">
                         <label for="example-email-input" class="col-sm-2 col-form-label">Submission Date</label>
                         <div class="col-sm-10">
-                            <input class="form-control" name="submissionDate" type="datetime"  id="example-email-input">
+                            <input class="form-control" name="submissionDate" type="text"  id="date">
                             @if ($errors->has('submissionDate'))
                                 <span class="invalid-feedback">
                                         <strong>{{ $errors->first('submissionDate') }}</strong>
-                            </span>
+                                </span>
                             @endif
                         </div>
                     </div>
 
                     <div class="form-group row">
-                        <label for="example-text-input" name="submissionTime" class="col-sm-2 col-form-label">Submission Time</label>
+                        <label for="example-text-input"  class="col-sm-2 col-form-label">Submission Time</label>
                         <div class="col-sm-10">
-                            <select class="form-control">
+                            <select class="form-control" name="submissionTime">
                                 <option>100 Hours</option>
                             </select>
                         </div>
@@ -86,9 +80,10 @@
                     <div class="form-group row">
                         <label for="example-text-input" class="col-sm-2 col-form-label">Brief Type</label>
                         <div class="col-sm-10">
-                            <select class="form-control">
-                                <option>New</option>
-                                <option>Usual</option>
+                            <select class="form-control" name="briefType">
+                                @foreach(BRIEF_TYPE as $bt)
+                                <option>{{$bt}}</option>
+                                @endforeach
                             </select>
                         </div>
                     </div>
@@ -98,18 +93,43 @@
                     <div class="form-group row">
                         <label for="example-email-input" class="col-sm-2 col-form-label">Brief</label>
                         <div class="col-sm-10">
-                            <input class="form-control" type="text" name="brief"  id="example-email-input">
+                            <textarea class="form-control" name="brief">
+                            </textarea>
                         </div>
                         @if ($errors->has('brief'))
                             <span class="invalid-feedback">
-                                        <strong>{{ $errors->first('brief') }}</strong>
+                                        <strong>{{ $errors->first('brief')}}</strong>
                             </span>
                         @endif
                     </div>
 
 
-                    <div class="form-group row pull-right">
-                        <button class="btn btn-success" type="submit">Insert</button>
+                        <div class="form-group row">
+                            <label for="example-tel-input" class="col-sm-2 col-form-label">Other</label>
+                            <div class="col-sm-10">
+                                <input class="form-control" name="other" type="text" id="example-tel-input">
+                            </div>
+                            @if ($errors->has('other'))
+                                <span class="invalid-feedback">
+                                        <strong>{{ $errors->first('other') }}</strong>
+                            </span>
+                            @endif
+                        </div>
+
+
+                    <div class="form-group row">
+                        <label for="example-text-input" class="col-sm-2 col-form-label">Priority</label>
+                        <div class="col-sm-10">
+                            <input type="checkbox" class="form-check-input" name="priority" value="urgent">Urgent  &nbsp;&nbsp;&nbsp;&nbsp;
+                            <input type="checkbox" class="form-check-input" name="newBrief" value="urgent">New Brief
+                        </div>
+                    </div>
+
+
+
+
+                    <div align="center">
+                        <button class="btn btn-success btn-lg" type="submit">Insert</button>
                     </div>
 
                     </form>
@@ -120,10 +140,17 @@
     </div> <!-- end row -->
 
 
+@endsection
+@section('foot-js')
 
+<script src="{{url('public/assets/plugins/bootstrap-datepicker/js/bootstrap-datepicker.min.js')}}"></script>
 
+<script>
 
+    $('#date').datepicker();
 
+</script>
 
 
 @endsection
+

@@ -12,3 +12,9 @@ define('SERVICE_COMPLEXITY',array(
     "Medium",
     "Advanced"
 ));
+
+define('BRIEF_TYPE',array(
+    "new",
+    "usual"
+));
+

@@ -13,6 +13,7 @@ use App\ClientServiceRelation;
 use App\Timezone;
 use Session;
 use Hash;
+use Yajra\DataTables\DataTables;
 
 class ClientController extends Controller
 {
@@ -67,24 +68,15 @@ class ClientController extends Controller
         $client->timezoneId=$r->timezone;
         $client->save();
 
-
-
-
-
         if($r->service){
             foreach ($r->service as $serviceId){
-
                 $clientServiceRelation=new ClientServiceRelation();
                 $clientServiceRelation->serviceId=$serviceId;
                 $clientServiceRelation->clientId=$client->clientId;
                 $clientServiceRelation->save();
-
             }
 
-
         }
-
-        
 
         Session::flash('message', 'Client Added Successfully!');
         return back();
@@ -92,8 +84,20 @@ class ClientController extends Controller
 
     public function show(){
 
-
-
         return view('client.show');
+    }
+
+
+    public function getData(Request $r){
+
+        $client=Client::select('clientId','clientName','companyName','contactPerson','email','phoneNumber','country.countryName','timezone.timezoneName')
+            ->leftJoin('country','client.countryId','country.countryId')
+            ->leftJoin('timezone','client.timezoneId','timezone.timezoneId')
+            ->get();
+
+        $datatables = Datatables::of($client);
+        return $datatables->make(true);
+
+
     }
 }

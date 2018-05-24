@@ -113,7 +113,6 @@
                             <th>Name</th>
                             <th>Complexity</th>
                             <th>Type</th>
-
                         </tr>
                         </thead>
 
@@ -136,9 +135,6 @@
     <script src="{{url('public/assets/plugins/datatables/dataTables.buttons.min.js')}}"></script>
     <script>
         $(document).ready( function () {
-//            $('#datatable').DataTable();
-
-
             $('#datatable').DataTable({
                 processing: true,
                 serverSide: true,

@@ -32,6 +32,7 @@ Route::get('/home', 'HomeController@index')->name('home');
 Route::get('/client/add','ClientController@add')->name('client.add');
 Route::post('/client/insert','ClientController@insert')->name('client.insert');
 Route::get('/client/show','ClientController@show')->name('client.show');
+Route::post('/client/show','ClientController@getData')->name('client.getData');
 
 //Service
 Route::get('/service/add','ServiceController@add')->name('service.add');
@@ -44,6 +45,7 @@ Route::get('/job/information','JobController@information')->name('job.informatio
 Route::get('/job/add','JobController@add')->name('job.add');
 Route::post('/job/insert','JobController@insert')->name('job.insert');
 Route::get('/job/pending','JobController@pending')->name('job.pending');
+Route::post('/job/pending','JobController@getPendingData')->name('job.getPendingData');
 Route::get('/job/deadline','JobController@deadline')->name('job.deadline');
 
 //END JOB
