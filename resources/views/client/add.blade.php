@@ -20,9 +20,6 @@
 
                     <form method="post" action="{{route('client.insert')}}">
                         @csrf
-
-
-
                         <div class="form-group row">
                             <label for="example-search-input" class="col-sm-2 col-form-label">Client Id</label>
                             <div class="col-sm-10">

@@ -9,6 +9,7 @@ use App\Job;
 use App\Brief;
 use App\Jobstate;
 use App\Status;
+use App\ClientServiceRelation;
 use Auth;
 use Session;
 use Yajra\DataTables\DataTables;
@@ -63,6 +64,7 @@ class JobController extends Controller
     }
     public function pending(){
 
+
         return view('job.pendingJob');
 
     }
@@ -79,7 +81,7 @@ class JobController extends Controller
             ->where('statusName','pending')
             ->first();
 
-        $jobs=Job::select('job.jobId','client.clientName','brief.folderName','job.deadLine','job.quantity')
+        $jobs=Job::select('job.jobId','job.clientId','client.clientName','brief.folderName','job.deadLine','job.quantity')
             ->leftJoin('client','job.clientId','client.clientId')
             ->leftJoin('brief','brief.jobId','job.jobId')
             ->where('job.statusId',$status->statusId)
@@ -91,10 +93,25 @@ class JobController extends Controller
 
     }
 
+    public function getServiceModal(Request $r){
+        $services=ClientServiceRelation::select('service.serviceId','service.serviceName')
+            ->where('clientId',$r->clientId)
+            ->leftJoin('service','service.serviceId','client_service_relation.serviceId')
+            ->get();
+
+
+
+        return view('job.addServiceModal')
+                ->with('services',$services);
+    }
+
     public function deadline(){
 
         return view('job.deadline');
     }
+
+
+
 
 
 }

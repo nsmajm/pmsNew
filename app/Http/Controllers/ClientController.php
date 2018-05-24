@@ -45,7 +45,6 @@ class ClientController extends Controller
             ->where('statusName','active')
             ->first();
 
-
         $password=Hash::make($r->password);
 
         $user=new User();
@@ -55,7 +54,6 @@ class ClientController extends Controller
         $user->statusId=$status->statusId;
         $user->password=$password;
         $user->save();
-
 
         $client=new Client();
         $client->userId=$user->userId;

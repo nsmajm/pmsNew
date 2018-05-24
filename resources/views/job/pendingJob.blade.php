@@ -8,6 +8,13 @@
     <!-- Responsive datatable examples -->
     <link href="{{url('assets/plugins/datatables/responsive.bootstrap4.min.css')}}" rel="stylesheet" type="text/css" />
 
+    {{--CSS FOR TAG SELECT--}}
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.0/umd/popper.min.js" integrity="sha384-cs/chFZiN24E4KMATLdqdvsezGxaGsi4hLGOzlXwp5UZB1LY//20VyM2taTB4QvJ" crossorigin="anonymous"></script>
+
+
+
+
 @endsection
 
 @section('content')
@@ -65,12 +72,19 @@
 
 @endsection
 @section('foot-js')
+    <meta name="csrf-token" content="{{ csrf_token() }}" />
 
     <script src="{{url('public/assets/plugins/datatables/jquery.dataTables.min.js')}}"></script>
     <script src="{{url('public/assets/plugins/datatables/dataTables.bootstrap4.min.js')}}"></script>
     <!-- Buttons examples -->
     <script src="{{url('public/assets/plugins/datatables/dataTables.buttons.min.js')}}"></script>
+
     <script>
+        $.ajaxSetup({
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            }
+        });
         $(document).ready( function () {
 
             $('#datatable').DataTable({
@@ -90,7 +104,7 @@
                     { data: 'deadLine', name: 'deadLine'},
                     { data: 'quantity', name: 'quantity'},
                     { "data": function(data){
-                        return ' <button type="button" class="btn btn-info btn-sm" data-panel-id="'+data.jobId+'" onclick="showInfo(this)"> <i class="fa fa-edit"></i> </button>';},
+                        return ' <button type="button" class="btn btn-info btn-sm" data-panel-id="'+data.clientId+'" onclick="showInfo(this)"> <i class="fa fa-edit"></i> </button>';},
                         "orderable": false, "searchable":false, "name":"selected_rows" }
 
 
@@ -101,12 +115,21 @@
         } );
 
         function showInfo(x) {
-            btn= $(x).data('panel-id');
+            clientId= $(x).data('panel-id');
 
-            $(".modal-body").html(btn);
-            $("#addServiceModal").modal();
+            $.ajax({
+                type: 'POST',
+                url: "{!! route('job.getServiceModal') !!}",
+                cache: false,
+                data: {'clientId': clientId},
+                success: function (data) {
+//                    console.log(data);
+                    $(".modal-body").html(data);
+                    $("#addServiceModal").modal();
 
+                }
 
+            });
 
         }
 

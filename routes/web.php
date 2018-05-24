@@ -48,6 +48,8 @@ Route::get('/job/pending','JobController@pending')->name('job.pending');
 Route::post('/job/pending','JobController@getPendingData')->name('job.getPendingData');
 Route::get('/job/deadline','JobController@deadline')->name('job.deadline');
 
+Route::post('/job/getServiceModal','JobController@getServiceModal')->name('job.getServiceModal');
+
 //END JOB
 
 //Feedback
