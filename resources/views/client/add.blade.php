@@ -147,7 +147,7 @@
                                 <select class="form-control" name="timezone">
                                     <option selected>Select Timezone</option>
                                     @foreach($timezones as $timezone)
-                                    <option value="{{$timezone->timezoneId}}">{{$timezone->name}}</option>
+                                    <option value="{{$timezone->timezoneId}}">{{$timezone->timezoneName}}</option>
                                     @endforeach
                                 </select>
                             </div>

@@ -23,7 +23,6 @@ class ClientController extends Controller
         $timezones=Timezone::get();
 
 
-
         return view('client.add')
                     ->with('services',$services)
                     ->with('countries',$countries)

@@ -98,16 +98,51 @@ class JobController extends Controller
             ->where('clientId',$r->clientId)
             ->leftJoin('service','service.serviceId','client_service_relation.serviceId')
             ->get();
-
+        $job=Job::findOrFail($r->jobId);
 
 
         return view('job.addServiceModal')
-                ->with('services',$services);
+                ->with('services',$services)
+                ->with('job',$job);
     }
 
     public function deadline(){
 
-        return view('job.deadline');
+//        Getting All the status id
+        $productionStatusId=Status::where('statusType','jobStatus')
+                                    ->where('statusName','production')->first();
+
+        $processingStatusId=Status::where('statusType','jobStatus')
+            ->where('statusName','processing')->first();
+
+
+        $qcStatusId=Status::where('statusType','jobStatus')
+            ->where('statusName','qc')->first();
+
+
+//       Getting All the jobs
+
+        $productionJob=Jobstate::where('jobstate.statusId',$productionStatusId->statusId)
+            ->leftJoin('job','jobstate.jobId','job.jobId')
+            ->leftJoin('brief','brief.jobId','job.jobId')
+            ->leftJoin('client','client.clientId','job.clientId')
+            ->where('endDate',null)->get();
+
+        $processingJob=Jobstate::where('statusId',$processingStatusId->statusId)
+            ->where('endDate',null)->get();
+
+
+        $qcJob=Jobstate::where('statusId',$qcStatusId->statusId)
+            ->where('endDate',null)->get();
+
+
+        return $productionJob;
+
+
+        return view('job.deadline')
+                ->with('productionJob',$productionJob)
+                ->with('processingJob',$processingJob)
+                ->with('qcJob',$qcJob);
     }
 
 

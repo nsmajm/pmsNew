@@ -24,7 +24,7 @@
     <!--  Add Service Modal -->
     <div style="text-align: center;" class="modal" id="addServiceModal" >
         <div class="modal-dialog">
-            <div class="modal-content" style="width: 600px;">
+            <div class="modal-content" style="width: 800px;">
                 <!-- Modal Header -->
                 <div class="modal-header">
                     <h4 class="modal-title">Add Service</h4>
@@ -32,8 +32,6 @@
                 </div>
                 <!-- Modal body -->
                 <div class="modal-body">
-
-
 
                 </div>
                 <!-- Modal footer -->
@@ -104,7 +102,7 @@
                     { data: 'deadLine', name: 'deadLine'},
                     { data: 'quantity', name: 'quantity'},
                     { "data": function(data){
-                        return ' <button type="button" class="btn btn-info btn-sm" data-panel-id="'+data.clientId+'" onclick="showInfo(this)"> <i class="fa fa-edit"></i> </button>';},
+                        return ' <button type="button" class="btn btn-info btn-sm" data-panel-id="'+data.clientId+'" data-panel-jobid="'+data.jobId+'" onclick="showInfo(this)"> <i class="fa fa-edit"></i> </button>';},
                         "orderable": false, "searchable":false, "name":"selected_rows" }
 
 
@@ -116,14 +114,14 @@
 
         function showInfo(x) {
             clientId= $(x).data('panel-id');
+            jobId= $(x).data('panel-jobid');
 
             $.ajax({
                 type: 'POST',
                 url: "{!! route('job.getServiceModal') !!}",
                 cache: false,
-                data: {'clientId': clientId},
+                data: {'clientId': clientId,'jobId':jobId},
                 success: function (data) {
-//                    console.log(data);
                     $(".modal-body").html(data);
                     $("#addServiceModal").modal();
 
