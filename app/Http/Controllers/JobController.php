@@ -121,22 +121,33 @@ class JobController extends Controller
 
 
 //       Getting All the jobs
+//        Client ID,Folder Name,Quantity,Delivery time,Brief Type,Job Status
 
-        $productionJob=Jobstate::where('jobstate.statusId',$productionStatusId->statusId)
+        $productionJob=Jobstate::select('jobstate.jobstateId','job.jobId','job.clientId','brief.briefId','client.clientName','brief.folderName','job.quantity','brief.biefType','job.statusId')
+            ->where('jobstate.statusId',$productionStatusId->statusId)
             ->leftJoin('job','jobstate.jobId','job.jobId')
             ->leftJoin('brief','brief.jobId','job.jobId')
             ->leftJoin('client','client.clientId','job.clientId')
             ->where('endDate',null)->get();
 
-        $processingJob=Jobstate::where('statusId',$processingStatusId->statusId)
+        $processingJob=Jobstate::select('jobstate.jobstateId','job.jobId','job.clientId','brief.briefId','client.clientName','brief.folderName','job.quantity','brief.biefType','job.statusId')
+            ->where('jobstate.statusId',$processingStatusId->statusId)
+            ->leftJoin('job','jobstate.jobId','job.jobId')
+            ->leftJoin('brief','brief.jobId','job.jobId')
+            ->leftJoin('client','client.clientId','job.clientId')
             ->where('endDate',null)->get();
+//
+//
+        $qcJob=Jobstate::select('jobstate.jobstateId','job.jobId','job.clientId','brief.briefId','client.clientName','brief.folderName','job.quantity','brief.biefType','job.statusId')
+            ->where('jobstate.statusId',$qcStatusId->statusId)
+            ->leftJoin('job','jobstate.jobId','job.jobId')
+            ->leftJoin('brief','brief.jobId','job.jobId')
+            ->leftJoin('client','client.clientId','job.clientId')
+            ->where('endDate',null)
+            ->get();
 
 
-        $qcJob=Jobstate::where('statusId',$qcStatusId->statusId)
-            ->where('endDate',null)->get();
-
-
-        return $productionJob;
+//        return $productionJob;
 
 
         return view('job.deadline')

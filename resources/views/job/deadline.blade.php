@@ -58,32 +58,28 @@
                         <table id="datatable" class="table table-bordered">
                             <thead>
                             <tr>
-                                <th style="width: 70%">Name</th>
-                                <th style="width: 30%">Quantity</th>
+                                <th >Client ID</th>
+                                <th>Folder Name</th>
+                                <th >Quantity</th>
+                                {{--<th >Delivery time</th>--}}
+                                <th >Brief Type</th>
+                                <th >Job Status</th>
 
                             </tr>
                             </thead>
 
 
                             <tbody>
+                        @foreach($productionJob as $job)
                             <tr>
-                                <td>Tiger Nixon</td>
-                                <td>61</td>
+                             <td>{{$job->clientName}}</td>
+                             <td>{{$job->folderName}}</td>
+                             <td>{{$job->quantity}}</td>
+                             <td>{{$job->biefType}}</td>
+                             {{--<td>{{$job->clientName}}</td>--}}
+                             <td>{{$job->statusId}}</td>
                             </tr>
-                            <tr>
-                                <td>Garrett Winters</td>
-                                <td>63</td>
-                            </tr>
-                            <tr>
-                                <td>Ashton Cox</td>
-                                <td>66</td>
-
-                            </tr>
-                            <tr>
-                                <td>Cedric Kelly</td>
-                                <td>22</td>
-                            </tr>
-
+                        @endforeach
                             </tbody>
                         </table>
                     </div>
