@@ -20,12 +20,6 @@
     <div class="row">
         <div class="col-md-2">
             <div style="background-color: white;margin-bottom: 20px;" class="card-body">
-
-
-
-                <form class="" action="#">
-
-
                     <div class="form-group">
                         <label>Search Date</label>
                         <div class="form-group">
@@ -37,15 +31,9 @@
                                 <input type="text" class="form-control" id="date1" name="start" placeholder="Start Date" value="{{$todaysDate}}" onchange="dateChange(this)"/>
                             </div>
                         </div>
-                        <div class="pull-right">
-
-                            <button class="btn btn-info">Search</button>
-                        </div>
                         <br>
                     </div>
 
-
-                </form>
 
                 <p>Color Code : <br>
                     <span style="height:1in;width:1in;background-color:rgba(0, 188, 212, 0.55);border: 1px solid;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span> New Brief <br>
@@ -70,6 +58,7 @@
                                 <th >Quantity</th>
                                 <th >Brief Type</th>
                                 <th >Job Status</th>
+                                <th >Action</th>
 
                             </tr>
                             </thead>
@@ -178,6 +167,11 @@
                         $('td', row).css('background-color', 'rgba(0, 188, 212, 0.55)');
                     }
 
+                    if ( data['urgent'] == "1" )
+                    {
+                        $('td', row).css('background-color', 'rgb(245, 90, 78)');
+                    }
+
                     if ( data['deadline'] < "<?php echo date('Y-m-d')?>" )
                     {
                         $('td', row).css('background-color', 'rgba(255, 152, 0, 1)');
@@ -208,7 +202,14 @@
                             '<option value="processing">Pass To Processing</option>'+
                             '<option value="qc">Pass To QC</option>'+
                             '</select>';},
-                        "orderable": false, "searchable":false, "name":"selected_rows" }
+                        "orderable": false, "searchable":false, "name":"selected_rows" },
+
+
+
+                    { "data": function(data){
+                        {{--var url='{{url("product/edit/", ":id") }}';--}}
+                        return '<a class="btn btn-default btn-sm" data-panel-id="'+data.jobId+'" onclick="assignjob(this)"><i class="fa fa-edit"></i></a>';},
+                        "orderable": false, "searchable":false, "name":"selected_rows" },
 
 
                 ]
@@ -224,12 +225,17 @@
                 Filter: true,
                 stateSave: true,
                 "rowCallback": function( row, data, index ) {
-                    if ( data['briefType'] < "<?php echo BRIEF_TYPE[0];?>" )
+                    if ( data['briefType'] == "<?php echo BRIEF_TYPE[0];?>" )
                     {
                         $('td', row).css('background-color', 'rgba(0, 188, 212, 0.55)');
                     }
 
-                    if ( data['deadline'] == "<?php echo date('Y-m-d')?>" )
+                    if ( data['urgent'] == "1" )
+                    {
+                        $('td', row).css('background-color', 'rgb(245, 90, 78)');
+                    }
+
+                    if ( data['deadline'] < "<?php echo date('Y-m-d')?>" )
                     {
                         $('td', row).css('background-color', 'rgba(255, 152, 0, 1)');
                     }
@@ -277,6 +283,11 @@
                     $('td', row).css('background-color', 'rgba(0, 188, 212, 0.55)');
                 }
 
+                if ( data['urgent'] == "1" )
+                {
+                    $('td', row).css('background-color', 'rgb(245, 90, 78)');
+                }
+
                 if ( data['deadline'] < "<?php echo date('Y-m-d')?>" )
                 {
                     $('td', row).css('background-color', 'rgba(255, 152, 0, 1)');
@@ -319,6 +330,14 @@
 
 
         } );
+
+        function assignjob(x) {
+            btn = $(x).data('panel-id');
+            var url = '{{route("job.assign", ":id") }}';
+            //alert(url);
+            var newUrl=url.replace(':id', btn);
+            window.location.href = newUrl;
+        }
 
         function productionChange(x) {
 

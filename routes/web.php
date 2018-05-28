@@ -53,6 +53,11 @@ Route::post('/job/getProcessingData','JobController@getProcessingData')->name('j
 Route::post('/job/getQcData','JobController@getQcData')->name('job.getQcData');
 Route::post('/job/StateChange','JobController@jobStateChange')->name('job.StateChange');
 
+//Assign Job
+
+Route::get('/job/assign/{id}','JobController@assignJob')->name('job.assign');
+
+
 Route::post('/job/getServiceModal','JobController@getServiceModal')->name('job.getServiceModal');
 
 //END JOB
