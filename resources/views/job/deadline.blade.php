@@ -47,6 +47,12 @@
 
                 </form>
 
+                <p>Color Code : <br>
+                    <span style="height:1in;width:1in;background-color:rgba(0, 188, 212, 0.55);border: 1px solid;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span> New Brief <br>
+                    <span style="height:1in;width:1in;background-color:rgb(245, 90, 78);border: 1px solid;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span> Urgent <br>
+                    <span style="height:1in;width:1in;background-color:rgba(136, 245, 11, 0.42);border: 1px solid;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span> Less Priority <br>
+                    <span style="height:1in;width:1in;background-color:rgba(255, 152, 0, 1);border: 1px solid;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span> Over Due</p>
+
             </div>
         </div>
         <div class="col-md-10">
@@ -166,6 +172,21 @@
                 serverSide: true,
                 Filter: true,
                 stateSave: true,
+                "rowCallback": function( row, data, index ) {
+                    if ( data['briefType'] == "<?php echo BRIEF_TYPE[0];?>" )
+                    {
+                        $('td', row).css('background-color', 'rgba(0, 188, 212, 0.55)');
+                    }
+
+                    if ( data['deadline'] < "<?php echo date('Y-m-d')?>" )
+                    {
+                        $('td', row).css('background-color', 'rgba(255, 152, 0, 1)');
+                    }
+
+
+
+
+                },
                 type:"POST",
                 "ajax":{
                     "url": "{!! route('job.getProductionData') !!}",
@@ -182,7 +203,7 @@
                     { data: 'quantity', name: 'quantity'},
                     { data: 'briefType', name: 'briefType'},
                     { "data": function(data){
-                        return '<select class="form-control" onchange="productionChange(this)" data-panel-id="'+data.jobstateId+'" data-job-id="'+data.jobId+'">' +
+                        return '<select class="form-control"  onchange="productionChange(this)" data-panel-id="'+data.jobstateId+'" data-job-id="'+data.jobId+'">' +
                             '<option value="">'+data.statusName+'</option>'+
                             '<option value="processing">Pass To Processing</option>'+
                             '<option value="qc">Pass To QC</option>'+
@@ -202,6 +223,20 @@
                 serverSide: true,
                 Filter: true,
                 stateSave: true,
+                "rowCallback": function( row, data, index ) {
+                    if ( data['briefType'] < "<?php echo BRIEF_TYPE[0];?>" )
+                    {
+                        $('td', row).css('background-color', 'rgba(0, 188, 212, 0.55)');
+                    }
+
+                    if ( data['deadline'] == "<?php echo date('Y-m-d')?>" )
+                    {
+                        $('td', row).css('background-color', 'rgba(255, 152, 0, 1)');
+                    }
+
+
+
+                },
                 type:"POST",
                 "ajax":{
                     "url": "{!! route('job.getProcessingData') !!}",
@@ -236,6 +271,20 @@
                 serverSide: true,
                 Filter: true,
                 stateSave: true,
+            "rowCallback": function( row, data, index ) {
+                if ( data['briefType'] == "<?php echo BRIEF_TYPE[0];?>" )
+                {
+                    $('td', row).css('background-color', 'rgba(0, 188, 212, 0.55)');
+                }
+
+                if ( data['deadline'] < "<?php echo date('Y-m-d')?>" )
+                {
+                    $('td', row).css('background-color', 'rgba(255, 152, 0, 1)');
+
+                }
+
+            },
+
                 type:"POST",
                 "ajax":{
                     "url": "{!! route('job.getQcData') !!}",
@@ -256,8 +305,6 @@
                             '<option value="done">Done</option>'+
                             '</select>';},
                         "orderable": false, "searchable":false, "name":"selected_rows" }
-
-
                 ]
             } );
 
@@ -278,7 +325,33 @@
             var status=x.value;
             var jobStateId=$(x).data('panel-id');
             var jobId=$(x).data('job-id');
-            alert(jobStateId);
+//            alert(jobStateId);
+
+            if(status !=''){
+
+                $.ajax({
+                    type: 'POST',
+                    url: "{!! route('job.StateChange') !!}",
+                    cache: false,
+                    data: {_token:"{{csrf_token()}}",'status': status,'jobStateId':jobStateId,'jobId':jobId},
+                    success: function (data) {
+                        console.log(data);
+                        productionTable.ajax.reload();
+                        processingTable.ajax.reload();
+                        qualityTable.ajax.reload();
+
+                    }
+
+                });
+
+            }
+
+            else {
+
+                alert('null value');
+            }
+
+
 
 
         }
@@ -287,14 +360,60 @@
             var status=x.value;
             var jobStateId=$(x).data('panel-id');
             var jobId=$(x).data('job-id');
-            alert(jobStateId);
+//            alert(jobStateId);
+            if(status !=''){
+
+                $.ajax({
+                    type: 'POST',
+                    url: "{!! route('job.StateChange') !!}",
+                    cache: false,
+                    data: {_token:"{{csrf_token()}}",'status': status,'jobStateId':jobStateId,'jobId':jobId},
+                    success: function (data) {
+                        console.log(data);
+                        productionTable.ajax.reload();
+                        processingTable.ajax.reload();
+                        qualityTable.ajax.reload();
+
+                    }
+
+                });
+
+            }
+
+            else {
+
+                alert('null value');
+            }
         }
 
         function qcJobChange(x) {
             var status=x.value;
             var jobStateId=$(x).data('panel-id');
             var jobId=$(x).data('job-id');
-            alert(jobStateId);
+//            alert(jobStateId);
+            if(status !=''){
+
+                $.ajax({
+                    type: 'POST',
+                    url: "{!! route('job.StateChange') !!}",
+                    cache: false,
+                    data: {_token:"{{csrf_token()}}",'status': status,'jobStateId':jobStateId,'jobId':jobId},
+                    success: function (data) {
+                        console.log(data);
+                        productionTable.ajax.reload();
+                        processingTable.ajax.reload();
+                        qualityTable.ajax.reload();
+
+                    }
+
+                });
+
+            }
+
+            else {
+
+                alert('null value');
+            }
         }
 
 

@@ -129,13 +129,13 @@ class JobController extends Controller
         $time = strtotime($r->date);
         $newformat = date('Y-m-d',$time);
 
-        $productionJob=Jobstate::select('jobstate.jobstateId','job.jobId','job.clientId','brief.briefId','client.clientName','brief.folderName','job.quantity','brief.briefType','job.statusId','status.statusName')
+        $productionJob=Jobstate::select('jobstate.jobstateId','job.jobId','job.clientId','brief.briefId','client.clientName','brief.folderName','job.quantity','brief.briefType','job.statusId','status.statusName','jobstate.deadline')
             ->where('jobstate.statusId',$productionStatusId->statusId)
             ->leftJoin('job','jobstate.jobId','job.jobId')
             ->leftJoin('brief','brief.jobId','job.jobId')
             ->leftJoin('client','client.clientId','job.clientId')
             ->leftJoin('status','status.statusId','job.statusId')
-            ->where('jobstate.deadline',$newformat)
+            ->where('jobstate.deadline','<=',$newformat)
             ->where('endDate',null)
             ->get();
 
@@ -153,13 +153,13 @@ class JobController extends Controller
         $time = strtotime($r->date);
         $newformat = date('Y-m-d',$time);
 
-        $processingJob=Jobstate::select('jobstate.jobstateId','job.jobId','job.clientId','brief.briefId','client.clientName','brief.folderName','job.quantity','brief.briefType','job.statusId','status.statusName')
+        $processingJob=Jobstate::select('jobstate.jobstateId','job.jobId','job.clientId','brief.briefId','client.clientName','brief.folderName','job.quantity','brief.briefType','job.statusId','status.statusName','jobstate.deadline')
             ->where('jobstate.statusId',$processingStatusId->statusId)
             ->leftJoin('job','jobstate.jobId','job.jobId')
             ->leftJoin('brief','brief.jobId','job.jobId')
             ->leftJoin('client','client.clientId','job.clientId')
             ->leftJoin('status','status.statusId','job.statusId')
-            ->where('jobstate.deadline',$newformat)
+            ->where('jobstate.deadline','<=',$newformat)
             ->where('endDate',null)->get();
 
         $datatables = Datatables::of($processingJob);
@@ -174,18 +174,41 @@ class JobController extends Controller
         $time = strtotime($r->date);
         $newformat = date('Y-m-d',$time);
 
-        $qcJob=Jobstate::select('jobstate.jobstateId','job.jobId','job.clientId','brief.briefId','client.clientName','brief.folderName','job.quantity','brief.briefType','job.statusId','status.statusName')
+        $qcJob=Jobstate::select('jobstate.jobstateId','job.jobId','job.clientId','brief.briefId','client.clientName','brief.folderName','job.quantity','brief.briefType','job.statusId','status.statusName','jobstate.deadline')
             ->where('jobstate.statusId',$qcStatusId->statusId)
             ->leftJoin('job','jobstate.jobId','job.jobId')
             ->leftJoin('brief','brief.jobId','job.jobId')
             ->leftJoin('client','client.clientId','job.clientId')
             ->leftJoin('status','status.statusId','job.statusId')
-            ->where('jobstate.deadline',$newformat)
+            ->where('jobstate.deadline','<=',$newformat)
             ->where('endDate',null)
             ->get();
 
         $datatables = Datatables::of($qcJob);
         return $datatables->make(true);
+
+    }
+
+
+    public function jobStateChange(Request $r){
+        $status=Status::where('statusType','jobStatus')
+            ->where('statusName',$r->status)->first();
+
+        $todaysDate=date("Y-m-d");
+
+
+        Job::where('jobId',$r->jobId)->update(['statusId'=>$status->statusId]);
+        Jobstate::where('jobId',$r->jobId)->update(['endDate'=>$todaysDate]);
+
+        $jobStateOld=Jobstate::findOrFail($r->jobStateId);
+        $jobStateOld->endDate=$todaysDate;
+        $jobStateOld->save();
+
+        $jobState=new Jobstate();
+        $jobState->jobId=$r->jobId;
+        $jobState->statusId=$status->statusId;
+        $jobState->deadline=$jobStateOld->deadline;
+        $jobState->save();
 
     }
 

@@ -51,6 +51,7 @@ Route::get('/job/deadline','JobController@deadline')->name('job.deadline');
 Route::post('/job/getProductionData','JobController@getProductionData')->name('job.getProductionData');
 Route::post('/job/getProcessingData','JobController@getProcessingData')->name('job.getProcessingData');
 Route::post('/job/getQcData','JobController@getQcData')->name('job.getQcData');
+Route::post('/job/StateChange','JobController@jobStateChange')->name('job.StateChange');
 
 Route::post('/job/getServiceModal','JobController@getServiceModal')->name('job.getServiceModal');
 
