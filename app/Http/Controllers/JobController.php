@@ -10,6 +10,7 @@ use App\Brief;
 use App\Jobstate;
 use App\Status;
 use App\ClientServiceRelation;
+use App\User;
 use Auth;
 use Session;
 use Yajra\DataTables\DataTables;
@@ -215,9 +216,11 @@ class JobController extends Controller
 
 
     public function assignJob($id){
+        $job=Job::findOrFail($id);
+        $user=User::get();
 
 
-        return $id;
+        return $user;
     }
 
 

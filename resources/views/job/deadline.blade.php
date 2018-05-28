@@ -178,8 +178,6 @@
                     }
 
 
-
-
                 },
                 type:"POST",
                 "ajax":{
@@ -204,11 +202,9 @@
                             '</select>';},
                         "orderable": false, "searchable":false, "name":"selected_rows" },
 
-
-
                     { "data": function(data){
                         {{--var url='{{url("product/edit/", ":id") }}';--}}
-                        return '<a class="btn btn-default btn-sm" data-panel-id="'+data.jobId+'" onclick="assignjob(this)"><i class="fa fa-edit"></i></a>';},
+                        return '<a class="btn btn-default btn-sm" data-panel-id="'+data.jobId+'" onclick="assignjob(this)"><i class="fa fa-exchange"></i></a>';},
                         "orderable": false, "searchable":false, "name":"selected_rows" },
 
 
