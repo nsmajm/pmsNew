@@ -22,7 +22,7 @@
                         <div class="form-group row">
                             <label for="example-text-input" class="col-sm-2 col-form-label">Client Id</label>
                             <div class="col-sm-10">
-                                <select class="form-control" name="clientName">
+                                <select class="form-control" name="clientName" required>
                                     <option value="">Select Client</option>
                                     @foreach($clients as $client)
                                         <option value="{{$client->clientId}}">{{$client->clientName}}</option>

@@ -29,7 +29,7 @@ class JobController extends Controller
 
     public function insert(Request $r){
         $status=Status::where('statusType','jobStatus')
-            ->where('statusName','pending')
+            ->where('statusName','production')
             ->first();
 
 
@@ -45,15 +45,20 @@ class JobController extends Controller
         $job->other=$r->other;
         $job->save();
 
-//        $jobState=new Jobstate();
-//        $jobState->jobId=$job->jobId;
-//        $jobState->statusId=$status->statusId;
-//        $jobState->save();
+        $jobState=new Jobstate();
+        $jobState->jobId=$job->jobId;
+        $jobState->statusId=$status->statusId;
+        //Converting str to date
+        $time = strtotime($r->submissionDate);
+        $newformat = date('Y-m-d',$time);
+
+        $jobState->deadline=$newformat;
+        $jobState->save();
 
 
         $brief=new Brief();
         $brief->jobId=$job->jobId;
-        $brief->biefType=$r->briefType;
+        $brief->briefType=$r->briefType;
         $brief->folderName=$r->folderName;
         $brief->userId=Auth::user()->userId;
         $brief->save();
@@ -108,52 +113,80 @@ class JobController extends Controller
 
     public function deadline(){
 
-//        Getting All the status id
+
+        $todaysDate=date("Y-m-d");
+
+
+        return view('job.deadline')->with('todaysDate',$todaysDate);
+
+    }
+
+
+    public function getProductionData(Request $r){
         $productionStatusId=Status::where('statusType','jobStatus')
-                                    ->where('statusName','production')->first();
+            ->where('statusName','production')->first();
 
-        $processingStatusId=Status::where('statusType','jobStatus')
-            ->where('statusName','processing')->first();
+        $time = strtotime($r->date);
+        $newformat = date('Y-m-d',$time);
 
-
-        $qcStatusId=Status::where('statusType','jobStatus')
-            ->where('statusName','qc')->first();
-
-
-//       Getting All the jobs
-//        Client ID,Folder Name,Quantity,Delivery time,Brief Type,Job Status
-
-        $productionJob=Jobstate::select('jobstate.jobstateId','job.jobId','job.clientId','brief.briefId','client.clientName','brief.folderName','job.quantity','brief.biefType','job.statusId')
+        $productionJob=Jobstate::select('jobstate.jobstateId','job.jobId','job.clientId','brief.briefId','client.clientName','brief.folderName','job.quantity','brief.briefType','job.statusId','status.statusName')
             ->where('jobstate.statusId',$productionStatusId->statusId)
             ->leftJoin('job','jobstate.jobId','job.jobId')
             ->leftJoin('brief','brief.jobId','job.jobId')
             ->leftJoin('client','client.clientId','job.clientId')
-            ->where('endDate',null)->get();
-
-        $processingJob=Jobstate::select('jobstate.jobstateId','job.jobId','job.clientId','brief.briefId','client.clientName','brief.folderName','job.quantity','brief.biefType','job.statusId')
-            ->where('jobstate.statusId',$processingStatusId->statusId)
-            ->leftJoin('job','jobstate.jobId','job.jobId')
-            ->leftJoin('brief','brief.jobId','job.jobId')
-            ->leftJoin('client','client.clientId','job.clientId')
-            ->where('endDate',null)->get();
-//
-//
-        $qcJob=Jobstate::select('jobstate.jobstateId','job.jobId','job.clientId','brief.briefId','client.clientName','brief.folderName','job.quantity','brief.biefType','job.statusId')
-            ->where('jobstate.statusId',$qcStatusId->statusId)
-            ->leftJoin('job','jobstate.jobId','job.jobId')
-            ->leftJoin('brief','brief.jobId','job.jobId')
-            ->leftJoin('client','client.clientId','job.clientId')
+            ->leftJoin('status','status.statusId','job.statusId')
+            ->where('jobstate.deadline',$newformat)
             ->where('endDate',null)
             ->get();
 
 
-//        return $productionJob;
+        $datatables = Datatables::of($productionJob);
+        return $datatables->make(true);
+
+    }
 
 
-        return view('job.deadline')
-                ->with('productionJob',$productionJob)
-                ->with('processingJob',$processingJob)
-                ->with('qcJob',$qcJob);
+    public function getProcessingData(Request $r){
+        $processingStatusId=Status::where('statusType','jobStatus')
+            ->where('statusName','processing')->first();
+
+        $time = strtotime($r->date);
+        $newformat = date('Y-m-d',$time);
+
+        $processingJob=Jobstate::select('jobstate.jobstateId','job.jobId','job.clientId','brief.briefId','client.clientName','brief.folderName','job.quantity','brief.briefType','job.statusId','status.statusName')
+            ->where('jobstate.statusId',$processingStatusId->statusId)
+            ->leftJoin('job','jobstate.jobId','job.jobId')
+            ->leftJoin('brief','brief.jobId','job.jobId')
+            ->leftJoin('client','client.clientId','job.clientId')
+            ->leftJoin('status','status.statusId','job.statusId')
+            ->where('jobstate.deadline',$newformat)
+            ->where('endDate',null)->get();
+
+        $datatables = Datatables::of($processingJob);
+        return $datatables->make(true);
+
+    }
+
+    public function getQcData(Request $r){
+        $qcStatusId=Status::where('statusType','jobStatus')
+            ->where('statusName','qc')->first();
+
+        $time = strtotime($r->date);
+        $newformat = date('Y-m-d',$time);
+
+        $qcJob=Jobstate::select('jobstate.jobstateId','job.jobId','job.clientId','brief.briefId','client.clientName','brief.folderName','job.quantity','brief.briefType','job.statusId','status.statusName')
+            ->where('jobstate.statusId',$qcStatusId->statusId)
+            ->leftJoin('job','jobstate.jobId','job.jobId')
+            ->leftJoin('brief','brief.jobId','job.jobId')
+            ->leftJoin('client','client.clientId','job.clientId')
+            ->leftJoin('status','status.statusId','job.statusId')
+            ->where('jobstate.deadline',$newformat)
+            ->where('endDate',null)
+            ->get();
+
+        $datatables = Datatables::of($qcJob);
+        return $datatables->make(true);
+
     }
 
 

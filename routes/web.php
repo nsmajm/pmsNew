@@ -48,6 +48,9 @@ Route::post('/job/insert','JobController@insert')->name('job.insert');
 Route::get('/job/pending','JobController@pending')->name('job.pending');
 Route::post('/job/pending','JobController@getPendingData')->name('job.getPendingData');
 Route::get('/job/deadline','JobController@deadline')->name('job.deadline');
+Route::post('/job/getProductionData','JobController@getProductionData')->name('job.getProductionData');
+Route::post('/job/getProcessingData','JobController@getProcessingData')->name('job.getProcessingData');
+Route::post('/job/getQcData','JobController@getQcData')->name('job.getQcData');
 
 Route::post('/job/getServiceModal','JobController@getServiceModal')->name('job.getServiceModal');
 

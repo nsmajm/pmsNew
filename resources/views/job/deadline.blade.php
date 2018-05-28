@@ -30,10 +30,11 @@
                         <label>Search Date</label>
                         <div class="form-group">
                             <div>
-                                <div class="input-daterange input-group" id="date-range">
-                                    <input type="text" class="form-control" id="date1" name="start" placeholder="Start Date" />
-                                    <input type="text" class="form-control" name="end" id="date2" placeholder="End Date" />
-                                </div>
+                                {{--<div class="input-daterange input-group" id="date-range">--}}
+                                    {{--<input type="text" class="form-control" id="date1" name="start" placeholder="Start Date" />--}}
+                                    {{--<input type="text" class="form-control" name="end" id="date2" placeholder="End Date" />--}}
+                                {{--</div>--}}
+                                <input type="text" class="form-control" id="date1" name="start" placeholder="Start Date" value="{{$todaysDate}}" onchange="dateChange(this)"/>
                             </div>
                         </div>
                         <div class="pull-right">
@@ -61,25 +62,13 @@
                                 <th >Client ID</th>
                                 <th>Folder Name</th>
                                 <th >Quantity</th>
-                                {{--<th >Delivery time</th>--}}
                                 <th >Brief Type</th>
                                 <th >Job Status</th>
 
                             </tr>
                             </thead>
-
-
                             <tbody>
-                        @foreach($productionJob as $job)
-                            <tr>
-                             <td>{{$job->clientName}}</td>
-                             <td>{{$job->folderName}}</td>
-                             <td>{{$job->quantity}}</td>
-                             <td>{{$job->biefType}}</td>
-                             {{--<td>{{$job->clientName}}</td>--}}
-                             <td>{{$job->statusId}}</td>
-                            </tr>
-                        @endforeach
+
                             </tbody>
                         </table>
                     </div>
@@ -97,31 +86,16 @@
                         <table id="processing" class="table table-bordered">
                             <thead>
                             <tr>
-                                <th style="width: 70%">Name</th>
-                                <th style="width: 30%">Quantity</th>
+                                <th >Client ID</th>
+                                <th>Folder Name</th>
+                                <th >Quantity</th>
+                                <th >Brief Type</th>
+                                <th >Job Status</th>
 
                             </tr>
+
                             </thead>
-
-
                             <tbody>
-                            <tr>
-                                <td>Tiger Nixon</td>
-                                <td>61</td>
-                            </tr>
-                            <tr>
-                                <td>Garrett Winters</td>
-                                <td>63</td>
-                            </tr>
-                            <tr>
-                                <td>Ashton Cox</td>
-                                <td>66</td>
-
-                            </tr>
-                            <tr>
-                                <td>Cedric Kelly</td>
-                                <td>22</td>
-                            </tr>
 
                             </tbody>
                         </table>
@@ -140,31 +114,15 @@
                         <table id="quality" class="table table-bordered">
                             <thead>
                             <tr>
-                                <th style="width: 70%">Name</th>
-                                <th style="width: 30%">Quantity</th>
+                                <th >Client ID</th>
+                                <th>Folder Name</th>
+                                <th >Quantity</th>
+                                <th >Brief Type</th>
+                                <th >Job Status</th>
 
                             </tr>
                             </thead>
-
-
                             <tbody>
-                            <tr>
-                                <td>Tiger Nixon</td>
-                                <td>61</td>
-                            </tr>
-                            <tr>
-                                <td>Garrett Winters</td>
-                                <td>63</td>
-                            </tr>
-                            <tr>
-                                <td>Ashton Cox</td>
-                                <td>66</td>
-
-                            </tr>
-                            <tr>
-                                <td>Cedric Kelly</td>
-                                <td>22</td>
-                            </tr>
 
                             </tbody>
                         </table>
@@ -180,7 +138,7 @@
         </div> <!-- end row -->
 
 
-
+<br>
 
 
 
@@ -199,31 +157,155 @@
     {{--https://cdn.datatables.net/responsive/2.2.1/js/dataTables.responsive.min.js--}}
     <script>
         $(document).ready( function () {
-            $('#datatable').DataTable({
+            productionTable=  $('#datatable').DataTable({
                 rowReorder: {
                     selector: 'td:nth-child(2)'
                 },
-                responsive: true
+                responsive: true,
+                processing: true,
+                serverSide: true,
+                Filter: true,
+                stateSave: true,
+                type:"POST",
+                "ajax":{
+                    "url": "{!! route('job.getProductionData') !!}",
+                    "type": "POST",
+                    data:function (d){
+                        d._token="{{csrf_token()}}";
+                        d.date=$('#date1').val();
+                    },
+                },
+
+                columns: [
+                    { data: 'clientName', name: 'clientName' },
+                    { data: 'folderName', name: 'folderName' },
+                    { data: 'quantity', name: 'quantity'},
+                    { data: 'briefType', name: 'briefType'},
+                    { "data": function(data){
+                        return '<select class="form-control" onchange="productionChange(this)" data-panel-id="'+data.jobstateId+'" data-job-id="'+data.jobId+'">' +
+                            '<option value="">'+data.statusName+'</option>'+
+                            '<option value="processing">Pass To Processing</option>'+
+                            '<option value="qc">Pass To QC</option>'+
+                            '</select>';},
+                        "orderable": false, "searchable":false, "name":"selected_rows" }
+
+
+                ]
             } );
 
-            $('#processing').DataTable({
+            processingTable=$('#processing').DataTable({
                 rowReorder: {
                     selector: 'td:nth-child(2)'
                 },
-                responsive: true
+                responsive: true,
+                processing: true,
+                serverSide: true,
+                Filter: true,
+                stateSave: true,
+                type:"POST",
+                "ajax":{
+                    "url": "{!! route('job.getProcessingData') !!}",
+                    "type": "POST",
+                    data:function (d){
+                        d._token="{{csrf_token()}}";
+                        d.date=$('#date1').val();
+                    },
+                },
+                columns: [
+                    { data: 'clientName', name: 'clientName' },
+                    { data: 'folderName', name: 'folderName' },
+                    { data: 'quantity', name: 'quantity'},
+                    { data: 'briefType', name: 'briefType'},
+                    { "data": function(data){
+                        return '<select class="form-control" onchange="processingChange(this)" data-panel-id="'+data.jobstateId+'" data-job-id="'+data.jobId+'">' +
+                            '<option value="">'+data.statusName+'</option>'+
+                            '<option value="qc">Pass To QC</option>'+
+                            '</select>';},
+                        "orderable": false, "searchable":false, "name":"selected_rows" }
+
+
+                ]
             } );
 
-            $('#quality').DataTable({
+        qualityTable=    $('#quality').DataTable({
                 rowReorder: {
                     selector: 'td:nth-child(2)'
                 },
-                responsive: true
+                responsive: true,
+                processing: true,
+                serverSide: true,
+                Filter: true,
+                stateSave: true,
+                type:"POST",
+                "ajax":{
+                    "url": "{!! route('job.getQcData') !!}",
+                    "type": "POST",
+                    data:function (d){
+                        d._token="{{csrf_token()}}";
+                        d.date=$('#date1').val();
+                    },
+                },
+                columns: [
+                    { data: 'clientName', name: 'clientName' },
+                    { data: 'folderName', name: 'folderName' },
+                    { data: 'quantity', name: 'quantity'},
+                    { data: 'briefType', name: 'briefType'},
+                    { "data": function(data){
+                        return '<select class="form-control" onchange="qcJobChange(this)" data-panel-id="'+data.jobstateId+'" data-job-id="'+data.jobId+'">' +
+                            '<option value="">'+data.statusName+'</option>'+
+                            '<option value="done">Done</option>'+
+                            '</select>';},
+                        "orderable": false, "searchable":false, "name":"selected_rows" }
+
+
+                ]
             } );
 
-            $('#date1').datepicker();
-            $('#date2').datepicker();
-//            $().DataTable();
+            $('#date1').datepicker({
+                format:'yyyy-m-d'
+            });
+
+
+//            Getteng Todays Date From Input Field
+//            console.log($('#date1').val());
+
+
+
         } );
+
+        function productionChange(x) {
+
+            var status=x.value;
+            var jobStateId=$(x).data('panel-id');
+            var jobId=$(x).data('job-id');
+            alert(jobStateId);
+
+
+        }
+
+        function processingChange(x) {
+            var status=x.value;
+            var jobStateId=$(x).data('panel-id');
+            var jobId=$(x).data('job-id');
+            alert(jobStateId);
+        }
+
+        function qcJobChange(x) {
+            var status=x.value;
+            var jobStateId=$(x).data('panel-id');
+            var jobId=$(x).data('job-id');
+            alert(jobStateId);
+        }
+
+
+        function dateChange(x) {
+//            alert(x.value);
+            productionTable.ajax.reload();
+            processingTable.ajax.reload();
+            qualityTable.ajax.reload();
+
+
+        }
 
 
     </script>
