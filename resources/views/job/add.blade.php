@@ -120,7 +120,7 @@
                     <div class="form-group row">
                         <label for="example-text-input" class="col-sm-2 col-form-label">Priority</label>
                         <div class="col-sm-10">
-                            <input type="checkbox" class="form-check-input" name="priority" value="urgent">Urgent  &nbsp;&nbsp;&nbsp;&nbsp;
+                            <input type="checkbox" class="form-check-input" name="urgent" value="urgent">Urgent  &nbsp;&nbsp;&nbsp;&nbsp;
                             <input type="checkbox" class="form-check-input" name="newBrief" value="urgent">New Brief
                         </div>
                     </div>

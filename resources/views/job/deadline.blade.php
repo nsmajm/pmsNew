@@ -204,7 +204,9 @@
 
                     { "data": function(data){
                         {{--var url='{{url("product/edit/", ":id") }}';--}}
-                        return '<a class="btn btn-default btn-sm" data-panel-id="'+data.jobId+'" onclick="assignjob(this)"><i class="fa fa-exchange"></i></a>';},
+                        return '<a class="btn btn-default btn-sm" data-panel-id="'+data.jobId+'" onclick="editjob(this)"><i class="fa fa-edit"></i></a>'+
+                            '<a class="btn btn-default btn-sm" data-panel-id="'+data.jobId+'" onclick="assignjob(this)"><i class="fa fa-exchange"></i></a>'
+                            ;},
                         "orderable": false, "searchable":false, "name":"selected_rows" },
 
 
@@ -333,6 +335,14 @@
             //alert(url);
             var newUrl=url.replace(':id', btn);
             window.location.href = newUrl;
+        }
+
+        function editjob(x) {
+            btn = $(x).data('panel-id');
+            var url = '{{route("job.edit", ":id") }}';
+            var newUrl=url.replace(':id', btn);
+            window.location.href = newUrl;
+
         }
 
         function productionChange(x) {

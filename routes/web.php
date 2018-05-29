@@ -45,6 +45,8 @@ Route::get('/service/show','ServiceController@show')->name('service.show');
 Route::get('/job/information','JobController@information')->name('job.information');
 Route::get('/job/add','JobController@add')->name('job.add');
 Route::post('/job/insert','JobController@insert')->name('job.insert');
+Route::get('/job/edit/{id}','JobController@edit')->name('job.edit');
+Route::post('/job/update','JobController@update')->name('job.update');
 Route::get('/job/pending','JobController@pending')->name('job.pending');
 Route::post('/job/pending','JobController@getPendingData')->name('job.getPendingData');
 Route::get('/job/deadline','JobController@deadline')->name('job.deadline');
@@ -56,6 +58,9 @@ Route::post('/job/StateChange','JobController@jobStateChange')->name('job.StateC
 //Assign Job
 
 Route::get('/job/assign/{id}','JobController@assignJob')->name('job.assign');
+
+Route::post('/job/getTeamMembers','JobController@getTeamMembers')->name('job.getTeamMembers');
+
 
 
 Route::post('/job/getServiceModal','JobController@getServiceModal')->name('job.getServiceModal');

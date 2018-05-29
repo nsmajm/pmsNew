@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Service;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Client;
@@ -11,6 +12,9 @@ use App\Jobstate;
 use App\Status;
 use App\ClientServiceRelation;
 use App\User;
+use App\Team;
+use App\Jobassign;
+use App\File;
 use Auth;
 use Session;
 use Yajra\DataTables\DataTables;
@@ -28,12 +32,30 @@ class JobController extends Controller
                 ->with('clients',$clients);
     }
 
+    public function edit($id){
+        $job=Job::select('job.jobId','job.clientId','brief.briefId','client.clientName','job.deadLine','job.submissionTime','job.quantity','job.other','brief.briefMsg','file.folderName')
+                ->where('job.jobId',$id)
+                ->leftJoin('brief','brief.jobId','job.jobId')
+                ->leftJoin('client','client.clientId','job.clientId')
+                ->leftJoin('file','file.jobId','job.jobId')
+                ->orderBy('briefId','desc')
+                ->first();
+
+//        return $job;
+        $services=ClientServiceRelation::where('clientId',$job->clientId)
+            ->leftJoin('service','service.serviceId','client_service_relation.serviceId')
+            ->get();
+
+//        return $services;
+        return view('job.edit')
+            ->with('job',$job)
+            ->with('services',$services);
+    }
+
     public function insert(Request $r){
         $status=Status::where('statusType','jobStatus')
             ->where('statusName','production')
             ->first();
-
-
 
         $job=new Job();
         $job->clientId=$r->clientName;
@@ -41,8 +63,9 @@ class JobController extends Controller
         $job->deadLine=date('Y-m-d',strtotime($r->submissionDate));
         $job->userId=Auth::user()->userId;
         $job->statusId=$status->statusId;
-//        $job->serviceId=$r->serviceId;
-//        $job->priority=$r->priority;
+        $job->submissionTime=$r->submissionTime;
+        if($r->urgent){ $job->urgent=1;}
+
         $job->other=$r->other;
         $job->save();
 
@@ -52,21 +75,35 @@ class JobController extends Controller
         //Converting str to date
         $time = strtotime($r->submissionDate);
         $newformat = date('Y-m-d',$time);
-
         $jobState->deadline=$newformat;
         $jobState->save();
 
+        $file=new File();
+        $file->jobId=$job->jobId;
+        $file->folderName=$r->folderName;
+        $file->save();
 
         $brief=new Brief();
         $brief->jobId=$job->jobId;
         $brief->briefType=$r->briefType;
-        $brief->folderName=$r->folderName;
+        $brief->briefMsg=$r->brief;
         $brief->userId=Auth::user()->userId;
         $brief->save();
 
-
         Session::flash('message', 'Job Added Successfully!');
         return back();
+    }
+
+    public function update(Request $r){
+
+        return $r;
+        $job=Job::findOrFail($r->jobId);
+        $job->quantity=$r->quantity;
+        $job->save();
+
+        Session::flash('message', 'Job Edited Successfully!');
+        return back();
+
     }
     public function pending(){
 
@@ -130,9 +167,10 @@ class JobController extends Controller
         $time = strtotime($r->date);
         $newformat = date('Y-m-d',$time);
 
-        $productionJob=Jobstate::select('jobstate.jobstateId','job.jobId','job.clientId','brief.briefId','client.clientName','brief.folderName','job.quantity','brief.briefType','job.statusId','status.statusName','jobstate.deadline','job.urgent')
+        $productionJob=Jobstate::select('jobstate.jobstateId','job.jobId','job.clientId','brief.briefId','client.clientName','file.folderName','job.quantity','brief.briefType','job.statusId','status.statusName','jobstate.deadline','job.urgent')
             ->where('jobstate.statusId',$productionStatusId->statusId)
             ->leftJoin('job','jobstate.jobId','job.jobId')
+            ->leftJoin('file','file.jobId','job.jobId')
             ->leftJoin('brief','brief.jobId','job.jobId')
             ->leftJoin('client','client.clientId','job.clientId')
             ->leftJoin('status','status.statusId','job.statusId')
@@ -154,14 +192,17 @@ class JobController extends Controller
         $time = strtotime($r->date);
         $newformat = date('Y-m-d',$time);
 
-        $processingJob=Jobstate::select('jobstate.jobstateId','job.jobId','job.clientId','brief.briefId','client.clientName','brief.folderName','job.quantity','brief.briefType','job.statusId','status.statusName','jobstate.deadline','job.urgent')
+
+        $processingJob=Jobstate::select('jobstate.jobstateId','job.jobId','job.clientId','brief.briefId','client.clientName','file.folderName','job.quantity','brief.briefType','job.statusId','status.statusName','jobstate.deadline','job.urgent')
             ->where('jobstate.statusId',$processingStatusId->statusId)
             ->leftJoin('job','jobstate.jobId','job.jobId')
+            ->leftJoin('file','file.jobId','job.jobId')
             ->leftJoin('brief','brief.jobId','job.jobId')
             ->leftJoin('client','client.clientId','job.clientId')
             ->leftJoin('status','status.statusId','job.statusId')
             ->where('jobstate.deadline','<=',$newformat)
-            ->where('endDate',null)->get();
+            ->where('endDate',null)
+            ->get();
 
         $datatables = Datatables::of($processingJob);
         return $datatables->make(true);
@@ -175,9 +216,11 @@ class JobController extends Controller
         $time = strtotime($r->date);
         $newformat = date('Y-m-d',$time);
 
-        $qcJob=Jobstate::select('jobstate.jobstateId','job.jobId','job.clientId','brief.briefId','client.clientName','brief.folderName','job.quantity','brief.briefType','job.statusId','status.statusName','jobstate.deadline','job.urgent')
+
+        $qcJob=Jobstate::select('jobstate.jobstateId','job.jobId','job.clientId','brief.briefId','client.clientName','file.folderName','job.quantity','brief.briefType','job.statusId','status.statusName','jobstate.deadline','job.urgent')
             ->where('jobstate.statusId',$qcStatusId->statusId)
             ->leftJoin('job','jobstate.jobId','job.jobId')
+            ->leftJoin('file','file.jobId','job.jobId')
             ->leftJoin('brief','brief.jobId','job.jobId')
             ->leftJoin('client','client.clientId','job.clientId')
             ->leftJoin('status','status.statusId','job.statusId')
@@ -216,13 +259,32 @@ class JobController extends Controller
 
 
     public function assignJob($id){
-        $job=Job::findOrFail($id);
-        $user=User::get();
+        $job=Job::where('job.jobId',$id)
+            ->leftJoin('brief','brief.jobId','job.jobId')
+            ->orderBy('briefId','desc')
+            ->first();
 
+        $teams=Team::get();
 
-        return $user;
+        $jobAssignQuantity=Jobassign::where('jobId',$id)->sum('quantity');
+
+//        return $jobAssign;
+
+        return view('job.assignJob')
+            ->with('teams',$teams)
+            ->with('job',$job)
+            ->with('jobAssignQuantity',$jobAssignQuantity);
     }
 
+
+    public function getTeamMembers(Request $r){
+
+        $users=User::where('teamId',$r->teamId)->get();
+
+        return view('job.getTeamMember')->with('users',$users);
+
+//        return $user;
+    }
 
 
 

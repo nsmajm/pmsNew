@@ -4,9 +4,9 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Team extends Model
+class File extends Model
 {
-    protected $table='team';
-    protected $primaryKey='teamId';
+    protected $table='file';
+    protected $primaryKey='fileId';
     public $timestamps=false;
 }
