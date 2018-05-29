@@ -119,15 +119,14 @@ class JobController extends Controller
     }
 
     public function getPendingData(Request $r){
+        $todaysDate=date("Y-m-d");
 
-        $status=Status::where('statusType','jobStatus')
-            ->where('statusName','pending')
-            ->first();
 
-        $jobs=Job::select('job.jobId','job.clientId','client.clientName','brief.folderName','job.deadLine','job.quantity')
+        $jobs=Job::select('job.jobId','job.clientId','client.clientName','file.folderName','job.deadLine','job.quantity')
             ->leftJoin('client','job.clientId','client.clientId')
             ->leftJoin('brief','brief.jobId','job.jobId')
-            ->where('job.statusId',$status->statusId)
+            ->leftJoin('file','file.jobId','job.jobId')
+            ->where('job.deadline','<=',$todaysDate)
             ->get();
 
 
@@ -150,12 +149,10 @@ class JobController extends Controller
     }
 
     public function deadline(){
-
-
         $todaysDate=date("Y-m-d");
 
-
-        return view('job.deadline')->with('todaysDate',$todaysDate);
+        return view('job.deadline')
+            ->with('todaysDate',$todaysDate);
 
     }
 
@@ -167,14 +164,14 @@ class JobController extends Controller
         $time = strtotime($r->date);
         $newformat = date('Y-m-d',$time);
 
-        $productionJob=Jobstate::select('jobstate.jobstateId','job.jobId','job.clientId','brief.briefId','client.clientName','file.folderName','job.quantity','brief.briefType','job.statusId','status.statusName','jobstate.deadline','job.urgent')
+        $productionJob=Jobstate::select('jobstate.jobstateId','job.jobId','job.clientId','brief.briefId','client.clientName','file.folderName','job.quantity','brief.briefType','job.statusId','status.statusName','job.deadline','job.urgent')
             ->where('jobstate.statusId',$productionStatusId->statusId)
             ->leftJoin('job','jobstate.jobId','job.jobId')
             ->leftJoin('file','file.jobId','job.jobId')
             ->leftJoin('brief','brief.jobId','job.jobId')
             ->leftJoin('client','client.clientId','job.clientId')
             ->leftJoin('status','status.statusId','job.statusId')
-            ->where('jobstate.deadline','<=',$newformat)
+            ->where('job.deadline','<=',$newformat)
             ->where('endDate',null)
             ->get();
 
@@ -193,14 +190,14 @@ class JobController extends Controller
         $newformat = date('Y-m-d',$time);
 
 
-        $processingJob=Jobstate::select('jobstate.jobstateId','job.jobId','job.clientId','brief.briefId','client.clientName','file.folderName','job.quantity','brief.briefType','job.statusId','status.statusName','jobstate.deadline','job.urgent')
+        $processingJob=Jobstate::select('jobstate.jobstateId','job.jobId','job.clientId','brief.briefId','client.clientName','file.folderName','job.quantity','brief.briefType','job.statusId','status.statusName','job.deadline','job.urgent')
             ->where('jobstate.statusId',$processingStatusId->statusId)
             ->leftJoin('job','jobstate.jobId','job.jobId')
             ->leftJoin('file','file.jobId','job.jobId')
             ->leftJoin('brief','brief.jobId','job.jobId')
             ->leftJoin('client','client.clientId','job.clientId')
             ->leftJoin('status','status.statusId','job.statusId')
-            ->where('jobstate.deadline','<=',$newformat)
+            ->where('job.deadline','<=',$newformat)
             ->where('endDate',null)
             ->get();
 
@@ -217,14 +214,14 @@ class JobController extends Controller
         $newformat = date('Y-m-d',$time);
 
 
-        $qcJob=Jobstate::select('jobstate.jobstateId','job.jobId','job.clientId','brief.briefId','client.clientName','file.folderName','job.quantity','brief.briefType','job.statusId','status.statusName','jobstate.deadline','job.urgent')
+        $qcJob=Jobstate::select('jobstate.jobstateId','job.jobId','job.clientId','brief.briefId','client.clientName','file.folderName','job.quantity','brief.briefType','job.statusId','status.statusName','job.deadline','job.urgent')
             ->where('jobstate.statusId',$qcStatusId->statusId)
             ->leftJoin('job','jobstate.jobId','job.jobId')
             ->leftJoin('file','file.jobId','job.jobId')
             ->leftJoin('brief','brief.jobId','job.jobId')
             ->leftJoin('client','client.clientId','job.clientId')
             ->leftJoin('status','status.statusId','job.statusId')
-            ->where('jobstate.deadline','<=',$newformat)
+            ->where('job.deadline','<=',$newformat)
             ->where('endDate',null)
             ->get();
 
@@ -235,14 +232,19 @@ class JobController extends Controller
 
 
     public function jobStateChange(Request $r){
+
+
         $status=Status::where('statusType','jobStatus')
             ->where('statusName',$r->status)->first();
 
         $todaysDate=date("Y-m-d");
 
 
-        Job::where('jobId',$r->jobId)->update(['statusId'=>$status->statusId]);
-        Jobstate::where('jobId',$r->jobId)->update(['endDate'=>$todaysDate]);
+        Job::where('jobId',$r->jobId)
+            ->update(['statusId'=>$status->statusId]);
+
+        Jobstate::where('jobId',$r->jobId)
+            ->update(['endDate'=>$todaysDate]);
 
         $jobStateOld=Jobstate::findOrFail($r->jobStateId);
         $jobStateOld->endDate=$todaysDate;
@@ -251,7 +253,7 @@ class JobController extends Controller
         $jobState=new Jobstate();
         $jobState->jobId=$r->jobId;
         $jobState->statusId=$status->statusId;
-        $jobState->deadline=$jobStateOld->deadline;
+        $jobState->startDate=$todaysDate;
         $jobState->save();
 
     }
