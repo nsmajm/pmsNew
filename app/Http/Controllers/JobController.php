@@ -15,6 +15,7 @@ use App\User;
 use App\Team;
 use App\Jobassign;
 use App\File;
+use App\JobServiceRelation;
 use Auth;
 use Session;
 use Yajra\DataTables\DataTables;
@@ -47,9 +48,15 @@ class JobController extends Controller
             ->get();
 
 //        return $services;
+
+        $jobService=JobServiceRelation::where('jobId',$id)->get();
+
+//        return $jobService;
+
         return view('job.edit')
             ->with('job',$job)
-            ->with('services',$services);
+            ->with('services',$services)
+            ->with('jobService',$jobService);
     }
 
     public function insert(Request $r){
@@ -95,11 +102,31 @@ class JobController extends Controller
     }
 
     public function update(Request $r){
+//
+//        $job=Job::findOrFail($r->jobId);
+//        $job->quantity=$r->jobQuantity;
+//        $job->save();
+//        job_service_relationId
 
-        return $r;
-        $job=Job::findOrFail($r->jobId);
-        $job->quantity=$r->quantity;
-        $job->save();
+//        return $r;
+
+        for($i=0;$i<count($r->quantity);$i++){
+            if($r->quantity[$i] !=null && $r->service[$i] !=null){
+//                echo $r->quantity[$i].$r->service[$i].'<br>';
+                if(isset($r->job_service_relationId[$i])){
+                    $jobService=JobServiceRelation::findOrFail($r->job_service_relationId[$i]);
+                }
+                else{
+                    $jobService=new JobServiceRelation();
+                }
+
+                $jobService->jobId=$r->jobId;
+                $jobService->serviceId=$r->service[$i];
+                $jobService->quantity=$r->quantity[$i];
+                $jobService->addedBy=Auth::user()->userId;
+                $jobService->save();
+            }
+        }
 
         Session::flash('message', 'Job Edited Successfully!');
         return back();

@@ -11,7 +11,7 @@
                 <h4 class="mb-md-6" style="text-align: center">Add Job</h4>
 
                 <div class="card-body">
-                    <form method="post" action="{{route('job.update')}}">
+                    <form method="post" action="{{route('job.update')}}" onsubmit="return jobCount()">
                         @csrf
                         <input type="hidden" name="jobId" value="{{$job->jobId}}">
                         <div class="form-group row">
@@ -57,7 +57,7 @@
                         <div class="form-group row">
                             <label for="example-tel-input" class="col-sm-2 col-form-label">Quantity</label>
                             <div class="col-sm-10">
-                                <input class="form-control" name="quantity" type="number" id="example-tel-input" value="{{$job->quantity}}">
+                                <input class="form-control" name="jobQuantity" type="number" id="example-tel-input" value="{{$job->quantity}}" readonly>
                             </div>
                             @if ($errors->has('quantity'))
                                 <span class="invalid-feedback">
@@ -98,9 +98,35 @@
                         {{--ADD Services--}}
 
                         <h4 align="center">Total Quantity {{$job->quantity}}</h4>
+                        <?php $count=1;?>
+                        @foreach($jobService as $jService)
+                            <input type="hidden" name="job_service_relationId[]" value="{{$jService->job_service_relationId}}">
+
+                            <div class="row col-md-6">
+                                <div class="col-md-6">
+                                    <label class="col-md-4">Service:#{{$count}}</label>
+                                    <select class="form-control col-md-8" id="service1" name="service[]">
+
+                                        @foreach($services as $service)
+                                            <option value="{{$service->serviceId}}" @if($jService->serviceId ==$service->serviceId)
+                                                selected @endif>{{$service->serviceName}}</option>
+                                        @endforeach
+                                    </select>
+                                </div>
+
+                                <div class="col-md-6">
+                                    <label class="col-md-4">Quantity#{{$count}}:</label>
+                                    <input class="form-control col-md-8" type="number" onkeyup="jobCount()" value="{{$jService->quantity}}" id="textbox1" name="quantity[]" >
+
+                                </div>
+                            </div>
+                            <?php $count++;?>
+
+                        @endforeach
+
                         <div class="row col-md-6">
                             <div class="col-md-6">
-                                <label class="col-md-4">Service:#1</label>
+                                <label class="col-md-4">Service:#{{$count}}</label>
                                 <select class="form-control col-md-8" id="service1" name="service[]">
                                     <option value="">Select.....</option>
                                     @foreach($services as $service)
@@ -110,7 +136,7 @@
                             </div>
 
                             <div class="col-md-6">
-                                <label class="col-md-4">Quantity#1:</label>
+                                <label class="col-md-4">Quantity#{{$count}}:</label>
                                 <input class="form-control col-md-8" type="number" onkeyup="jobCount()" id="textbox1" name="quantity[]" >
 
                             </div>
@@ -175,6 +201,7 @@
                     arr.push('<option id="s'+i+'" value="{{$service->serviceId}}">{{$service->serviceName}}</option>');
                     @endforeach
 
+            var ii = '{{++$count}}';
             var counter = 2;
             $("#addButton").click(function () {
 
@@ -199,13 +226,6 @@
 
                 }
 
-//            var index = arr.indexOf(id);
-//            if (index > -1) {
-//                arr.splice(index, 1);
-//            }
-//
-//            console.log(arr);
-
 
 
                 var newTextBoxDiv = $(document.createElement('div'))
@@ -214,7 +234,7 @@
                 newTextBoxDiv.after().html('<div class="row col-md-6">'+
                     '<div class="col-md-6">'+
 
-                    '<label class="col-md-4">Service:#'+counter+'</label>'+
+                    '<label class="col-md-4">Service:#'+ii+'</label>'+
                     '<select class="form-control col-md-8" id="service'+counter+'" name="service[]">'+
                     '<option value="">Select...'+'</option>'+
                     arr+
@@ -222,7 +242,7 @@
                     '</div>'+
 
                     '<div class="col-md-6">'+
-                    '<label class="col-md-4">Quantity#'+counter +':</label>'+
+                    '<label class="col-md-4">Quantity#'+ii +':</label>'+
                     '<input class="form-control col-md-8" type="number" onkeyup="jobCount()" id="textbox1" name="quantity[]" >'+
 
                     '</div>'+
@@ -230,6 +250,7 @@
                 );
                 newTextBoxDiv.appendTo("#TextBoxesGroup");
                 counter++;
+                ii++;
             });
             $("#removeButton").click(function () {
                 if(counter==2){
@@ -246,10 +267,12 @@
         });
 
 
-        function jobCount() {
 
-            var qLeft= {{$job->quantity}};
+        function jobCount() {
             var temp=0;
+
+            var qLeft= '{{$job->quantity}}';
+
             var arr = $('input[name="quantity[]"]').map(function () {
                 return this.value; // $(this).val()
             }).get();
@@ -262,13 +285,14 @@
             }
             console.log(temp);
             if(temp>qLeft){
-                alert('limit exceed')
+                alert('limit exceed');
+                return false;
             }
-
-
-
+            else return true;
 
         }
+
+
     </script>
 
 
