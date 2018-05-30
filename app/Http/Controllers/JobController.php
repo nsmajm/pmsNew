@@ -19,12 +19,51 @@ use App\JobServiceRelation;
 use Auth;
 use Session;
 use Yajra\DataTables\DataTables;
+use DB;
 
 class JobController extends Controller
 {
     public function information(){
         return view('job.information');
     }
+
+
+    public function all(){
+        $clients=Client::select('clientId','clientName')->get();
+        $status=Status::where('statusType','jobStatus')->get();
+
+        return view('job.all')
+                ->with('clients',$clients)
+                ->with('status',$status);
+    }
+
+    public function getAllData(Request $r){
+
+        $jobs=Job::select('job.jobId','job.created_at','job.deadLine','job.submissionTime','job.quantity','file.folderName','client.clientName','status.statusName','rate.amount')
+            ->leftJoin('file','file.jobId','job.JobId')
+            ->leftJoin('client','client.clientId','job.clientId')
+            ->leftJoin('status','status.statusId','job.statusId')
+            ->leftJoin('rate','rate.jobId','job.jobId');
+
+        if($r->statusId){
+            $jobs=$jobs->where('status.statusId',$r->statusId);
+        }
+        if($r->date){
+            $jobs=$jobs->where(DB::raw('date(job.created_at)'),$r->date);
+        }
+        if($r->clientId){
+            $jobs=$jobs->where('client.clientId',$r->clientId);
+        }
+
+        $jobs=$jobs->get();
+
+        $datatables = Datatables::of($jobs);
+        return $datatables->make(true);
+
+
+    }
+
+
     public function add(){
 
         $clients=Client::select('clientId','clientName')->get();

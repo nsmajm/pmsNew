@@ -86,6 +86,7 @@
                                 <th >Quantity</th>
                                 <th >Brief Type</th>
                                 <th >Job Status</th>
+                                <th >Action</th>
 
                             </tr>
 
@@ -114,6 +115,7 @@
                                 <th >Quantity</th>
                                 <th >Brief Type</th>
                                 <th >Job Status</th>
+                                <th >Action</th>
 
                             </tr>
                             </thead>
@@ -260,7 +262,12 @@
                             '<option value="">'+data.statusName+'</option>'+
                             '<option value="qc">Pass To QC</option>'+
                             '</select>';},
-                        "orderable": false, "searchable":false, "name":"selected_rows" }
+                        "orderable": false, "searchable":false, "name":"selected_rows" },
+                    { "data": function(data){
+                        {{--var url='{{url("product/edit/", ":id") }}';--}}
+                            return '<a class="btn btn-default btn-sm" data-panel-id="'+data.jobId+'" onclick="editjob(this)"><i class="fa fa-edit"></i></a>'
+                            ;},
+                        "orderable": false, "searchable":false, "name":"selected_rows" },
 
 
                 ]
@@ -313,7 +320,13 @@
                             '<option value="">'+data.statusName+'</option>'+
                             '<option value="done">Done</option>'+
                             '</select>';},
-                        "orderable": false, "searchable":false, "name":"selected_rows" }
+                        "orderable": false, "searchable":false, "name":"selected_rows" },
+                    { "data": function(data){
+                        {{--var url='{{url("product/edit/", ":id") }}';--}}
+                            return '<a class="btn btn-default btn-sm" data-panel-id="'+data.jobId+'" onclick="editjob(this)"><i class="fa fa-edit"></i></a>'
+                            ;},
+                        "orderable": false, "searchable":false, "name":"selected_rows" },
+
                 ]
             } );
 

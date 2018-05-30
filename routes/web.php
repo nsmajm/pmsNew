@@ -58,9 +58,11 @@ Route::post('/job/StateChange','JobController@jobStateChange')->name('job.StateC
 //Assign Job
 
 Route::get('/job/assign/{id}','JobController@assignJob')->name('job.assign');
-
 Route::post('/job/getTeamMembers','JobController@getTeamMembers')->name('job.getTeamMembers');
 
+//Get All Job
+Route::get('/job/search','JobController@all')->name('job.all');
+Route::post('/job/search','JobController@getAllData')->name('job.getAllData');
 
 
 Route::post('/job/getServiceModal','JobController@getServiceModal')->name('job.getServiceModal');
