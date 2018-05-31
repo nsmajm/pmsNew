@@ -178,6 +178,11 @@
                     {
                         $('td', row).css('background-color', 'rgba(255, 152, 0, 1)');
                     }
+                    if ( data['priority'] ==0  )
+                    {
+                        $('td', row).css('background-color', 'rgba(136, 245, 11, 0.42)');
+
+                    }
 
 
                 },
@@ -207,7 +212,8 @@
                     { "data": function(data){
                         {{--var url='{{url("product/edit/", ":id") }}';--}}
                         return '<a class="btn btn-default btn-sm" data-panel-id="'+data.jobId+'" onclick="editjob(this)"><i class="fa fa-edit"></i></a>'+
-                            '<a class="btn btn-default btn-sm" data-panel-id="'+data.jobId+'" onclick="assignjob(this)"><i class="fa fa-exchange"></i></a>'
+                            '<a class="btn btn-default btn-sm" data-panel-id="'+data.jobId+'" onclick="assignjob(this)"><i class="fa fa-exchange"></i></a>'+
+                            '<a class="btn btn-default btn-sm" data-panel-id="'+data.jobId+'" onclick="lessPriority(this)"><i class="fa fa-arrow-circle-down"></i></a>'
                             ;},
                         "orderable": false, "searchable":false, "name":"selected_rows" },
 
@@ -239,6 +245,11 @@
                     {
                         $('td', row).css('background-color', 'rgba(255, 152, 0, 1)');
                     }
+                    if ( data['priority'] ==0  )
+                    {
+                        $('td', row).css('background-color', 'rgba(136, 245, 11, 0.42)');
+
+                    }
 
 
 
@@ -265,7 +276,8 @@
                         "orderable": false, "searchable":false, "name":"selected_rows" },
                     { "data": function(data){
                         {{--var url='{{url("product/edit/", ":id") }}';--}}
-                            return '<a class="btn btn-default btn-sm" data-panel-id="'+data.jobId+'" onclick="editjob(this)"><i class="fa fa-edit"></i></a>'
+                            return '<a class="btn btn-default btn-sm" data-panel-id="'+data.jobId+'" onclick="editjob(this)"><i class="fa fa-edit"></i></a>'+
+                            '<a class="btn btn-default btn-sm" data-panel-id="'+data.jobId+'" onclick="lessPriority(this)"><i class="fa fa-arrow-circle-down"></i></a>'
                             ;},
                         "orderable": false, "searchable":false, "name":"selected_rows" },
 
@@ -298,6 +310,11 @@
                     $('td', row).css('background-color', 'rgba(255, 152, 0, 1)');
 
                 }
+                if ( data['priority'] ==0  )
+                {
+                    $('td', row).css('background-color', 'rgba(136, 245, 11, 0.42)');
+
+                }
 
             },
 
@@ -323,7 +340,8 @@
                         "orderable": false, "searchable":false, "name":"selected_rows" },
                     { "data": function(data){
                         {{--var url='{{url("product/edit/", ":id") }}';--}}
-                            return '<a class="btn btn-default btn-sm" data-panel-id="'+data.jobId+'" onclick="editjob(this)"><i class="fa fa-edit"></i></a>'
+                            return '<a class="btn btn-default btn-sm" data-panel-id="'+data.jobId+'" onclick="editjob(this)"><i class="fa fa-edit"></i></a>'+
+                            '<a class="btn btn-default btn-sm" data-panel-id="'+data.jobId+'" onclick="lessPriority(this)"><i class="fa fa-arrow-circle-down"></i></a>'
                             ;},
                         "orderable": false, "searchable":false, "name":"selected_rows" },
 
@@ -460,6 +478,31 @@
             productionTable.ajax.reload();
             processingTable.ajax.reload();
             qualityTable.ajax.reload();
+
+
+        }
+
+        function lessPriority(x) {
+            jobId = $(x).data('panel-id');
+
+            if (confirm('Are you sure you want to Less Its Priority?')) {
+                $.ajax({
+                    type: 'POST',
+                    url: "{!! route('priority.less') !!}",
+                    cache: false,
+                    data: {_token: "{{csrf_token()}}", 'jobId': jobId},
+                    success: function (data) {
+                        console.log(data);
+                        productionTable.ajax.reload();
+                        processingTable.ajax.reload();
+                        qualityTable.ajax.reload();
+
+                    }
+
+                });
+            } else {
+                // Do nothing!
+            }
 
 
         }

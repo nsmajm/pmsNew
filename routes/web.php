@@ -60,11 +60,16 @@ Route::post('/job/StateChange','JobController@jobStateChange')->name('job.StateC
 Route::get('/job/assign/{id}','JobController@assignJob')->name('job.assign');
 Route::post('/job/getTeamMembers','JobController@getTeamMembers')->name('job.getTeamMembers');
 
-//Get All Job
-Route::get('/job/search','JobController@all')->name('job.all');
+Route::get('/job/search','JobController@all')->name('job.all');//Get All Job
 Route::post('/job/search','JobController@getAllData')->name('job.getAllData');
 
+
+
+
 Route::post('/job/getServiceModal','JobController@getServiceModal')->name('job.getServiceModal');
+
+//Job Priority
+Route::post('/job/lessPriority','JobController@lessPriority')->name('priority.less');
 
 //END JOB
 
@@ -82,6 +87,7 @@ Route::get('/feedback','JobController@feedback')->name('job.feedback');
 //Brief
 Route::get('/brief/check','BriefController@check')->name('brief.check');
 Route::get('/brief/','BriefController@index')->name('brief.index');
+Route::get('/brief/add','BriefController@add')->name('brief.add');
 
 //Leave
 Route::get('/leave','LeaveController@index')->name('leave.index');

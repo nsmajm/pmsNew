@@ -9,7 +9,9 @@ use Auth;
 class CommentsController extends Controller
 {
     public function getComments(Request $r){
-        $comments=Comment::where('jobId',$r->jobId)
+        $comments=Comment::select('comment.msg','comment.created_at','user.name')
+            ->where('jobId',$r->jobId)
+            ->leftJoin('user','user.userId','comment.userId')
             ->get();
 
         return view('comment.commentModal')

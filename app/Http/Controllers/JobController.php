@@ -39,10 +39,11 @@ class JobController extends Controller
 
     public function getAllData(Request $r){
 
-        $jobs=Job::select('job.jobId','job.created_at','job.deadLine','job.submissionTime','job.quantity','file.folderName','client.clientName','status.statusName','rate.amount')
+        $jobs=Job::select('job.jobId','job.created_at','job.deadLine','job.submissionTime','job.quantity','user.name','file.folderName','client.clientName','status.statusName','rate.amount')
             ->leftJoin('file','file.jobId','job.JobId')
             ->leftJoin('client','client.clientId','job.clientId')
             ->leftJoin('status','status.statusId','job.statusId')
+            ->leftJoin('user','user.userId','job.doneBy')
             ->leftJoin('rate','rate.jobId','job.jobId');
 
         if($r->statusId){
@@ -62,6 +63,8 @@ class JobController extends Controller
 
 
     }
+
+
 
 
     public function add(){
@@ -110,6 +113,7 @@ class JobController extends Controller
         $job->userId=Auth::user()->userId;
         $job->statusId=$status->statusId;
         $job->submissionTime=$r->submissionTime;
+        $job->priority=1;
         if($r->urgent){ $job->urgent=1;}
 
         $job->other=$r->other;
@@ -121,7 +125,7 @@ class JobController extends Controller
         //Converting str to date
         $time = strtotime($r->submissionDate);
         $newformat = date('Y-m-d',$time);
-        $jobState->deadline=$newformat;
+        $jobState->startDate=$newformat;
         $jobState->save();
 
         $file=new File();
@@ -230,7 +234,7 @@ class JobController extends Controller
         $time = strtotime($r->date);
         $newformat = date('Y-m-d',$time);
 
-        $productionJob=Jobstate::select('jobstate.jobstateId','job.jobId','job.clientId','brief.briefId','client.clientName','file.folderName','job.quantity','brief.briefType','job.statusId','status.statusName','job.deadline','job.urgent')
+        $productionJob=Jobstate::select('jobstate.jobstateId','job.jobId','job.clientId','brief.briefId','client.clientName','file.folderName','job.quantity','brief.briefType','job.statusId','status.statusName','job.deadline','job.urgent','job.priority')
             ->where('jobstate.statusId',$productionStatusId->statusId)
             ->leftJoin('job','jobstate.jobId','job.jobId')
             ->leftJoin('file','file.jobId','job.jobId')
@@ -256,7 +260,7 @@ class JobController extends Controller
         $newformat = date('Y-m-d',$time);
 
 
-        $processingJob=Jobstate::select('jobstate.jobstateId','job.jobId','job.clientId','brief.briefId','client.clientName','file.folderName','job.quantity','brief.briefType','job.statusId','status.statusName','job.deadline','job.urgent')
+        $processingJob=Jobstate::select('jobstate.jobstateId','job.jobId','job.clientId','brief.briefId','client.clientName','file.folderName','job.quantity','brief.briefType','job.statusId','status.statusName','job.deadline','job.urgent','job.priority')
             ->where('jobstate.statusId',$processingStatusId->statusId)
             ->leftJoin('job','jobstate.jobId','job.jobId')
             ->leftJoin('file','file.jobId','job.jobId')
@@ -280,7 +284,7 @@ class JobController extends Controller
         $newformat = date('Y-m-d',$time);
 
 
-        $qcJob=Jobstate::select('jobstate.jobstateId','job.jobId','job.clientId','brief.briefId','client.clientName','file.folderName','job.quantity','brief.briefType','job.statusId','status.statusName','job.deadline','job.urgent')
+        $qcJob=Jobstate::select('jobstate.jobstateId','job.jobId','job.clientId','brief.briefId','client.clientName','file.folderName','job.quantity','brief.briefType','job.statusId','status.statusName','job.deadline','job.urgent','job.priority')
             ->where('jobstate.statusId',$qcStatusId->statusId)
             ->leftJoin('job','jobstate.jobId','job.jobId')
             ->leftJoin('file','file.jobId','job.jobId')
@@ -352,6 +356,15 @@ class JobController extends Controller
         return view('job.getTeamMember')->with('users',$users);
 
 //        return $user;
+    }
+
+    public function lessPriority(Request $r){
+        $job=Job::findOrFail($r->jobId);
+        $job->priority=0;
+        $job->save();
+
+
+        return $r;
     }
 
 

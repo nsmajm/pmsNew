@@ -14,18 +14,7 @@
                     <ul class="submenu">
                         <li><a href="{{route('job.information')}}">Information</a></li>
                         <li><a href="{{route('job.pending')}}">Pending Job</a></li>
-
-                        {{--<li><a href="{{route('datatable')}}">Job Tally</a></li>--}}
-                        <li class="has-submenu">
-                            <a href="#">Job Tally</a>
-                            <ul class="submenu">
-
-                                <li><a href="{{route('job.all')}}">Search Jobs</a></li>
-                                <li><a href="{{route('datatable')}}">Done Jobs</a></li>
-                            </ul>
-                        </li>
-
-
+                        <li><a href="{{route('job.all')}}">Job Tally</a></li>
                         <li><a href="{{route('job.add')}}">Add New</a></li>
                         <li><a href="{{route('job.feedback')}}">Feedback</a></li>
                         <li class="has-submenu">
@@ -59,6 +48,7 @@
                     <ul class="submenu">
                         <li><a href="{{route('brief.check')}}">Brief Check</a></li>
                         <li><a href="{{route('brief.index')}}">Brief</a></li>
+                        <li><a href="{{route('brief.add')}}">Add Brief</a></li>
                     </ul>
                 </li>
 

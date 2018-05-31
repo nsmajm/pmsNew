@@ -15,4 +15,9 @@ class BriefController extends Controller
 
         return view('brief.brief');
     }
+
+    public function add(){
+
+        return view('brief.add');
+    }
 }

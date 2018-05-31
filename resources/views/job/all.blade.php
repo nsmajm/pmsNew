@@ -106,6 +106,7 @@
                                 <th>Status</th>
                                 <th>Quantity</th>
                                 <th>Rate</th>
+                                <th>DoneBy</th>
                                 <th>Action</th>
                             </tr>
                             </thead>
@@ -174,6 +175,7 @@
                     { data: 'statusName', name: 'statusName' },
                     { data: 'quantity', name: 'quantity'},
                     { data: 'amount', name: 'amount'},
+                    { data: 'name', name: 'name'},
                     { "data": function(data){
                         {{--var url='{{url("product/edit/", ":id") }}';--}}
                             return '<a class="btn btn-default btn-sm" data-panel-id="'+data.jobId+'" onclick="editjob(this)"><i class="fa fa-edit"></i></a>'+
