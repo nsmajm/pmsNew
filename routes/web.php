@@ -64,10 +64,16 @@ Route::post('/job/getTeamMembers','JobController@getTeamMembers')->name('job.get
 Route::get('/job/search','JobController@all')->name('job.all');
 Route::post('/job/search','JobController@getAllData')->name('job.getAllData');
 
-
 Route::post('/job/getServiceModal','JobController@getServiceModal')->name('job.getServiceModal');
 
 //END JOB
+
+//Comments For Jobs
+Route::post('comments/get','CommentsController@getComments')->name('comments.get');
+Route::post('comments/send','CommentsController@sendComments')->name('comments.send');
+
+
+
 
 //Feedback
 Route::get('/feedback','JobController@feedback')->name('job.feedback');

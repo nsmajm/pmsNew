@@ -12,6 +12,33 @@
 
 @section('content')
 
+    <!--  Comment  Modal -->
+    <div style="text-align: center;" class="modal" id="editCommentModal" >
+        <div class="modal-dialog">
+            <div class="modal-content" style="width: 600px;">
+                <!-- Modal Header -->
+                <div class="modal-header">
+                    <h4 class="modal-title">Job Comment</h4>
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                </div>
+                <!-- Modal body -->
+                <div class="modal-body" id="">
+                    <div id="editCommentModalBody"></div>
+
+
+                </div>
+                <!-- Modal footer -->
+                <div class="modal-footer">
+
+                    <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <!-- End Comment Modal -->
+
 
     <!-- end page title end breadcrumb -->
 
@@ -149,7 +176,8 @@
                     { data: 'amount', name: 'amount'},
                     { "data": function(data){
                         {{--var url='{{url("product/edit/", ":id") }}';--}}
-                            return '<a class="btn btn-default btn-sm" data-panel-id="'+data.jobId+'" onclick="editjob(this)"><i class="fa fa-edit"></i></a>'
+                            return '<a class="btn btn-default btn-sm" data-panel-id="'+data.jobId+'" onclick="editjob(this)"><i class="fa fa-edit"></i></a>'+
+                            '<a class="btn btn-default btn-sm" data-panel-id="'+data.jobId+'" onclick="commentjob(this)"><i class="fa fa-comments"></i></a>'
                             ;},
                         "orderable": false, "searchable":false, "name":"selected_rows" },
 
@@ -157,6 +185,45 @@
             } );
 
         } );
+
+
+
+        function commentjob(x) {
+            jobId = $(x).data('panel-id');
+//            alert(jobId);
+            showCommentModal(jobId);
+
+            {{--$.ajax({--}}
+                {{--type: 'POST',--}}
+                {{--url: "{!! route('comments.get') !!}",--}}
+                {{--cache: false,--}}
+                {{--data: {_token: "{{csrf_token()}}",'jobId': jobId},--}}
+                {{--success: function (data) {--}}
+                    {{--$("#editCommentModalBody").html(data);--}}
+                    {{--$("#editCommentModal").modal();--}}
+                    {{--console.log(data);--}}
+                {{--}--}}
+
+            {{--});--}}
+
+        }
+
+        function showCommentModal(jobId) {
+            $.ajax({
+                type: 'POST',
+                url: "{!! route('comments.get') !!}",
+                cache: false,
+                data: {_token: "{{csrf_token()}}",'jobId': jobId},
+                success: function (data) {
+                    $("#editCommentModalBody").html(data);
+                    $("#editCommentModal").modal();
+//                    console.log(data);
+                }
+
+            });
+
+        }
+
 
         function editjob(x) {
             btn = $(x).data('panel-id');
