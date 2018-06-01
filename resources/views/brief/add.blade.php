@@ -63,6 +63,10 @@
         }
         .switch_text{}
 
+        .table th, .table td {
+            border-top: none !important;
+        }
+
     </style>
 
 
@@ -74,132 +78,174 @@
 
             <h4 align="center">New Brief</h4>
             <br>
+            <form method="post" action="{{route('brief.insert')}}">
+                @csrf
 
             <div class="row" >
                 <div class="col-md-6">
                     <div align="">
                         <label class="col-md-4">Client Id</label>
 
-                        <select class="form-control col-md-8" >
-                            <option>Select Client Id</option>
+                        <select class="form-control col-md-8" name="clientId" required>
+                            <option selected value="">Select Client Id</option>
+                            @foreach($clients as $client)
+                                <option value="{{$client->clientId}}">{{$client->clientName}}</option>
+                            @endforeach
                         </select>
 
-
-                    </div>
-
-                    <div class="form-group ">
-                        <label class="switch_text">Clipping</label>
-
-                        <!-- Rounded switch -->
-                        <label class="switch">
-                            <input type="checkbox" name="clipping">
-                            <span class="slider round"></span>
-                        </label>
-
                     </div>
 
 
-                    <div class="form-group">
-                        <label class="switch_text">Masking</label>
+                    {{--Switch Starts--}}
+                    <table class="table">
+                        <tr>
+                            <td>
+                                <div class="form-group ">
+                                    <label class="switch_text">Clipping</label>
 
-                        <!-- Rounded switch -->
-                        <label class="switch">
-                            <input type="checkbox" name="clipping">
-                            <span class="slider round"></span>
-                        </label>
+                                    <!-- Rounded switch -->
+                                    <label class="switch">
+                                        <input type="checkbox" name="clipping" >
+                                        <span class="slider round"></span>
+                                    </label>
 
-                    </div>
+                                </div>
+                            </td>
+
+                            <td>  <div class="form-group">
+                                    <label class="switch_text">Masking</label>
+
+                                    <!-- Rounded switch -->
+                                    <label class="switch">
+                                        <input type="checkbox" name="masking">
+                                        <span class="slider round"></span>
+                                    </label>
+
+                                </div></td>
+
+                        </tr>
+
+                        <tr>
+                            <td>
+                                <div class="form-group">
+                                    <label class="switch_text">Clean Up</label>
+
+                                    <!-- Rounded switch -->
+                                    <label class="switch">
+                                        <input type="checkbox" name="cleanUp">
+                                        <span class="slider round"></span>
+                                    </label>
+
+                                </div>
+                            </td>
+                            <td>
+                                <div class="form-group">
+                                    <label class="switch_text">Shaping</label>
+
+                                    <!-- Rounded switch -->
+                                    <label class="switch">
+                                        <input type="checkbox" name="shaping">
+                                        <span class="slider round"></span>
+                                    </label>
+
+                                </div>
+                            </td>
+                        </tr>
 
 
-                    <div class="form-group">
-                        <label class="switch_text">Clean Up</label>
+                        <tr>
+                            <td>
+                                <div class="form-group">
+                                    <label class="switch_text">Neck Label Size</label>
 
-                        <!-- Rounded switch -->
-                        <label class="switch">
-                            <input type="checkbox" name="clipping">
-                            <span class="slider round"></span>
-                        </label>
+                                    <!-- Rounded switch -->
+                                    <label class="switch">
+                                        <input type="checkbox" name="neckLabelSize">
+                                        <span class="slider round"></span>
+                                    </label>
 
-                    </div>
+                                </div>
+                            </td>
+                            <td>
+                                <div class="form-group">
+                                    <label class="switch_text">Symmetrical</label>
+                                    <!-- Rounded switch -->
+                                    <label class="switch">
+                                        <input type="checkbox" name="symmetrical">
+                                        <span class="slider round"></span>
+                                    </label>
 
-                    <div class="form-group">
-                        <label class="switch_text">Shaping</label>
+                                </div>
+                            </td>
 
-                        <!-- Rounded switch -->
-                        <label class="switch">
-                            <input type="checkbox" name="clipping">
-                            <span class="slider round"></span>
-                        </label>
-
-                    </div>
+                        </tr>
 
 
-                    <div class="form-group">
-                        <label class="switch_text">Neck Label Size</label>
+                        <tr>
+                            <td>
+                                <div class="form-group">
+                                    <label class="switch_text">Multipath</label>
+                                    <!-- Rounded switch -->
+                                    <label class="switch">
+                                        <input type="checkbox" name="multipath">
+                                        <span class="slider round"></span>
+                                    </label>
 
-                        <!-- Rounded switch -->
-                        <label class="switch">
-                            <input type="checkbox" name="clipping">
-                            <span class="slider round"></span>
-                        </label>
+                                </div>
+                            </td>
+                            <td>
+                                <div class="form-group">
+                                    <label class="switch_text">Shadow</label>
+                                    <!-- Rounded switch -->
+                                    <label class="switch">
+                                        <input type="checkbox" name="shadow">
+                                        <span class="slider round"></span>
+                                    </label>
+                                </div>
+                            </td>
 
-                    </div>
+                        </tr>
 
-                    <div class="form-group">
-                        <label class="switch_text">Symmetrical</label>
-                        <!-- Rounded switch -->
-                        <label class="switch">
-                            <input type="checkbox" name="clipping">
-                            <span class="slider round"></span>
-                        </label>
+                        <tr>
+                            <td>
+                                <div class="form-group">
+                                    <label class="switch_text">Liquify</label>
+                                    <!-- Rounded switch -->
+                                    <label class="switch">
+                                        <input type="checkbox" name="liquify">
+                                        <span class="slider round"></span>
+                                    </label>
+                                </div>
+                            </td>
+                            <td>
+                                <div class="form-group">
+                                    <label class="switch_text">Templates</label>
+                                    <!-- Rounded switch -->
+                                    <label class="switch">
+                                        <input type="checkbox" name="templates">
+                                        <span class="slider round"></span>
+                                    </label>
+                                </div>
+                            </td>
 
-                    </div>
+                        </tr>
 
-                    <div class="form-group">
-                        <label class="switch_text">Multipath</label>
-                        <!-- Rounded switch -->
-                        <label class="switch">
-                            <input type="checkbox" name="clipping">
-                            <span class="slider round"></span>
-                        </label>
 
-                    </div>
+                        <tr>
+                            <td><div class="form-group">
+                                    <label class="switch_text">Wrinkle Remove </label>
+                                    <!-- Rounded switch -->
+                                    <label class="switch">
+                                        <input type="checkbox" name="wrinkleRemove">
+                                        <span class="slider round"></span>
+                                    </label>
+                                </div></td>
+                            <td></td>
 
-                    <div class="form-group">
-                        <label class="switch_text">Shadow</label>
-                        <!-- Rounded switch -->
-                        <label class="switch">
-                            <input type="checkbox" name="clipping">
-                            <span class="slider round"></span>
-                        </label>
-                    </div>
-                    <div class="form-group">
-                        <label class="switch_text">Liquify</label>
-                        <!-- Rounded switch -->
-                        <label class="switch">
-                            <input type="checkbox" name="clipping">
-                            <span class="slider round"></span>
-                        </label>
-                    </div>
+                        </tr>
 
-                    <div class="form-group">
-                        <label class="switch_text">Templates</label>
-                        <!-- Rounded switch -->
-                        <label class="switch">
-                            <input type="checkbox" name="clipping">
-                            <span class="slider round"></span>
-                        </label>
-                    </div>
 
-                    <div class="form-group">
-                        <label class="switch_text">Wrinkle Remove </label>
-                        <!-- Rounded switch -->
-                        <label class="switch">
-                            <input type="checkbox" name="clipping">
-                            <span class="slider round"></span>
-                        </label>
-                    </div>
-
+                    </table>
 
 
 
@@ -209,29 +255,29 @@
                     <div align="center">
                         <div class="form-group">
                             <label class="col-md-4">Folder Name</label>
-                            <input type="text" class="form-control col-md-8">
+                            <input type="text" class="form-control col-md-8" name="folderName">
                         </div>
 
                         <div class="form-group">
                             <label class="col-md-4">Resize</label>
-                            <input type="text" class="form-control col-md-8">
+                            <input type="text" class="form-control col-md-8" name="resize">
                         </div>
 
                         <div class="form-group">
                             <label class="col-md-4">Rename</label>
-                            <input type="text" class="form-control col-md-8">
+                            <input type="text" class="form-control col-md-8" name="rename">
                         </div>
 
                         <div class="form-group">
                             <label class="col-md-4">Reference Location</label>
-                            <input type="text" class="form-control col-md-8">
+                            <input type="text" class="form-control col-md-8" name="referenceLocation">
                         </div>
 
 
                         <div class="form-group">
                             <label class="col-md-4">Special Instruction</label>
 
-                            <textarea class="form-control col-md-8">
+                            <textarea class="form-control col-md-8" name="specialInstruction">
 
                             </textarea>
                         </div>
@@ -239,23 +285,11 @@
 
                     </div>
                 </div>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
             </div>
 
+                <button type="submit" class="btn btn-success">Insert</button>
 
+            </form>
 
 
 

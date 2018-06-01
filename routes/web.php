@@ -88,6 +88,9 @@ Route::get('/feedback','JobController@feedback')->name('job.feedback');
 Route::get('/brief/check','BriefController@check')->name('brief.check');
 Route::get('/brief/','BriefController@index')->name('brief.index');
 Route::get('/brief/add','BriefController@add')->name('brief.add');
+Route::post('/brief/insert','BriefController@insert')->name('brief.insert');
+Route::post('/brief/showBrief','BriefController@showBrief')->name('brief.showBrief');
+Route::get('/brief/edit/{id}','BriefController@edit')->name('brief.edit');
 
 //Leave
 Route::get('/leave','LeaveController@index')->name('leave.index');
