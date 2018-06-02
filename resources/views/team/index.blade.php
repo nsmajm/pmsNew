@@ -63,7 +63,7 @@
                     @endforeach
                 </select>
 
-                <button class="col-md-2 btn btn-info btn-sm ml-2"  data-toggle="modal" data-target="#myModal">Create Team</button>
+                <a href="#" class="col-md-2 btn btn-info btn-sm ml-2"  data-toggle="modal" data-target="#myModal">Create Team</a>
 
 
             </div>
@@ -95,16 +95,16 @@
                     </tbody>
 
                 </table>
-                <button type="submit" class="btn btn-info">Assign</button>
-                <button  class="btn btn-info" name="reset" onclick="submitUserAssign()">Reset</button>
-
-
-
 
 
         </div>
+
+        <div class="card-footer">
+            <button type="submit" class="btn btn-info">Assign</button>
+            <button  class="btn btn-info" name="reset" onclick="submitUserAssign()">Reset</button>
+
+        </div>
         </form>
-        <div class="card-footer">Footer</div>
     </div>
 
 
