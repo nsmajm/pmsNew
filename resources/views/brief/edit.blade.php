@@ -247,31 +247,60 @@
                         <div align="center">
                             <div class="form-group">
                                 <label class="col-md-4">Folder Name</label>
-                                <input type="text" class="form-control col-md-8" name="folderName" value="{{$briefItems->folderName}}">
+                                <input type="text" class="form-control col-md-8" name="folderName" value="{{$briefItems->folderName}}" required>
+                                @if ($errors->has('folderName'))
+                                    <span class="alert-feedback">
+                                        <strong>{{ $errors->first('folderName') }}</strong>
+                                    </span>
+                                @endif
                             </div>
 
                             <div class="form-group">
                                 <label class="col-md-4">Resize</label>
                                 <input type="text" class="form-control col-md-8" name="resize" value="{{$briefItems->resize}}">
+                                @if ($errors->has('resize'))
+                                    <span class="alert-feedback">
+                                        <strong>{{ $errors->first('resize') }}</strong>
+                                    </span>
+                                @endif
                             </div>
 
                             <div class="form-group">
                                 <label class="col-md-4">Rename</label>
                                 <input type="text" class="form-control col-md-8" name="rename" value="{{$briefItems->rename}}">
+                                @if ($errors->has('rename'))
+                                    <span class="alert-feedback">
+                                        <strong>{{ $errors->first('rename') }}</strong>
+                                    </span>
+                                @endif
                             </div>
 
                             <div class="form-group">
                                 <label class="col-md-4">Reference Location</label>
                                 <input type="text" class="form-control col-md-8" name="referenceLocation" value="{{$briefItems->referenceLocation}}">
+                                @if ($errors->has('referenceLocation'))
+                                    <span class="alert-feedback">
+                                        <strong>{{ $errors->first('referenceLocation') }}</strong>
+                                    </span>
+                                @endif
                             </div>
 
 
                             <div class="form-group">
                                 <label class="col-md-4">Special Instruction</label>
+                                <textarea class="form-control col-md-8" name="specialInstruction" ></textarea>
+                                @if ($errors->has('specialInstruction'))
+                                    <span class="alert-feedback">
+                                        <strong>{{ $errors->first('specialInstruction') }}</strong>
+                                    </span>
+                                @endif
+                            </div>
 
-                                <textarea class="form-control col-md-8" name="specialInstruction">
 
-                            </textarea>
+                            <div class="form-group">
+                                <label class="col-md-4">Previous Special Instruction</label>
+                                <textarea class="form-control col-md-8" readonly>{{$instruction->specialInstruction}}
+                                -{{$instruction->created_at}}</textarea>
                             </div>
 
 

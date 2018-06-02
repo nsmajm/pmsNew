@@ -22,6 +22,10 @@
                                         <strong>{{ $errors->first('loginId') }}</strong>
                                     </span>
                                 @endif
+
+                                <span class="invalid-feedback">
+                                        <strong>dfsdfsdf</strong>
+                                    </span>
                             </div>
                         </div>
 

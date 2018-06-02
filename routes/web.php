@@ -78,8 +78,6 @@ Route::post('comments/get','CommentsController@getComments')->name('comments.get
 Route::post('comments/send','CommentsController@sendComments')->name('comments.send');
 
 
-
-
 //Feedback
 Route::get('/feedback','JobController@feedback')->name('job.feedback');
 
@@ -98,3 +96,8 @@ Route::get('/leave','LeaveController@index')->name('leave.index');
 //BILL
 Route::get('bill/add','BillController@addRate')->name('bill.addRate');
 Route::get('bill/summery','BillController@summery')->name('bill.summery');
+
+//Team
+Route::get('/team','TeamController@index')->name('team.index');
+Route::post('/team/insert','TeamController@insert')->name('team.insert');
+Route::post('/team/assign','TeamController@assign')->name('team.assign');

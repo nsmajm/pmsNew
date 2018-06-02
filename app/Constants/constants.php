@@ -18,3 +18,16 @@ define('BRIEF_TYPE',array(
     "usual"
 ));
 
+define('USER_TYPE',array(
+    "admin",
+    "supervisor",
+    "productionManager",
+    "processingManager",
+    "qcManager",
+    "support",
+    "hr",
+    "account",
+    "user",
+    "client",
+));
+

@@ -40,8 +40,13 @@ class BriefController extends Controller
             ->where('brief_itemId',$id)
             ->leftJoin('client','client.clientId','brief_item.clientId')->first();
 
+        $instruction=BriefInstructions::where('brief_itemId',$id)
+            ->orderBy('brief_instructionsId','desc')->first();
+
+
         return view('brief.edit')
-            ->with('briefItems',$briefItems);
+            ->with('briefItems',$briefItems)
+            ->with('instruction',$instruction);
     }
 
 
@@ -52,6 +57,9 @@ class BriefController extends Controller
     }
 
     public function insert(Request $r){
+        $this->validate($r,[
+            'folderName'=>'required|max:45',
+        ]);
 
         if($r->brief_itemId){
             $briefItem=BriefItem::findOrFAil($r->brief_itemId);
@@ -61,7 +69,6 @@ class BriefController extends Controller
             $briefItem=new BriefItem();
             Session::flash('message', 'Brief Added Successfully!');
         }
-
 
         $briefItem->clientId=$r->clientId;
 
@@ -146,11 +153,13 @@ class BriefController extends Controller
         $briefItem->folderName=$r->folderName;
         $briefItem->save();
 
-        $briefInsTruction=new BriefInstructions();
-        $briefInsTruction->brief_itemId=$briefItem->brief_itemId;
-        $briefInsTruction->specialInstruction=$r->specialInstruction;
+        if($r->specialInstruction){
+            $briefInsTruction=new BriefInstructions();
+            $briefInsTruction->brief_itemId=$briefItem->brief_itemId;
+            $briefInsTruction->specialInstruction=$r->specialInstruction;
+            $briefInsTruction->save();
+        }
 
-//        $briefInsTruction->save();
 
 
 

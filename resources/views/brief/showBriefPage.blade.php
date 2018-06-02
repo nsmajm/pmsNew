@@ -5,7 +5,7 @@
 
     <div class="col-md-6">
 
-     <b>Folder/Project Name :</b> {{$item->folderName}} <a class="btn btn-info btn-sm" href="{{route('brief.edit',['id' =>$item->brief_itemId])}}"><i class="fa fa-edit"></i></a>
+     <b>Folder/Project Name :</b> {{$item->folderName}} <a class="btn btn-info btn-sm pull-right" href="{{route('brief.edit',['id' =>$item->brief_itemId])}}"><i class="fa fa-edit"></i></a>
         <br>
 
     <table class="table border">

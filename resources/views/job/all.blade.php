@@ -220,6 +220,7 @@
                     $("#editCommentModalBody").html(data);
                     $("#editCommentModal").modal();
 //                    console.log(data);
+                    $("#myScrolldiv").scrollTop($("#myScrolldiv")[0].scrollHeight);
                 }
 
             });

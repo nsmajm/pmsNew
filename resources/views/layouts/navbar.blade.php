@@ -76,6 +76,7 @@
                     <ul class="submenu">
                         <li><a href="{{route('leave.index')}}">Leave</a></li>
                         <li><a href="advanced-nestable.html">Time Calculator</a></li>
+                        <li><a href="{{route('team.index')}}">Team</a></li>
                         <li class="has-submenu">
                             <a href="#">Client</a>
                             <ul class="submenu">

@@ -201,6 +201,8 @@
                     { data: 'folderName', name: 'folderName' },
                     { data: 'quantity', name: 'quantity'},
                     { data: 'briefType', name: 'briefType'},
+
+                    @if(Auth::user()->userType==USER_TYPE[2]) //For Production Manager
                     { "data": function(data){
                         return '<select class="form-control"  onchange="productionChange(this)" data-panel-id="'+data.jobstateId+'" data-job-id="'+data.jobId+'">' +
                             '<option value="">'+data.statusName+'</option>'+
@@ -208,7 +210,10 @@
                             '<option value="qc">Pass To QC</option>'+
                             '</select>';},
                         "orderable": false, "searchable":false, "name":"selected_rows" },
-
+                    @else
+                    { data: 'statusName', name: 'statusName'},
+                    @endif
+                    @if(Auth::user()->userType==USER_TYPE[0]) //For Admin
                     { "data": function(data){
                         {{--var url='{{url("product/edit/", ":id") }}';--}}
                         return '<a class="btn btn-default btn-sm" data-panel-id="'+data.jobId+'" onclick="editjob(this)"><i class="fa fa-edit"></i></a>'+
@@ -216,6 +221,17 @@
                             '<a class="btn btn-default btn-sm" data-panel-id="'+data.jobId+'" onclick="lessPriority(this)"><i class="fa fa-arrow-circle-down"></i></a>'
                             ;},
                         "orderable": false, "searchable":false, "name":"selected_rows" },
+
+                    @else
+                    { "data": function(data){
+                        {{--var url='{{url("product/edit/", ":id") }}';--}}
+                            return '<a class="btn btn-default btn-sm" data-panel-id="'+data.jobId+'" onclick="editjob(this)"><i class="fa fa-edit"></i></a>'+
+                            '<a class="btn btn-default btn-sm" data-panel-id="'+data.jobId+'" onclick="assignjob(this)"><i class="fa fa-exchange"></i></a>'
+
+                            ;},
+                        "orderable": false, "searchable":false, "name":"selected_rows" },
+
+                    @endif
 
 
                 ]
@@ -268,18 +284,30 @@
                     { data: 'folderName', name: 'folderName' },
                     { data: 'quantity', name: 'quantity'},
                     { data: 'briefType', name: 'briefType'},
+                    @if(Auth::user()->userType==USER_TYPE[3]) //For Processing Manager
                     { "data": function(data){
                         return '<select class="form-control" onchange="processingChange(this)" data-panel-id="'+data.jobstateId+'" data-job-id="'+data.jobId+'">' +
                             '<option value="">'+data.statusName+'</option>'+
                             '<option value="qc">Pass To QC</option>'+
                             '</select>';},
                         "orderable": false, "searchable":false, "name":"selected_rows" },
+                    @else
+                    { data: 'statusName', name: 'statusName'},
+                    @endif
+                    @if(Auth::user()->userType==USER_TYPE[0]) //For Admin
                     { "data": function(data){
                         {{--var url='{{url("product/edit/", ":id") }}';--}}
                             return '<a class="btn btn-default btn-sm" data-panel-id="'+data.jobId+'" onclick="editjob(this)"><i class="fa fa-edit"></i></a>'+
                             '<a class="btn btn-default btn-sm" data-panel-id="'+data.jobId+'" onclick="lessPriority(this)"><i class="fa fa-arrow-circle-down"></i></a>'
                             ;},
                         "orderable": false, "searchable":false, "name":"selected_rows" },
+                    @else
+                    { "data": function(data){
+                            return '<a class="btn btn-default btn-sm" data-panel-id="'+data.jobId+'" onclick="editjob(this)"><i class="fa fa-edit"></i></a>'
+                            ;},
+                        "orderable": false, "searchable":false, "name":"selected_rows" },
+
+                    @endif
 
 
                 ]
@@ -338,12 +366,23 @@
                             '<option value="done">Done</option>'+
                             '</select>';},
                         "orderable": false, "searchable":false, "name":"selected_rows" },
+
+                    @if(Auth::user()->userType==USER_TYPE[0]) //For Admin
                     { "data": function(data){
                         {{--var url='{{url("product/edit/", ":id") }}';--}}
                             return '<a class="btn btn-default btn-sm" data-panel-id="'+data.jobId+'" onclick="editjob(this)"><i class="fa fa-edit"></i></a>'+
                             '<a class="btn btn-default btn-sm" data-panel-id="'+data.jobId+'" onclick="lessPriority(this)"><i class="fa fa-arrow-circle-down"></i></a>'
                             ;},
                         "orderable": false, "searchable":false, "name":"selected_rows" },
+
+                    @else
+                    { "data": function(data){
+                        {{--var url='{{url("product/edit/", ":id") }}';--}}
+                            return '<a class="btn btn-default btn-sm" data-panel-id="'+data.jobId+'" onclick="editjob(this)"><i class="fa fa-edit"></i></a>'
+                            ;},
+                        "orderable": false, "searchable":false, "name":"selected_rows" },
+
+                    @endif
 
                 ]
             } );
