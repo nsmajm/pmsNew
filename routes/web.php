@@ -58,13 +58,12 @@ Route::post('/job/StateChange','JobController@jobStateChange')->name('job.StateC
 //Assign Job
 
 Route::get('/job/assign/{id}','JobController@assignJob')->name('job.assign');
-Route::post('/job/getTeamMembers','JobController@getTeamMembers')->name('job.getTeamMembers');
+
+Route::post('/job/getTeamMembers','JobAssignController@getTeamMembers')->name('job.getTeamMembers');
+Route::post('/job/assignJobUser','JobAssignController@assignJobUser')->name('job.assignJobUser');
 
 Route::get('/job/search','JobController@all')->name('job.all');//Get All Job
 Route::post('/job/search','JobController@getAllData')->name('job.getAllData');
-
-
-
 
 Route::post('/job/getServiceModal','JobController@getServiceModal')->name('job.getServiceModal');
 
@@ -91,7 +90,9 @@ Route::post('/brief/showBrief','BriefController@showBrief')->name('brief.showBri
 Route::get('/brief/edit/{id}','BriefController@edit')->name('brief.edit');
 
 //Leave
-Route::get('/leave','LeaveController@index')->name('leave.index');
+Route::get('/leave/show','LeaveController@show')->name('leave.show');
+Route::get('/leave/apply','LeaveController@apply')->name('leave.apply');
+Route::post('/leave/apply','LeaveController@submit')->name('leave.submit');
 
 //BILL
 Route::get('bill/add','BillController@addRate')->name('bill.addRate');

@@ -7,8 +7,15 @@ use App\Http\Controllers\Controller;
 
 class LeaveController extends Controller
 {
-    public function index(){
-
+    public function show(){
         return view('leave.index');
+    }
+
+    public function apply(){
+        return view('leave.apply');
+    }
+    public function submit(Request $r){
+
+        return $r;
     }
 }

@@ -75,12 +75,10 @@
                 <table id="datatable" class="table table-bordered">
                     <thead>
                     <tr>
-
                         <th width="5%"><input type="checkbox" class="SelectAll" id="selectall2"></th>
                         <th>Name</th>
                         <th>Type</th>
                         <th>Team</th>
-
                     </tr>
                     </thead>
                     <tbody>

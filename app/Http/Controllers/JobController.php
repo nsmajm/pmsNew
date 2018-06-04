@@ -332,15 +332,14 @@ class JobController extends Controller
 
     public function assignJob($id){
         $job=Job::where('job.jobId',$id)
-            ->leftJoin('brief','brief.jobId','job.jobId')
-            ->orderBy('briefId','desc')
+            ->leftJoin('file','file.jobId','job.jobId')
             ->first();
 
         $teams=Team::get();
 
         $jobAssignQuantity=Jobassign::where('jobId',$id)->sum('quantity');
 
-//        return $jobAssign;
+//        return $jobAssignQuantity;
 
         return view('job.assignJob')
             ->with('teams',$teams)
@@ -349,14 +348,6 @@ class JobController extends Controller
     }
 
 
-    public function getTeamMembers(Request $r){
-
-        $users=User::where('teamId',$r->teamId)->get();
-
-        return view('job.getTeamMember')->with('users',$users);
-
-//        return $user;
-    }
 
     public function lessPriority(Request $r){
         $job=Job::findOrFail($r->jobId);

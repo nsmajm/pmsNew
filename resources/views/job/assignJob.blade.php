@@ -18,13 +18,9 @@
 
                 <b class="col-md-3">Folder Name : {{$job->folderName}}</b>
                 <b class="col-md-2">Total Quantity : {{$job->quantity}}</b>
-                <b class="col-md-2">Quantity Left: {{$job->quantity-$jobAssignQuantity}}</b>
-
+                <b class="col-md-2" >Quantity Left: <span id="quantityLeft">{{$job->quantity-$jobAssignQuantity}}</span></b>
 
             </div>
-
-
-
         </div>
         <div class="card-body">
 
@@ -35,7 +31,7 @@
         </div>
 
         <div class="card-footer">
-            <button class="btn btn-success btn-block">Submit</button>
+            <button class="btn btn-success btn-block" id="submitButton" onclick="submitForm(this)">Submit</button>
         </div>
     </div>
 
@@ -51,8 +47,42 @@
 
 @section('foot-js')
 <script>
+    function submitForm() {
+        var arr = $('input[name="pname[]"]').map(function () {
+            return this.value; // $(this).val()
+        }).get();
+        var btn = $('input[name="pname[]"]').map(function () {
+            return $(this).data('panel-id');
+        }).get();
+        var quantity=[];
+        var user=[];
+
+        for(i=0;i<arr.length;i++){
+            if(arr[i]!=""){
+                quantity.push(arr[i]);
+                user.push(btn[i])
+            }
+        }
+
+        var jobId={{$job->jobId}};
+
+      /*  console.log(user);
+        console.log(quantity);*/
+
+        $.ajax({
+            type: 'POST',
+            url: "{!! route('job.assignJobUser') !!}",
+            cache: false,
+            data: {_token:"{{csrf_token()}}",'jobId':jobId,'user': user,'quantity':quantity},
+            success: function (data) {
+                    console.log(data);
+
+            }
+        });
+
+    }
     function getTeam(x) {
-//        alert(x.value);
+
         var teamId=x.value;
 
         if(teamId !=''){
@@ -62,7 +92,6 @@
                 cache: false,
                 data: {_token:"{{csrf_token()}}",'teamId': teamId},
                 success: function (data) {
-//                    console.log(data);
                     $('.team-content').html(data);
 
 
@@ -89,11 +118,15 @@
                 temp+=parseInt(arr[i]);
             }
         }
-        console.log(temp);
+//        console.log(temp);
         if(temp>qLeft){
             alert('limit exceed')
+            $("#submitButton").prop("disabled", true);
         }
-
+        else {
+            $("#submitButton").prop("disabled", false);
+        }
+        $('#quantityLeft').html(qLeft-temp);
 
 
 
