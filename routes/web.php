@@ -105,3 +105,5 @@ Route::get('bill/summery','BillController@summery')->name('bill.summery');
 Route::get('/team','TeamController@index')->name('team.index');
 Route::post('/team/insert','TeamController@insert')->name('team.insert');
 Route::post('/team/assign','TeamController@assign')->name('team.assign');
+Route::post('/team','TeamController@getTeamData')->name('team.getTeamData');
+Route::post('/changeLeaderState','TeamController@changeLeaderState')->name('team.changeLeaderState');

@@ -53,20 +53,22 @@
         <form method="post" action="{{route('team.assign')}}" id="teamAssignForm">
             @csrf
         <div class="card-header">
-
             <div class="row">
-                <label class="col-md-1">Select Team</label>
-                <select class="form-control col-md-6" name="teamId" required>
+                <label class="col-md-2">Filter Team</label>
+                <select class="form-control col-md-4" id="filterTeam" >
                     <option value="">Select Team</option>
                     @foreach($teams as $team)
                         <option value="{{$team->teamId}}">{{$team->teamName}}</option>
                     @endforeach
                 </select>
-
-                <a href="#" class="col-md-2 btn btn-info btn-sm ml-2"  data-toggle="modal" data-target="#myModal">Create Team</a>
+                <div class="col-md-3"></div>
+                <div align="right">
+                    <a href="#" class="btn btn-info btn-sm" data-toggle="modal" data-target="#myModal">Create Team</a>
+                </div>
 
 
             </div>
+
 
         </div>
 
@@ -79,17 +81,11 @@
                         <th>Name</th>
                         <th>Type</th>
                         <th>Team</th>
+                        <th>Leader</th>
                     </tr>
                     </thead>
                     <tbody>
-                    @foreach($users as $user)
-                    <tr>
-                    <td><input type="checkbox" value="{{$user->userId}}" name="userId[]"></td>
-                    <td>{{$user->name}}</td>
-                    <td>{{$user->userType}}</td>
-                    <td>{{$user->teamName}}</td>
-                    </tr>
-                    @endforeach
+
                     </tbody>
 
                 </table>
@@ -98,8 +94,22 @@
         </div>
 
         <div class="card-footer">
-            <button type="submit" class="btn btn-info">Assign</button>
-            <button  class="btn btn-info" name="reset" onclick="submitUserAssign()">Reset</button>
+            <div class="row">
+                <label class="col-md-2">Select Team</label>
+                <select class="form-control col-md-4" name="teamId" required>
+                    <option value="">Select Team</option>
+                    @foreach($teams as $team)
+                        <option value="{{$team->teamId}}">{{$team->teamName}}</option>
+                    @endforeach
+                </select>
+                <div class="col-md-3"></div>
+
+                <button type="submit" class="btn btn-info col-md-1">Assign</button>
+                {{--<div class="col-md-1"></div>--}}&nbsp;
+                <button  class="btn btn-info col-md-1" name="reset" onclick="submitUserAssign()">Reset</button>
+
+            </div>
+
 
         </div>
         </form>
@@ -121,9 +131,66 @@
     <script src="{{url('public/assets/plugins/datatables/dataTables.buttons.min.js')}}"></script>
     <script>
         $(document).ready( function () {
-            $('#datatable').DataTable();
+            teamTable= $('#datatable').DataTable({
+                responsive: true,
+                processing: true,
+                serverSide: true,
+                Filter: true,
+                stateSave: true,
+                type:"POST",
+                "ajax":{
+                    "url": "{!! route('team.getTeamData') !!}",
+                    "type": "POST",
+                    data:function (d){
+                        d._token="{{csrf_token()}}";
+                        d.teamId=$('#filterTeam').val();
+
+
+                    },
+                },
+
+                columns: [
+                    { "data": function(data){
+                        return '<input type="checkbox" value="'+data.userId+'" name="userId[]">'
+                            ;},
+                        "orderable": false, "searchable":false, "name":"selected_rows" },
+                    { data: 'name', name: 'name' },
+                    { data: 'userType', name: 'userType' },
+                    { data: 'teamName', name: 'teamName' },
+
+                    { "data": function(data){
+                    if(data.teamId!=null) {
+                        if (data.teamLeader == 0) {
+                            return "<button class='btn btn-info btn-sm' data-panel-id='"+data.userId+"' onclick='changeLeader(this)'><i class='fa fa-check'></i></button>";
+                        }
+                        else if (data.teamLeader == 1) {
+                            return "<button class='btn btn-danger btn-sm' data-panel-id='"+data.userId+"' onclick='changeLeader(this)'><i class='fa fa-times'></i></button>";
+                        }
+                    }
+
+                    else {
+                        return "assign team first";
+                    }
+                        },
+                        "orderable": false, "searchable":false, "name":"selected_rows" },
+
+
+
+                ]
+            } );
+
+
+
 
         } );
+
+        $('#filterTeam').change(function (){
+            teamTable.ajax.reload();
+        });
+
+
+
+
 
        function submitUserAssign() {
 
@@ -132,6 +199,10 @@
 
 
        }
+
+//        function filterTeam() {
+//            $('#datatable').DataTable.ajax.reload();
+//        }
 
 
         $("#selectall2").click(function () {
@@ -153,6 +224,28 @@
                 $(':checkbox:checked').prop('checked',false);
             }
         });
+
+       function changeLeader(x) {
+           userId=$(x).data('panel-id');
+
+           if (confirm('Are you sure you want to change leader state?')) {
+               $.ajax({
+                   type: 'POST',
+                   url: "{!! route('team.changeLeaderState') !!}",
+                   cache: false,
+                   data: {_token: "{{csrf_token()}}", 'userId': userId},
+                   success: function (data) {
+//                       console.log(data);
+                       teamTable.ajax.reload();
+
+                   }
+
+               });
+           } else {
+               // Do nothing!
+           }
+
+       }
 
 
     </script>
