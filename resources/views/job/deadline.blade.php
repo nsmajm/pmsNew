@@ -64,7 +64,7 @@
                             <tfoot>
                             <tr>
                                 <th ></th>
-                                <th>TOTAL</th>
+                                <th><b>TOTAL</b></th>
                                 <th ><span id="productionTotal"></span></th>
                                 <th ></th>
                                 <th ></th>
@@ -103,7 +103,7 @@
                             <tfoot>
                             <tr>
                                 <th ></th>
-                                <th>TOTAL</th>
+                                <th><b>TOTAL</b></th>
                                 <th ><span id="processingTotal"></span></th>
                                 <th ></th>
                                 <th ></th>
@@ -141,7 +141,7 @@
                             <tfoot>
                             <tr>
                                 <th ></th>
-                                <th>TOTAL</th>
+                                <th><b>TOTAL</b></th>
                                 <th ><span id="qcTotal"></span></th>
                                 <th ></th>
                                 <th ></th>
