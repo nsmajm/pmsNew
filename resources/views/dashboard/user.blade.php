@@ -7,16 +7,15 @@
     <link href="{{url('assets/plugins/datatables/buttons.bootstrap4.min.css')}}" rel="stylesheet" type="text/css" />
     <link href="{{url('assets/plugins/datatables/responsive.bootstrap4.min.css')}}" rel="stylesheet" type="text/css" />
     <link href="{{url('public/assets/plugins/bootstrap-datepicker/css/bootstrap-datepicker.min.css')}}" rel="stylesheet">
-
-
 @endsection
+
 @section('content')
     <div class="card">
         <div class="card-body">
 
             <div class="form-group col-md-2 ml-2">
                 <label>Date</label>
-                <input type="text" id="date1" class="form-control ">
+                <input type="text" id="date1" class="form-control" value="{{$todaysDate}}"  onchange="dateChange(this)">
 
             </div>
 
@@ -64,8 +63,45 @@
             dataTable=  $('#datatable').DataTable({
                 rowReorder: {
                     selector: 'td:nth-child(0)'
-                }});
+                },
+                responsive: true,
+                processing: true,
+                serverSide: true,
+                Filter: true,
+                stateSave: true,
+                type:"POST",
+                "ajax":{
+                    "url": "{!! route('user.getAssignedJob') !!}",
+                    "type": "POST",
+                    data:function (d){
+                        d._token="{{csrf_token()}}";
+                        d.date=$('#date1').val();
+
+                    },
+                },
+
+                columns: [
+                    { data: 'clientName', name: 'clientName' },
+                    { data: 'folderName', name: 'folderName' },
+                    { data: 'quantity', name: 'quantity' },
+                    { data: 'name', name: 'name' },
+                    { data: 'assignDate', name: 'assignDate' }
+
+                ]
+            } );
+
+
+
+
+
+
         });
+
+
+
+        function dateChange(x) {
+            dataTable.ajax.reload();
+        }
     </script>
 
 

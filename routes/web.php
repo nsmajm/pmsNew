@@ -72,6 +72,9 @@ Route::post('/job/lessPriority','JobController@lessPriority')->name('priority.le
 
 //END JOB
 
+//User
+Route::post('user/getAssignedJob','JobAssignController@getAssignedJob')->name('user.getAssignedJob');
+
 //Comments For Jobs
 Route::post('comments/get','CommentsController@getComments')->name('comments.get');
 Route::post('comments/send','CommentsController@sendComments')->name('comments.send');
