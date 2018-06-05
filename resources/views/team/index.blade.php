@@ -200,24 +200,16 @@
 
        }
 
-//        function filterTeam() {
-//            $('#datatable').DataTable.ajax.reload();
-//        }
 
 
         $("#selectall2").click(function () {
             if($('#selectall2').is(":checked")) {
                 selecteds=[];
-//                $('#selectall1').prop('checked',true);
                 checkboxes = document.getElementsByName('userId[]');
                 for(var i in checkboxes) {
                     checkboxes[i].checked = 'TRUE';
                 }
-                /* look for all checkboes that have a class 'chk' attached to it and check if it was checked */
-//                $(".chk:checked").each(function () {
-//                    selecteds.push($(this).val());
-//                });
-                //  alert(selecteds);
+
             }
             else {
                 selecteds=[];

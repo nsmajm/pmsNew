@@ -21,6 +21,7 @@ class TeamController extends Controller
         $users=User::select('userId','name','userType','team.teamName','teamLeader','user.teamId')
                 ->where('userType','!=',USER_TYPE[0])
                 ->where('userType','!=',USER_TYPE[9])
+                ->where('userType','!=',USER_TYPE[5])
                 ->leftJoin('team','team.teamId','user.teamId');
 
         if($r->teamId){

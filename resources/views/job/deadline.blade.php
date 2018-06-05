@@ -24,10 +24,6 @@
                         <label>Search Date</label>
                         <div class="form-group">
                             <div>
-                                {{--<div class="input-daterange input-group" id="date-range">--}}
-                                    {{--<input type="text" class="form-control" id="date1" name="start" placeholder="Start Date" />--}}
-                                    {{--<input type="text" class="form-control" name="end" id="date2" placeholder="End Date" />--}}
-                                {{--</div>--}}
                                 <input type="text" class="form-control" id="date1" name="start" placeholder="Start Date" value="{{$todaysDate}}" onchange="dateChange(this)"/>
                             </div>
                         </div>
@@ -65,6 +61,16 @@
                             <tbody>
 
                             </tbody>
+                            <tfoot>
+                            <tr>
+                                <th ></th>
+                                <th>TOTAL</th>
+                                <th ><span id="productionTotal"></span></th>
+                                <th ></th>
+                                <th ></th>
+                                <th ></th>
+                            </tr>
+                            </tfoot>
                         </table>
                     </div>
 
@@ -94,6 +100,16 @@
                             <tbody>
 
                             </tbody>
+                            <tfoot>
+                            <tr>
+                                <th ></th>
+                                <th>TOTAL</th>
+                                <th ><span id="processingTotal"></span></th>
+                                <th ></th>
+                                <th ></th>
+                                <th ></th>
+                            </tr>
+                            </tfoot>
                         </table>
                     </div>
 
@@ -122,6 +138,16 @@
                             <tbody>
 
                             </tbody>
+                            <tfoot>
+                            <tr>
+                                <th ></th>
+                                <th>TOTAL</th>
+                                <th ><span id="qcTotal"></span></th>
+                                <th ></th>
+                                <th ></th>
+                                <th ></th>
+                            </tr>
+                            </tfoot>
                         </table>
                     </div>
 
@@ -153,7 +179,11 @@
     {{--https://cdn.datatables.net/rowreorder/1.2.3/js/dataTables.rowReorder.min.js--}}
     {{--https://cdn.datatables.net/responsive/2.2.1/js/dataTables.responsive.min.js--}}
     <script>
+
         $(document).ready( function () {
+            var productionTotal=0;
+            var processingTotal=0;
+            var qcTotal=0;
             productionTable=  $('#datatable').DataTable({
                 rowReorder: {
                     selector: 'td:nth-child(2)'
@@ -183,9 +213,11 @@
                         $('td', row).css('background-color', 'rgba(136, 245, 11, 0.42)');
 
                     }
-
+                    productionTotal+=parseInt(data['quantity']);
+                    $('#productionTotal').html(productionTotal);
 
                 },
+
                 type:"POST",
                 "ajax":{
                     "url": "{!! route('job.getProductionData') !!}",
@@ -215,7 +247,7 @@
                     @endif
                     @if(Auth::user()->userType==USER_TYPE[0]) //For Admin
                     { "data": function(data){
-                        {{--var url='{{url("product/edit/", ":id") }}';--}}
+
                         return '<a class="btn btn-default btn-sm" data-panel-id="'+data.jobId+'" onclick="editjob(this)"><i class="fa fa-edit"></i></a>'+
                             '<a class="btn btn-default btn-sm" data-panel-id="'+data.jobId+'" onclick="assignjob(this)"><i class="fa fa-exchange"></i></a>'+
                             '<a class="btn btn-default btn-sm" data-panel-id="'+data.jobId+'" onclick="lessPriority(this)"><i class="fa fa-arrow-circle-down"></i></a>'
@@ -224,7 +256,8 @@
 
                     @else
                     { "data": function(data){
-                        {{--var url='{{url("product/edit/", ":id") }}';--}}
+
+
                             return '<a class="btn btn-default btn-sm" data-panel-id="'+data.jobId+'" onclick="editjob(this)"><i class="fa fa-edit"></i></a>'+
                             '<a class="btn btn-default btn-sm" data-panel-id="'+data.jobId+'" onclick="assignjob(this)"><i class="fa fa-exchange"></i></a>'
 
@@ -235,7 +268,9 @@
 
 
                 ]
+
             } );
+
 
             processingTable=$('#processing').DataTable({
                 rowReorder: {
@@ -267,7 +302,8 @@
 
                     }
 
-
+                    processingTotal+=parseInt(data['quantity']);
+                    $('#processingTotal').html(processingTotal);
 
                 },
                 type:"POST",
@@ -297,6 +333,7 @@
                     @if(Auth::user()->userType==USER_TYPE[0]) //For Admin
                     { "data": function(data){
                         {{--var url='{{url("product/edit/", ":id") }}';--}}
+
                             return '<a class="btn btn-default btn-sm" data-panel-id="'+data.jobId+'" onclick="editjob(this)"><i class="fa fa-edit"></i></a>'+
                             '<a class="btn btn-default btn-sm" data-panel-id="'+data.jobId+'" onclick="lessPriority(this)"><i class="fa fa-arrow-circle-down"></i></a>'
                             ;},
@@ -313,7 +350,9 @@
                 ]
             } );
 
-        qualityTable=    $('#quality').DataTable({
+
+
+        qualityTable=  $('#quality').DataTable({
                 rowReorder: {
                     selector: 'td:nth-child(2)'
                 },
@@ -341,8 +380,9 @@
                 if ( data['priority'] ==0  )
                 {
                     $('td', row).css('background-color', 'rgba(136, 245, 11, 0.42)');
-
                 }
+                qcTotal+=parseInt(data['quantity']);
+                $('#qcTotal').html(qcTotal);
 
             },
 
@@ -369,7 +409,6 @@
 
                     @if(Auth::user()->userType==USER_TYPE[0]) //For Admin
                     { "data": function(data){
-                        {{--var url='{{url("product/edit/", ":id") }}';--}}
                             return '<a class="btn btn-default btn-sm" data-panel-id="'+data.jobId+'" onclick="editjob(this)"><i class="fa fa-edit"></i></a>'+
                             '<a class="btn btn-default btn-sm" data-panel-id="'+data.jobId+'" onclick="lessPriority(this)"><i class="fa fa-arrow-circle-down"></i></a>'
                             ;},
@@ -386,6 +425,18 @@
 
                 ]
             } );
+
+            $('#datatable').on( 'search.dt', function ( e, settings, len ) {
+                productionTotal=0;
+            });
+
+            $('#processing').on( 'search.dt', function ( e, settings, len ) {
+                processingTotal=0;
+            });
+
+            $('#quality').on( 'search.dt', function ( e, settings, len ) {
+                qcTotal=0;
+            });
 
             $('#date1').datepicker({
                 format:'yyyy-m-d'
