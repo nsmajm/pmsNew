@@ -242,9 +242,13 @@
                             '<option value="qc">Pass To QC</option>'+
                             '</select>';},
                         "orderable": false, "searchable":false, "name":"selected_rows" },
+
+
                     @else
                     { data: 'statusName', name: 'statusName'},
                     @endif
+
+
                     @if(Auth::user()->userType==USER_TYPE[0]) //For Admin
                     { "data": function(data){
 
@@ -254,14 +258,24 @@
                             ;},
                         "orderable": false, "searchable":false, "name":"selected_rows" },
 
+                    @elseif(Auth::user()->userType==USER_TYPE[2])//For Production Manager JobAssign
+                    { "data": function(data){
+
+
+                        return '<a class="btn btn-default btn-sm" data-panel-id="'+data.jobId+'" onclick="editjob(this)"><i class="fa fa-edit"></i></a>'+
+                            '<a class="btn btn-default btn-sm" data-panel-id="'+data.jobId+'" onclick="assignjob(this)"><i class="fa fa-exchange"></i></a>'
+
+                            ;},
+                        "orderable": false, "searchable":false, "name":"selected_rows" },
+
+
                     @else
                     { "data": function(data){
 
 
-                            return '<a class="btn btn-default btn-sm" data-panel-id="'+data.jobId+'" onclick="editjob(this)"><i class="fa fa-edit"></i></a>'+
-                            '<a class="btn btn-default btn-sm" data-panel-id="'+data.jobId+'" onclick="assignjob(this)"><i class="fa fa-exchange"></i></a>'
+                            return '<a class="btn btn-default btn-sm" data-panel-id="'+data.jobId+'" onclick="editjob(this)"><i class="fa fa-edit"></i></a>'
 
-                            ;},
+                                ;},
                         "orderable": false, "searchable":false, "name":"selected_rows" },
 
                     @endif
@@ -335,7 +349,18 @@
                         {{--var url='{{url("product/edit/", ":id") }}';--}}
 
                             return '<a class="btn btn-default btn-sm" data-panel-id="'+data.jobId+'" onclick="editjob(this)"><i class="fa fa-edit"></i></a>'+
-                            '<a class="btn btn-default btn-sm" data-panel-id="'+data.jobId+'" onclick="lessPriority(this)"><i class="fa fa-arrow-circle-down"></i></a>'
+                            '<a class="btn btn-default btn-sm" data-panel-id="'+data.jobId+'" onclick="lessPriority(this)"><i class="fa fa-arrow-circle-down"></i></a>'+
+                            '<a class="btn btn-default btn-sm" data-panel-id="'+data.jobId+'" onclick="assignjob(this)"><i class="fa fa-exchange"></i></a>'
+                            ;},
+                        "orderable": false, "searchable":false, "name":"selected_rows" },
+
+                    @elseif(Auth::user()->userType==USER_TYPE[3])//For Processing Manager JobAssign
+                    { "data": function(data){
+
+
+                        return '<a class="btn btn-default btn-sm" data-panel-id="'+data.jobId+'" onclick="editjob(this)"><i class="fa fa-edit"></i></a>'+
+                            '<a class="btn btn-default btn-sm" data-panel-id="'+data.jobId+'" onclick="assignjob(this)"><i class="fa fa-exchange"></i></a>'
+
                             ;},
                         "orderable": false, "searchable":false, "name":"selected_rows" },
                     @else
@@ -410,7 +435,18 @@
                     @if(Auth::user()->userType==USER_TYPE[0]) //For Admin
                     { "data": function(data){
                             return '<a class="btn btn-default btn-sm" data-panel-id="'+data.jobId+'" onclick="editjob(this)"><i class="fa fa-edit"></i></a>'+
-                            '<a class="btn btn-default btn-sm" data-panel-id="'+data.jobId+'" onclick="lessPriority(this)"><i class="fa fa-arrow-circle-down"></i></a>'
+                            '<a class="btn btn-default btn-sm" data-panel-id="'+data.jobId+'" onclick="lessPriority(this)"><i class="fa fa-arrow-circle-down"></i></a>'+
+                                '<a class="btn btn-default btn-sm" data-panel-id="'+data.jobId+'" onclick="assignjob(this)"><i class="fa fa-exchange"></i></a>'
+                            ;},
+                        "orderable": false, "searchable":false, "name":"selected_rows" },
+
+                    @elseif(Auth::user()->userType==USER_TYPE[4])//For Qc Manager JobAssign
+                    { "data": function(data){
+
+
+                        return '<a class="btn btn-default btn-sm" data-panel-id="'+data.jobId+'" onclick="editjob(this)"><i class="fa fa-edit"></i></a>'+
+                            '<a class="btn btn-default btn-sm" data-panel-id="'+data.jobId+'" onclick="assignjob(this)"><i class="fa fa-exchange"></i></a>'
+
                             ;},
                         "orderable": false, "searchable":false, "name":"selected_rows" },
 

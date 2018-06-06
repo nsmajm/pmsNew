@@ -107,3 +107,12 @@ Route::post('/team/insert','TeamController@insert')->name('team.insert');
 Route::post('/team/assign','TeamController@assign')->name('team.assign');
 Route::post('/team','TeamController@getTeamData')->name('team.getTeamData');
 Route::post('/changeLeaderState','TeamController@changeLeaderState')->name('team.changeLeaderState');
+
+//Shift
+Route::get('shift/create','ShiftController@create')->name('shift.create');
+Route::get('shift/show','ShiftController@show')->name('shift.show');
+
+
+//Password
+Route::get('account/password','HomeController@password')->name('account.password');
+Route::post('account/password','HomeController@changePassword')->name('account.changePassword');

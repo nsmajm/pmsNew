@@ -66,24 +66,29 @@
 
 
 
-
-
-
-
-
                 <li class="has-submenu">
                     <a href="#"><i class="ti-arrow-circle-down"></i>Other</a>
                     <ul class="submenu">
                         <li class="has-submenu">
                             <a href="#">Leave</a>
                             <ul class="submenu">
-
                                 <li><a href="{{route('leave.apply')}}">Apply Leave</a></li>
                                 <li><a href="{{route('leave.show')}}">Show Leave</a></li>
                             </ul>
                         </li>
                         <li><a href="advanced-nestable.html">Time Calculator</a></li>
+
                         <li><a href="{{route('team.index')}}">Team</a></li>
+
+                        <li class="has-submenu">
+                            <a href="#">Shift</a>
+                            <ul class="submenu">
+                                <li><a href="{{route('shift.create')}}">Create Shift</a></li>
+                                <li><a href="{{route('shift.show')}}">View Shift</a></li>
+                            </ul>
+                        </li>
+
+
                         <li class="has-submenu">
                             <a href="#">Client</a>
                             <ul class="submenu">
