@@ -17,6 +17,15 @@ class TeamController extends Controller
             ->with('teams',$teams);
     }
 
+    public function getIndividualTeamMember(Request $r){
+        $users=User::select('name','userType')
+            ->where('teamId',$r->teamId)
+            ->get();
+
+        return $users;
+
+    }
+
     public function getTeamData(Request $r){
         $users=User::select('userId','name','userType','team.teamName','teamLeader','user.teamId')
                 ->where('userType','!=',USER_TYPE[0])
@@ -71,11 +80,7 @@ class TeamController extends Controller
             $teamId=$r->teamId;
         }
 
-
-
         User::whereIn('userId',$r->userId)->update(['teamId' =>$teamId ]);
-
-
         Session::flash('message', 'Successfully!');
         return back();
 

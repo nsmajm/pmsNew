@@ -107,9 +107,11 @@ Route::post('/team/insert','TeamController@insert')->name('team.insert');
 Route::post('/team/assign','TeamController@assign')->name('team.assign');
 Route::post('/team','TeamController@getTeamData')->name('team.getTeamData');
 Route::post('/changeLeaderState','TeamController@changeLeaderState')->name('team.changeLeaderState');
+Route::post('/getIndividualTeamMember','TeamController@getIndividualTeamMember')->name('team.getIndividualTeamMember');
 
 //Shift
 Route::get('shift/create','ShiftController@create')->name('shift.create');
+Route::post('shift/assign','ShiftController@assign')->name('shift.assign');
 Route::get('shift/show','ShiftController@show')->name('shift.show');
 
 
