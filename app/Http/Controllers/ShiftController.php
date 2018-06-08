@@ -538,8 +538,13 @@ class ShiftController extends Controller
             ->where('jobStatus',$production->statusId)
             ->leftJoin('team','team.teamId','shiftassign.teamId')
             ->leftJoin('user','user.teamId','team.teamId')
-            ->where('user.teamLeader','!=',1)
+//            ->where('user.teamLeader','!=',1)
+            ->orderBy('teamName')
+            ->orderBy('user.teamLeader','desc')
             ->get();
+
+//        return $ProductionManager;
+
 
 
 
@@ -548,7 +553,9 @@ class ShiftController extends Controller
             ->where('jobStatus',$processing->statusId)
             ->leftJoin('team','team.teamId','shiftassign.teamId')
             ->leftJoin('user','user.teamId','team.teamId')
-            ->where('user.teamLeader','!=',1)
+//            ->where('user.teamLeader','!=',1)
+            ->orderBy('teamName')
+            ->orderBy('user.teamLeader','desc')
             ->get();
 
 
@@ -556,7 +563,9 @@ class ShiftController extends Controller
             ->where('jobStatus',$qc->statusId)
             ->leftJoin('team','team.teamId','shiftassign.teamId')
             ->leftJoin('user','user.teamId','team.teamId')
-            ->where('user.teamLeader','!=',1)
+//            ->where('user.teamLeader','!=',1)
+            ->orderBy('teamName')
+            ->orderBy('user.teamLeader','desc')
             ->get();
 
 
@@ -581,25 +590,25 @@ class ShiftController extends Controller
 //        return $qcTeams;
 //Only Gets The Leader Of the Team
 
-        $ProductionLeader=Shiftassign::select('team.teamName','team.teamId','shiftassign.shiftId','user.name','user.userType','user.teamLeader')
-            ->where('jobStatus',$production->statusId)
-            ->leftJoin('team','team.teamId','shiftassign.teamId')
-            ->leftJoin('user','user.teamId','team.teamId')
-            ->where('user.teamLeader',1)
-            ->get();
-
-        $ProcessingLeader=Shiftassign::select('team.teamId','team.teamName','shiftassign.shiftId','user.name','user.userType','user.teamLeader')
-            ->where('jobStatus',$processing->statusId)
-            ->leftJoin('team','team.teamId','shiftassign.teamId')
-            ->leftJoin('user','user.teamId','team.teamId')
-            ->where('user.teamLeader','!=',1)
-            ->get();
-        $QcLeader=Shiftassign::select('team.teamId','team.teamName','shiftassign.shiftId','user.name','user.userType','user.teamLeader')
-            ->where('jobStatus',$qc->statusId)
-            ->leftJoin('team','team.teamId','shiftassign.teamId')
-            ->leftJoin('user','user.teamId','team.teamId')
-            ->where('user.teamLeader','!=',1)
-            ->get();
+//        $ProductionLeader=Shiftassign::select('team.teamName','team.teamId','shiftassign.shiftId','user.name','user.userType','user.teamLeader')
+//            ->where('jobStatus',$production->statusId)
+//            ->leftJoin('team','team.teamId','shiftassign.teamId')
+//            ->leftJoin('user','user.teamId','team.teamId')
+//            ->where('user.teamLeader',1)
+//            ->get();
+//
+//        $ProcessingLeader=Shiftassign::select('team.teamId','team.teamName','shiftassign.shiftId','user.name','user.userType','user.teamLeader')
+//            ->where('jobStatus',$processing->statusId)
+//            ->leftJoin('team','team.teamId','shiftassign.teamId')
+//            ->leftJoin('user','user.teamId','team.teamId')
+//            ->where('user.teamLeader','!=',1)
+//            ->get();
+//        $QcLeader=Shiftassign::select('team.teamId','team.teamName','shiftassign.shiftId','user.name','user.userType','user.teamLeader')
+//            ->where('jobStatus',$qc->statusId)
+//            ->leftJoin('team','team.teamId','shiftassign.teamId')
+//            ->leftJoin('user','user.teamId','team.teamId')
+//            ->where('user.teamLeader','!=',1)
+//            ->get();
 
 
 
@@ -612,10 +621,8 @@ class ShiftController extends Controller
             // Variable For Teams
             ->with('productionTeams',$productionTeams)
             ->with('processingnTeams',$processingnTeams)
-            ->with('qcTeams',$qcTeams)
-            //Variable For Team Leaders
-            ->with('ProductionLeader',$ProductionLeader)
-            ->with('ProcessingLeader',$ProcessingLeader)
-            ->with('QcLeader',$QcLeader);
+            ->with('qcTeams',$qcTeams);
+
+
     }
 }

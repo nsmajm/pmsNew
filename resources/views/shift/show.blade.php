@@ -1,10 +1,27 @@
 @extends('main')
+@section('header')
+<style>
+
+</style>
 
 
+@endsection
 @section('content')
 
-<div class="card">
-    <div class="card-body">
+<div class="card" >
+    <div align="center">
+    <div class="card-body" style="max-width: 90%">
+        <div class="pull-right">
+            <img src="{{url('public/logo/TCL_logo.png')}}" height="100" width="120" style="">
+        </div>
+        <div class="col-md-12">
+            <h4 align="center"><b>Tech Cloud Ltd</b></h4>
+            <h6 align="center"><b>Shift Plan</b></h6>
+            <h6 align="center"><b>Apr 23 2018 to Apr 28 2018</b></h6>
+
+
+        </div>
+        <br>
         <table class="table">
             <thead>
             <th>Shift</th>
@@ -20,16 +37,14 @@
                     @foreach($ProductionManager as $user)
                         @if($shift->shiftId == $user->shiftId)
                             @foreach($productionTeams as $pt)
-                                @foreach($ProductionLeader as $pd)
-                                    @if($user->userId == $pd->userId && $pd->teamId==$pt->teamId && $pd->shiftId==$user->shiftId)
-                                        <b>{{$user->name}} ({{$user->teamName}})</b>
-                                        <br>
-                                    @endif
-                                @endforeach
                                 @if($pt->teamId == $user->teamId)
-                                    {{$user->name}}
+                                    @if($user->teamLeader==1)
+                                        <b>{{$user->name}} ({{$user->teamName}})</b>
+                                     @else
+                                        {{$user->name}}
+                                     @endif
+                                        <br>
                                 @endif
-                                <br>
 
                             @endforeach
                         @endif
@@ -40,15 +55,13 @@
                     @foreach($ProcessingManager as $user)
                         @if($shift->shiftId == $user->shiftId)
                             @foreach($processingnTeams as $pt)
-                                @foreach($ProcessingLeader as $pd)
-                                    @if($user->userId == $pd->userId && $pd->teamId==$pt->teamId && $pd->shiftId==$user->shiftId)
-                                        <b>{{$user->name}} ({{$user->teamName}})</b>
-                                        <br>
-                                    @endif
-                                @endforeach
-                                @if($pt->teamId == $user->teamId)
-                                        {{$user->name}}
 
+                                @if($pt->teamId == $user->teamId)
+                                    @if($user->teamLeader==1)
+                                        <b>{{$user->name}} ({{$user->teamName}})</b>
+                                    @else
+                                        {{$user->name}}
+                                    @endif
                                     <br>
                                 @endif
                             @endforeach
@@ -59,15 +72,12 @@
                     @foreach($QcManager as $user)
                         @if($shift->shiftId == $user->shiftId)
                             @foreach($qcTeams as $pt)
-                                @foreach($QcLeader as $pd)
-                                    @if($user->userId == $pd->userId && $pd->teamId==$pt->teamId && $pd->shiftId==$user->shiftId)
-                                        <b>{{$user->name}} ({{$user->teamName}})</b>
-                                        <br>
-                                    @endif
-                                @endforeach
                                 @if($pt->teamId == $user->teamId)
+                                    @if($user->teamLeader==1)
+                                        <b>{{$user->name}} ({{$user->teamName}})</b>
+                                    @else
                                         {{$user->name}}
-
+                                    @endif
                                     <br>
                                 @endif
                             @endforeach
@@ -92,6 +102,7 @@
 
 
 
+    </div>
     </div>
 
 </div>
