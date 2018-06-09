@@ -114,8 +114,8 @@ Route::get('shift/','ShiftController@index')->name('shift.index');
 Route::post('shift/','ShiftController@getData')->name('shift.getData');
 Route::get('shift/create','ShiftController@create')->name('shift.create');
 Route::post('shift/assign','ShiftController@assign')->name('shift.assign');
-
 Route::get('shift/show/{id}','ShiftController@show')->name('shift.show');
+Route::get('shift/pdf/{id}','ShiftController@downloadPdf')->name('shift.downloadPdf');
 
 
 //Password

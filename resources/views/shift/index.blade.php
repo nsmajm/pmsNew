@@ -92,12 +92,20 @@
                     { data: 'created_at', name: 'created_at' },
                     { "data": function(data){
                         {{--var url='{{url("product/edit/", ":id") }}';--}}
-                            return '<a class="btn btn-default btn-sm" data-panel-id="'+data.shiftmainId+'" onclick="editjob(this)"><i class="fa fa-eye"></i></a>'
+                            return '<a class="btn btn-default btn-sm" data-panel-id="'+data.shiftmainId+'" onclick="editjob(this)"><i class="fa fa-eye"></i></a>'+
+                                '<a target="_blank" class="btn btn-default btn-sm" data-panel-id="'+data.shiftmainId+'" onclick="downloadPdf(this)"><i class="fa fa-file-pdf-o"></i></a>'
 
                             ;},
                         "orderable": false, "searchable":false, "name":"selected_rows" },
 
-                ]
+                ],
+                //Set column definition initialisation properties.
+                "columnDefs": [
+                    {
+                        "targets": [0,1,2,3,4,5], //first column / numbering column
+                        "orderable": false, //set not orderable
+                    }
+                ],
             } );
 
         } );
@@ -107,6 +115,16 @@
             var url = '{{route("shift.show", ":id") }}';
             var newUrl=url.replace(':id', btn);
             window.location.href = newUrl;
+
+        }
+
+        function downloadPdf(x) {
+            btn = $(x).data('panel-id');
+            var url = '{{route("shift.downloadPdf", ":id") }}';
+            var newUrl=url.replace(':id', btn);
+//            window.location.href = newUrl;
+            var win = window.open(newUrl, '_blank');
+            win.focus();
 
         }
 

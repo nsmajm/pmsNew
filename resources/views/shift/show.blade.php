@@ -11,7 +11,7 @@
         <div class="col-md-12">
             <h4 align="center"><b>Tech Cloud Ltd</b></h4>
             <h6 align="center"><b>Shift Plan</b></h6>
-            <h6 align="center"><b>Apr 23 2018 to Apr 28 2018</b></h6>
+            <h6 align="center"><b>{{$shiftMain->fromDate}} to {{$shiftMain->toDate}}</b></h6>
 
 
         </div>

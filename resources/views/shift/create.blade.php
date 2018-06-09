@@ -18,8 +18,10 @@
                 <form method="post" action="{{route('shift.assign')}}">
                     <div class="row">
                         <input type="text" class="form-control col-md-2" name="fromDate" placeholder="From" id="date1" required>
+                        &nbsp;<input type="text" class="form-control col-md-2" name="toDate" placeholder="To" id="date2" required>
                         &nbsp;
-                        <input type="text" class="form-control col-md-2" name="toDate" placeholder="To" id="date2" required>
+                        <input type="text" class="form-control col-md-2" name="shiftName" placeholder="name" required>
+                        &nbsp;
 
                     </div>
 

@@ -26,6 +26,7 @@ class ShiftController extends Controller
 
         $shiftMain=Shiftmain::select('shiftmain.*','user.name')
             ->leftJoin('user','user.userId','shiftmain.assignBy')
+            ->orderBy('shiftmain.shiftmainId','desc')
             ->get();
 
         $datatables = Datatables::of($shiftMain);
@@ -53,6 +54,7 @@ class ShiftController extends Controller
 
         $shiftMain=new Shiftmain();
         $shiftMain->assignBy=Auth::user()->userId;
+        $shiftMain->shiftName=$r->shiftName;
         $shiftMain->fromDate=$from;
         $shiftMain->toDate=$to;
         $shiftMain->save();
@@ -593,9 +595,71 @@ class ShiftController extends Controller
         return back();
     }
 
-
     public function show($id)
     {
+        $shiftMain=Shiftmain::findOrFail($id);
+        $shifts=Shift::get();
+        $production=Status::where('statusType','jobStatus')
+            ->where('statusName','production')
+            ->first();
+        $processing=Status::where('statusType','jobStatus')
+            ->where('statusName','processing')
+            ->first();
+        $qc=Status::where('statusType','jobStatus')
+            ->where('statusName','qc')
+            ->first();
+        $ProductionManager=Shiftassign::select('team.teamName','team.teamId','shiftassign.shiftId','user.name','user.userType','user.teamLeader')
+            ->where('jobStatus',$production->statusId)
+            ->leftJoin('team','team.teamId','shiftassign.teamId')
+            ->leftJoin('user','user.teamId','team.teamId')
+            ->where('shiftassign.shiftmainId',$id)
+            ->orderBy('teamName')
+            ->orderBy('user.teamLeader','desc')
+            ->get();
+//        return $ProductionManager;
+        $ProcessingManager=Shiftassign::select('team.teamId','team.teamName','shiftassign.shiftId','user.name','user.userType','user.teamLeader')
+            ->where('jobStatus',$processing->statusId)
+            ->leftJoin('team','team.teamId','shiftassign.teamId')
+            ->leftJoin('user','user.teamId','team.teamId')
+            ->where('shiftassign.shiftmainId',$id)
+            ->orderBy('teamName')
+            ->orderBy('user.teamLeader','desc')
+            ->get();
+        $QcManager=Shiftassign::select('team.teamId','team.teamName','shiftassign.shiftId','user.name','user.userType','user.teamLeader')
+            ->where('jobStatus',$qc->statusId)
+            ->leftJoin('team','team.teamId','shiftassign.teamId')
+            ->leftJoin('user','user.teamId','team.teamId')
+            ->where('shiftassign.shiftmainId',$id)
+            ->orderBy('teamName')
+            ->orderBy('user.teamLeader','desc')
+            ->get();
+        $productionTeams=Shiftassign::select('teamId')
+            ->where('jobStatus',$production->statusId)
+            ->groupBy('teamId')
+            ->get();
+        $processingnTeams=Shiftassign::select('teamId')
+            ->where('jobStatus',$processing->statusId)
+            ->groupBy('teamId')
+            ->get();
+        $qcTeams=Shiftassign::select('teamId')
+            ->where('jobStatus',$qc->statusId)
+            ->groupBy('teamId')
+            ->get();
+        return view('shift.show')
+            ->with('shifts',$shifts)
+            ->with('ProductionManager',$ProductionManager)
+            ->with('ProcessingManager',$ProcessingManager)
+            ->with('QcManager',$QcManager)
+            // Variable For Teams
+            ->with('productionTeams',$productionTeams)
+            ->with('processingnTeams',$processingnTeams)
+            ->with('qcTeams',$qcTeams)
+            ->with('shiftMain',$shiftMain);
+    }
+
+    public function downloadPdf($id)
+    {
+        $shiftMain=Shiftmain::findOrFail($id);
 
         $shifts=Shift::get();
         $production=Status::where('statusType','jobStatus')
@@ -666,18 +730,8 @@ class ShiftController extends Controller
 
 
 
-//        return view('shift.test',compact('shifts','ProductionManager','ProcessingManager','QcManager','productionTeams','processingnTeams','qcTeams'))
-//                        ->with('shifts',$shifts)
-//                        ->with('ProductionManager',$ProductionManager)
-//                        ->with('ProcessingManager',$ProcessingManager)
-//                        ->with('QcManager',$QcManager)
-//                        // Variable For Teams
-//                        ->with('productionTeams',$productionTeams)
-//                        ->with('processingnTeams',$processingnTeams)
-//                        ->with('qcTeams',$qcTeams)
-//        ;
 
-        $pdf = PDF::loadView('shift.test',compact('shifts','ProductionManager','ProcessingManager','QcManager','productionTeams','processingnTeams','qcTeams'));
+        $pdf = PDF::loadView('shift.pdf',compact('shifts','ProductionManager','ProcessingManager','QcManager','productionTeams','processingnTeams','qcTeams','shiftMain'));
 
 
         return $pdf->stream('test.pdf',array('Attachment'=>0));
