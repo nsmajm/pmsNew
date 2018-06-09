@@ -110,9 +110,12 @@ Route::post('/changeLeaderState','TeamController@changeLeaderState')->name('team
 Route::post('/getIndividualTeamMember','TeamController@getIndividualTeamMember')->name('team.getIndividualTeamMember');
 
 //Shift
+Route::get('shift/','ShiftController@index')->name('shift.index');
+Route::post('shift/','ShiftController@getData')->name('shift.getData');
 Route::get('shift/create','ShiftController@create')->name('shift.create');
 Route::post('shift/assign','ShiftController@assign')->name('shift.assign');
-Route::get('shift/show','ShiftController@show')->name('shift.show');
+
+Route::get('shift/show/{id}','ShiftController@show')->name('shift.show');
 
 
 //Password

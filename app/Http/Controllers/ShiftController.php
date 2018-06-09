@@ -7,12 +7,34 @@ use App\Shift;
 use App\Shiftassign;
 use App\Team;
 use App\Status;
+use App\Shiftmain;
 use Illuminate\Support\Facades\Auth;
 use Session;
 use PDF;
 
+use Yajra\DataTables\DataTables;
+
 class ShiftController extends Controller
 {
+
+    public function index(){
+
+        return view('shift.index');
+    }
+
+    public function getData(Request $r){
+
+        $shiftMain=Shiftmain::select('shiftmain.*','user.name')
+            ->leftJoin('user','user.userId','shiftmain.assignBy')
+            ->get();
+
+        $datatables = Datatables::of($shiftMain);
+        return $datatables->make(true);
+
+    }
+
+
+
     public function create(){
         $shifts=Shift::get();
         $teams=Team::get();
@@ -22,10 +44,21 @@ class ShiftController extends Controller
             ->with('shifts',$shifts)
             ->with('teams',$teams);
     }
+
+
     public function assign(Request $r){
 
         $from=$r->fromDate;
         $to=$r->toDate;
+
+        $shiftMain=new Shiftmain();
+        $shiftMain->assignBy=Auth::user()->userId;
+        $shiftMain->fromDate=$from;
+        $shiftMain->toDate=$to;
+        $shiftMain->save();
+
+
+
 
         $production=Status::where('statusType','jobStatus')
             ->where('statusName','production')->first();
@@ -63,10 +96,12 @@ class ShiftController extends Controller
             $shiftAssign=new Shiftassign();
             $shiftAssign->shiftId=$shiftMorningFixed;
             $shiftAssign->teamId=$morningFixedProductionTeam1;
-            $shiftAssign->fromDate=$from;
-            $shiftAssign->toDate=$to;
+//            $shiftAssign->fromDate=$from;
+//            $shiftAssign->toDate=$to;
             $shiftAssign->jobStatus=$production->statusId;
-            $shiftAssign->assignBy=Auth::user()->userId;
+//            $shiftAssign->assignBy=Auth::user()->userId;
+            $shiftAssign->shiftmainId=$shiftMain->shiftmainId;
+
             $shiftAssign->save();
         }
 
@@ -74,10 +109,11 @@ class ShiftController extends Controller
             $shiftAssign=new Shiftassign();
             $shiftAssign->shiftId=$shiftMorningFixed;
             $shiftAssign->teamId=$morningFixedProductionTeam2;
-            $shiftAssign->fromDate=$from;
-            $shiftAssign->toDate=$to;
+//            $shiftAssign->fromDate=$from;
+//            $shiftAssign->toDate=$to;
             $shiftAssign->jobStatus=$production->statusId;
-            $shiftAssign->assignBy=Auth::user()->userId;
+//            $shiftAssign->assignBy=Auth::user()->userId;
+            $shiftAssign->shiftmainId=$shiftMain->shiftmainId;
             $shiftAssign->save();
         }
 
@@ -85,10 +121,11 @@ class ShiftController extends Controller
             $shiftAssign=new Shiftassign();
             $shiftAssign->shiftId=$shiftMorningFixed;
             $shiftAssign->teamId=$morningFixedProductionTeam3;
-            $shiftAssign->fromDate=$from;
-            $shiftAssign->toDate=$to;
+//            $shiftAssign->fromDate=$from;
+//            $shiftAssign->toDate=$to;
             $shiftAssign->jobStatus=$production->statusId;
-            $shiftAssign->assignBy=Auth::user()->userId;
+//            $shiftAssign->assignBy=Auth::user()->userId;
+            $shiftAssign->shiftmainId=$shiftMain->shiftmainId;
             $shiftAssign->save();
         }
 
@@ -101,10 +138,11 @@ class ShiftController extends Controller
             $shiftAssign=new Shiftassign();
             $shiftAssign->shiftId=$shiftMorningFixed;
             $shiftAssign->teamId=$morningFixedProductionTeam1;
-            $shiftAssign->fromDate=$from;
-            $shiftAssign->toDate=$to;
+//            $shiftAssign->fromDate=$from;
+//            $shiftAssign->toDate=$to;
             $shiftAssign->jobStatus=$processing->statusId;
-            $shiftAssign->assignBy=Auth::user()->userId;
+//            $shiftAssign->assignBy=Auth::user()->userId;
+            $shiftAssign->shiftmainId=$shiftMain->shiftmainId;
             $shiftAssign->save();
         }
 
@@ -112,10 +150,11 @@ class ShiftController extends Controller
             $shiftAssign=new Shiftassign();
             $shiftAssign->shiftId=$shiftMorningFixed;
             $shiftAssign->teamId=$morningFixedProcessingTeam2;
-            $shiftAssign->fromDate=$from;
-            $shiftAssign->toDate=$to;
+//            $shiftAssign->fromDate=$from;
+//            $shiftAssign->toDate=$to;
             $shiftAssign->jobStatus=$processing->statusId;
-            $shiftAssign->assignBy=Auth::user()->userId;
+//            $shiftAssign->assignBy=Auth::user()->userId;
+            $shiftAssign->shiftmainId=$shiftMain->shiftmainId;
             $shiftAssign->save();
         }
 
@@ -124,10 +163,11 @@ class ShiftController extends Controller
             $shiftAssign=new Shiftassign();
             $shiftAssign->shiftId=$shiftMorningFixed;
             $shiftAssign->teamId=$morningFixedProcessingTeam3;
-            $shiftAssign->fromDate=$from;
-            $shiftAssign->toDate=$to;
+//            $shiftAssign->fromDate=$from;
+//            $shiftAssign->toDate=$to;
             $shiftAssign->jobStatus=$processing->statusId;
-            $shiftAssign->assignBy=Auth::user()->userId;
+//            $shiftAssign->assignBy=Auth::user()->userId;
+            $shiftAssign->shiftmainId=$shiftMain->shiftmainId;
             $shiftAssign->save();
         }
 
@@ -139,10 +179,11 @@ class ShiftController extends Controller
             $shiftAssign=new Shiftassign();
             $shiftAssign->shiftId=$shiftMorningFixed;
             $shiftAssign->teamId=$morningFixedQcTeam1;
-            $shiftAssign->fromDate=$from;
-            $shiftAssign->toDate=$to;
+//            $shiftAssign->fromDate=$from;
+//            $shiftAssign->toDate=$to;
             $shiftAssign->jobStatus=$qc->statusId;
-            $shiftAssign->assignBy=Auth::user()->userId;
+//            $shiftAssign->assignBy=Auth::user()->userId;
+            $shiftAssign->shiftmainId=$shiftMain->shiftmainId;
             $shiftAssign->save();
         }
 
@@ -150,10 +191,11 @@ class ShiftController extends Controller
             $shiftAssign=new Shiftassign();
             $shiftAssign->shiftId=$shiftMorningFixed;
             $shiftAssign->teamId=$morningFixedQcTeam2;
-            $shiftAssign->fromDate=$from;
-            $shiftAssign->toDate=$to;
+//            $shiftAssign->fromDate=$from;
+//            $shiftAssign->toDate=$to;
             $shiftAssign->jobStatus=$qc->statusId;
-            $shiftAssign->assignBy=Auth::user()->userId;
+//            $shiftAssign->assignBy=Auth::user()->userId;
+            $shiftAssign->shiftmainId=$shiftMain->shiftmainId;
             $shiftAssign->save();
         }
 
@@ -161,10 +203,11 @@ class ShiftController extends Controller
             $shiftAssign=new Shiftassign();
             $shiftAssign->shiftId=$shiftMorningFixed;
             $shiftAssign->teamId=$morningFixedQcTeam3;
-            $shiftAssign->fromDate=$from;
-            $shiftAssign->toDate=$to;
+//            $shiftAssign->fromDate=$from;
+//            $shiftAssign->toDate=$to;
             $shiftAssign->jobStatus=$qc->statusId;
-            $shiftAssign->assignBy=Auth::user()->userId;
+//            $shiftAssign->assignBy=Auth::user()->userId;
+            $shiftAssign->shiftmainId=$shiftMain->shiftmainId;
             $shiftAssign->save();
         }
 
@@ -179,10 +222,11 @@ class ShiftController extends Controller
             $shiftAssign=new Shiftassign();
             $shiftAssign->shiftId=$shiftMorning;
             $shiftAssign->teamId=$morningProductionTeam1;
-            $shiftAssign->fromDate=$from;
-            $shiftAssign->toDate=$to;
+//            $shiftAssign->fromDate=$from;
+//            $shiftAssign->toDate=$to;
             $shiftAssign->jobStatus=$production->statusId;
-            $shiftAssign->assignBy=Auth::user()->userId;
+//            $shiftAssign->assignBy=Auth::user()->userId;
+            $shiftAssign->shiftmainId=$shiftMain->shiftmainId;
             $shiftAssign->save();
         }
 
@@ -191,10 +235,11 @@ class ShiftController extends Controller
             $shiftAssign=new Shiftassign();
             $shiftAssign->shiftId=$shiftMorning;
             $shiftAssign->teamId=$morningProductionTeam2;
-            $shiftAssign->fromDate=$from;
-            $shiftAssign->toDate=$to;
+//            $shiftAssign->fromDate=$from;
+//            $shiftAssign->toDate=$to;
             $shiftAssign->jobStatus=$production->statusId;
-            $shiftAssign->assignBy=Auth::user()->userId;
+//            $shiftAssign->assignBy=Auth::user()->userId;
+            $shiftAssign->shiftmainId=$shiftMain->shiftmainId;
             $shiftAssign->save();
         }
 
@@ -203,10 +248,11 @@ class ShiftController extends Controller
             $shiftAssign=new Shiftassign();
             $shiftAssign->shiftId=$shiftMorning;
             $shiftAssign->teamId=$morningProductionTeam3;
-            $shiftAssign->fromDate=$from;
-            $shiftAssign->toDate=$to;
+//            $shiftAssign->fromDate=$from;
+//            $shiftAssign->toDate=$to;
             $shiftAssign->jobStatus=$production->statusId;
-            $shiftAssign->assignBy=Auth::user()->userId;
+//            $shiftAssign->assignBy=Auth::user()->userId;
+            $shiftAssign->shiftmainId=$shiftMain->shiftmainId;
             $shiftAssign->save();
         }
 
@@ -218,10 +264,11 @@ class ShiftController extends Controller
             $shiftAssign=new Shiftassign();
             $shiftAssign->shiftId=$shiftMorning;
             $shiftAssign->teamId=$morningProcessingTeam1;
-            $shiftAssign->fromDate=$from;
-            $shiftAssign->toDate=$to;
+//            $shiftAssign->fromDate=$from;
+//            $shiftAssign->toDate=$to;
             $shiftAssign->jobStatus=$processing->statusId;
-            $shiftAssign->assignBy=Auth::user()->userId;
+//            $shiftAssign->assignBy=Auth::user()->userId;
+            $shiftAssign->shiftmainId=$shiftMain->shiftmainId;
             $shiftAssign->save();
         }
 
@@ -229,10 +276,11 @@ class ShiftController extends Controller
             $shiftAssign=new Shiftassign();
             $shiftAssign->shiftId=$shiftMorning;
             $shiftAssign->teamId=$morningProcessingTeam2;
-            $shiftAssign->fromDate=$from;
-            $shiftAssign->toDate=$to;
+//            $shiftAssign->fromDate=$from;
+//            $shiftAssign->toDate=$to;
             $shiftAssign->jobStatus=$processing->statusId;
-            $shiftAssign->assignBy=Auth::user()->userId;
+//            $shiftAssign->assignBy=Auth::user()->userId;
+            $shiftAssign->shiftmainId=$shiftMain->shiftmainId;
             $shiftAssign->save();
         }
 
@@ -241,10 +289,11 @@ class ShiftController extends Controller
             $shiftAssign=new Shiftassign();
             $shiftAssign->shiftId=$shiftMorning;
             $shiftAssign->teamId=$morningProcessingTeam3;
-            $shiftAssign->fromDate=$from;
-            $shiftAssign->toDate=$to;
+//            $shiftAssign->fromDate=$from;
+//            $shiftAssign->toDate=$to;
             $shiftAssign->jobStatus=$processing->statusId;
-            $shiftAssign->assignBy=Auth::user()->userId;
+//            $shiftAssign->assignBy=Auth::user()->userId;
+            $shiftAssign->shiftmainId=$shiftMain->shiftmainId;
             $shiftAssign->save();
         }
 
@@ -256,10 +305,11 @@ class ShiftController extends Controller
             $shiftAssign=new Shiftassign();
             $shiftAssign->shiftId=$shiftMorning;
             $shiftAssign->teamId=$morningQcTeam1;
-            $shiftAssign->fromDate=$from;
-            $shiftAssign->toDate=$to;
+//            $shiftAssign->fromDate=$from;
+//            $shiftAssign->toDate=$to;
             $shiftAssign->jobStatus=$qc->statusId;
-            $shiftAssign->assignBy=Auth::user()->userId;
+//            $shiftAssign->assignBy=Auth::user()->userId;
+            $shiftAssign->shiftmainId=$shiftMain->shiftmainId;
             $shiftAssign->save();
         }
 
@@ -267,10 +317,11 @@ class ShiftController extends Controller
             $shiftAssign=new Shiftassign();
             $shiftAssign->shiftId=$shiftMorning;
             $shiftAssign->teamId=$morningQcTeam2;
-            $shiftAssign->fromDate=$from;
-            $shiftAssign->toDate=$to;
+//            $shiftAssign->fromDate=$from;
+//            $shiftAssign->toDate=$to;
             $shiftAssign->jobStatus=$qc->statusId;
-            $shiftAssign->assignBy=Auth::user()->userId;
+//            $shiftAssign->assignBy=Auth::user()->userId;
+            $shiftAssign->shiftmainId=$shiftMain->shiftmainId;
             $shiftAssign->save();
         }
 
@@ -278,10 +329,11 @@ class ShiftController extends Controller
             $shiftAssign=new Shiftassign();
             $shiftAssign->shiftId=$shiftMorning;
             $shiftAssign->teamId=$morningQcTeam3;
-            $shiftAssign->fromDate=$from;
-            $shiftAssign->toDate=$to;
+//            $shiftAssign->fromDate=$from;
+//            $shiftAssign->toDate=$to;
             $shiftAssign->jobStatus=$qc->statusId;
-            $shiftAssign->assignBy=Auth::user()->userId;
+//            $shiftAssign->assignBy=Auth::user()->userId;
+            $shiftAssign->shiftmainId=$shiftMain->shiftmainId;
             $shiftAssign->save();
         }
 
@@ -297,10 +349,11 @@ class ShiftController extends Controller
             $shiftAssign=new Shiftassign();
             $shiftAssign->shiftId=$shiftEvening;
             $shiftAssign->teamId=$eveningProductionTeam1;
-            $shiftAssign->fromDate=$from;
-            $shiftAssign->toDate=$to;
+//            $shiftAssign->fromDate=$from;
+//            $shiftAssign->toDate=$to;
             $shiftAssign->jobStatus=$production->statusId;
-            $shiftAssign->assignBy=Auth::user()->userId;
+//            $shiftAssign->assignBy=Auth::user()->userId;
+            $shiftAssign->shiftmainId=$shiftMain->shiftmainId;
             $shiftAssign->save();
         }
 
@@ -308,10 +361,11 @@ class ShiftController extends Controller
             $shiftAssign=new Shiftassign();
             $shiftAssign->shiftId=$shiftEvening;
             $shiftAssign->teamId=$eveningProductionTeam2;
-            $shiftAssign->fromDate=$from;
-            $shiftAssign->toDate=$to;
+//            $shiftAssign->fromDate=$from;
+//            $shiftAssign->toDate=$to;
             $shiftAssign->jobStatus=$production->statusId;
-            $shiftAssign->assignBy=Auth::user()->userId;
+//            $shiftAssign->assignBy=Auth::user()->userId;
+            $shiftAssign->shiftmainId=$shiftMain->shiftmainId;
             $shiftAssign->save();
         }
 
@@ -320,10 +374,11 @@ class ShiftController extends Controller
             $shiftAssign=new Shiftassign();
             $shiftAssign->shiftId=$shiftEvening;
             $shiftAssign->teamId=$eveningProductionTeam3;
-            $shiftAssign->fromDate=$from;
-            $shiftAssign->toDate=$to;
+//            $shiftAssign->fromDate=$from;
+//            $shiftAssign->toDate=$to;
             $shiftAssign->jobStatus=$production->statusId;
-            $shiftAssign->assignBy=Auth::user()->userId;
+//            $shiftAssign->assignBy=Auth::user()->userId;
+            $shiftAssign->shiftmainId=$shiftMain->shiftmainId;
             $shiftAssign->save();
         }
 
@@ -336,10 +391,11 @@ class ShiftController extends Controller
             $shiftAssign=new Shiftassign();
             $shiftAssign->shiftId=$shiftEvening;
             $shiftAssign->teamId=$eveningProcessingTeam1;
-            $shiftAssign->fromDate=$from;
-            $shiftAssign->toDate=$to;
+//            $shiftAssign->fromDate=$from;
+//            $shiftAssign->toDate=$to;
             $shiftAssign->jobStatus=$processing->statusId;
-            $shiftAssign->assignBy=Auth::user()->userId;
+//            $shiftAssign->assignBy=Auth::user()->userId;
+            $shiftAssign->shiftmainId=$shiftMain->shiftmainId;
             $shiftAssign->save();
         }
 
@@ -347,10 +403,11 @@ class ShiftController extends Controller
             $shiftAssign=new Shiftassign();
             $shiftAssign->shiftId=$shiftEvening;
             $shiftAssign->teamId=$eveningProcessingTeam2;
-            $shiftAssign->fromDate=$from;
-            $shiftAssign->toDate=$to;
+//            $shiftAssign->fromDate=$from;
+//            $shiftAssign->toDate=$to;
             $shiftAssign->jobStatus=$processing->statusId;
-            $shiftAssign->assignBy=Auth::user()->userId;
+//            $shiftAssign->assignBy=Auth::user()->userId;
+            $shiftAssign->shiftmainId=$shiftMain->shiftmainId;
             $shiftAssign->save();
         }
 
@@ -358,10 +415,11 @@ class ShiftController extends Controller
             $shiftAssign=new Shiftassign();
             $shiftAssign->shiftId=$shiftEvening;
             $shiftAssign->teamId=$eveningProcessingTeam3;
-            $shiftAssign->fromDate=$from;
-            $shiftAssign->toDate=$to;
+//            $shiftAssign->fromDate=$from;
+//            $shiftAssign->toDate=$to;
             $shiftAssign->jobStatus=$processing->statusId;
-            $shiftAssign->assignBy=Auth::user()->userId;
+//            $shiftAssign->assignBy=Auth::user()->userId;
+            $shiftAssign->shiftmainId=$shiftMain->shiftmainId;
             $shiftAssign->save();
         }
 
@@ -374,10 +432,11 @@ class ShiftController extends Controller
             $shiftAssign=new Shiftassign();
             $shiftAssign->shiftId=$shiftEvening;
             $shiftAssign->teamId=$eveningQcTeam1;
-            $shiftAssign->fromDate=$from;
-            $shiftAssign->toDate=$to;
+//            $shiftAssign->fromDate=$from;
+//            $shiftAssign->toDate=$to;
             $shiftAssign->jobStatus=$qc->statusId;
-            $shiftAssign->assignBy=Auth::user()->userId;
+//            $shiftAssign->assignBy=Auth::user()->userId;
+            $shiftAssign->shiftmainId=$shiftMain->shiftmainId;
             $shiftAssign->save();
         }
 
@@ -385,10 +444,11 @@ class ShiftController extends Controller
             $shiftAssign=new Shiftassign();
             $shiftAssign->shiftId=$shiftEvening;
             $shiftAssign->teamId=$eveningQcTeam2;
-            $shiftAssign->fromDate=$from;
-            $shiftAssign->toDate=$to;
+//            $shiftAssign->fromDate=$from;
+//            $shiftAssign->toDate=$to;
             $shiftAssign->jobStatus=$qc->statusId;
-            $shiftAssign->assignBy=Auth::user()->userId;
+//            $shiftAssign->assignBy=Auth::user()->userId;
+            $shiftAssign->shiftmainId=$shiftMain->shiftmainId;
             $shiftAssign->save();
         }
 
@@ -396,10 +456,11 @@ class ShiftController extends Controller
             $shiftAssign=new Shiftassign();
             $shiftAssign->shiftId=$shiftEvening;
             $shiftAssign->teamId=$eveningQcTeam3;
-            $shiftAssign->fromDate=$from;
-            $shiftAssign->toDate=$to;
+//            $shiftAssign->fromDate=$from;
+//            $shiftAssign->toDate=$to;
             $shiftAssign->jobStatus=$qc->statusId;
-            $shiftAssign->assignBy=Auth::user()->userId;
+//            $shiftAssign->assignBy=Auth::user()->userId;
+            $shiftAssign->shiftmainId=$shiftMain->shiftmainId;
             $shiftAssign->save();
         }
         //End Evening
@@ -413,10 +474,11 @@ class ShiftController extends Controller
             $shiftAssign=new Shiftassign();
             $shiftAssign->shiftId=$shiftNight;
             $shiftAssign->teamId=$nightProductionTeam1;
-            $shiftAssign->fromDate=$from;
-            $shiftAssign->toDate=$to;
+//            $shiftAssign->fromDate=$from;
+//            $shiftAssign->toDate=$to;
             $shiftAssign->jobStatus=$production->statusId;
-            $shiftAssign->assignBy=Auth::user()->userId;
+//            $shiftAssign->assignBy=Auth::user()->userId;
+            $shiftAssign->shiftmainId=$shiftMain->shiftmainId;
             $shiftAssign->save();
         }
 
@@ -424,10 +486,11 @@ class ShiftController extends Controller
             $shiftAssign=new Shiftassign();
             $shiftAssign->shiftId=$shiftNight;
             $shiftAssign->teamId=$nightProductionTeam2;
-            $shiftAssign->fromDate=$from;
-            $shiftAssign->toDate=$to;
+//            $shiftAssign->fromDate=$from;
+//            $shiftAssign->toDate=$to;
             $shiftAssign->jobStatus=$production->statusId;
-            $shiftAssign->assignBy=Auth::user()->userId;
+//            $shiftAssign->assignBy=Auth::user()->userId;
+            $shiftAssign->shiftmainId=$shiftMain->shiftmainId;
             $shiftAssign->save();
         }
 
@@ -435,10 +498,11 @@ class ShiftController extends Controller
             $shiftAssign=new Shiftassign();
             $shiftAssign->shiftId=$shiftNight;
             $shiftAssign->teamId=$nightProductionTeam3;
-            $shiftAssign->fromDate=$from;
-            $shiftAssign->toDate=$to;
+//            $shiftAssign->fromDate=$from;
+//            $shiftAssign->toDate=$to;
             $shiftAssign->jobStatus=$production->statusId;
-            $shiftAssign->assignBy=Auth::user()->userId;
+//            $shiftAssign->assignBy=Auth::user()->userId;
+            $shiftAssign->shiftmainId=$shiftMain->shiftmainId;
             $shiftAssign->save();
         }
 
@@ -452,10 +516,11 @@ class ShiftController extends Controller
             $shiftAssign=new Shiftassign();
             $shiftAssign->shiftId=$shiftNight;
             $shiftAssign->teamId=$nightProcessingTeam1;
-            $shiftAssign->fromDate=$from;
-            $shiftAssign->toDate=$to;
+//            $shiftAssign->fromDate=$from;
+//            $shiftAssign->toDate=$to;
             $shiftAssign->jobStatus=$processing->statusId;
-            $shiftAssign->assignBy=Auth::user()->userId;
+//            $shiftAssign->assignBy=Auth::user()->userId;
+            $shiftAssign->shiftmainId=$shiftMain->shiftmainId;
             $shiftAssign->save();
         }
 
@@ -463,10 +528,11 @@ class ShiftController extends Controller
             $shiftAssign=new Shiftassign();
             $shiftAssign->shiftId=$shiftNight;
             $shiftAssign->teamId=$nightProcessingTeam2;
-            $shiftAssign->fromDate=$from;
-            $shiftAssign->toDate=$to;
+//            $shiftAssign->fromDate=$from;
+//            $shiftAssign->toDate=$to;
             $shiftAssign->jobStatus=$processing->statusId;
-            $shiftAssign->assignBy=Auth::user()->userId;
+//            $shiftAssign->assignBy=Auth::user()->userId;
+            $shiftAssign->shiftmainId=$shiftMain->shiftmainId;
             $shiftAssign->save();
         }
 
@@ -474,10 +540,11 @@ class ShiftController extends Controller
             $shiftAssign=new Shiftassign();
             $shiftAssign->shiftId=$shiftNight;
             $shiftAssign->teamId=$nightProcessingTeam3;
-            $shiftAssign->fromDate=$from;
-            $shiftAssign->toDate=$to;
+//            $shiftAssign->fromDate=$from;
+//            $shiftAssign->toDate=$to;
             $shiftAssign->jobStatus=$processing->statusId;
-            $shiftAssign->assignBy=Auth::user()->userId;
+//            $shiftAssign->assignBy=Auth::user()->userId;
+            $shiftAssign->shiftmainId=$shiftMain->shiftmainId;
             $shiftAssign->save();
         }
 
@@ -489,30 +556,33 @@ class ShiftController extends Controller
             $shiftAssign=new Shiftassign();
             $shiftAssign->shiftId=$shiftNight;
             $shiftAssign->teamId=$nightQcTeam1;
-            $shiftAssign->fromDate=$from;
-            $shiftAssign->toDate=$to;
+//            $shiftAssign->fromDate=$from;
+//            $shiftAssign->toDate=$to;
             $shiftAssign->jobStatus=$qc->statusId;
-            $shiftAssign->assignBy=Auth::user()->userId;
+//            $shiftAssign->assignBy=Auth::user()->userId;
+            $shiftAssign->shiftmainId=$shiftMain->shiftmainId;
             $shiftAssign->save();
         }
         if($nightQcTeam2 !=null){
             $shiftAssign=new Shiftassign();
             $shiftAssign->shiftId=$shiftNight;
             $shiftAssign->teamId=$nightQcTeam2;
-            $shiftAssign->fromDate=$from;
-            $shiftAssign->toDate=$to;
+//            $shiftAssign->fromDate=$from;
+//            $shiftAssign->toDate=$to;
             $shiftAssign->jobStatus=$qc->statusId;
-            $shiftAssign->assignBy=Auth::user()->userId;
+//            $shiftAssign->assignBy=Auth::user()->userId;
+            $shiftAssign->shiftmainId=$shiftMain->shiftmainId;
             $shiftAssign->save();
         }
         if($nightQcTeam3 !=null){
             $shiftAssign=new Shiftassign();
             $shiftAssign->shiftId=$shiftNight;
             $shiftAssign->teamId=$nightQcTeam3;
-            $shiftAssign->fromDate=$from;
-            $shiftAssign->toDate=$to;
+//            $shiftAssign->fromDate=$from;
+//            $shiftAssign->toDate=$to;
             $shiftAssign->jobStatus=$qc->statusId;
-            $shiftAssign->assignBy=Auth::user()->userId;
+//            $shiftAssign->assignBy=Auth::user()->userId;
+            $shiftAssign->shiftmainId=$shiftMain->shiftmainId;
             $shiftAssign->save();
         }
 
@@ -523,24 +593,29 @@ class ShiftController extends Controller
         return back();
     }
 
-    public function show(){
+
+    public function show($id)
+    {
 
         $shifts=Shift::get();
         $production=Status::where('statusType','jobStatus')
-            ->where('statusName','production')->first();
+            ->where('statusName','production')
+            ->first();
 
         $processing=Status::where('statusType','jobStatus')
-            ->where('statusName','processing')->first();
+            ->where('statusName','processing')
+            ->first();
 
         $qc=Status::where('statusType','jobStatus')
-            ->where('statusName','qc')->first();
+            ->where('statusName','qc')
+            ->first();
 
 
         $ProductionManager=Shiftassign::select('team.teamName','team.teamId','shiftassign.shiftId','user.name','user.userType','user.teamLeader')
             ->where('jobStatus',$production->statusId)
             ->leftJoin('team','team.teamId','shiftassign.teamId')
             ->leftJoin('user','user.teamId','team.teamId')
-//            ->where('user.teamLeader','!=',1)
+            ->where('shiftassign.shiftmainId',$id)
             ->orderBy('teamName')
             ->orderBy('user.teamLeader','desc')
             ->get();
@@ -555,7 +630,7 @@ class ShiftController extends Controller
             ->where('jobStatus',$processing->statusId)
             ->leftJoin('team','team.teamId','shiftassign.teamId')
             ->leftJoin('user','user.teamId','team.teamId')
-//            ->where('user.teamLeader','!=',1)
+            ->where('shiftassign.shiftmainId',$id)
             ->orderBy('teamName')
             ->orderBy('user.teamLeader','desc')
             ->get();
@@ -565,7 +640,7 @@ class ShiftController extends Controller
             ->where('jobStatus',$qc->statusId)
             ->leftJoin('team','team.teamId','shiftassign.teamId')
             ->leftJoin('user','user.teamId','team.teamId')
-//            ->where('user.teamLeader','!=',1)
+            ->where('shiftassign.shiftmainId',$id)
             ->orderBy('teamName')
             ->orderBy('user.teamLeader','desc')
             ->get();
@@ -589,28 +664,6 @@ class ShiftController extends Controller
             ->groupBy('teamId')
             ->get();
 
-//        return $qcTeams;
-//Only Gets The Leader Of the Team
-
-//        $ProductionLeader=Shiftassign::select('team.teamName','team.teamId','shiftassign.shiftId','user.name','user.userType','user.teamLeader')
-//            ->where('jobStatus',$production->statusId)
-//            ->leftJoin('team','team.teamId','shiftassign.teamId')
-//            ->leftJoin('user','user.teamId','team.teamId')
-//            ->where('user.teamLeader',1)
-//            ->get();
-//
-//        $ProcessingLeader=Shiftassign::select('team.teamId','team.teamName','shiftassign.shiftId','user.name','user.userType','user.teamLeader')
-//            ->where('jobStatus',$processing->statusId)
-//            ->leftJoin('team','team.teamId','shiftassign.teamId')
-//            ->leftJoin('user','user.teamId','team.teamId')
-//            ->where('user.teamLeader','!=',1)
-//            ->get();
-//        $QcLeader=Shiftassign::select('team.teamId','team.teamName','shiftassign.shiftId','user.name','user.userType','user.teamLeader')
-//            ->where('jobStatus',$qc->statusId)
-//            ->leftJoin('team','team.teamId','shiftassign.teamId')
-//            ->leftJoin('user','user.teamId','team.teamId')
-//            ->where('user.teamLeader','!=',1)
-//            ->get();
 
 
 //        return view('shift.test',compact('shifts','ProductionManager','ProcessingManager','QcManager','productionTeams','processingnTeams','qcTeams'))
@@ -629,16 +682,6 @@ class ShiftController extends Controller
 
         return $pdf->stream('test.pdf',array('Attachment'=>0));
 
-//        return view('shift.show')
-//            ->with('shifts',$shifts)
-//            ->with('ProductionManager',$ProductionManager)
-//            ->with('ProcessingManager',$ProcessingManager)
-//            ->with('QcManager',$QcManager)
-//            // Variable For Teams
-//            ->with('productionTeams',$productionTeams)
-//            ->with('processingnTeams',$processingnTeams)
-//            ->with('qcTeams',$qcTeams);
-
-
+        
     }
 }

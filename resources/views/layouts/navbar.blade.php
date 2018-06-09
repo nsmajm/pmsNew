@@ -84,7 +84,7 @@
                             <a href="#">Shift</a>
                             <ul class="submenu">
                                 <li><a href="{{route('shift.create')}}">Create Shift</a></li>
-                                <li><a target="_blank" href="{{route('shift.show')}}">View Shift</a></li>
+                                <li><a href="{{route('shift.index')}}">View Shift</a></li>
                             </ul>
                         </li>
 
