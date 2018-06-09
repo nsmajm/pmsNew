@@ -1,16 +1,10 @@
 @extends('main')
-@section('header')
-<style>
 
-</style>
-
-
-@endsection
 @section('content')
 
 <div class="card" >
     <div align="center">
-    <div class="card-body" style="max-width: 90%">
+    <div class="card-body" style="max-width: 95%">
         <div class="pull-right">
             <img src="{{url('public/logo/TCL_logo.png')}}" height="100" width="120" style="">
         </div>
