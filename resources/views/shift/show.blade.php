@@ -4,7 +4,7 @@
 
 <div class="card" >
     <div align="center">
-    <div class="card-body" style="max-width: 95%">
+    <div class="card-body" style="max-width: 80%">
         <div class="pull-right">
             <img src="{{url('public/logo/TCL_logo.png')}}" height="100" width="120" style="">
         </div>
@@ -18,17 +18,21 @@
         <br>
         <table class="table">
             <thead>
-            <th>Shift</th>
-            <th>Production</th>
-            <th>Processing</th>
-            <th>QC</th>
+            <th width="15%">Shift</th>
+            <th width="25%">Production</th>
+            <th width="25%">Processing</th>
+            <th width="25%">QC</th>
+            <th width="5%">Total</th>
             </thead>
             <tbody>
             @foreach($shifts as $shift)
+                @php($ProductionTotal=0)
             <tr>
                 <td>{{$shift->shiftName}}</td>
                 <td>
+
                     @foreach($ProductionManager as $user)
+
                         @if($shift->shiftId == $user->shiftId)
                             @foreach($productionTeams as $pt)
                                 @if($pt->teamId == $user->teamId)
@@ -38,10 +42,12 @@
                                         {{$user->name}}
                                      @endif
                                         <br>
+                                        @php($ProductionTotal++)
                                 @endif
 
                             @endforeach
                         @endif
+
                     @endforeach
 
                 </td>
@@ -57,6 +63,7 @@
                                         {{$user->name}}
                                     @endif
                                     <br>
+                                        @php($ProductionTotal++)
                                 @endif
                             @endforeach
                         @endif
@@ -73,12 +80,19 @@
                                         {{$user->name}}
                                     @endif
                                     <br>
+                                        @php($ProductionTotal++)
                                 @endif
                             @endforeach
                         @endif
                     @endforeach
                 </td>
+                <td>
+                    {{$ProductionTotal}}
+
+                </td>
+
             </tr>
+
 
             @endforeach
 
