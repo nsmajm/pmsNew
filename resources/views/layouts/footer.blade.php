@@ -36,5 +36,5 @@
 
 </body>
 
-<!-- Mirrored from themesdesign.in/upcube/layouts/horizontal/index.html by HTTrack Website Copier/3.x [XR&CO'2014], Mon, 07 May 2018 07:44:01 GMT -->
+
 </html>

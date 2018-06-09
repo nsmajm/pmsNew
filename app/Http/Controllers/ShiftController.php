@@ -9,6 +9,7 @@ use App\Team;
 use App\Status;
 use Illuminate\Support\Facades\Auth;
 use Session;
+use PDF;
 
 class ShiftController extends Controller
 {
@@ -523,6 +524,7 @@ class ShiftController extends Controller
     }
 
     public function show(){
+
         $shifts=Shift::get();
         $production=Status::where('statusType','jobStatus')
             ->where('statusName','production')->first();
@@ -611,17 +613,31 @@ class ShiftController extends Controller
 //            ->get();
 
 
+//        return view('shift.test',compact('shifts','ProductionManager','ProcessingManager','QcManager','productionTeams','processingnTeams','qcTeams'))
+//                        ->with('shifts',$shifts)
+//                        ->with('ProductionManager',$ProductionManager)
+//                        ->with('ProcessingManager',$ProcessingManager)
+//                        ->with('QcManager',$QcManager)
+//                        // Variable For Teams
+//                        ->with('productionTeams',$productionTeams)
+//                        ->with('processingnTeams',$processingnTeams)
+//                        ->with('qcTeams',$qcTeams)
+//        ;
+
+        $pdf = PDF::loadView('shift.test',compact('shifts','ProductionManager','ProcessingManager','QcManager','productionTeams','processingnTeams','qcTeams'));
 
 
-        return view('shift.show')
-            ->with('shifts',$shifts)
-            ->with('ProductionManager',$ProductionManager)
-            ->with('ProcessingManager',$ProcessingManager)
-            ->with('QcManager',$QcManager)
-            // Variable For Teams
-            ->with('productionTeams',$productionTeams)
-            ->with('processingnTeams',$processingnTeams)
-            ->with('qcTeams',$qcTeams);
+        return $pdf->stream('test.pdf',array('Attachment'=>0));
+
+//        return view('shift.show')
+//            ->with('shifts',$shifts)
+//            ->with('ProductionManager',$ProductionManager)
+//            ->with('ProcessingManager',$ProcessingManager)
+//            ->with('QcManager',$QcManager)
+//            // Variable For Teams
+//            ->with('productionTeams',$productionTeams)
+//            ->with('processingnTeams',$processingnTeams)
+//            ->with('qcTeams',$qcTeams);
 
 
     }
