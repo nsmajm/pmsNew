@@ -29,12 +29,9 @@
                             <th width="20%">Folder Name</th>
                             <th width="60%">Special Brief</th>
                             <th width="10%">Created</th>
-
                         </tr>
                         </thead>
                         <tbody>
-
-
                         </tbody>
                     </table>
 

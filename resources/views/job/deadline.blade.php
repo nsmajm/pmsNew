@@ -186,7 +186,7 @@
             var qcTotal=0;
             productionTable=  $('#datatable').DataTable({
                 rowReorder: {
-                    selector: 'td:nth-child(2)'
+                    selector: 'td:nth-child(0)'
                 },
                 responsive: true,
                 processing: true,
@@ -288,7 +288,7 @@
 
             processingTable=$('#processing').DataTable({
                 rowReorder: {
-                    selector: 'td:nth-child(2)'
+                    selector: 'td:nth-child(0)'
                 },
                 responsive: true,
                 processing: true,
@@ -379,7 +379,7 @@
 
         qualityTable=  $('#quality').DataTable({
                 rowReorder: {
-                    selector: 'td:nth-child(2)'
+                    selector: 'td:nth-child(0)'
                 },
                 responsive: true,
                 processing: true,
