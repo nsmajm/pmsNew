@@ -8,12 +8,21 @@ use App\Client;
 use App\BriefItem;
 use App\BriefInstructions;
 use Session;
-
+use Yajra\DataTables\DataTables;
 
 class BriefController extends Controller
 {
     public function check(){
         return view('brief.check');
+    }
+    public function getBriefCheckData(Request $r){
+        $briefInstructions=BriefInstructions::select('client.clientName','brief_item.folderName','brief_instructions.specialInstruction','brief_instructions.created_at')
+            ->leftJoin('brief_item','brief_item.brief_itemId','brief_instructions.brief_itemId')
+            ->leftJoin('client','client.clientId','brief_item.clientId')
+            ->orderBy('brief_instructionsId','desc')
+            ->get();
+        $datatables = Datatables::of($briefInstructions);
+        return $datatables->make(true);
     }
 
     public function index(){

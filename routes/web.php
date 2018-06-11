@@ -73,6 +73,13 @@ Route::post('/job/lessPriority','JobController@lessPriority')->name('priority.le
 //END JOB
 
 //User
+Route::get('user/create','UserController@create')->name('user.create');
+Route::get('user/edit/{id}','UserController@edit')->name('user.edit');
+Route::post('user/insert','UserController@insert')->name('user.insert');
+Route::get('user/show','UserController@show')->name('user.show');
+Route::post('user/show','UserController@getData')->name('user.getData');
+
+
 Route::post('user/getAssignedJob','JobAssignController@getAssignedJob')->name('user.getAssignedJob');
 
 //Comments For Jobs
@@ -86,6 +93,7 @@ Route::get('/feedback','JobController@feedback')->name('job.feedback');
 
 //Brief
 Route::get('/brief/check','BriefController@check')->name('brief.check');
+Route::post('/brief/check','BriefController@getBriefCheckData')->name('brief.getBriefCheckData');
 Route::get('/brief/','BriefController@index')->name('brief.index');
 Route::get('/brief/add','BriefController@add')->name('brief.add');
 Route::post('/brief/insert','BriefController@insert')->name('brief.insert');

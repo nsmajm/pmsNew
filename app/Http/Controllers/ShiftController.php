@@ -733,6 +733,9 @@ class ShiftController extends Controller
 
         $pdf = PDF::loadView('shift.pdf',compact('shifts','ProductionManager','ProcessingManager','QcManager','productionTeams','processingnTeams','qcTeams','shiftMain'));
 
+        if($shiftMain->shiftName !=null){
+            return $pdf->stream($shiftMain->shiftName.'.pdf',array('Attachment'=>0));
+        }
 
         return $pdf->stream('test.pdf',array('Attachment'=>0));
 

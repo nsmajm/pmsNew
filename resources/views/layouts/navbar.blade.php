@@ -97,6 +97,17 @@
                             </ul>
                         </li>
 
+                        @if(Auth::user()->userType ==USER_TYPE[0] || Auth::user()->userType ==USER_TYPE[1])
+                            <li class="has-submenu">
+                                <a href="#">User</a>
+                                <ul class="submenu">
+                                    <li><a href="{{route('user.create')}}">Create User</a></li>
+                                    <li><a href="{{route('user.show')}}">Show User</a></li>
+                                </ul>
+                            </li>
+
+                        @endif
+
                         <li class="has-submenu">
                             <a href="#">Service</a>
                             <ul class="submenu">

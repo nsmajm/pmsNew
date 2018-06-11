@@ -144,7 +144,7 @@
                         <div class="form-group row">
                             <label for="example-text-input" class="col-sm-2 col-form-label">Time Zone</label>
                             <div class="col-sm-10">
-                                <select class="form-control" name="timezone">
+                                <select class="form-control" name="timezone" required>
                                     <option selected>Select Timezone</option>
                                     @foreach($timezones as $timezone)
                                     <option value="{{$timezone->timezoneId}}">{{$timezone->timezoneName}}</option>

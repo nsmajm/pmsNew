@@ -13,30 +13,28 @@
 @section('content')
 
     <div class="card">
-    <div class="card-body">
+        <div class="card-body">
 
-        <h4 class="mt-0 header-title">Shift</h4>
+            <h4 class="mt-0 header-title">Shift</h4>
 
 
-        <div class="table table-responsive">
-            <table id="datatable" class="table table-bordered">
-                <thead>
-                <tr>
-                    <th>Name</th>
-                    <th>Created By</th>
-                    <th>From</th>
-                    <th>To</th>
-                    <th>Created</th>
-                    <th>Action</th>
-                </tr>
-                </thead>
-                <tbody>
+            <div class="table table-responsive">
+                <table id="datatable" class="table table-bordered">
+                    <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>Login Id</th>
+                        <th>User Type</th>
+                        <th>Action</th>
+                    </tr>
+                    </thead>
+                    <tbody>
 
-                </tbody>
-            </table>
+                    </tbody>
+                </table>
+            </div>
+
         </div>
-
-    </div>
 
     </div>
 
@@ -76,7 +74,7 @@
                 stateSave: true,
                 type:"POST",
                 "ajax":{
-                    "url": "{!! route('shift.getData') !!}",
+                    "url": "{!! route('user.getData') !!}",
                     "type": "POST",
                     data:function (d){
                         d._token="{{csrf_token()}}";
@@ -85,15 +83,12 @@
                 },
 
                 columns: [
-                    { data: 'shiftName', name: 'shiftName' },
                     { data: 'name', name: 'name' },
-                    { data: 'fromDate', name: 'fromDate' },
-                    { data: 'toDate', name: 'toDate' },
-                    { data: 'created_at', name: 'created_at' },
+                    { data: 'loginId', name: 'loginId' },
+                    { data: 'userType', name: 'userType' },
                     { "data": function(data){
                         {{--var url='{{url("product/edit/", ":id") }}';--}}
-                            return '<a class="btn btn-default btn-sm" data-panel-id="'+data.shiftmainId+'" onclick="editjob(this)"><i class="fa fa-eye"></i></a>'+
-                                '<a target="_blank" class="btn btn-default btn-sm" data-panel-id="'+data.shiftmainId+'" onclick="downloadPdf(this)"><i class="fa fa-file-pdf-o"></i></a>'
+                            return '<a class="btn btn-default btn-sm" data-panel-id="'+data.userId+'" onclick="editjob(this)"><i class="fa fa-edit"></i></a>'
 
                             ;},
                         "orderable": false, "searchable":false, "name":"selected_rows" },
@@ -102,7 +97,7 @@
                 //Set column definition initialisation properties.
                 "columnDefs": [
                     {
-                        "targets": [0,1,2,3,4,5], //first column / numbering column
+                        "targets": [0,1,2,3], //first column / numbering column
                         "orderable": false, //set not orderable
                     }
                 ],
@@ -112,21 +107,13 @@
 
         function editjob(x) {
             btn = $(x).data('panel-id');
-            var url = '{{route("shift.show", ":id") }}';
+            var url = '{{route("user.edit", ":id") }}';
             var newUrl=url.replace(':id', btn);
             window.location.href = newUrl;
 
         }
 
-        function downloadPdf(x) {
-            btn = $(x).data('panel-id');
-            var url = '{{route("shift.downloadPdf", ":id") }}';
-            var newUrl=url.replace(':id', btn);
-//            window.location.href = newUrl;
-            var win = window.open(newUrl, '_blank');
-            win.focus();
 
-        }
 
     </script>
 
