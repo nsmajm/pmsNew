@@ -177,7 +177,6 @@ class JobController extends Controller
     }
     public function pending(){
 
-
         return view('job.pendingJob');
 
     }
@@ -190,6 +189,8 @@ class JobController extends Controller
 
     public function getPendingData(Request $r){
         $todaysDate=date("Y-m-d");
+        $status=Status::where('statusType','jobStatus')
+            ->where('statusName','done')->first();
 
 
         $jobs=Job::select('job.jobId','job.clientId','client.clientName','file.folderName','job.deadLine','job.quantity')
@@ -197,6 +198,7 @@ class JobController extends Controller
             ->leftJoin('brief','brief.jobId','job.jobId')
             ->leftJoin('file','file.jobId','job.jobId')
             ->where('job.deadline','<=',$todaysDate)
+            ->where('job.statusId','!=',$status->statusId)
             ->get();
 
 
