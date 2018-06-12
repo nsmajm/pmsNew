@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\User;
 use App\Employeeinfo;
 use Hash;
+use Illuminate\Support\Facades\Auth;
 use Session;
 use Yajra\DataTables\DataTables;
 use Image;
@@ -17,12 +18,13 @@ class UserController extends Controller
     }
 
     public function create(){
-
+        if(!(Auth::user()->userType==USER_TYPE[0] || Auth::user()->userType==USER_TYPE[1])){
+            return back();
+        }
         return view('user.create');
     }
+
     public function insert(Request $r){
-
-
 
         if($r->userId){
             $this->validate($r,[
@@ -106,6 +108,9 @@ class UserController extends Controller
     }
 
     public function edit($id){
+        if(!(Auth::user()->userType==USER_TYPE[0] || Auth::user()->userType==USER_TYPE[1])){
+            return back();
+        }
         $user=User::select('user.*','employee_info.empId','employee_info.gender','employee_info.bankAccount','employee_info.number','employee_info.salary','employee_info.joinDate','employee_info.address','employee_info.image')
             ->where('user.userId',$id)
             ->leftJoin('employee_info','employee_info.userId','user.userId')

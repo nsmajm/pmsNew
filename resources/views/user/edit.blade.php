@@ -8,7 +8,7 @@
     <div class="row">
         <div class="col-12">
             <div class="card m-b-30">
-                <h4 class="mb-md-6" style="text-align: center">Create User</h4>
+                <h4 class="mb-md-6" style="text-align: center">Edit User</h4>
 
                 <div class="card-body">
 
