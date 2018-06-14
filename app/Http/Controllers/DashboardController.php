@@ -28,6 +28,7 @@ class DashboardController extends Controller
             return view('dashboard.user')
                 ->with('todaysDate',$todaysDate);
         }
+        return view('dashboard.admin');
         return view('main');
     }
 }

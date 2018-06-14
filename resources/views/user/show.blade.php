@@ -15,7 +15,7 @@
     <div class="card">
         <div class="card-body">
 
-            <h4 class="mt-0 header-title">Shift</h4>
+            <h4 class="mt-0 header-title">Users</h4>
 
 
             <div class="table table-responsive">

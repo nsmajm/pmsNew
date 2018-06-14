@@ -53,8 +53,10 @@
                                 <th>Folder Name</th>
                                 <th >Quantity</th>
                                 <th >Brief Type</th>
+                                <th >Deadline</th>
                                 <th >Job Status</th>
                                 <th >Action</th>
+
 
                             </tr>
                             </thead>
@@ -66,6 +68,7 @@
                                 <th ></th>
                                 <th><b>TOTAL</b></th>
                                 <th ><span id="productionTotal"></span></th>
+                                <th ></th>
                                 <th ></th>
                                 <th ></th>
                                 <th ></th>
@@ -213,7 +216,10 @@
                         $('td', row).css('background-color', 'rgba(136, 245, 11, 0.42)');
 
                     }
-                    productionTotal+=parseInt(data['quantity']);
+                    if(data['quantity'] !=null){
+                        productionTotal+=parseInt(data['quantity']);
+                    }
+
                     $('#productionTotal').html(productionTotal);
 
                 },
@@ -233,6 +239,8 @@
                     { data: 'folderName', name: 'folderName' },
                     { data: 'quantity', name: 'quantity'},
                     { data: 'briefType', name: 'briefType'},
+                    { data: 'deadline', name: 'deadline'},
+
 
                     @if(Auth::user()->userType==USER_TYPE[2]) //For Production Manager
                     { "data": function(data){
@@ -279,6 +287,7 @@
                         "orderable": false, "searchable":false, "name":"selected_rows" },
 
                     @endif
+
 
 
                 ]
@@ -462,25 +471,51 @@
                 ]
             } );
 
+        //Production Total Reset on table change
+
             $('#datatable').on( 'search.dt', function ( e, settings, len ) {
                 productionTotal=0;
             });
+            $('#datatable').on( 'length.dt', function ( e, settings, len ) {
+                productionTotal=0;
+            });
+            $('#datatable').on( 'page.dt', function ( e, settings, len ) {
+                productionTotal=0;
+            });
 
+
+
+
+        /*Processing Total Reset on table change*/
             $('#processing').on( 'search.dt', function ( e, settings, len ) {
                 processingTotal=0;
             });
-
+            $('#processing').on( 'length.dt', function ( e, settings, len ) {
+                processingTotal=0;
+            });
+            $('#processing').on( 'page.dt', function ( e, settings, len ) {
+                processingTotal=0;
+            });
+        /*Quality Total Reset on table change*/
             $('#quality').on( 'search.dt', function ( e, settings, len ) {
                 qcTotal=0;
             });
+            $('#quality').on( 'length.dt', function ( e, settings, len ) {
+                qcTotal=0;
+            });
+            $('#quality').on( 'page.dt', function ( e, settings, len ) {
+                qcTotal=0;
+            });
+            /*--------------END---------------*/
+
+
+
+
 
             $('#date1').datepicker({
                 format:'yyyy-m-d'
             });
 
-
-//            Getteng Todays Date From Input Field
-//            console.log($('#date1').val());
 
 
 

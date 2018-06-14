@@ -79,7 +79,8 @@ class UserController extends Controller
         if($r->hasFile('image')){
             $img = $r->file('image');
 
-            $filename = $img->getClientOriginalName();
+//            $filename = 'test.'.$img->getClientOriginalName();
+            $filename= $user->userId.'.'.$img->getClientOriginalExtension();
             $pathName='public/userimage';
             $location = $pathName.'/'. $filename;
             Image::make($img)->resize(200, null, function ($constraint) {

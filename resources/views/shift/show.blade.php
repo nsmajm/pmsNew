@@ -3,7 +3,12 @@
 @section('content')
 
 <div class="card" >
+    <div>
+        <a class="btn btn-info btn-sm pull-right" target="_blank" href="{{route("shift.downloadPdf",['id'=>$shiftMain->shiftmainId]) }}">Download</a>
+    </div>
+
     <div align="center">
+
     <div class="card-body" style="max-width: 80%">
         <div class="pull-right">
             <img src="{{url('public/logo/TCL_logo.png')}}" height="100" width="120" style="">

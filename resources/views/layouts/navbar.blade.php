@@ -17,15 +17,7 @@
                         <li><a href="{{route('job.all')}}">Job Tally</a></li>
                         <li><a href="{{route('job.add')}}">Add New</a></li>
                         <li><a href="{{route('job.feedback')}}">Feedback</a></li>
-                        <li class="has-submenu">
-                            <a href="#">Deadline</a>
-                            <ul class="submenu">
-
-                                <li><a href="{{route('job.deadline')}}">Todays Deadline</a></li>
-                                <li><a href="{{route('job.deadline')}}">Tomorrows Deadline</a></li>
-                            </ul>
-                        </li>
-
+                        <li><a href="{{route('job.deadline')}}">Deadline</a></li>
 
                     </ul>
                 </li>
@@ -111,7 +103,6 @@
                         <li class="has-submenu">
                             <a href="#">Service</a>
                             <ul class="submenu">
-                                <li><a href="{{route('service.add')}}">Add</a></li>
                                 <li><a href="{{route('service.show')}}">Show</a></li>
                             </ul>
                         </li>

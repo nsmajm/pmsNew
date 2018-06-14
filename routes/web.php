@@ -35,7 +35,7 @@ Route::get('/client/show','ClientController@show')->name('client.show');
 Route::post('/client/show','ClientController@getData')->name('client.getData');
 
 //Service
-Route::get('/service/add','ServiceController@add')->name('service.add');
+//Route::get('/service/add','ServiceController@add')->name('service.add');
 Route::post('/service/insert','ServiceController@insert')->name('service.insert');
 Route::post('/service/show','ServiceController@getData')->name('service.getData');
 Route::post('/service/getServiceEditModal','ServiceController@getServiceEditModal')->name('service.getServiceEditModal');

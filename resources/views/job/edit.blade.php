@@ -28,7 +28,7 @@
                                 <input class="form-control" type="text" name="folderName" placeholder="path" id="example-search-input" value="{{$job->folderName}}" readonly>
                             </div>
                             @if ($errors->has('folderName'))
-                                <span class="invalid-feedback">
+                                <span class="alert-feedback">
                                         <strong>{{ $errors->first('folderName') }}</strong>
                             </span>
                             @endif
@@ -39,7 +39,7 @@
                             <div class="col-sm-10">
                                 <input class="form-control" name="submissionDate" type="text"  id="date" value="{{$job->deadLine}}" readonly>
                                 @if ($errors->has('submissionDate'))
-                                    <span class="invalid-feedback">
+                                    <span class="alert-feedback">
                                         <strong>{{ $errors->first('submissionDate') }}</strong>
                                 </span>
                                 @endif
@@ -60,7 +60,7 @@
                                 <input class="form-control" name="jobQuantity" type="number" id="example-tel-input" value="{{$job->quantity}}" readonly>
                             </div>
                             @if ($errors->has('quantity'))
-                                <span class="invalid-feedback">
+                                <span class="alert-feedback">
                                         <strong>{{ $errors->first('quantity') }}</strong>
                             </span>
                             @endif
@@ -76,7 +76,7 @@
                             <textarea class="form-control" name="brief" readonly>{{$job->briefMsg}}</textarea>
                             </div>
                             @if ($errors->has('brief'))
-                                <span class="invalid-feedback">
+                                <span class="alert-feedback">
                                         <strong>{{ $errors->first('brief')}}</strong>
                             </span>
                             @endif
@@ -89,7 +89,7 @@
                                 <input class="form-control" name="other" type="text" id="example-tel-input" value="{{$job->other}}" readonly>
                             </div>
                             @if ($errors->has('other'))
-                                <span class="invalid-feedback">
+                                <span class="alert-feedback">
                                         <strong>{{ $errors->first('other') }}</strong>
                             </span>
                             @endif
