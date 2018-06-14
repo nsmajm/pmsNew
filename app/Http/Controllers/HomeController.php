@@ -5,6 +5,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use App\User;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Redirect;
 use Session;
 class HomeController extends Controller
 {
@@ -25,6 +26,7 @@ class HomeController extends Controller
      */
     public function index()
     {
+        return Redirect::route('main');
         return view('home');
     }
     public function password(){

@@ -1,73 +1,133 @@
-@extends('layouts.app')
+<!DOCTYPE html>
+<html>
 
-@section('content')
-<div class="container">
-    <div class="row justify-content-center">
-        <div class="col-md-8">
-            <div class="card">
-                <div class="card-header">{{ __('Login') }}</div>
+<!-- Mirrored from themesdesign.in/upcube/layouts/horizontal/pages-login.html by HTTrack Website Copier/3.x [XR&CO'2014], Mon, 07 May 2018 07:47:39 GMT -->
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0, minimal-ui">
+    <title>Upcube - Responsive Flat Admin Dashboard</title>
+    <meta content="Admin Dashboard" name="description" />
+    <meta content="Themesdesign" name="author" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
 
-                <div class="card-body">
-                    <form method="POST" action="{{ route('login') }}">
-                        @csrf
+    <!-- App Icons -->
+    <link rel="shortcut icon" href="{{url('public/logo/TCL_logo.png')}}">
 
-                        <div class="form-group row">
-                            <label for="email" class="col-sm-4 col-form-label text-md-right">{{ __('E-Mail Address') }}</label>
+    <!-- App css -->
+    <link href="{{url('assets/css/bootstrap.min.css')}}" rel="stylesheet" type="text/css" />
+    <link href="{{url('assets/css/icons.css')}}" rel="stylesheet" type="text/css" />
+    <link href="{{url('assets/css/style.css')}}" rel="stylesheet" type="text/css" />
 
-                            <div class="col-md-6">
-                                <input id="loginId" type="text" class="form-control{{ $errors->has('loginId') ? ' is-invalid' : '' }}" name="loginId" value="{{ old('loginId') }}" required autofocus>
+</head>
 
-                                @if ($errors->has('loginId'))
-                                    <span class="invalid-feedback">
+
+<body>
+
+<!-- Begin page -->
+<div class="accountbg"></div>
+<div class="wrapper-page">
+
+    <div class="card">
+        <div class="card-header">
+            <h3 class="text-center">
+                <b class="waves-effect waves-light">PMS</b>
+            </h3>
+
+        </div>
+        <div class="card-body">
+
+
+            <div align="center">
+                <img src="{{url('public/logo/TCL_logo.png')}}" height="150" width="200">
+            </div>
+
+            <div class="p-3">
+                <form method="POST" class="form-horizontal m-t-20" action="{{ route('login') }}">
+                    @csrf
+
+                    <div class="form-group row">
+                        <div class="col-12">
+                            {{--<input class="form-control" name="loginId" type="text" placeholder="login id" required>--}}
+                            <input id="loginId" type="text" class="form-control{{ $errors->has('loginId') ? ' is-invalid' : '' }}" name="loginId" value="{{ old('loginId') }}" required autofocus>
+
+
+                            @if ($errors->has('loginId'))
+                                <span class="invalid-feedback">
                                         <strong>{{ $errors->first('loginId') }}</strong>
                                     </span>
-                                @endif
-
-                                <span class="invalid-feedback">
-                                        <strong>dfsdfsdf</strong>
-                                    </span>
-                            </div>
+                            @endif
                         </div>
+                    </div>
 
-                        <div class="form-group row">
-                            <label for="password" class="col-md-4 col-form-label text-md-right">{{ __('Password') }}</label>
+                    <div class="form-group row">
+                        <div class="col-12">
+                            <input class="form-control" name="password" type="password" placeholder="Password" required>
+                            {{--<input id="password" type="password" class="form-control{{ $errors->has('password') ? ' is-invalid' : '' }}" name="password" required>--}}
 
-                            <div class="col-md-6">
-                                <input id="password" type="password" class="form-control{{ $errors->has('password') ? ' is-invalid' : '' }}" name="password" required>
-
-                                @if ($errors->has('password'))
-                                    <span class="invalid-feedback">
+                            @if ($errors->has('password'))
+                                <span class="invalid-feedback">
                                         <strong>{{ $errors->first('password') }}</strong>
                                     </span>
-                                @endif
+                            @endif
+                        </div>
+                    </div>
+
+                    <div class="form-group row">
+                        <div class="col-12">
+                            <div class="custom-control custom-checkbox">
+                                <input type="checkbox" name="remember" {{ old('remember') ? 'checked' : '' }}> {{ __('Remember Me') }}
+
                             </div>
                         </div>
+                    </div>
 
-                        <div class="form-group row">
-                            <div class="col-md-6 offset-md-4">
-                                <div class="checkbox">
-                                    <label>
-                                        <input type="checkbox" name="remember" {{ old('remember') ? 'checked' : '' }}> {{ __('Remember Me') }}
-                                    </label>
-                                </div>
-                            </div>
+                    <div class="form-group text-center row m-t-20">
+                        <div class="col-12">
+                            <button class="btn btn-info btn-block waves-effect waves-light" type="submit">Log In</button>
+
+
+                            {{--<button type="submit" class="btn btn-info btn-block waves-effect waves-light">--}}
+                            {{--{{ __('Login') }}--}}
+                            {{--</button>--}}
+
                         </div>
+                    </div>
 
-                        <div class="form-group row mb-0">
-                            <div class="col-md-8 offset-md-4">
-                                <button type="submit" class="btn btn-primary">
-                                    {{ __('Login') }}
-                                </button>
 
-                                <a class="btn btn-link" href="{{ route('password.request') }}">
-                                    {{ __('Forgot Your Password?') }}
-                                </a>
-                            </div>
-                        </div>
-                    </form>
-                </div>
+                </form>
             </div>
+
+        </div>
+
+        <div class="card-footer">
+
+            <div style="text-align: center">
+                © {{date('Y')}} Tech Cloud Limited .
+            </div>
+
+
         </div>
     </div>
 </div>
-@endsection
+
+
+
+<!-- jQuery  -->
+<script src="{{url('public/assets/js/jquery.min.js')}}"></script>
+<script src="{{url('public/assets/js/popper.min.js')}}"></script>
+<script src="{{url('public/assets/js/bootstrap.min.js')}}"></script>
+<script src="{{url('public/assets/js/modernizr.min.js')}}"></script>
+<script src="{{url('public/assets/js/waves.js')}}"></script>
+<script src="{{url('public/assets/js/jquery.slimscroll.js')}}"></script>
+
+<script src="{{url('public/assets/js/jquery.nicescroll.js')}}"></script>
+<script src="{{url('public/assets/js/jquery.scrollTo.min.js')}}"></script>
+
+<!-- App js -->
+<script src="{{url('public/')}}assets/js/app.js"></script>
+
+</body>
+
+<!-- Mirrored from themesdesign.in/upcube/layouts/horizontal/pages-login.html by HTTrack Website Copier/3.x [XR&CO'2014], Mon, 07 May 2018 07:47:39 GMT -->
+</html>
