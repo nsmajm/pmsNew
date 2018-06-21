@@ -11,9 +11,18 @@
 |
 */
 
-//Route::get('/', function () {
-//    return view('welcome');
-//});
+Route::get('/procedure', function () {
+    $a="2018-06-11";
+
+    DB::statement('CALL job_information(:date, @created, @delivered);',array($a));
+    $results = DB::select('select @created as created, @delivered as delivered');
+    return $results;
+
+});
+//Long Poll
+Route::get('/poll','PollController@longPool');
+
+
 Route::get('/','Auth\LoginController@loginForm');
 
 Route::get('/dashboard','DashboardController@index')->name('main');
