@@ -134,6 +134,10 @@ Route::post('shift/assign','ShiftController@assign')->name('shift.assign');
 Route::get('shift/show/{id}','ShiftController@show')->name('shift.show');
 Route::get('shift/pdf/{id}','ShiftController@downloadPdf')->name('shift.downloadPdf');
 
+//File Check
+Route::get('file/check','FileController@index')->name('file.check');
+Route::post('file/check','FileController@doneCheck')->name('file.doneCheck');
+
 
 //Password
 Route::get('account/password','HomeController@password')->name('account.password');

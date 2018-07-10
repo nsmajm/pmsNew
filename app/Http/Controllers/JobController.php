@@ -24,8 +24,20 @@ use DB;
 class JobController extends Controller
 {
     public function information(){
+//        $job=Job::select('client.clientName','file.folderName','job.deadLine','job.quantity')
+//            ->leftJoin('file','file.jobId','job.jobId')
+//            ->leftJoin('client','job.clientId','client.clientId')
+//            ->get();
+//
+//        return $job;
         return view('job.information');
     }
+
+    public function getJobInformation(){
+
+    }
+
+
 
 
     public function all(){
@@ -305,9 +317,12 @@ class JobController extends Controller
 
     public function jobStateChange(Request $r){
 
+//        return $r;
+
 
         $status=Status::where('statusType','jobStatus')
             ->where('statusName',$r->status)->first();
+
 
         $todaysDate=date("Y-m-d");
 
@@ -322,11 +337,20 @@ class JobController extends Controller
         $jobStateOld->endDate=$todaysDate;
         $jobStateOld->save();
 
-        $jobState=new Jobstate();
-        $jobState->jobId=$r->jobId;
-        $jobState->statusId=$status->statusId;
-        $jobState->startDate=$todaysDate;
-        $jobState->save();
+        if($r->status=='done'){
+            Job::where('jobId',$r->jobId)
+                ->update(['doneBy'=>Auth::user()->userId]);
+        }
+
+        else{
+            $jobState=new Jobstate();
+            $jobState->jobId=$r->jobId;
+            $jobState->statusId=$status->statusId;
+            $jobState->startDate=$todaysDate;
+            $jobState->save();
+        }
+
+
 
     }
 

@@ -70,6 +70,10 @@
                         </li>
                         <li><a href="advanced-nestable.html">Time Calculator</a></li>
 
+                        @if(Auth::user()->userType == USER_TYPE[1])
+                        <li><a href="{{route('file.check')}}">File Check</a></li>
+                        @endif
+
                         <li><a href="{{route('team.index')}}">Team</a></li>
 
                         <li class="has-submenu">
