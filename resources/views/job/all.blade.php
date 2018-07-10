@@ -102,6 +102,7 @@
                                 <th>Client ID</th>
                                 <th>Folder Name</th>
                                 <th>Creation Date</th>
+                                <th>Deadline</th>
                                 <th>Delivery time</th>
                                 <th>Status</th>
                                 <th>Quantity</th>
@@ -172,6 +173,7 @@
                     { data: 'folderName', name: 'folderName' },
                     { data: 'created_at', name: 'created_at' },
                     { data: 'deadLine', name: 'deadLine' },
+                    { data: 'deliveryDate', name: 'deliveryDate' },
                     { data: 'statusName', name: 'statusName' },
                     { data: 'quantity', name: 'quantity'},
                     { data: 'amount', name: 'amount'},

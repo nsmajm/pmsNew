@@ -6,7 +6,6 @@
     <link href="{{url('assets/plugins/datatables/dataTables.bootstrap4.min.css')}}" rel="stylesheet" type="text/css" />
     <link href="{{url('assets/plugins/datatables/buttons.bootstrap4.min.css')}}" rel="stylesheet" type="text/css" />
     <link href="{{url('assets/plugins/datatables/responsive.bootstrap4.min.css')}}" rel="stylesheet" type="text/css" />
-
     <link href="{{url('public/assets/plugins/bootstrap-datepicker/css/bootstrap-datepicker.min.css')}}" rel="stylesheet">
 
 
@@ -179,9 +178,24 @@
     <script src="https://cdn.datatables.net/rowreorder/1.2.3/js/dataTables.rowReorder.min.js"></script>
     <script src="https://cdn.datatables.net/responsive/2.2.1/js/dataTables.responsive.min.js"></script>
     <script src="{{url('public/assets/plugins/bootstrap-datepicker/js/bootstrap-datepicker.min.js')}}"></script>
+
+    {{--<script src="https://cdn.datatables.net/plug-ins/1.10.18/api/sum().js"></script>--}}
     {{--https://cdn.datatables.net/rowreorder/1.2.3/js/dataTables.rowReorder.min.js--}}
     {{--https://cdn.datatables.net/responsive/2.2.1/js/dataTables.responsive.min.js--}}
     <script>
+//        Function for column sumation
+        jQuery.fn.dataTable.Api.register( 'sum()', function ( ) {
+            return this.flatten().reduce( function ( a, b ) {
+                if ( typeof a === 'string' ) {
+                    a = a.replace(/[^\d.-]/g, '') * 1;
+                }
+                if ( typeof b === 'string' ) {
+                    b = b.replace(/[^\d.-]/g, '') * 1;
+                }
+
+                return a + b;
+            }, 0 );
+        } );
 
         $(document).ready( function () {
             var productionTotal=0;
@@ -196,6 +210,12 @@
                 serverSide: true,
                 Filter: true,
                 stateSave: true,
+                drawCallback: function () {
+                    var api = this.api();
+                    //For Sum of quantity
+                    $('#productionTotal').html(api.column( 2, {page:'current'} ).data().sum());
+
+                },
                 "rowCallback": function( row, data, index ) {
                     if ( data['briefType'] == "<?php echo BRIEF_TYPE[0];?>" )
                     {
@@ -216,11 +236,9 @@
                         $('td', row).css('background-color', 'rgba(136, 245, 11, 0.42)');
 
                     }
-                    if(data['quantity'] !=null){
-                        productionTotal+=parseInt(data['quantity']);
-                    }
 
-                    $('#productionTotal').html(productionTotal);
+
+
 
                 },
 
@@ -259,11 +277,20 @@
 
                     @if(Auth::user()->userType==USER_TYPE[0]) //For Admin
                     { "data": function(data){
+                        if(data.priority ==0){
+                            return '<a class="btn btn-default btn-sm" data-panel-id="'+data.jobId+'" onclick="editjob(this)"><i class="fa fa-edit"></i></a>'+
+                                '<a class="btn btn-default btn-sm" data-panel-id="'+data.jobId+'" onclick="assignjob(this)"><i class="fa fa-exchange"></i></a>'
+                                ;
+                        }
+                        else {
+                            return '<a class="btn btn-default btn-sm" data-panel-id="'+data.jobId+'" onclick="editjob(this)"><i class="fa fa-edit"></i></a>'+
+                                '<a class="btn btn-default btn-sm" data-panel-id="'+data.jobId+'" onclick="lessPriority(this)"><i class="fa fa-arrow-circle-down"></i></a>'+
+                                '<a class="btn btn-default btn-sm" data-panel-id="'+data.jobId+'" onclick="assignjob(this)"><i class="fa fa-exchange"></i></a>'
+                                ;
+                        }
 
-                        return '<a class="btn btn-default btn-sm" data-panel-id="'+data.jobId+'" onclick="editjob(this)"><i class="fa fa-edit"></i></a>'+
-                            '<a class="btn btn-default btn-sm" data-panel-id="'+data.jobId+'" onclick="assignjob(this)"><i class="fa fa-exchange"></i></a>'+
-                            '<a class="btn btn-default btn-sm" data-panel-id="'+data.jobId+'" onclick="lessPriority(this)"><i class="fa fa-arrow-circle-down"></i></a>'
-                            ;},
+
+                    },
                         "orderable": false, "searchable":false, "name":"selected_rows" },
 
                     @elseif(Auth::user()->userType==USER_TYPE[2])//For Production Manager JobAssign
@@ -304,6 +331,12 @@
                 serverSide: true,
                 Filter: true,
                 stateSave: true,
+                drawCallback: function () {
+                    var api = this.api();
+                    //For Sum of quantity
+                    $('#processingTotal').html(api.column( 2, {page:'current'} ).data().sum());
+
+                },
                 "rowCallback": function( row, data, index ) {
                     if ( data['briefType'] == "<?php echo BRIEF_TYPE[0];?>" )
                     {
@@ -325,8 +358,6 @@
 
                     }
 
-                    processingTotal+=parseInt(data['quantity']);
-                    $('#processingTotal').html(processingTotal);
 
                 },
                 type:"POST",
@@ -355,12 +386,19 @@
                     @endif
                     @if(Auth::user()->userType==USER_TYPE[0]) //For Admin
                     { "data": function(data){
-                        {{--var url='{{url("product/edit/", ":id") }}';--}}
-
+                        if(data.priority ==0){
                             return '<a class="btn btn-default btn-sm" data-panel-id="'+data.jobId+'" onclick="editjob(this)"><i class="fa fa-edit"></i></a>'+
-                            '<a class="btn btn-default btn-sm" data-panel-id="'+data.jobId+'" onclick="lessPriority(this)"><i class="fa fa-arrow-circle-down"></i></a>'+
-                            '<a class="btn btn-default btn-sm" data-panel-id="'+data.jobId+'" onclick="assignjob(this)"><i class="fa fa-exchange"></i></a>'
-                            ;},
+                                '<a class="btn btn-default btn-sm" data-panel-id="'+data.jobId+'" onclick="assignjob(this)"><i class="fa fa-exchange"></i></a>'
+                                ;
+                        }
+                        else {
+                            return '<a class="btn btn-default btn-sm" data-panel-id="'+data.jobId+'" onclick="editjob(this)"><i class="fa fa-edit"></i></a>'+
+                                '<a class="btn btn-default btn-sm" data-panel-id="'+data.jobId+'" onclick="lessPriority(this)"><i class="fa fa-arrow-circle-down"></i></a>'+
+                                '<a class="btn btn-default btn-sm" data-panel-id="'+data.jobId+'" onclick="assignjob(this)"><i class="fa fa-exchange"></i></a>'
+                                ;
+                        }
+
+                            },
                         "orderable": false, "searchable":false, "name":"selected_rows" },
 
                     @elseif(Auth::user()->userType==USER_TYPE[3])//For Processing Manager JobAssign
@@ -395,6 +433,12 @@
                 serverSide: true,
                 Filter: true,
                 stateSave: true,
+            drawCallback: function () {
+                var api = this.api();
+                //For Sum of quantity
+                $('#qcTotal').html(api.column( 2, {page:'current'} ).data().sum());
+
+            },
             "rowCallback": function( row, data, index ) {
                 if ( data['briefType'] == "<?php echo BRIEF_TYPE[0];?>" )
                 {
@@ -415,8 +459,7 @@
                 {
                     $('td', row).css('background-color', 'rgba(136, 245, 11, 0.42)');
                 }
-                qcTotal+=parseInt(data['quantity']);
-                $('#qcTotal').html(qcTotal);
+
 
             },
 
@@ -443,10 +486,18 @@
 
                     @if(Auth::user()->userType==USER_TYPE[0]) //For Admin
                     { "data": function(data){
+                        if(data.priority ==0){
                             return '<a class="btn btn-default btn-sm" data-panel-id="'+data.jobId+'" onclick="editjob(this)"><i class="fa fa-edit"></i></a>'+
-                            '<a class="btn btn-default btn-sm" data-panel-id="'+data.jobId+'" onclick="lessPriority(this)"><i class="fa fa-arrow-circle-down"></i></a>'+
                                 '<a class="btn btn-default btn-sm" data-panel-id="'+data.jobId+'" onclick="assignjob(this)"><i class="fa fa-exchange"></i></a>'
-                            ;},
+                                ;
+                        }
+                        else {
+                            return '<a class="btn btn-default btn-sm" data-panel-id="'+data.jobId+'" onclick="editjob(this)"><i class="fa fa-edit"></i></a>'+
+                                '<a class="btn btn-default btn-sm" data-panel-id="'+data.jobId+'" onclick="lessPriority(this)"><i class="fa fa-arrow-circle-down"></i></a>'+
+                                '<a class="btn btn-default btn-sm" data-panel-id="'+data.jobId+'" onclick="assignjob(this)"><i class="fa fa-exchange"></i></a>'
+                                ;
+                        }
+                           },
                         "orderable": false, "searchable":false, "name":"selected_rows" },
 
                     @elseif(Auth::user()->userType==USER_TYPE[4])//For Qc Manager JobAssign
@@ -470,45 +521,6 @@
 
                 ]
             } );
-
-        //Production Total Reset on table change
-
-            $('#datatable').on( 'search.dt', function ( e, settings, len ) {
-                productionTotal=0;
-            });
-            $('#datatable').on( 'length.dt', function ( e, settings, len ) {
-                productionTotal=0;
-            });
-            $('#datatable').on( 'page.dt', function ( e, settings, len ) {
-                productionTotal=0;
-            });
-
-
-
-
-        /*Processing Total Reset on table change*/
-            $('#processing').on( 'search.dt', function ( e, settings, len ) {
-                processingTotal=0;
-            });
-            $('#processing').on( 'length.dt', function ( e, settings, len ) {
-                processingTotal=0;
-            });
-            $('#processing').on( 'page.dt', function ( e, settings, len ) {
-                processingTotal=0;
-            });
-        /*Quality Total Reset on table change*/
-            $('#quality').on( 'search.dt', function ( e, settings, len ) {
-                qcTotal=0;
-            });
-            $('#quality').on( 'length.dt', function ( e, settings, len ) {
-                qcTotal=0;
-            });
-            $('#quality').on( 'page.dt', function ( e, settings, len ) {
-                qcTotal=0;
-            });
-            /*--------------END---------------*/
-
-
 
 
 

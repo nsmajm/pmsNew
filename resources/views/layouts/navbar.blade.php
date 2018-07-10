@@ -27,7 +27,7 @@
                     <a href="#"><i class="ti-bookmark-alt"></i>Reporting</a>
                     <ul class="submenu">
                         <li><a href="advanced-animation.html">Report</a></li>
-                        <li><a href="advanced-highlight.html">Performance</a></li>
+                        <li><a href="{{route('report.performance')}}">Performance</a></li>
                         <li><a href="advanced-rating.html">Job History</a></li>
                         <li><a href="advanced-nestable.html">Hourly Report</a></li>
                         <li><a href="advanced-nestable.html">Daily Work Info</a></li>

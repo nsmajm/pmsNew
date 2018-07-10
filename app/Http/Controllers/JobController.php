@@ -39,7 +39,7 @@ class JobController extends Controller
 
     public function getAllData(Request $r){
 
-        $jobs=Job::select('job.jobId','job.created_at','job.deadLine','job.submissionTime','job.quantity','user.name','file.folderName','client.clientName','status.statusName','rate.amount')
+        $jobs=Job::select('job.jobId','job.created_at','job.deadLine','job.deliveryDate','job.submissionTime','job.quantity','user.name','file.folderName','client.clientName','status.statusName','rate.amount')
             ->leftJoin('file','file.jobId','job.JobId')
             ->leftJoin('client','client.clientId','job.clientId')
             ->leftJoin('status','status.statusId','job.statusId')

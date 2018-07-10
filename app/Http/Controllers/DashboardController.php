@@ -26,9 +26,11 @@ class DashboardController extends Controller
                 ->with('todaysDate',$todaysDate);
         }
 
-        else if(Auth::user()->userType==USER_TYPE[0]){
-            return $this->admin();
-        }
+        return $this->admin();
+
+//        else if(Auth::user()->userType==USER_TYPE[0]){
+//            return $this->admin();
+//        }
 
 
     }
@@ -41,6 +43,11 @@ class DashboardController extends Controller
             ->where('statusName','processing')->first();
 
         $lastDay= Carbon::yesterday()->format('Y-m-d');
+
+//        Procedure
+//        DB::statement('CALL job_information(:date, @created, @delivered);',array($lastDay));
+//        $results = DB::select('select @created as created, @delivered as deliveredJob');
+//        return $results;
 
         $created=Job::whereDate('created_at',$lastDay)
             ->count();

@@ -12,7 +12,7 @@
 */
 
 Route::get('/procedure', function () {
-    $a="2018-06-11";
+    $a="2018-05-28";
 
     DB::statement('CALL job_information(:date, @created, @delivered);',array($a));
     $results = DB::select('select @created as created, @delivered as delivered');
@@ -138,3 +138,6 @@ Route::get('shift/pdf/{id}','ShiftController@downloadPdf')->name('shift.download
 //Password
 Route::get('account/password','HomeController@password')->name('account.password');
 Route::post('account/password','HomeController@changePassword')->name('account.changePassword');
+
+//Reporting
+Route::get('/report/performance','ReportController@performance')->name('report.performance');
