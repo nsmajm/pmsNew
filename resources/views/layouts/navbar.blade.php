@@ -65,6 +65,7 @@
                             <a href="#">Leave</a>
                             <ul class="submenu">
                                 <li><a href="{{route('leave.apply')}}">Apply Leave</a></li>
+                                <li><a href="{{route('leave.showLeaveRequest')}}">Show Leave Request</a></li>
                                 <li><a href="{{route('leave.show')}}">Show Leave</a></li>
                             </ul>
                         </li>

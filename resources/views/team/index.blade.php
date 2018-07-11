@@ -18,7 +18,7 @@
             <div class="modal-content">
                 <!-- Modal Header -->
                 <div class="modal-header">
-                    <h4 class="modal-title">Add Team</h4>
+                    <h4 class="modal-title">Add Group</h4>
                     <button type="button" class="close" data-dismiss="modal">&times;</button>
                 </div>
                 <!-- Modal body -->
@@ -54,16 +54,16 @@
             @csrf
         <div class="card-header">
             <div class="row">
-                <label class="col-md-2">Filter Team</label>
+                <label class="col-md-2">Filter Group</label>
                 <select class="form-control col-md-4" id="filterTeam" >
-                    <option value="">Select Team</option>
+                    <option value="">Select Group</option>
                     @foreach($teams as $team)
                         <option value="{{$team->teamId}}">{{$team->teamName}}</option>
                     @endforeach
                 </select>
                 <div class="col-md-3"></div>
                 <div align="right">
-                    <a href="#" class="btn btn-info btn-sm" data-toggle="modal" data-target="#myModal">Create Team</a>
+                    <a href="#" class="btn btn-info btn-sm" data-toggle="modal" data-target="#myModal">Create Group</a>
                 </div>
 
 
@@ -80,7 +80,7 @@
                         <th width="5%"><input type="checkbox" class="SelectAll" id="selectall2"></th>
                         <th>Name</th>
                         <th>Type</th>
-                        <th>Team</th>
+                        <th>Group</th>
                         <th>Leader</th>
                     </tr>
                     </thead>
@@ -95,9 +95,9 @@
 
         <div class="card-footer">
             <div class="row">
-                <label class="col-md-2">Select Team</label>
+                <label class="col-md-2">Select Group</label>
                 <select class="form-control col-md-4" name="teamId" required>
-                    <option value="">Select Team</option>
+                    <option value="">Select Group</option>
                     @foreach($teams as $team)
                         <option value="{{$team->teamId}}">{{$team->teamName}}</option>
                     @endforeach

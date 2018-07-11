@@ -110,9 +110,12 @@ Route::post('/brief/showBrief','BriefController@showBrief')->name('brief.showBri
 Route::get('/brief/edit/{id}','BriefController@edit')->name('brief.edit');
 
 //Leave
+Route::get('/leave/requests','LeaveController@showLeaveRequest')->name('leave.showLeaveRequest');
+Route::post('/leave/requests','LeaveController@getLeaveRequestData')->name('leave.getLeaveRequestData');
 Route::get('/leave/show','LeaveController@show')->name('leave.show');
 Route::get('/leave/apply','LeaveController@apply')->name('leave.apply');
 Route::post('/leave/apply','LeaveController@submit')->name('leave.submit');
+Route::post('/leave/changeStatus','LeaveController@changeStatus')->name('leave.changeStatus');
 
 //BILL
 Route::get('bill/add','BillController@addRate')->name('bill.addRate');
