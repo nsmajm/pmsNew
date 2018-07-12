@@ -18,16 +18,20 @@ define('BRIEF_TYPE',array(
     "usual"
 ));
 
-define('USER_TYPE',array(
-    "admin",
-    "supervisor",
-    "productionManager",
-    "processingManager",
-    "qcManager",
-    "support",
-    "hr",
-    "account",
-    "user",
-    "client",
+define('USER_TYPE',array("admin","sv","pdm","pcm","qcm","supp","hr","acct","user","cl"));
+
+//define('GENDER',array("Male","Female","Other"));
+
+
+
+
+
+define('USER_DESIGNATION',array(
+    "Intern"=>'intern'
+));
+define('GENDER',array(
+    "Male"=>'m',
+    "Female"=>'f',
+    "Other"=>'0',
 ));
 
