@@ -119,7 +119,13 @@ Route::post('/leave/changeStatus','LeaveController@changeStatus')->name('leave.c
 
 //BILL
 Route::get('bill/add','BillController@addRate')->name('bill.addRate');
+Route::post('bill/modal','BillController@addBillModal')->name('bill.addBillModal');
 Route::get('bill/summery','BillController@summery')->name('bill.summery');
+
+//Rate
+Route::get('rate','BillController@rate')->name('rate');
+Route::post('rate/getClient','BillController@getClient')->name('rate.getClient');
+
 
 //Team
 Route::get('/team','TeamController@index')->name('team.index');

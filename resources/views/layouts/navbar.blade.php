@@ -15,7 +15,9 @@
                         <li><a href="{{route('job.information')}}">Information</a></li>
                         <li><a href="{{route('job.pending')}}">Pending Job</a></li>
                         <li><a href="{{route('job.all')}}">Job Tally</a></li>
+                        @if(Auth::user()->userType==USER_TYPE[5])
                         <li><a href="{{route('job.add')}}">Add New</a></li>
+                        @endif
                         <li><a href="{{route('job.feedback')}}">Feedback</a></li>
                         <li><a href="{{route('job.deadline')}}">Deadline</a></li>
 
@@ -56,7 +58,16 @@
                     </ul>
                 </li>
 
+                <li class="has-submenu">
+                    <a href="#"><i class="fa fa-cog"></i>Settings</a>
+                    <ul class="submenu">
+                        @if(Auth::user()->userType==USER_TYPE[0])
+                        <li><a href="{{route('rate')}}">Rate</a></li>
+                        @endif
+                    </ul>
 
+
+                </li>
 
                 <li class="has-submenu">
                     <a href="#"><i class="ti-arrow-circle-down"></i>Other</a>

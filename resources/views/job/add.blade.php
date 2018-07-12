@@ -60,7 +60,9 @@
                         <label for="example-text-input"  class="col-sm-2 col-form-label">Submission Time</label>
                         <div class="col-sm-10">
                             <select class="form-control" name="submissionTime">
-                                <option>100 Hours</option>
+                                @foreach(Submission_Time as $time)
+                                    <option>{{$time}}</option>
+                                @endforeach
                             </select>
                         </div>
                     </div>
@@ -123,6 +125,8 @@
                         <div class="col-sm-10">
                             <input type="checkbox" class="form-check-input" name="urgent" value="urgent">Urgent  &nbsp;&nbsp;&nbsp;&nbsp;
                             <input type="checkbox" class="form-check-input" name="newBrief" value="urgent">New Brief
+                            &nbsp;&nbsp; &nbsp;&nbsp;
+                            <input type="checkbox" class="form-check-input" name="feedback" value="feedback">Feedback
                         </div>
                     </div>
 
