@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Service;
+use foo\bar;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Client;
@@ -24,8 +25,20 @@ use DB;
 class JobController extends Controller
 {
     public function information(){
+//        $job=Job::select('client.clientName','file.folderName','job.deadLine','job.quantity')
+//            ->leftJoin('file','file.jobId','job.jobId')
+//            ->leftJoin('client','job.clientId','client.clientId')
+//            ->get();
+//
+//        return $job;
         return view('job.information');
     }
+
+    public function getJobInformation(){
+
+    }
+
+
 
 
     public function all(){
@@ -68,8 +81,12 @@ class JobController extends Controller
 
 
     public function add(){
+        if(Auth::user()->userType != USER_TYPE[5]){
+            return back();
+        }
 
-        $clients=Client::select('clientId','clientName')->get();
+        $clients=Client::select('clientId','clientName')
+            ->get();
 
         return view('job.add')
                 ->with('clients',$clients);
@@ -84,16 +101,14 @@ class JobController extends Controller
                 ->orderBy('briefId','desc')
                 ->first();
 
-//        return $job;
         $services=ClientServiceRelation::where('clientId',$job->clientId)
             ->leftJoin('service','service.serviceId','client_service_relation.serviceId')
             ->get();
 
-//        return $services;
+
 
         $jobService=JobServiceRelation::where('jobId',$id)->get();
 
-//        return $jobService;
 
         return view('job.edit')
             ->with('job',$job)
@@ -114,7 +129,12 @@ class JobController extends Controller
         $job->statusId=$status->statusId;
         $job->submissionTime=$r->submissionTime;
         $job->priority=1;
-        if($r->urgent){ $job->urgent=1;}
+        if($r->urgent)
+        { $job->urgent=1;}
+
+        if ($r->feedback){
+            $job->feedback=1;
+        }
 
         $job->other=$r->other;
         $job->save();
@@ -305,9 +325,12 @@ class JobController extends Controller
 
     public function jobStateChange(Request $r){
 
+//        return $r;
+
 
         $status=Status::where('statusType','jobStatus')
             ->where('statusName',$r->status)->first();
+
 
         $todaysDate=date("Y-m-d");
 
@@ -322,11 +345,20 @@ class JobController extends Controller
         $jobStateOld->endDate=$todaysDate;
         $jobStateOld->save();
 
-        $jobState=new Jobstate();
-        $jobState->jobId=$r->jobId;
-        $jobState->statusId=$status->statusId;
-        $jobState->startDate=$todaysDate;
-        $jobState->save();
+        if($r->status=='done'){
+            Job::where('jobId',$r->jobId)
+                ->update(['doneBy'=>Auth::user()->userId]);
+        }
+
+        else{
+            $jobState=new Jobstate();
+            $jobState->jobId=$r->jobId;
+            $jobState->statusId=$status->statusId;
+            $jobState->startDate=$todaysDate;
+            $jobState->save();
+        }
+
+
 
     }
 

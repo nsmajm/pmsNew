@@ -110,13 +110,22 @@ Route::post('/brief/showBrief','BriefController@showBrief')->name('brief.showBri
 Route::get('/brief/edit/{id}','BriefController@edit')->name('brief.edit');
 
 //Leave
+Route::get('/leave/requests','LeaveController@showLeaveRequest')->name('leave.showLeaveRequest');
+Route::post('/leave/requests','LeaveController@getLeaveRequestData')->name('leave.getLeaveRequestData');
 Route::get('/leave/show','LeaveController@show')->name('leave.show');
 Route::get('/leave/apply','LeaveController@apply')->name('leave.apply');
 Route::post('/leave/apply','LeaveController@submit')->name('leave.submit');
+Route::post('/leave/changeStatus','LeaveController@changeStatus')->name('leave.changeStatus');
 
 //BILL
 Route::get('bill/add','BillController@addRate')->name('bill.addRate');
+Route::post('bill/modal','BillController@addBillModal')->name('bill.addBillModal');
 Route::get('bill/summery','BillController@summery')->name('bill.summery');
+
+//Rate
+Route::get('rate','BillController@rate')->name('rate');
+Route::post('rate/getClient','BillController@getClient')->name('rate.getClient');
+
 
 //Team
 Route::get('/team/myTeam','TeamController@TeamInfo')->name('team.myTeam');
@@ -137,6 +146,10 @@ Route::get('shift/create','ShiftController@create')->name('shift.create');
 Route::post('shift/assign','ShiftController@assign')->name('shift.assign');
 Route::get('shift/show/{id}','ShiftController@show')->name('shift.show');
 Route::get('shift/pdf/{id}','ShiftController@downloadPdf')->name('shift.downloadPdf');
+
+//File Check
+Route::get('file/check','FileController@index')->name('file.check');
+Route::post('file/check','FileController@doneCheck')->name('file.doneCheck');
 
 
 //Password

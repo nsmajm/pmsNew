@@ -70,32 +70,6 @@
 
 
                             <tbody>
-                            <tr>
-                                <td>client1</td>
-                                <td>folder</td>
-                                <td>10/10/18</td>
-                                <td>61</td>
-                            </tr>
-                            <tr>
-                                <td>client2</td>
-                                <td>folder</td>
-                                <td>10/10/18</td>
-                                <td>63</td>
-                            </tr>
-                            <tr>
-                                <td>client3</td>
-                                <td>folder</td>
-                                <td>10/10/18</td>
-                                <td>66</td>
-
-                            </tr>
-                            <tr>
-                                <td>client4</td>
-                                <td>folder</td>
-                                <td>10/10/18</td>
-                                <td>22</td>
-                            </tr>
-
                             </tbody>
                         </table>
                     </div>
@@ -123,6 +97,48 @@
     {{--https://cdn.datatables.net/responsive/2.2.1/js/dataTables.responsive.min.js--}}
     <script>
         $(document).ready( function () {
+
+
+            {{--dataTable=  $('#datatable').DataTable({--}}
+                {{--rowReorder: {--}}
+                    {{--selector: 'td:nth-child(0)'--}}
+                {{--},--}}
+                {{--responsive: true,--}}
+                {{--processing: true,--}}
+                {{--serverSide: true,--}}
+                {{--Filter: true,--}}
+                {{--stateSave: true,--}}
+                {{--type:"POST",--}}
+                {{--"ajax":{--}}
+                    {{--"url": "{!! route('job.getAllData') !!}",--}}
+                    {{--"type": "POST",--}}
+                    {{--data:function (d){--}}
+                        {{--d._token="{{csrf_token()}}";--}}
+{{--//                        d.date=$('#date1').val();--}}
+                     {{----}}
+                    {{--},--}}
+                {{--},--}}
+
+                {{--columns: [--}}
+                    {{--{ data: 'clientName', name: 'clientName' },--}}
+                    {{--{ data: 'folderName', name: 'folderName' },--}}
+                    {{--{ data: 'created_at', name: 'created_at' },--}}
+                    {{--{ data: 'deadLine', name: 'deadLine' },--}}
+                    {{--{ data: 'deliveryDate', name: 'deliveryDate' },--}}
+                    {{--{ data: 'statusName', name: 'statusName' },--}}
+                    {{--{ data: 'quantity', name: 'quantity'},--}}
+                    {{--{ data: 'amount', name: 'amount'},--}}
+                    {{--{ data: 'name', name: 'name'},--}}
+                    {{--{ "data": function(data){--}}
+                        {{--var url='{{url("product/edit/", ":id") }}';--}}
+                            {{--return '<a class="btn btn-default btn-sm" data-panel-id="'+data.jobId+'" onclick="editjob(this)"><i class="fa fa-edit"></i></a>'+--}}
+                            {{--'<a class="btn btn-default btn-sm" data-panel-id="'+data.jobId+'" onclick="commentjob(this)"><i class="fa fa-comments"></i></a>'--}}
+                            {{--;},--}}
+                        {{--"orderable": false, "searchable":false, "name":"selected_rows" },--}}
+
+                {{--]--}}
+            {{--} );--}}
+
             $('#datatable').DataTable({
                 rowReorder: {
                     selector: 'td:nth-child(0)'

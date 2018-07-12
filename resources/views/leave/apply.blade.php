@@ -10,7 +10,7 @@
 
 
 
-        <div class="col-12">
+        <div class="container">
             <div class="card m-b-30">
                 <div class="card-body">
 
@@ -19,26 +19,26 @@
                     <form class="form-horizontal" method="post" action="{{route('leave.submit')}}">
                         @csrf
                         <div class="row">
-                            <div class="col-md-4">
+                            <div class="col-md-6">
                                 <div class="form-group">
                                     <label>Cause</label>
-                                    <input type="text" class="form-control" name="cause">
+                                    <input type="text" class="form-control" name="cause" placeholder="leave cause">
                                 </div>
                                 <div class="form-group">
                                     <label>From Date</label>
-                                    <input type="text" class="form-control" id="date1" name="fromDate">
+                                    <input type="text" class="form-control" id="date1" name="fromDate" placeholder="date">
                                 </div>
                                 <div class="form-group">
                                     <label>To Date</label>
-                                    <input type="text" class="form-control" id="date2" name="toDate">
+                                    <input type="text" class="form-control" id="date2" name="toDate" placeholder="date">
                                 </div>
 
                             </div>
 
-                            <div class="col-md-4">
+                            <div class="col-md-6">
                                 <div class="form-group">
                                     <label>Details</label>
-                                    <textarea class="form-control" name="leaveDetails"  rows="8"></textarea>
+                                    <textarea class="form-control" name="leaveDetails" placeholder="details reason"  rows="8"></textarea>
                                 </div>
 
                             </div>

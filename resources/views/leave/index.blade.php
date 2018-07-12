@@ -19,25 +19,11 @@
             <div class="card m-b-30">
                 <div class="card-body">
 
-                    <h4 class="mt-0 header-title">Leave</h4>
+                    <h4 class="mt-0 header-title">My Leave</h4>
 
-                    <div class="form-group row">
-                        <div class="col-md-8" style="margin-left: auto;margin-right: auto">
-                            <select class="form-control">
-                                    <option selected>Select Status </option>
-                                    <option>Pending</option>
-                                    <option>Approved</option>
-
-                            </select>
-
-                        </div>
-
-                    </div>
                     <table id="datatable" class="table table-bordered">
                         <thead>
                         <tr>
-                            <th>Name</th>
-                            <th>Designation</th>
                             <th>Leave Start Date</th>
                             <th>Leave End Date</th>
                             <th>Submit Date</th>
@@ -51,245 +37,27 @@
 
 
                         <tbody>
-                        <tr>
-                            <td>Tiger Nixon</td>
-                            <td>Manager</td>
-                            <td>1/6/18</td>
-                            <td>6/6/18</td>
-                            <td>20/5/18</td>
-                            <td>fever</td>
-                            <td>dummy text</td>
+
+                        @foreach($leaves as $leave)
+                            <tr>
+                            <td>{{$leave->startDate}}</td>
+                            <td>{{$leave->endDate}}</td>
+                            <td>{{$leave->createdAt}}</td>
+                            <td>{{$leave->cause}}</td>
+                            <td>{{$leave->leaveDetails}}</td>
                             <td>
-                                <select class="form-control">
-                                    <option selected>approved</option>
-                                    <option >pending</option>
-                                </select>
+
+                                @if($leave->statusId==8)
+                                    <button style="border-radius: 50%" class="btn btn-info btn-sm"><i class="fa fa-check"></i></button>
+                                @else
+                                    Pending
+                                @endif
+
                             </td>
 
-                        </tr>
-                        <tr>
-                            <td>Tiger Nixon</td>
-                            <td>Manager</td>
-                            <td>1/6/18</td>
-                            <td>6/6/18</td>
-                            <td>20/5/18</td>
-                            <td>fever</td>
-                            <td>dummy text</td>
-                            <td>
-                                <select class="form-control">
-                                    <option selected>approved</option>
-                                    <option >pending</option>
-                                </select>
-                            </td>
+                            </tr>
+                        @endforeach
 
-                        </tr>
-                        <tr>
-                            <td>Tiger Nixon</td>
-                            <td>Manager</td>
-                            <td>1/6/18</td>
-                            <td>6/6/18</td>
-                            <td>20/5/18</td>
-                            <td>fever</td>
-                            <td>dummy text</td>
-                            <td>
-                                <select class="form-control">
-                                    <option selected>approved</option>
-                                    <option >pending</option>
-                                </select>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>Tiger Nixon</td>
-                            <td>Manager</td>
-                            <td>1/6/18</td>
-                            <td>6/6/18</td>
-                            <td>20/5/18</td>
-                            <td>fever</td>
-                            <td>dummy text</td>
-                            <td>
-                                <select class="form-control">
-                                    <option selected>approved</option>
-                                    <option >pending</option>
-                                </select>
-                            </td>
-
-                        </tr>
-                        <tr>
-                            <td>Tiger Nixon</td>
-                            <td>Manager</td>
-                            <td>1/6/18</td>
-                            <td>6/6/18</td>
-                            <td>20/5/18</td>
-                            <td>fever</td>
-                            <td>dummy text</td>
-                            <td>
-                                <select class="form-control">
-                                    <option >approved</option>
-                                    <option selected>pending</option>
-                                </select>
-                            </td>
-
-                        </tr>
-                        <tr>
-                            <td>Tiger Nixon</td>
-                            <td>Manager</td>
-                            <td>1/6/18</td>
-                            <td>6/6/18</td>
-                            <td>20/5/18</td>
-                            <td>fever</td>
-                            <td>dummy text</td>
-                            <td>
-                                <select class="form-control">
-                                    <option >approved</option>
-                                    <option selected>pending</option>
-                                </select>
-                            </td>
-
-                        </tr>
-                        <tr>
-                            <td>Tiger Nixon</td>
-                            <td>Manager</td>
-                            <td>1/6/18</td>
-                            <td>6/6/18</td>
-                            <td>20/5/18</td>
-                            <td>fever</td>
-                            <td>dummy text</td>
-                            <td>
-                                <select class="form-control">
-                                    <option >approved</option>
-                                    <option selected>pending</option>
-                                </select>
-                            </td>
-
-                        </tr>
-                        <tr>
-                            <td>Tiger Nixon</td>
-                            <td>Manager</td>
-                            <td>1/6/18</td>
-                            <td>6/6/18</td>
-                            <td>20/5/18</td>
-                            <td>fever</td>
-                            <td>dummy text</td>
-                            <td>
-                                <select class="form-control">
-                                    <option >approved</option>
-                                    <option selected>pending</option>
-                                </select>
-                            </td>
-
-                        </tr>
-                        <tr>
-                            <td>Tiger Nixon</td>
-                            <td>Manager</td>
-                            <td>1/6/18</td>
-                            <td>6/6/18</td>
-                            <td>20/5/18</td>
-                            <td>fever</td>
-                            <td>dummy text</td>
-                            <td>
-                                <select class="form-control">
-                                    <option >approved</option>
-                                    <option selected>pending</option>
-                                </select>
-                            </td>
-
-                        </tr>
-                        <tr>
-                            <td>Tiger Nixon</td>
-                            <td>Manager</td>
-                            <td>1/6/18</td>
-                            <td>6/6/18</td>
-                            <td>20/5/18</td>
-                            <td>fever</td>
-                            <td>dummy text</td>
-                            <td>
-                                <select class="form-control">
-                                    <option >approved</option>
-                                    <option selected>pending</option>
-                                </select>
-                            </td>
-
-                        </tr>
-                        <tr>
-                            <td>Tiger Nixon</td>
-                            <td>Manager</td>
-                            <td>1/6/18</td>
-                            <td>6/6/18</td>
-                            <td>20/5/18</td>
-                            <td>fever</td>
-                            <td>dummy text</td>
-                            <td>
-                                <select class="form-control">
-                                    <option >approved</option>
-                                    <option selected>pending</option>
-                                </select>
-                            </td>
-
-                        </tr>
-                        <tr>
-                            <td>Tiger Nixon</td>
-                            <td>Manager</td>
-                            <td>1/6/18</td>
-                            <td>6/6/18</td>
-                            <td>20/5/18</td>
-                            <td>fever</td>
-                            <td>dummy text</td>
-                            <td>
-                                <select class="form-control">
-                                    <option >approved</option>
-                                    <option selected>pending</option>
-                                </select>
-                            </td>
-
-                        </tr>
-                        <tr>
-                            <td>Tiger Nixon</td>
-                            <td>Manager</td>
-                            <td>1/6/18</td>
-                            <td>6/6/18</td>
-                            <td>20/5/18</td>
-                            <td>fever</td>
-                            <td>dummy text</td>
-                            <td>
-                                <select class="form-control">
-                                    <option >approved</option>
-                                    <option selected>pending</option>
-                                </select>
-                            </td>
-
-                        </tr>
-                        <tr>
-                            <td>Tiger Nixon</td>
-                            <td>Manager</td>
-                            <td>1/6/18</td>
-                            <td>6/6/18</td>
-                            <td>20/5/18</td>
-                            <td>fever</td>
-                            <td>dummy text</td>
-                            <td>
-                                <select class="form-control">
-                                    <option >approved</option>
-                                    <option selected>pending</option>
-                                </select>
-                            </td>
-
-                        </tr>
-                        <tr>
-                            <td>Tiger Nixon</td>
-                            <td>Manager</td>
-                            <td>1/6/18</td>
-                            <td>6/6/18</td>
-                            <td>20/5/18</td>
-                            <td>fever</td>
-                            <td>dummy text</td>
-                            <td>
-                                <select class="form-control">
-                                    <option >approved</option>
-                                    <option selected>pending</option>
-                                </select>
-                            </td>
-
-                        </tr>
 
                         </tbody>
                     </table>
