@@ -302,7 +302,7 @@
 @endsection
 @section('foot-js')
 
-    
+
 
 
 
