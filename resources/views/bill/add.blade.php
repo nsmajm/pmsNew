@@ -13,7 +13,7 @@
 @section('content')
     <!-- The Modal -->
     <div class="modal" id="myModal">
-        <div class="modal-dialog" style="max-width:70%;">
+        <div class="modal-dialog">
         {{--<div class="modal-dialog modal-lg">--}}
             <div class="modal-content">
 
@@ -105,7 +105,7 @@
                data: {_token: "{{csrf_token()}}",'jobId': id},
                success: function (data) {
                    $('#modalBody').html(data);
-                   console.log(data);
+//                   console.log(data);
                    $('#myModal').modal('show');
 
                }
