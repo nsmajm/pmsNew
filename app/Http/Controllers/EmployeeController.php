@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Group;
 use App\Shift;
 use App\Status;
 use App\Team;
@@ -23,13 +24,13 @@ class EmployeeController extends Controller
 
         $employee=Employeeinfo::leftJoin('user','employee_info.userId','user.userId')->findOrFail($id);
 
-        $group=Team::all();
+        $group=Group::all();
         $shift=Shift::all();
+        $teams=Team::all();
         $status=Status::where('statusType','userStatus')->get();
 
-       // return $employee;
 
-       return view('employee.editEmployee',compact('employee','group','shift','status'));
+       return view('employee.editEmployee',compact('employee','group','shift','status','teams'));
     }
     public function updateEmployee($id, Request $r){
 
@@ -81,8 +82,8 @@ class EmployeeController extends Controller
             ->update($data);
 
        // return $data;
-
-        return redirect(route('employee.empEdit',$id));
+        Session::flash('message', 'Information Updated Successfully!');
+        return back();
 
 
 

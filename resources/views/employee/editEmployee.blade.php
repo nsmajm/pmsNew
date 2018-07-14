@@ -85,14 +85,13 @@
 
 
                         <div class="form-group row">
-                            <label for="example-text-input" class="col-sm-2 col-form-label">Team</label>
+                            <label for="example-text-input" class="col-sm-2 col-form-label">Group</label>
                             <div class="col-sm-10">
 
-                                <select class="form-control" name="team">
-                                    <option value="">Select Team</option>
-
-                                    @foreach($group as $team)
-                                        <option @if($team->teamId == $employee->teamId ) selected @endif value="{{$team->teamId}}">{{$team->teamName}}</option>
+                                <select disabled class="form-control" name="group">
+                                    <option value="">Select Group</option>
+                                    @foreach($group as $empGroup)
+                                        <option @if($empGroup->groupId == $employee->groupId ) selected @endif value="{{$empGroup->groupId}}">{{$empGroup->groupName}}</option>
                                     @endforeach
 
 
@@ -181,6 +180,22 @@
                                                     <strong>{{$errors->first('joinDate')}}</strong>
                                                 </span>
                                 @endif
+                            </div>
+                        </div>
+
+                        <div class="form-group row">
+                            <label for="example-text-input" class="col-sm-2 col-form-label">Team</label>
+                            <div class="col-sm-10">
+
+                                <select  class="form-control" name="team">
+                                    <option value="">Select Team</option>
+                                    @foreach($teams as $team)
+                                        <option @if($team->teamId == $employee->teamId ) selected @endif value="{{$team->teamId}}">{{$team->teamName}}</option>
+                                    @endforeach
+
+
+                                </select>
+
                             </div>
                         </div>
 
