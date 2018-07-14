@@ -131,6 +131,10 @@ Route::post('rate/setRate','BillController@setRate')->name('rate.setRate');
 
 
 //Team
+Route::get('/team/myTeam','TeamController@TeamInfo')->name('team.myTeam');
+
+
+
 Route::get('/team','TeamController@index')->name('team.index');
 Route::post('/team/insert','TeamController@insert')->name('team.insert');
 Route::post('/team/assign','TeamController@assign')->name('team.assign');
@@ -157,3 +161,8 @@ Route::post('account/password','HomeController@changePassword')->name('account.c
 
 //Reporting
 Route::get('/report/performance','ReportController@performance')->name('report.performance');
+
+//Employee
+Route::get('employee/Edit-Employee/{id}','EmployeeController@editEmployee')->name('employee.empEdit');
+
+Route::post('employee/Update-Employee/{id}','EmployeeController@updateEmployee')->name('employee.empUpdate');

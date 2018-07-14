@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Employeeinfo;
+use App\UserType;
 use Illuminate\Http\Request;
 use App\Team;
 use App\User;
@@ -55,6 +57,7 @@ class TeamController extends Controller
 
 //        return $r;
     }
+
     public function insert(Request $r){
         $this->validate($r,[
             'teamName'=>'required|max:45|unique:team,teamName',
@@ -83,6 +86,18 @@ class TeamController extends Controller
         User::whereIn('userId',$r->userId)->update(['teamId' =>$teamId ]);
         Session::flash('message', 'Successfully!');
         return back();
+
+    }
+
+    public function TeamInfo(){
+//        $userTypes=UserType::where('id','!=','cl')->get();
+
+        $users=Employeeinfo::select('user.name','user.userType','employee_info.empId','employee_info.number','employee_info.image','employee_info.designation')
+            ->where('user.userType','!=','cl')
+            ->leftJoin('user','employee_info.userId','user.userId')->get();
+
+        return view('team.showMyTeam',compact('userTypes','users'));
+
 
     }
 }
