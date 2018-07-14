@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\ClientServiceRelation;
 use Illuminate\Http\Request;
 use Auth;
 use App\Job;
@@ -53,7 +54,17 @@ class FileController extends Controller
     public function doneCheck(Request $r){
         $job=Job::findOrFail($r->id);
         $job->fileCheck=Auth::user()->userId;
+        $client=ClientServiceRelation::where('clientId',$job->clientId)->get();
+       foreach ($client as $c){
+           $c=JobServiceRelation::where('jobId',$r->id)
+               ->where('serviceId',$c->serviceId)
+               ->update(array('rate' => $c->rate));
+
+       }
+
         $job->save();
-//        return $r;
+
+        return response()->json(['title'=>'Success','content'=>'File Checked successfully','flag'=>1]);
+
     }
 }

@@ -12,7 +12,7 @@
     <div class="card-header">
         <div class="form-group col-md-12">
             <label>Select Client</label>
-            <select class="form-control" id="combobox">
+            <select class="form-control" id="combobox" onchange="getClient()">
                 @foreach($clients as $client)
                     <option value="{{$client->clientId}}">{{$client->clientName}}</option>
                 @endforeach
@@ -55,7 +55,7 @@
                   cache: false,
                   data: {_token: "{{csrf_token()}}",'clientId': id},
                   success: function (data) {
-                      console.log(data);
+//                      console.log(data);
                       $('#clientView').html(data);
 
                   }

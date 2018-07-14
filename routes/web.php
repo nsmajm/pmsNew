@@ -75,6 +75,7 @@ Route::get('/job/search','JobController@all')->name('job.all');//Get All Job
 Route::post('/job/search','JobController@getAllData')->name('job.getAllData');
 
 Route::post('/job/getServiceModal','JobController@getServiceModal')->name('job.getServiceModal');
+Route::post('/job/checkQuantity','JobController@checkQuantity')->name('job.checkQuantity');
 
 //Job Priority
 Route::post('/job/lessPriority','JobController@lessPriority')->name('priority.less');
@@ -120,11 +121,13 @@ Route::post('/leave/changeStatus','LeaveController@changeStatus')->name('leave.c
 //BILL
 Route::get('bill/add','BillController@addRate')->name('bill.addRate');
 Route::post('bill/modal','BillController@addBillModal')->name('bill.addBillModal');
+Route::post('bill/changeRate','BillController@changeRate')->name('bill.changeRate');
 Route::get('bill/summery','BillController@summery')->name('bill.summery');
 
 //Rate
 Route::get('rate','BillController@rate')->name('rate');
 Route::post('rate/getClient','BillController@getClient')->name('rate.getClient');
+Route::post('rate/setRate','BillController@setRate')->name('rate.setRate');
 
 
 //Team

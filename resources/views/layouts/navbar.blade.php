@@ -50,8 +50,8 @@
                 <li class="has-submenu">
                     <a href="#"><i class="ti-money"></i>Billing</a>
                     <ul class="submenu">
-                        <li><a href="{{route('bill.addRate')}}">Add Rate</a></li>
-                        <li><a href="advanced-highlight.html">Edit Bill</a></li>
+                        <li><a href="{{route('bill.addRate')}}">Add Bill</a></li>
+                        {{--<li><a href="advanced-highlight.html">Edit Bill</a></li>--}}
                         <li><a href="{{route('bill.summery')}}">Bill Summery</a></li>
                         <li><a href="advanced-nestable.html">Invoice</a></li>
                         <li><a href="advanced-nestable.html">Bill Copy</a></li>

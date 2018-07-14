@@ -324,16 +324,10 @@ class JobController extends Controller
 
 
     public function jobStateChange(Request $r){
-
-//        return $r;
-
-
         $status=Status::where('statusType','jobStatus')
             ->where('statusName',$r->status)->first();
 
-
         $todaysDate=date("Y-m-d");
-
 
         Job::where('jobId',$r->jobId)
             ->update(['statusId'=>$status->statusId]);
@@ -348,6 +342,8 @@ class JobController extends Controller
         if($r->status=='done'){
             Job::where('jobId',$r->jobId)
                 ->update(['doneBy'=>Auth::user()->userId]);
+            Jobassign::where('jobId',$r->jobId)
+                ->update(['leaveDate'=> date('Y-m-d H:i:s')]);
         }
 
         else{
@@ -371,7 +367,8 @@ class JobController extends Controller
 
         $teams=Team::get();
 
-        $jobAssignQuantity=Jobassign::where('jobId',$id)->sum('quantity');
+        $jobAssignQuantity=Jobassign::where('jobId',$id)
+            ->sum('quantity');
 
 //        return $jobAssignQuantity;
 
@@ -379,6 +376,13 @@ class JobController extends Controller
             ->with('teams',$teams)
             ->with('job',$job)
             ->with('jobAssignQuantity',$jobAssignQuantity);
+    }
+
+    public function checkQuantity(Request $r){
+//        $r->quantity
+        $job=Job::findOrFail($r->jobId);
+
+        return $job->quantity-$r->quantity;
     }
 
 

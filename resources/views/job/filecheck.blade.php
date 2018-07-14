@@ -125,8 +125,11 @@
                 cache: false,
                 data: {_token:"{{csrf_token()}}",'id': id},
                 success: function (data) {
-                    console.log(data);
-                    $(x).closest("tr").remove();
+//                    console.log(data);
+                    if(data.flag){
+                        $(x).closest("tr").remove();
+                    }
+
 
 
                 }

@@ -21,7 +21,7 @@
 <script src="{{url('public/assets/js/jquery.slimscroll.js')}}"></script>
 <script src="{{url('public/assets/js/jquery.nicescroll.js')}}"></script>
 <script src="{{url('public/assets/js/jquery.scrollTo.min.js')}}"></script>
-
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-confirm/3.3.0/jquery-confirm.min.js"></script>
 <!--Morris Chart-->
 
 {{--<script src="{{url('public/assets/plugins/morris/morris.min.js')}}"></script>--}}

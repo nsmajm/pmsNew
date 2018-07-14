@@ -14,22 +14,35 @@ class JobAssignController extends Controller
 {
     public function getTeamMembers(Request $r){
 
-        $users=User::where('teamId',$r->teamId)->get();
+        $users=User::where('teamId',$r->teamId)
+//            ->leftJoin('job')
+            ->get();
+        $jobAssain=Jobassign::where('jobId',$r->jobId)->get();
 
-        return view('assignJob.getTeamMember')
-            ->with('users',$users);
+
+
+        return view('assignJob.getTeamMember',compact('users','jobAssain'));
 
     }
 
     public function assignJobUser(Request $r){
 
         for($i=0;$i<count($r->quantity);$i++){
-            $assign=new Jobassign();
-            $assign->jobId=$r->jobId;
-            $assign->assignBy=Auth::user()->userId;
-            $assign->assignTo=$r->user[$i];
-            $assign->quantity=$r->quantity[$i];
-            $assign->save();
+            $assign=Jobassign::where('assignTo',$r->user[$i])
+                ->where('jobId',$r->jobId)->first();
+            if($assign==null){
+                $assign=new Jobassign();
+                $assign->jobId=$r->jobId;
+                $assign->assignBy=Auth::user()->userId;
+                $assign->assignTo=$r->user[$i];
+                $assign->quantity=$r->quantity[$i];
+                $assign->save();
+            }
+            else{
+                Jobassign::where('assignTo',$r->user[$i])
+                    ->where('jobId',$r->jobId)->update(['quantity'=> $r->quantity[$i]]);
+            }
+
         }
 
     }
@@ -37,6 +50,8 @@ class JobAssignController extends Controller
     public function getAssignedJob(Request $r){
         $assignJob=Jobassign::select('client.clientName','file.folderName','jobassign.quantity','user.name','jobassign.assignDate')
             ->where('jobassign.assignTo',Auth::user()->userId)
+//            ->where('job.fileCheck',null)
+            ->where('jobassign.leaveDate',null)
             ->leftJoin('user','user.userId','jobassign.assignBy')
             ->leftJoin('job','job.jobId','jobassign.jobId')
             ->leftJoin('file','job.jobId','file.jobId')
@@ -51,6 +66,7 @@ class JobAssignController extends Controller
 
 
         $datatables = Datatables::of($assignJob);
+
         return $datatables->make(true);
 
     }

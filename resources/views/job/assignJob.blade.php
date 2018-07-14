@@ -47,50 +47,61 @@
 
 @section('foot-js')
 <script>
-    function submitForm() {
-        var arr = $('input[name="pname[]"]').map(function () {
-            return this.value; // $(this).val()
-        }).get();
-        var btn = $('input[name="pname[]"]').map(function () {
-            return $(this).data('panel-id');
-        }).get();
-        var quantity=[];
-        var user=[];
 
-        for(i=0;i<arr.length;i++){
-            if(arr[i]!=""){
-                quantity.push(arr[i]);
-                user.push(btn[i])
+    function submitForm() {
+        if(!jobCount()){
+
+            var arr = $('input[name="pname[]"]').map(function () {
+                return this.value; // $(this).val()
+            }).get();
+            var btn = $('input[name="pname[]"]').map(function () {
+                return $(this).data('panel-id');
+            }).get();
+            var quantity=[];
+            var user=[];
+
+            for(i=0;i<arr.length;i++){
+                if(arr[i]!=""){
+                    quantity.push(arr[i]);
+                    user.push(btn[i])
+                }
             }
+
+            var jobId={{$job->jobId}};
+
+
+            $.ajax({
+                type: 'POST',
+                url: "{!! route('job.assignJobUser') !!}",
+                cache: false,
+                data: {_token:"{{csrf_token()}}",'jobId':jobId,'user': user,'quantity':quantity},
+                success: function (data) {
+
+                    $.alert({
+                        title: 'Success',
+                        content: 'Assign Successfully',
+                    });
+
+                }
+            });
+
+
         }
 
-        var jobId={{$job->jobId}};
-
-      /*  console.log(user);
-        console.log(quantity);*/
-
-        $.ajax({
-            type: 'POST',
-            url: "{!! route('job.assignJobUser') !!}",
-            cache: false,
-            data: {_token:"{{csrf_token()}}",'jobId':jobId,'user': user,'quantity':quantity},
-            success: function (data) {
-                    console.log(data);
-
-            }
-        });
 
     }
     function getTeam(x) {
 
         var teamId=x.value;
+        var jobId={{$job->jobId}};
+
 
         if(teamId !=''){
             $.ajax({
                 type: 'POST',
                 url: "{!! route('job.getTeamMembers') !!}",
                 cache: false,
-                data: {_token:"{{csrf_token()}}",'teamId': teamId},
+                data: {_token:"{{csrf_token()}}",'teamId': teamId,'jobId':jobId},
                 success: function (data) {
                     $('.team-content').html(data);
 
@@ -105,7 +116,8 @@
     }
 
     function jobCount() {
-//        alert('pressed');
+        var jobId={{$job->jobId}};
+
         var qLeft= {{$job->quantity-$jobAssignQuantity}};
         var temp=0;
         var arr = $('input[name="pname[]"]').map(function () {
@@ -113,20 +125,37 @@
         }).get();
 
         for(i=0;i<arr.length;i++){
-//            console.log(arr[i]);
+
             if(arr[i]!=''){
                 temp+=parseInt(arr[i]);
             }
         }
-//        console.log(temp);
-        if(temp>qLeft){
-            alert('limit exceed')
-            $("#submitButton").prop("disabled", true);
-        }
-        else {
-            $("#submitButton").prop("disabled", false);
-        }
-        $('#quantityLeft').html(qLeft-temp);
+
+        $.ajax({
+            type: 'POST',
+            url: "{!! route('job.checkQuantity') !!}",
+            cache: false,
+            data: {_token:"{{csrf_token()}}",'quantity': temp,'jobId':jobId},
+            success: function (data) {
+//                console.log('left:'+data+' total:'+temp);
+                qLeft=data;
+                $('#quantityLeft').html(qLeft);
+                if(data<0){
+                    alert('limit exceed');
+                    $("#submitButton").prop("disabled", true);
+                    return false;
+                }
+                else {
+                    $("#submitButton").prop("disabled", false);
+                    return true;
+                }
+
+
+            }
+        });
+
+
+
 
 
 
