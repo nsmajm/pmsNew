@@ -147,6 +147,8 @@
                                         <span class="card-text memberInfo">
                                                     {{$user->designation}}<br><i class="fa fa-phone" aria-hidden="true"></i>&nbsp;{{$user->number}}
                                         </span>
+                                        <br>
+                                        <a id="editLead" href="{{route('employee.empEdit',$user->empId)}}"><i class="fa fa-pencil-square-o"></i></a>
 
 
                                     </div>
@@ -186,6 +188,8 @@
                                         <span class="card-text memberInfo">
                                                     {{$user->designation}}<br><i class="fa fa-phone" aria-hidden="true"></i>&nbsp;{{$user->number}}
                                         </span>
+                                        <br>
+                                        <a id="editLead" href="{{route('employee.empEdit',$user->empId)}}"><i class="fa fa-pencil-square-o"></i></a>
 
 
                                     </div>
@@ -226,6 +230,8 @@
                                         <span class="card-text memberInfo">
                                                     {{$user->designation}}<br><i class="fa fa-phone" aria-hidden="true"></i>&nbsp;{{$user->number}}
                                         </span>
+                                        <br>
+                                        <a id="editLead" href="{{route('employee.empEdit',$user->empId)}}"><i class="fa fa-pencil-square-o"></i></a>
 
 
                                     </div>
@@ -265,6 +271,8 @@
                                         <span class="card-text memberInfo">
                                                     {{$user->designation}}<br><i class="fa fa-phone" aria-hidden="true"></i>&nbsp;{{$user->number}}
                                         </span>
+                                        <br>
+                                        <a id="editLead" href="{{route('employee.empEdit',$user->empId)}}"><i class="fa fa-pencil-square-o"></i></a>
 
 
                                     </div>
@@ -294,11 +302,7 @@
 @endsection
 @section('foot-js')
 
-    <script>
-
-
-
-    </script>
+    
 
 
 

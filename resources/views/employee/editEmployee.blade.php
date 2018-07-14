@@ -29,10 +29,10 @@
                             <div class="col-sm-10">
                                 <input class="form-control" type="text" name="empName" value="{{$employee->name}}" placeholder="Employee Name" id="empName" required>
                             </div>
-                            @if ($errors->has('name'))
-                                <span class="invalid-feedback">
-                                                <strong>{{ $errors->first('name') }}</strong>
-                                    </span>
+                            @if ($errors->has('empName'))
+                                <span class="">
+                                    <strong>{{ $errors->first('empName') }}</strong>
+                                </span>
                             @endif
                         </div>
                         <div class="form-group row">
@@ -40,7 +40,7 @@
                             <div class="col-sm-10">
                                 <input class="form-control" type="text" name="empUserName" value="{{$employee->loginId}}" placeholder="User Name" id="empUserName" required>
                             </div>
-                            @if ($errors->has('name'))
+                            @if ($errors->has('empUserName'))
                                 <span class="invalid-feedback">
                                                 <strong>{{ $errors->first('empUserName') }}</strong>
                                     </span>
@@ -50,9 +50,9 @@
                         <div class="form-group row">
                             <label for="example-search-input" class="col-sm-2 col-form-label">Employee ID</label>
                             <div class="col-sm-10">
-                                <input class="form-control" type="text" name="employeeId" value="{{$employee->employeeId}}" placeholder="Employee ID" id="employeeId" required>
+                                <input class="form-control" type="text" name="employeeId" value="{{$employee->employeeId}}" placeholder="Employee ID" id="employeeId" >
                             </div>
-                            @if ($errors->has('name'))
+                            @if ($errors->has('employeeId'))
                                 <span class="invalid-feedback">
                                                 <strong>{{ $errors->first('employeeId') }}</strong>
                                     </span>
@@ -63,7 +63,7 @@
                             <div class="col-sm-10">
                                 <input class="form-control" type="text" name="employeemobileNo" value="{{$employee->number}}" placeholder="Employee Mobile NO" id="employeemobileNo" required>
                             </div>
-                            @if ($errors->has('name'))
+                            @if ($errors->has('employeemobileNo'))
                                 <span class="invalid-feedback">
                                                 <strong>{{ $errors->first('employeemobileNo') }}</strong>
                                     </span>
@@ -88,7 +88,7 @@
                             <label for="example-text-input" class="col-sm-2 col-form-label">Team</label>
                             <div class="col-sm-10">
 
-                                <select class="form-control" name="team" required>
+                                <select class="form-control" name="team">
                                     <option value="">Select Team</option>
 
                                     @foreach($group as $team)
@@ -101,6 +101,18 @@
                             </div>
                         </div>
 
+                        <div class="form-group row">
+                            <label for="example-email-input" class="col-sm-2 col-form-label">Address</label>
+                            <div class="col-sm-10">
+                                <textarea name="address" class="form-control">{{$employee->address}}</textarea>
+                                @if ($errors->has('address'))
+                                    <span class="invalid-feedback">
+                                                    <strong>{{$errors->first('address')}}</strong>
+                                    </span>
+                                @endif
+                            </div>
+                        </div>
+
                     </div>
 
 
@@ -109,9 +121,9 @@
                         <div class="form-group row">
                             <label for="example-search-input" class="col-sm-2 col-form-label">Designation</label>
                             <div class="col-sm-10">
-                                <input class="form-control" type="text" name="empDesignation" value="{{$employee->designation}}" placeholder="Employee Designation" id="empDesignation" required>
+                                <input class="form-control" type="text" name="empDesignation" value="{{$employee->designation}}" placeholder="Employee Designation" id="empDesignation" >
                             </div>
-                            @if ($errors->has('name'))
+                            @if ($errors->has('empDesignation'))
                                 <span class="invalid-feedback">
                                                 <strong>{{ $errors->first('empDesignation') }}</strong>
                                     </span>
@@ -120,9 +132,9 @@
                         <div class="form-group row">
                             <label for="example-search-input" class="col-sm-2 col-form-label">Sudo Name</label>
                             <div class="col-sm-10">
-                                <input class="form-control" type="text" name="empSudoName" value="{{$employee->sudoName}}"placeholder="Sudo Name" id="empSudoName" required>
+                                <input class="form-control" type="text" name="empSudoName" value="{{$employee->sudoName}}"placeholder="Sudo Name" id="empSudoName" >
                             </div>
-                            @if ($errors->has('name'))
+                            @if ($errors->has('empSudoName'))
                                 <span class="invalid-feedback">
                                                 <strong>{{ $errors->first('empSudoName') }}</strong>
                                     </span>
@@ -131,9 +143,9 @@
                         <div class="form-group row">
                             <label for="example-search-input" class="col-sm-2 col-form-label">RF ID</label>
                             <div class="col-sm-10">
-                                <input class="form-control" type="text" name="empRfId" value="{{$employee->rfId}}" placeholder="RF ID" id="empRfId" required>
+                                <input class="form-control" type="text" name="empRfId" value="{{$employee->rfId}}" placeholder="RF ID" id="empRfId" >
                             </div>
-                            @if ($errors->has('name'))
+                            @if ($errors->has('empRfId'))
                                 <span class="invalid-feedback">
                                                 <strong>{{ $errors->first('empRfId') }}</strong>
                                     </span>
@@ -144,16 +156,16 @@
                             <label for="example-search-input" class="col-sm-2 col-form-label">Employee Status</label>
 
                             <div class="col-sm-10">
-                                <select class="form-control" name="gender" id="employeeStatus" required>
+                                <select class="form-control" name="empStatus" id="employeeStatus" required>
                                     <option value="">Select Status</option>
                                     @foreach($status as $empStatus)
-                                        <option @if($empStatus->statusId == $employee->status ) selected @endif value="{{$empStatus->statusId}}">{{$empStatus->statusName}}</option>
+                                        <option @if($empStatus->statusId == $employee->statusId ) selected @endif value="{{$empStatus->statusId}}">{{$empStatus->statusName}}</option>
                                     @endforeach
 
                                 </select>
                             </div>
 
-                            @if ($errors->has('name'))
+                            @if ($errors->has('empStatus'))
                                 <span class="invalid-feedback">
                                                 <strong>{{ $errors->first('employeeStatus') }}</strong>
                                     </span>
@@ -164,7 +176,7 @@
                             <label for="example-email-input" class="col-sm-2 col-form-label">Join Date</label>
                             <div class="col-sm-10">
                                 <input class="form-control" name="empJoinDate" type="text" value="{{$employee->joinDate}}" id="empJoinDate" readonly>
-                                @if ($errors->has('joinDate'))
+                                @if ($errors->has('empJoinDate'))
                                     <span class="invalid-feedback">
                                                     <strong>{{$errors->first('joinDate')}}</strong>
                                                 </span>
@@ -191,18 +203,18 @@
                         <div class="form-group row">
                             <label for="example-email-input" class="col-sm-2 col-form-label">Image</label>
                             <div class="col-sm-10">
-                                <input type="file" name="image" class="form-control" accept="image/*">
+                                <input type="file" name="empImage" class="form-control" accept="image/*">
 
                                 <div>
 
                                     @if(!empty($employee->image))
-                                        <img src="{{url("public/userimage/").$employee->image}}" class="thumb-lg">
+                                        <img src="{{url("public/userimage")."/".$employee->image}}" class="thumb-lg">
                                     @else
                                         <img src="{{url("public/userimage/noImage.jpg")}}" class="thumb-lg">
                                     @endif
 
                                 </div>
-                                @if ($errors->has('image'))
+                                @if ($errors->has('empImage'))
                                     <span class="invalid-feedback">
                                                     <strong>{{$errors->first('image')}}</strong>
                                     </span>
