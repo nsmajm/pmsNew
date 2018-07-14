@@ -129,12 +129,17 @@ Route::get('rate','BillController@rate')->name('rate');
 Route::post('rate/getClient','BillController@getClient')->name('rate.getClient');
 Route::post('rate/setRate','BillController@setRate')->name('rate.setRate');
 
+//Invoice
+Route::get('invoice','InvoiceController@index')->name('invoice.index');
+
+//Group
+Route::get('group','GroupController@index')->name('group.index');
+Route::post('group/insert','GroupController@insert')->name('group.insert');
+Route::post('/group','GroupController@getGroupData')->name('group.getGroupData');
+Route::post('/group/assign','GroupController@assign')->name('group.assign');
 
 //Team
 Route::get('/team/myTeam','TeamController@TeamInfo')->name('team.myTeam');
-
-
-
 Route::get('/team','TeamController@index')->name('team.index');
 Route::post('/team/insert','TeamController@insert')->name('team.insert');
 Route::post('/team/assign','TeamController@assign')->name('team.assign');
@@ -166,3 +171,4 @@ Route::get('/report/performance','ReportController@performance')->name('report.p
 Route::get('employee/Edit-Employee/{id}','EmployeeController@editEmployee')->name('employee.empEdit');
 
 Route::post('employee/Update-Employee/{id}','EmployeeController@updateEmployee')->name('employee.empUpdate');
+

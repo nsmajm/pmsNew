@@ -18,7 +18,7 @@ define('BRIEF_TYPE',array(
     "usual"
 ));
 
-define('USER_TYPE',array("admin","sv","pdm","pcm","qcm","supp","hr","acct","user","cl"));
+define('USER_TYPE',array("admin","super","pdm","pcm","qcm","supp","hr","acct","user","cl"));
 
 //define('GENDER',array("Male","Female","Other"));
 

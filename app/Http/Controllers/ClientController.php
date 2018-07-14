@@ -71,7 +71,6 @@ class ClientController extends Controller
                 $clientServiceRelation->clientId=$client->clientId;
                 $clientServiceRelation->save();
             }
-
         }
 
         Session::flash('message', 'Client Added Successfully!');

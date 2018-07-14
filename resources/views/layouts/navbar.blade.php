@@ -53,7 +53,7 @@
                         <li><a href="{{route('bill.addRate')}}">Add Bill</a></li>
                         {{--<li><a href="advanced-highlight.html">Edit Bill</a></li>--}}
                         <li><a href="{{route('bill.summery')}}">Bill Summery</a></li>
-                        <li><a href="advanced-nestable.html">Invoice</a></li>
+                        <li><a href="{{route('invoice.index')}}">Invoice</a></li>
                         <li><a href="advanced-nestable.html">Bill Copy</a></li>
                     </ul>
                 </li>
