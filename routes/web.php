@@ -165,4 +165,7 @@ Route::get('/report/performance','ReportController@performance')->name('report.p
 //Employee
 Route::get('employee/Edit-Employee/{id}','EmployeeController@editEmployee')->name('employee.empEdit');
 
+Route::get('employee/Add-New-Employee','EmployeeController@addNewEmployee')->name('employee.addNewEmp');
+
 Route::post('employee/Update-Employee/{id}','EmployeeController@updateEmployee')->name('employee.empUpdate');
+Route::post('employee/Save-Employee','EmployeeController@saveNewEmployee')->name('employee.insertNewEmp');

@@ -35,6 +35,21 @@ define('GENDER',array(
     "Other"=>'0',
 ));
 
+//define('USER_TYPE',array(
+//    "Admin"=>'admin',
+//    "Supervisor"=>'super',
+//    "Production Manager"=>'pdm',
+//    "Processing Manager"=>'pcm',
+//    "Qc Manager"=>'qcm',
+//    "Support"=>'supp',
+//    "Human Resource Management"=>'hr',
+//    "Accounts"=>'acct',
+//    "User"=>'user',
+//    "Client"=>'cl',
+//));
+
+
+
 
 define('Submission_Time',array(
     "0000 Hours",

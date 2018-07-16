@@ -27,10 +27,9 @@
     <div class="card">
 
             <div class="card-header">
-                <div class="row">
-                    <label class="col-md-2">Team Info</label>
-
-
+                <label class="col-md-2 pull-left">Team Info</label>
+                <div class="pull-right">
+                    <a href="{{route('employee.addNewEmp')}}"><button class="btn btn-info">Add New Employee</button></a>
                 </div>
 
 
