@@ -131,12 +131,14 @@ Route::post('rate/setRate','BillController@setRate')->name('rate.setRate');
 
 //Invoice
 Route::get('invoice','InvoiceController@index')->name('invoice.index');
+Route::post('invoice','InvoiceController@search')->name('invoice.search');
 
 //Group
 Route::get('group','GroupController@index')->name('group.index');
 Route::post('group/insert','GroupController@insert')->name('group.insert');
 Route::post('/group','GroupController@getGroupData')->name('group.getGroupData');
 Route::post('/group/assign','GroupController@assign')->name('group.assign');
+Route::post('/getIndividualTeamMember','GroupController@getIndividualTeamMember')->name('group.getIndividualTeamMember');
 
 //Team
 Route::get('/team/myTeam','TeamController@TeamInfo')->name('team.myTeam');
@@ -145,7 +147,7 @@ Route::post('/team/insert','TeamController@insert')->name('team.insert');
 Route::post('/team/assign','TeamController@assign')->name('team.assign');
 Route::post('/team','TeamController@getTeamData')->name('team.getTeamData');
 Route::post('/changeLeaderState','TeamController@changeLeaderState')->name('team.changeLeaderState');
-Route::post('/getIndividualTeamMember','TeamController@getIndividualTeamMember')->name('team.getIndividualTeamMember');
+//Route::post('/getIndividualTeamMember','TeamController@getIndividualTeamMember')->name('team.getIndividualTeamMember');
 
 //Shift
 Route::get('shift/','ShiftController@index')->name('shift.index');

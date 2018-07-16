@@ -24,7 +24,7 @@ class GroupController extends Controller
 
     public function getIndividualTeamMember(Request $r){
         $users=User::select('name','userType')
-            ->where('teamId',$r->teamId)
+            ->where('groupId',$r->teamId)
             ->get();
 
         return $users;

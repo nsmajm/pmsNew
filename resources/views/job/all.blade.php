@@ -144,9 +144,6 @@
         $(document).ready( function () {
 
 
-
-
-
             dataTable=  $('#datatable').DataTable({
                 rowReorder: {
                     selector: 'td:nth-child(0)'

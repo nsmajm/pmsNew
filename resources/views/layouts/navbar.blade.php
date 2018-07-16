@@ -86,7 +86,7 @@
                         <li><a href="{{route('file.check')}}">File Check</a></li>
                         @endif
 
-                        <li><a href="{{route('team.index')}}">Team</a></li>
+                        <li><a href="{{route('group.index')}}">Group</a></li>
 
                         <li class="has-submenu">
                             <a href="#">Shift</a>

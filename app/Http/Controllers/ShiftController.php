@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Shift;
 use App\Shiftassign;
 use App\Team;
+use App\Group;
 use App\Status;
 use App\Shiftmain;
 use Illuminate\Support\Facades\Auth;
@@ -39,15 +40,18 @@ class ShiftController extends Controller
     public function create(){
         $shifts=Shift::get();
         $teams=Team::get();
+        $groups=Group::get();
 
 
         return view('shift.create')
             ->with('shifts',$shifts)
-            ->with('teams',$teams);
+            ->with('teams',$groups);
     }
 
 
     public function assign(Request $r){
+
+
 
         $from=$r->fromDate;
         $to=$r->toDate;
@@ -97,7 +101,7 @@ class ShiftController extends Controller
         if($morningFixedProductionTeam1 !=null){
             $shiftAssign=new Shiftassign();
             $shiftAssign->shiftId=$shiftMorningFixed;
-            $shiftAssign->teamId=$morningFixedProductionTeam1;
+            $shiftAssign->groupId=$morningFixedProductionTeam1;
             $shiftAssign->jobStatus=$production->statusId;
             $shiftAssign->shiftmainId=$shiftMain->shiftmainId;
 
@@ -107,7 +111,7 @@ class ShiftController extends Controller
         if($morningFixedProductionTeam2 !=null){
             $shiftAssign=new Shiftassign();
             $shiftAssign->shiftId=$shiftMorningFixed;
-            $shiftAssign->teamId=$morningFixedProductionTeam2;
+            $shiftAssign->groupId=$morningFixedProductionTeam2;
             $shiftAssign->jobStatus=$production->statusId;
             $shiftAssign->shiftmainId=$shiftMain->shiftmainId;
             $shiftAssign->save();
@@ -116,7 +120,7 @@ class ShiftController extends Controller
         if($morningFixedProductionTeam3 !=null){
             $shiftAssign=new Shiftassign();
             $shiftAssign->shiftId=$shiftMorningFixed;
-            $shiftAssign->teamId=$morningFixedProductionTeam3;
+            $shiftAssign->groupId=$morningFixedProductionTeam3;
             $shiftAssign->jobStatus=$production->statusId;
             $shiftAssign->shiftmainId=$shiftMain->shiftmainId;
             $shiftAssign->save();
@@ -130,7 +134,7 @@ class ShiftController extends Controller
         if($morningFixedProcessingTeam1 !=null){
             $shiftAssign=new Shiftassign();
             $shiftAssign->shiftId=$shiftMorningFixed;
-            $shiftAssign->teamId=$morningFixedProductionTeam1;
+            $shiftAssign->groupId=$morningFixedProductionTeam1;
             $shiftAssign->jobStatus=$processing->statusId;
             $shiftAssign->shiftmainId=$shiftMain->shiftmainId;
             $shiftAssign->save();
@@ -139,7 +143,7 @@ class ShiftController extends Controller
         if($morningFixedProcessingTeam2 !=null){
             $shiftAssign=new Shiftassign();
             $shiftAssign->shiftId=$shiftMorningFixed;
-            $shiftAssign->teamId=$morningFixedProcessingTeam2;
+            $shiftAssign->groupId=$morningFixedProcessingTeam2;
             $shiftAssign->jobStatus=$processing->statusId;
             $shiftAssign->shiftmainId=$shiftMain->shiftmainId;
             $shiftAssign->save();
@@ -149,7 +153,7 @@ class ShiftController extends Controller
         if($morningFixedProcessingTeam3 !=null){
             $shiftAssign=new Shiftassign();
             $shiftAssign->shiftId=$shiftMorningFixed;
-            $shiftAssign->teamId=$morningFixedProcessingTeam3;
+            $shiftAssign->groupId=$morningFixedProcessingTeam3;
             $shiftAssign->jobStatus=$processing->statusId;
             $shiftAssign->shiftmainId=$shiftMain->shiftmainId;
             $shiftAssign->save();
@@ -162,7 +166,7 @@ class ShiftController extends Controller
         if($morningFixedQcTeam1 !=null){
             $shiftAssign=new Shiftassign();
             $shiftAssign->shiftId=$shiftMorningFixed;
-            $shiftAssign->teamId=$morningFixedQcTeam1;
+            $shiftAssign->groupId=$morningFixedQcTeam1;
             $shiftAssign->jobStatus=$qc->statusId;
             $shiftAssign->shiftmainId=$shiftMain->shiftmainId;
             $shiftAssign->save();
@@ -171,7 +175,7 @@ class ShiftController extends Controller
         if($morningFixedQcTeam2 !=null){
             $shiftAssign=new Shiftassign();
             $shiftAssign->shiftId=$shiftMorningFixed;
-            $shiftAssign->teamId=$morningFixedQcTeam2;
+            $shiftAssign->groupId=$morningFixedQcTeam2;
             $shiftAssign->jobStatus=$qc->statusId;
             $shiftAssign->shiftmainId=$shiftMain->shiftmainId;
             $shiftAssign->save();
@@ -180,7 +184,7 @@ class ShiftController extends Controller
         if($morningFixedQcTeam3 !=null){
             $shiftAssign=new Shiftassign();
             $shiftAssign->shiftId=$shiftMorningFixed;
-            $shiftAssign->teamId=$morningFixedQcTeam3;
+            $shiftAssign->groupId=$morningFixedQcTeam3;
             $shiftAssign->jobStatus=$qc->statusId;
             $shiftAssign->shiftmainId=$shiftMain->shiftmainId;
             $shiftAssign->save();
@@ -196,7 +200,7 @@ class ShiftController extends Controller
         if($morningProductionTeam1 !=null){
             $shiftAssign=new Shiftassign();
             $shiftAssign->shiftId=$shiftMorning;
-            $shiftAssign->teamId=$morningProductionTeam1;
+            $shiftAssign->groupId=$morningProductionTeam1;
             $shiftAssign->jobStatus=$production->statusId;
             $shiftAssign->shiftmainId=$shiftMain->shiftmainId;
             $shiftAssign->save();
@@ -206,7 +210,7 @@ class ShiftController extends Controller
         if($morningProductionTeam2 !=null){
             $shiftAssign=new Shiftassign();
             $shiftAssign->shiftId=$shiftMorning;
-            $shiftAssign->teamId=$morningProductionTeam2;
+            $shiftAssign->groupId=$morningProductionTeam2;
             $shiftAssign->jobStatus=$production->statusId;
             $shiftAssign->shiftmainId=$shiftMain->shiftmainId;
             $shiftAssign->save();
@@ -216,7 +220,7 @@ class ShiftController extends Controller
         if($morningProductionTeam3 !=null){
             $shiftAssign=new Shiftassign();
             $shiftAssign->shiftId=$shiftMorning;
-            $shiftAssign->teamId=$morningProductionTeam3;
+            $shiftAssign->groupId=$morningProductionTeam3;
             $shiftAssign->jobStatus=$production->statusId;
             $shiftAssign->shiftmainId=$shiftMain->shiftmainId;
             $shiftAssign->save();
@@ -229,7 +233,7 @@ class ShiftController extends Controller
         if($morningProcessingTeam1 !=null){
             $shiftAssign=new Shiftassign();
             $shiftAssign->shiftId=$shiftMorning;
-            $shiftAssign->teamId=$morningProcessingTeam1;
+            $shiftAssign->groupId=$morningProcessingTeam1;
             $shiftAssign->jobStatus=$processing->statusId;
             $shiftAssign->shiftmainId=$shiftMain->shiftmainId;
             $shiftAssign->save();
@@ -238,7 +242,7 @@ class ShiftController extends Controller
         if($morningProcessingTeam2 !=null){
             $shiftAssign=new Shiftassign();
             $shiftAssign->shiftId=$shiftMorning;
-            $shiftAssign->teamId=$morningProcessingTeam2;
+            $shiftAssign->groupId=$morningProcessingTeam2;
             $shiftAssign->jobStatus=$processing->statusId;
             $shiftAssign->shiftmainId=$shiftMain->shiftmainId;
             $shiftAssign->save();
@@ -248,7 +252,7 @@ class ShiftController extends Controller
         if($morningProcessingTeam3 !=null){
             $shiftAssign=new Shiftassign();
             $shiftAssign->shiftId=$shiftMorning;
-            $shiftAssign->teamId=$morningProcessingTeam3;
+            $shiftAssign->groupId=$morningProcessingTeam3;
             $shiftAssign->jobStatus=$processing->statusId;
             $shiftAssign->shiftmainId=$shiftMain->shiftmainId;
             $shiftAssign->save();
@@ -261,7 +265,7 @@ class ShiftController extends Controller
         if($morningQcTeam1 !=null){
             $shiftAssign=new Shiftassign();
             $shiftAssign->shiftId=$shiftMorning;
-            $shiftAssign->teamId=$morningQcTeam1;
+            $shiftAssign->groupId=$morningQcTeam1;
             $shiftAssign->jobStatus=$qc->statusId;
             $shiftAssign->shiftmainId=$shiftMain->shiftmainId;
             $shiftAssign->save();
@@ -270,7 +274,7 @@ class ShiftController extends Controller
         if($morningQcTeam2 !=null){
             $shiftAssign=new Shiftassign();
             $shiftAssign->shiftId=$shiftMorning;
-            $shiftAssign->teamId=$morningQcTeam2;
+            $shiftAssign->groupId=$morningQcTeam2;
             $shiftAssign->jobStatus=$qc->statusId;
             $shiftAssign->shiftmainId=$shiftMain->shiftmainId;
             $shiftAssign->save();
@@ -279,7 +283,7 @@ class ShiftController extends Controller
         if($morningQcTeam3 !=null){
             $shiftAssign=new Shiftassign();
             $shiftAssign->shiftId=$shiftMorning;
-            $shiftAssign->teamId=$morningQcTeam3;
+            $shiftAssign->groupId=$morningQcTeam3;
             $shiftAssign->jobStatus=$qc->statusId;
             $shiftAssign->shiftmainId=$shiftMain->shiftmainId;
             $shiftAssign->save();
@@ -296,7 +300,7 @@ class ShiftController extends Controller
         if($eveningProductionTeam1 !=null){
             $shiftAssign=new Shiftassign();
             $shiftAssign->shiftId=$shiftEvening;
-            $shiftAssign->teamId=$eveningProductionTeam1;
+            $shiftAssign->groupId=$eveningProductionTeam1;
             $shiftAssign->jobStatus=$production->statusId;
             $shiftAssign->shiftmainId=$shiftMain->shiftmainId;
             $shiftAssign->save();
@@ -305,7 +309,7 @@ class ShiftController extends Controller
         if($eveningProductionTeam2 !=null){
             $shiftAssign=new Shiftassign();
             $shiftAssign->shiftId=$shiftEvening;
-            $shiftAssign->teamId=$eveningProductionTeam2;
+            $shiftAssign->groupId=$eveningProductionTeam2;
             $shiftAssign->jobStatus=$production->statusId;
             $shiftAssign->shiftmainId=$shiftMain->shiftmainId;
             $shiftAssign->save();
@@ -315,7 +319,7 @@ class ShiftController extends Controller
         if($eveningProductionTeam3 !=null){
             $shiftAssign=new Shiftassign();
             $shiftAssign->shiftId=$shiftEvening;
-            $shiftAssign->teamId=$eveningProductionTeam3;
+            $shiftAssign->groupId=$eveningProductionTeam3;
             $shiftAssign->jobStatus=$production->statusId;
             $shiftAssign->shiftmainId=$shiftMain->shiftmainId;
             $shiftAssign->save();
@@ -329,7 +333,7 @@ class ShiftController extends Controller
         if($eveningProcessingTeam1 !=null){
             $shiftAssign=new Shiftassign();
             $shiftAssign->shiftId=$shiftEvening;
-            $shiftAssign->teamId=$eveningProcessingTeam1;
+            $shiftAssign->groupId=$eveningProcessingTeam1;
             $shiftAssign->jobStatus=$processing->statusId;
             $shiftAssign->shiftmainId=$shiftMain->shiftmainId;
             $shiftAssign->save();
@@ -338,7 +342,7 @@ class ShiftController extends Controller
         if($eveningProcessingTeam2 !=null){
             $shiftAssign=new Shiftassign();
             $shiftAssign->shiftId=$shiftEvening;
-            $shiftAssign->teamId=$eveningProcessingTeam2;
+            $shiftAssign->groupId=$eveningProcessingTeam2;
             $shiftAssign->jobStatus=$processing->statusId;
             $shiftAssign->shiftmainId=$shiftMain->shiftmainId;
             $shiftAssign->save();
@@ -347,7 +351,7 @@ class ShiftController extends Controller
         if($eveningProcessingTeam3 !=null){
             $shiftAssign=new Shiftassign();
             $shiftAssign->shiftId=$shiftEvening;
-            $shiftAssign->teamId=$eveningProcessingTeam3;
+            $shiftAssign->groupId=$eveningProcessingTeam3;
             $shiftAssign->jobStatus=$processing->statusId;
             $shiftAssign->shiftmainId=$shiftMain->shiftmainId;
             $shiftAssign->save();
@@ -361,7 +365,7 @@ class ShiftController extends Controller
         if($eveningQcTeam1 !=null){
             $shiftAssign=new Shiftassign();
             $shiftAssign->shiftId=$shiftEvening;
-            $shiftAssign->teamId=$eveningQcTeam1;
+            $shiftAssign->groupId=$eveningQcTeam1;
             $shiftAssign->jobStatus=$qc->statusId;
             $shiftAssign->shiftmainId=$shiftMain->shiftmainId;
             $shiftAssign->save();
@@ -370,7 +374,7 @@ class ShiftController extends Controller
         if($eveningQcTeam2 !=null){
             $shiftAssign=new Shiftassign();
             $shiftAssign->shiftId=$shiftEvening;
-            $shiftAssign->teamId=$eveningQcTeam2;
+            $shiftAssign->groupId=$eveningQcTeam2;
             $shiftAssign->jobStatus=$qc->statusId;
             $shiftAssign->shiftmainId=$shiftMain->shiftmainId;
             $shiftAssign->save();
@@ -379,7 +383,7 @@ class ShiftController extends Controller
         if($eveningQcTeam3 !=null){
             $shiftAssign=new Shiftassign();
             $shiftAssign->shiftId=$shiftEvening;
-            $shiftAssign->teamId=$eveningQcTeam3;
+            $shiftAssign->groupId=$eveningQcTeam3;
             $shiftAssign->jobStatus=$qc->statusId;
             $shiftAssign->shiftmainId=$shiftMain->shiftmainId;
             $shiftAssign->save();
@@ -394,7 +398,7 @@ class ShiftController extends Controller
         if($nightProductionTeam1 !=null){
             $shiftAssign=new Shiftassign();
             $shiftAssign->shiftId=$shiftNight;
-            $shiftAssign->teamId=$nightProductionTeam1;
+            $shiftAssign->groupId=$nightProductionTeam1;
             $shiftAssign->jobStatus=$production->statusId;
             $shiftAssign->shiftmainId=$shiftMain->shiftmainId;
             $shiftAssign->save();
@@ -403,7 +407,7 @@ class ShiftController extends Controller
         if($nightProductionTeam2 !=null){
             $shiftAssign=new Shiftassign();
             $shiftAssign->shiftId=$shiftNight;
-            $shiftAssign->teamId=$nightProductionTeam2;
+            $shiftAssign->groupId=$nightProductionTeam2;
             $shiftAssign->jobStatus=$production->statusId;
             $shiftAssign->shiftmainId=$shiftMain->shiftmainId;
             $shiftAssign->save();
@@ -412,7 +416,7 @@ class ShiftController extends Controller
         if($nightProductionTeam3 !=null){
             $shiftAssign=new Shiftassign();
             $shiftAssign->shiftId=$shiftNight;
-            $shiftAssign->teamId=$nightProductionTeam3;
+            $shiftAssign->groupId=$nightProductionTeam3;
             $shiftAssign->jobStatus=$production->statusId;
             $shiftAssign->shiftmainId=$shiftMain->shiftmainId;
             $shiftAssign->save();
@@ -427,7 +431,7 @@ class ShiftController extends Controller
         if($nightProcessingTeam1 !=null){
             $shiftAssign=new Shiftassign();
             $shiftAssign->shiftId=$shiftNight;
-            $shiftAssign->teamId=$nightProcessingTeam1;
+            $shiftAssign->groupId=$nightProcessingTeam1;
             $shiftAssign->jobStatus=$processing->statusId;
             $shiftAssign->shiftmainId=$shiftMain->shiftmainId;
             $shiftAssign->save();
@@ -436,7 +440,7 @@ class ShiftController extends Controller
         if($nightProcessingTeam2 !=null){
             $shiftAssign=new Shiftassign();
             $shiftAssign->shiftId=$shiftNight;
-            $shiftAssign->teamId=$nightProcessingTeam2;
+            $shiftAssign->groupId=$nightProcessingTeam2;
             $shiftAssign->jobStatus=$processing->statusId;
             $shiftAssign->shiftmainId=$shiftMain->shiftmainId;
             $shiftAssign->save();
@@ -445,7 +449,7 @@ class ShiftController extends Controller
         if($nightProcessingTeam3 !=null){
             $shiftAssign=new Shiftassign();
             $shiftAssign->shiftId=$shiftNight;
-            $shiftAssign->teamId=$nightProcessingTeam3;
+            $shiftAssign->groupId=$nightProcessingTeam3;
             $shiftAssign->jobStatus=$processing->statusId;
             $shiftAssign->shiftmainId=$shiftMain->shiftmainId;
             $shiftAssign->save();
@@ -458,7 +462,7 @@ class ShiftController extends Controller
         if($nightQcTeam1 !=null){
             $shiftAssign=new Shiftassign();
             $shiftAssign->shiftId=$shiftNight;
-            $shiftAssign->teamId=$nightQcTeam1;
+            $shiftAssign->groupId=$nightQcTeam1;
             $shiftAssign->jobStatus=$qc->statusId;
             $shiftAssign->shiftmainId=$shiftMain->shiftmainId;
             $shiftAssign->save();
@@ -466,7 +470,7 @@ class ShiftController extends Controller
         if($nightQcTeam2 !=null){
             $shiftAssign=new Shiftassign();
             $shiftAssign->shiftId=$shiftNight;
-            $shiftAssign->teamId=$nightQcTeam2;
+            $shiftAssign->groupId=$nightQcTeam2;
 //            $shiftAssign->fromDate=$from;
 //            $shiftAssign->toDate=$to;
             $shiftAssign->jobStatus=$qc->statusId;
@@ -477,7 +481,7 @@ class ShiftController extends Controller
         if($nightQcTeam3 !=null){
             $shiftAssign=new Shiftassign();
             $shiftAssign->shiftId=$shiftNight;
-            $shiftAssign->teamId=$nightQcTeam3;
+            $shiftAssign->groupId=$nightQcTeam3;
             $shiftAssign->jobStatus=$qc->statusId;
             $shiftAssign->shiftmainId=$shiftMain->shiftmainId;
             $shiftAssign->save();
@@ -505,42 +509,42 @@ class ShiftController extends Controller
         $qc=Status::where('statusType','jobStatus')
             ->where('statusName','qc')
             ->first();
-        $ProductionManager=Shiftassign::select('team.teamName','team.teamId','shiftassign.shiftId','user.name','user.userType','user.teamLeader')
+        $ProductionManager=Shiftassign::select('group.groupName','group.groupId','shiftassign.shiftId','user.name','user.userType','user.teamLeader')
             ->where('jobStatus',$production->statusId)
-            ->leftJoin('team','team.teamId','shiftassign.teamId')
-            ->leftJoin('user','user.teamId','team.teamId')
+            ->leftJoin('group','group.groupId','shiftassign.groupId')
+            ->leftJoin('user','user.groupId','group.groupId')
             ->where('shiftassign.shiftmainId',$id)
-            ->orderBy('teamName')
+            ->orderBy('groupName')
             ->orderBy('user.teamLeader','desc')
             ->get();
 //        return $ProductionManager;
-        $ProcessingManager=Shiftassign::select('team.teamId','team.teamName','shiftassign.shiftId','user.name','user.userType','user.teamLeader')
+        $ProcessingManager=Shiftassign::select('group.groupId','group.groupName','shiftassign.shiftId','user.name','user.userType','user.teamLeader')
             ->where('jobStatus',$processing->statusId)
-            ->leftJoin('team','team.teamId','shiftassign.teamId')
-            ->leftJoin('user','user.teamId','team.teamId')
+            ->leftJoin('team','group.groupId','shiftassign.groupId')
+            ->leftJoin('user','user.groupId','group.groupId')
             ->where('shiftassign.shiftmainId',$id)
-            ->orderBy('teamName')
+            ->orderBy('groupName')
             ->orderBy('user.teamLeader','desc')
             ->get();
-        $QcManager=Shiftassign::select('team.teamId','team.teamName','shiftassign.shiftId','user.name','user.userType','user.teamLeader')
+        $QcManager=Shiftassign::select('group.groupId','group.groupName','shiftassign.shiftId','user.name','user.userType','user.teamLeader')
             ->where('jobStatus',$qc->statusId)
-            ->leftJoin('team','team.teamId','shiftassign.teamId')
-            ->leftJoin('user','user.teamId','team.teamId')
+            ->leftJoin('team','group.groupId','shiftassign.groupId')
+            ->leftJoin('user','user.groupId','group.groupId')
             ->where('shiftassign.shiftmainId',$id)
-            ->orderBy('teamName')
+            ->orderBy('groupName')
             ->orderBy('user.teamLeader','desc')
             ->get();
-        $productionTeams=Shiftassign::select('teamId')
+        $productionTeams=Shiftassign::select('groupId')
             ->where('jobStatus',$production->statusId)
-            ->groupBy('teamId')
+            ->groupBy('groupId')
             ->get();
-        $processingnTeams=Shiftassign::select('teamId')
+        $processingnTeams=Shiftassign::select('groupId')
             ->where('jobStatus',$processing->statusId)
-            ->groupBy('teamId')
+            ->groupBy('groupId')
             ->get();
-        $qcTeams=Shiftassign::select('teamId')
+        $qcTeams=Shiftassign::select('groupId')
             ->where('jobStatus',$qc->statusId)
-            ->groupBy('teamId')
+            ->groupBy('groupId')
             ->get();
 
         return view('shift.show')
@@ -572,33 +576,33 @@ class ShiftController extends Controller
             ->first();
 
 
-        $ProductionManager=Shiftassign::select('team.teamName','team.teamId','shiftassign.shiftId','user.name','user.userType','user.teamLeader')
+        $ProductionManager=Shiftassign::select('group.groupName','group.groupId','shiftassign.shiftId','user.name','user.userType','user.teamLeader')
             ->where('jobStatus',$production->statusId)
-            ->leftJoin('team','team.teamId','shiftassign.teamId')
-            ->leftJoin('user','user.teamId','team.teamId')
+            ->leftJoin('group','group.groupId','shiftassign.groupId')
+            ->leftJoin('user','user.groupId','group.groupId')
             ->where('shiftassign.shiftmainId',$id)
-            ->orderBy('teamName')
+            ->orderBy('groupName')
             ->orderBy('user.teamLeader','desc')
             ->get();
 
 
 
-        $ProcessingManager=Shiftassign::select('team.teamId','team.teamName','shiftassign.shiftId','user.name','user.userType','user.teamLeader')
+        $ProcessingManager=Shiftassign::select('group.groupId','group.groupName','shiftassign.shiftId','user.name','user.userType','user.teamLeader')
             ->where('jobStatus',$processing->statusId)
-            ->leftJoin('team','team.teamId','shiftassign.teamId')
-            ->leftJoin('user','user.teamId','team.teamId')
+            ->leftJoin('group','group.groupId','shiftassign.groupId')
+            ->leftJoin('user','user.groupId','group.groupId')
             ->where('shiftassign.shiftmainId',$id)
-            ->orderBy('teamName')
+            ->orderBy('groupName')
             ->orderBy('user.teamLeader','desc')
             ->get();
 
 
-        $QcManager=Shiftassign::select('team.teamId','team.teamName','shiftassign.shiftId','user.name','user.userType','user.teamLeader')
+        $QcManager=Shiftassign::select('group.groupId','group.groupName','shiftassign.shiftId','user.name','user.userType','user.teamLeader')
             ->where('jobStatus',$qc->statusId)
-            ->leftJoin('team','team.teamId','shiftassign.teamId')
-            ->leftJoin('user','user.teamId','team.teamId')
+            ->leftJoin('group','group.groupId','shiftassign.groupId')
+            ->leftJoin('user','user.groupId','group.groupId')
             ->where('shiftassign.shiftmainId',$id)
-            ->orderBy('teamName')
+            ->orderBy('groupName')
             ->orderBy('user.teamLeader','desc')
             ->get();
 
@@ -606,25 +610,26 @@ class ShiftController extends Controller
 
 
 
-        $productionTeams=Shiftassign::select('teamId')
+        $productionTeams=Shiftassign::select('groupId')
             ->where('jobStatus',$production->statusId)
-            ->groupBy('teamId')
+            ->groupBy('groupId')
             ->get();
 
-        $processingnTeams=Shiftassign::select('teamId')
+        $processingnTeams=Shiftassign::select('groupId')
             ->where('jobStatus',$processing->statusId)
-            ->groupBy('teamId')
+            ->groupBy('groupId')
             ->get();
 
-        $qcTeams=Shiftassign::select('teamId')
+        $qcTeams=Shiftassign::select('groupId')
             ->where('jobStatus',$qc->statusId)
-            ->groupBy('teamId')
+            ->groupBy('groupId')
             ->get();
 
 
 
 
         $pdf = PDF::loadView('shift.pdf',compact('shifts','ProductionManager','ProcessingManager','QcManager','productionTeams','processingnTeams','qcTeams','shiftMain'));
+
         $pdf->save('public/pdf/tst.pdf');
 
 
@@ -647,33 +652,33 @@ class ShiftController extends Controller
             ->first();
 
 
-        $ProductionManager=Shiftassign::select('team.teamName','team.teamId','shiftassign.shiftId','user.name','user.userType','user.teamLeader')
+        $ProductionManager=Shiftassign::select('group.groupName','group.groupId','shiftassign.shiftId','user.name','user.userType','user.teamLeader')
             ->where('jobStatus',$production->statusId)
-            ->leftJoin('team','team.teamId','shiftassign.teamId')
-            ->leftJoin('user','user.teamId','team.teamId')
+            ->leftJoin('group','group.groupId','shiftassign.groupId')
+            ->leftJoin('user','user.groupId','group.groupId')
             ->where('shiftassign.shiftmainId',$id)
-            ->orderBy('teamName')
+            ->orderBy('groupName')
             ->orderBy('user.teamLeader','desc')
             ->get();
 
 
 
-        $ProcessingManager=Shiftassign::select('team.teamId','team.teamName','shiftassign.shiftId','user.name','user.userType','user.teamLeader')
+        $ProcessingManager=Shiftassign::select('group.groupId','group.groupName','shiftassign.shiftId','user.name','user.userType','user.teamLeader')
             ->where('jobStatus',$processing->statusId)
-            ->leftJoin('team','team.teamId','shiftassign.teamId')
-            ->leftJoin('user','user.teamId','team.teamId')
+            ->leftJoin('group','group.groupId','shiftassign.groupId')
+            ->leftJoin('user','user.groupId','group.groupId')
             ->where('shiftassign.shiftmainId',$id)
-            ->orderBy('teamName')
+            ->orderBy('groupName')
             ->orderBy('user.teamLeader','desc')
             ->get();
 
 
-        $QcManager=Shiftassign::select('team.teamId','team.teamName','shiftassign.shiftId','user.name','user.userType','user.teamLeader')
+        $QcManager=Shiftassign::select('group.groupId','group.groupName','shiftassign.shiftId','user.name','user.userType','user.teamLeader')
             ->where('jobStatus',$qc->statusId)
-            ->leftJoin('team','team.teamId','shiftassign.teamId')
-            ->leftJoin('user','user.teamId','team.teamId')
+            ->leftJoin('group','group.groupId','shiftassign.groupId')
+            ->leftJoin('user','user.groupId','group.groupId')
             ->where('shiftassign.shiftmainId',$id)
-            ->orderBy('teamName')
+            ->orderBy('groupName')
             ->orderBy('user.teamLeader','desc')
             ->get();
 
@@ -681,21 +686,30 @@ class ShiftController extends Controller
 
 
 
-        $productionTeams=Shiftassign::select('teamId')
+        $productionTeams=Shiftassign::select('groupId')
             ->where('jobStatus',$production->statusId)
-            ->groupBy('teamId')
+            ->groupBy('groupId')
             ->get();
 
-        $processingnTeams=Shiftassign::select('teamId')
+        $processingnTeams=Shiftassign::select('groupId')
             ->where('jobStatus',$processing->statusId)
-            ->groupBy('teamId')
+            ->groupBy('groupId')
             ->get();
 
-        $qcTeams=Shiftassign::select('teamId')
+        $qcTeams=Shiftassign::select('groupId')
             ->where('jobStatus',$qc->statusId)
-            ->groupBy('teamId')
+            ->groupBy('groupId')
             ->get();
 
+
+        $ProductionManager=Shiftassign::select('group.groupName','group.groupId','shiftassign.shiftId','user.name','user.userType','user.teamLeader')
+            ->where('jobStatus',$production->statusId)
+            ->leftJoin('group','group.groupId','shiftassign.groupId')
+            ->leftJoin('user','user.groupId','group.groupId')
+            ->where('shiftassign.shiftmainId',$id)
+            ->orderBy('groupName')
+            ->orderBy('user.teamLeader','desc')
+            ->get();
 
 
 

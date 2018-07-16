@@ -25,6 +25,7 @@
 </head>
 <body>
 
+
 <div class="card">
     <div align="center">
         <div class="card-body">
@@ -58,9 +59,9 @@
 
                                     @if($shift->shiftId == $user->shiftId)
                                         @foreach($productionTeams as $pt)
-                                            @if($pt->teamId == $user->teamId)
+                                            @if($pt->groupId == $user->groupId)
                                                 @if($user->teamLeader==1)
-                                                    <b>{{$user->name}} ({{$user->teamName}})</b>
+                                                    <b>{{$user->name}} ({{$user->groupName}})</b>
                                                 @else
                                                     {{$user->name}}
                                                 @endif
@@ -79,9 +80,9 @@
                                     @if($shift->shiftId == $user->shiftId)
                                         @foreach($processingnTeams as $pt)
 
-                                            @if($pt->teamId == $user->teamId)
+                                            @if($pt->groupId == $user->groupId)
                                                 @if($user->teamLeader==1)
-                                                    <b>{{$user->name}} ({{$user->teamName}})</b>
+                                                    <b>{{$user->name}} ({{$user->groupName}})</b>
                                                 @else
                                                     {{$user->name}}
                                                 @endif
@@ -96,9 +97,9 @@
                                 @foreach($QcManager as $user)
                                     @if($shift->shiftId == $user->shiftId)
                                         @foreach($qcTeams as $pt)
-                                            @if($pt->teamId == $user->teamId)
+                                            @if($pt->groupId == $user->groupId)
                                                 @if($user->teamLeader==1)
-                                                    <b>{{$user->name}} ({{$user->teamName}})</b>
+                                                    <b>{{$user->name}} ({{$user->groupName}})</b>
                                                 @else
                                                     {{$user->name}}
                                                 @endif
