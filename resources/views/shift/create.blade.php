@@ -31,7 +31,7 @@
                         <select class="form-control" name="{{$shift->shiftName}}_production1" onchange="showTeamMember(this)" data-panel-id="production1{{$shift->shiftId}}">
                             <option value="">select Team</option>
                             @foreach($teams as $team)
-                                <option value="{{$team->teamId}}">{{$team->teamName}}</option>
+                                <option value="{{$team->groupId}}">{{$team->groupName}}</option>
                             @endforeach
                         </select>
 
@@ -42,7 +42,7 @@
                         <select class="form-control" name="{{$shift->shiftName}}_production2" onchange="showTeamMember(this)" data-panel-id="production2{{$shift->shiftId}}">
                             <option value="">select Team</option>
                             @foreach($teams as $team)
-                                <option value="{{$team->teamId}}">{{$team->teamName}}</option>
+                                <option value="{{$team->groupId}}">{{$team->groupName}}</option>
                             @endforeach
 
                         </select>
@@ -53,7 +53,7 @@
                         <select class="form-control" name="{{$shift->shiftName}}_production3" onchange="showTeamMember(this)" data-panel-id="production3{{$shift->shiftId}}">
                             <option value="">select Team</option>
                             @foreach($teams as $team)
-                                <option value="{{$team->teamId}}">{{$team->teamName}}</option>
+                                <option value="{{$team->groupId}}">{{$team->groupName}}</option>
                             @endforeach
                         </select>
                         <br>
@@ -67,7 +67,7 @@
                         <select class="form-control" name="{{$shift->shiftName}}_processing1" onchange="showTeamMember(this)" data-panel-id="processing1{{$shift->shiftId}}">
                             <option value="">select Team</option>
                             @foreach($teams as $team)
-                                <option value="{{$team->teamId}}">{{$team->teamName}}</option>
+                                <option value="{{$team->groupId}}">{{$team->groupName}}</option>
                             @endforeach
                         </select>
                         <br>
@@ -77,7 +77,7 @@
                         <select class="form-control" name="{{$shift->shiftName}}_processing2" onchange="showTeamMember(this)" data-panel-id="processing2{{$shift->shiftId}}">
                             <option value="">select Team</option>
                             @foreach($teams as $team)
-                                <option value="{{$team->teamId}}">{{$team->teamName}}</option>
+                                <option value="{{$team->groupId}}">{{$team->groupName}}</option>
                             @endforeach
                         </select>
                         <br>
@@ -86,7 +86,7 @@
                         <select class="form-control" name="{{$shift->shiftName}}_processing3" onchange="showTeamMember(this)" data-panel-id="processing3{{$shift->shiftId}}">
                             <option value=""> select Team</option>
                             @foreach($teams as $team)
-                                <option value="{{$team->teamId}}">{{$team->teamName}}</option>
+                                <option value="{{$team->groupId}}">{{$team->groupName}}</option>
                             @endforeach
                         </select>
                         <br>
@@ -97,7 +97,7 @@
                         <select class="form-control" name="{{$shift->shiftName}}_qc1" onchange="showTeamMember(this)" data-panel-id="qc1{{$shift->shiftId}}">
                             <option value="">select Team</option>
                             @foreach($teams as $team)
-                                <option value="{{$team->teamId}}">{{$team->teamName}}</option>
+                                <option value="{{$team->groupId}}">{{$team->groupName}}</option>
                             @endforeach
                         </select>
 
@@ -107,7 +107,7 @@
                         <select class="form-control" name="{{$shift->shiftName}}_qc2" onchange="showTeamMember(this)" data-panel-id="qc2{{$shift->shiftId}}">
                             <option value="">select Team</option>
                             @foreach($teams as $team)
-                                <option value="{{$team->teamId}}">{{$team->teamName}}</option>
+                                <option value="{{$team->groupId}}">{{$team->groupName}}</option>
                             @endforeach
                         </select>
                         <br>
@@ -116,7 +116,7 @@
                         <select class="form-control" name="{{$shift->shiftName}}_qc3" onchange="showTeamMember(this)" data-panel-id="qc3{{$shift->shiftId}}">
                             <option value="">select Team</option>
                             @foreach($teams as $team)
-                                <option value="{{$team->teamId}}">{{$team->teamName}}</option>
+                                <option value="{{$team->groupId}}">{{$team->groupName}}</option>
                             @endforeach
                         </select>
 
@@ -165,7 +165,7 @@
             else {
                 $.ajax({
                     type: 'POST',
-                    url: "{!! route('team.getIndividualTeamMember') !!}",
+                    url: "{!! route('group.getIndividualTeamMember') !!}",
                     cache: false,
                     data: {_token: "{{csrf_token()}}",'teamId': teamId},
                     success: function (data) {

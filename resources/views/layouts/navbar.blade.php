@@ -53,7 +53,7 @@
                         <li><a href="{{route('bill.addRate')}}">Add Bill</a></li>
                         {{--<li><a href="advanced-highlight.html">Edit Bill</a></li>--}}
                         <li><a href="{{route('bill.summery')}}">Bill Summery</a></li>
-                        <li><a href="advanced-nestable.html">Invoice</a></li>
+                        <li><a href="{{route('invoice.index')}}">Invoice</a></li>
                         <li><a href="advanced-nestable.html">Bill Copy</a></li>
                     </ul>
                 </li>
@@ -86,7 +86,7 @@
                         <li><a href="{{route('file.check')}}">File Check</a></li>
                         @endif
 
-                        <li><a href="{{route('team.index')}}">Team</a></li>
+                        <li><a href="{{route('group.index')}}">Group</a></li>
 
                         <li class="has-submenu">
                             <a href="#">Shift</a>

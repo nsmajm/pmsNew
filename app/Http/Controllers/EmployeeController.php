@@ -102,7 +102,7 @@ class EmployeeController extends Controller
         }
 
         $employee->save();
-        
+
         Session::flash('message', 'Information Save Successfully!');
         return redirect(route('employee.addNewEmp'));
 
