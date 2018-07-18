@@ -8,7 +8,8 @@ use App\Client;
 class InvoiceController extends Controller
 {
     public function index(){
-        $clients=Client::select('clientId','clientName')->get();
+        $clients=Client::select('clientId','clientName')
+            ->get();
 
 
         return view('invoice.index',compact('clients'));
