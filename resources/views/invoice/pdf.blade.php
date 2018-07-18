@@ -13,11 +13,12 @@
 
     <div class="row ">
         <div class="col-md-6">
-            <h5><b style="color:blueviolet">Tech Cloud Ltd</b></h5>
-            <h6>House # 379 Road # 06, Baridhara DOHS,</h6>
-            <h6>Dhaka-1206, Bangladesh</h6>
-            <h6>P : (+88)02 8417940, 02 8418169</h6>
-            <h6>E : billing@techcloudbd.com</h6>
+            <h5><b style="color:blueviolet">{{$tcl->companyTitle}}</b></h5>
+            <h6>{{$tcl->companyAddress}}</h6>
+
+            <h6>P :{{$tcl->companyPhone1}}</h6>
+            <h6>P : {{$tcl->companyPhone1}}</h6>
+            <h6>E : {{$tcl->companyEmail}}</h6>
         </div>
 
         <div class="col-md-6" style="background-color: lightgrey; text-align: right">

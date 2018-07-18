@@ -8,6 +8,7 @@ use App\Client;
 use App\Job;
 use App\File;
 use App\Invoice;
+use App\TclInfo;
 use PDF;
 class InvoiceController extends Controller
 {
@@ -93,6 +94,10 @@ class InvoiceController extends Controller
             ->leftJoin('service','job_service_relation.serviceId','service.serviceId')
             ->get();
 
+        $tcl=TclInfo::first();
+
+
+
         if(!$jobs->isEmpty()){
             $client=Client::select('companyName','email','phoneNumber','countryName')
                 ->leftJoin('country','country.countryId','client.countryId')
@@ -107,7 +112,7 @@ class InvoiceController extends Controller
 
 //        return view('invoice.pdf',compact('jobs','client'));
 
-        $pdf = PDF::loadView('invoice.pdf',compact('jobs','client'));
+        $pdf = PDF::loadView('invoice.pdf',compact('jobs','client','tcl'));
         return $pdf->stream('invoice.pdf',array('Attachment'=>0));
 
 
