@@ -94,27 +94,31 @@ class JobController extends Controller
     }
 
     public function edit($id){
-        $job=Job::select('job.jobId','job.clientId','brief.briefId','client.clientName','job.deadLine','job.submissionTime','job.quantity','job.other','brief.briefMsg','file.folderName')
-                ->where('job.jobId',$id)
-                ->leftJoin('brief','brief.jobId','job.jobId')
-                ->leftJoin('client','client.clientId','job.clientId')
-                ->leftJoin('file','file.jobId','job.jobId')
-                ->orderBy('briefId','desc')
+        if(Auth::user()->userType==USER_TYPE[5] ||Auth::user()->userType==USER_TYPE[1]) {
+            $job = Job::select('job.jobId', 'job.clientId', 'brief.briefId', 'client.clientName', 'job.deadLine', 'job.submissionTime', 'job.quantity', 'job.other', 'brief.briefMsg', 'file.folderName')
+                ->where('job.jobId', $id)
+                ->leftJoin('brief', 'brief.jobId', 'job.jobId')
+                ->leftJoin('client', 'client.clientId', 'job.clientId')
+                ->leftJoin('file', 'file.jobId', 'job.jobId')
+                ->orderBy('briefId', 'desc')
                 ->first();
 
-        $services=ClientServiceRelation::where('clientId',$job->clientId)
-            ->leftJoin('service','service.serviceId','client_service_relation.serviceId')
-            ->get();
+            $services = ClientServiceRelation::where('clientId', $job->clientId)
+                ->leftJoin('service', 'service.serviceId', 'client_service_relation.serviceId')
+                ->get();
 
 
+            $jobService = JobServiceRelation::where('jobId', $id)->get();
 
-        $jobService=JobServiceRelation::where('jobId',$id)->get();
 
-
-        return view('job.edit')
-            ->with('job',$job)
-            ->with('services',$services)
-            ->with('jobService',$jobService);
+            return view('job.edit')
+                ->with('job', $job)
+                ->with('services', $services)
+                ->with('jobService', $jobService);
+        }
+        else{
+            return back();
+        }
     }
 
     public function insert(Request $r){

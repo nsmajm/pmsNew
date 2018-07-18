@@ -26,10 +26,10 @@
                                     <div class="col-sm-10">
                                         <select class="form-control" name="userType" required>
                                             <option value="">Select Type</option>
-                                            @foreach(USER_TYPE as $user)
-                                                @if($user !='client')
-                                                <option value="{{$user}}">{{$user}}</option>
-                                                @endif
+                                            @foreach($userTypes as $user)
+
+                                                <option value="{{$user->id}}">{{$user->typeName}}</option>
+
                                             @endforeach
                                         </select>
                                     </div>

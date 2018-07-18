@@ -10,6 +10,7 @@ use Illuminate\Support\Facades\Auth;
 use Session;
 use Yajra\DataTables\DataTables;
 use Image;
+use App\UserType;
 class UserController extends Controller
 {
     public function __construct()
@@ -21,7 +22,12 @@ class UserController extends Controller
         if(!(Auth::user()->userType==USER_TYPE[0] || Auth::user()->userType==USER_TYPE[1])){
             return back();
         }
-        return view('user.create');
+
+        $userTypes=UserType::where('id','!=','cl')->get();
+
+
+
+        return view('user.create',compact('userTypes'));
     }
 
     public function insert(Request $r){
