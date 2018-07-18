@@ -18,7 +18,7 @@
 
 
                     <form method="post" action="{{route('job.insert')}}">
-                    @csrf
+                    {{csrf_field()}}
                         <div class="form-group row">
                             <label for="example-text-input" class="col-sm-2 col-form-label">Client Id</label>
                             <div class="col-sm-10">

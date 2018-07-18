@@ -14,7 +14,7 @@
 
 
                     <form method="post" action="{{route('user.insert')}}" enctype="multipart/form-data">
-                        @csrf
+                        {{csrf_field()}}
                         <div class="row">
                             <div class="col-md-6">
                                 <input type="hidden" name="userId" value="{{$user->userId}}">

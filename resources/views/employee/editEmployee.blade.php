@@ -20,7 +20,7 @@
         <div class="card-body">
 
             <form method="post" action="{{route('employee.empUpdate',$employee->empId)}}" enctype="multipart/form-data">
-                @csrf
+                {{csrf_field()}}
                 <div class="row">
                     <div class="col-md-6">
 

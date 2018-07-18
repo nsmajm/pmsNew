@@ -26,7 +26,7 @@
                     <form method="post" action="{{route('team.insert')}}">
                         <div class="form-group">
                             <label>Team Name</label>
-                            @csrf
+                            {{csrf_field()}}
                             <input type="text" class="form-control" placeholder="name" name="teamName">
                             @if ($errors->has('teamName'))
                                 <span class="alert-feedback">
@@ -51,7 +51,7 @@
 
     <div class="card">
         <form method="post" action="{{route('team.assign')}}" id="teamAssignForm">
-            @csrf
+            {{csrf_field()}}
         <div class="card-header">
             <div class="row">
                 <label class="col-md-2">Filter Group</label>

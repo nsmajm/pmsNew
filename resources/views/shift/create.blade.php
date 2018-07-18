@@ -23,7 +23,7 @@
                         &nbsp;
                     </div>
 
-                    @csrf
+                    {{csrf_field()}}
                 @foreach($shifts as $shift)
                 <tr>
                 <td>{{$shift->shiftName}}</td>

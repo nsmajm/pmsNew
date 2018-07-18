@@ -27,7 +27,7 @@
 
                     <div class="col-md-4">
                         <form class="form-horizontal" id="myform" method="post" action="{{route('account.changePassword')}}">
-                            @csrf
+                            {{csrf_field()}}
                             <div class="form-group">
                                 <label>Old Password</label>
                                 <input type="password" name="oldPass" class="form-control">

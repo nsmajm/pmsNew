@@ -7,7 +7,7 @@
 
 
                 <form method="post" action="{{route('service.insert')}}">
-                    @csrf
+                    {{csrf_field()}}
 
                     <input name="serviceId" type="hidden" value="{{$service->serviceId}}">
 

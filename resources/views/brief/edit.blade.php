@@ -80,7 +80,7 @@
             <br>
             <form method="post" action="{{route('brief.insert')}}">
             {{--<form method="post" action="">--}}
-                @csrf
+                {{csrf_field()}}
 
                 <input type="hidden" name="brief_itemId" value="{{$briefItems->brief_itemId}}">
                 <input type="hidden" name="clientId" value="{{$briefItems->clientId}}">

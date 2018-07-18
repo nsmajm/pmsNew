@@ -12,7 +12,7 @@
 
                 <div class="card-body">
                     <form method="post" action="{{route('job.update')}}" onsubmit="return jobCount()">
-                        @csrf
+                        {{csrf_field()}}
                         <input type="hidden" name="jobId" value="{{$job->jobId}}">
                         <div class="form-group row">
                             <label for="example-text-input" class="col-sm-2 col-form-label">Client Id</label>

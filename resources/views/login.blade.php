@@ -44,7 +44,7 @@
 
             <div class="p-3">
                 <form method="POST" class="form-horizontal m-t-20" action="{{ route('login') }}">
-                    @csrf
+                    {{csrf_field()}}
 
                     <div class="form-group row">
                         <div class="col-12">

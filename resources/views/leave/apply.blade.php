@@ -17,7 +17,7 @@
                     <h3 align="center">Leave</h3><br>
 
                     <form class="form-horizontal" method="post" action="{{route('leave.submit')}}">
-                        @csrf
+                        {{csrf_field()}}
                         <div class="row">
                             <div class="col-md-6">
                                 <div class="form-group">

@@ -79,7 +79,7 @@
             <h4 align="center">New Brief</h4>
             <br>
             <form method="post" action="{{route('brief.insert')}}">
-                @csrf
+                {{csrf_field()}}
 
             <div class="row" >
                 <div class="col-md-6">

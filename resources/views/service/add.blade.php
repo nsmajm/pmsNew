@@ -12,7 +12,7 @@
 
 
                     <form method="post" action="{{route('service.insert')}}">
-                        @csrf
+                        {{csrf_field()}}
 
                         <div class="form-group row">
                             <label for="example-search-input" class="col-sm-2 col-form-label">Service Name</label>
