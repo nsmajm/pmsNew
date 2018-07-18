@@ -17,6 +17,7 @@ use App\Team;
 use App\Jobassign;
 use App\File;
 use App\JobServiceRelation;
+use App\Group;
 use Auth;
 use Session;
 use Yajra\DataTables\DataTables;
@@ -365,7 +366,8 @@ class JobController extends Controller
             ->leftJoin('file','file.jobId','job.jobId')
             ->first();
 
-        $teams=Team::get();
+//        $teams=Team::get();
+        $groups=Group::get();
 
         $jobAssignQuantity=Jobassign::where('jobId',$id)
             ->sum('quantity');
@@ -373,7 +375,7 @@ class JobController extends Controller
 //        return $jobAssignQuantity;
 
         return view('job.assignJob')
-            ->with('teams',$teams)
+            ->with('groups',$groups)
             ->with('job',$job)
             ->with('jobAssignQuantity',$jobAssignQuantity);
     }

@@ -60,11 +60,17 @@
 
                 <li class="has-submenu">
                     <a href="#"><i class="fa fa-cog"></i>Settings</a>
+
                     <ul class="submenu">
-                        @if(Auth::user()->userType==USER_TYPE[0])
-                        <li><a href="{{route('rate')}}">Rate</a></li>
+                        @if(Auth::user()->userType == USER_TYPE[0])
+                            <li><a href="{{route('rate')}}">Rate</a></li>
+                            <li><a href="{{route('bank.AllBankInfo')}}">Bank Information</a></li>
+                            <li><a href="{{route('tcl.tclInfo')}}">Tech Cloud Information</a></li>
                         @endif
                     </ul>
+
+
+
 
 
                 </li>

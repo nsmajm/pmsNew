@@ -44,6 +44,10 @@
 
         </div>
 
+
+        <div id="invoiceView"></div>
+
+
     </div>
 </div>
 
@@ -84,8 +88,8 @@
             cache: false,
             data: {_token: "{{csrf_token()}}",clientId: clientId,startDate:startDate,endDate:endDate,folderName:folderName},
             success: function (data) {
-                console.log(data);
-//            $('#clientView').html(data);
+//                console.log(data);
+            $('#invoiceView').html(data);
 
             }
             });

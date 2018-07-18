@@ -7,11 +7,11 @@
 
 
             <div class="form-group row">
-                <label class="col-md-1">Team</label>
+                <label class="col-md-1">Group</label>
                 <select class="form-control col-md-4" onchange="getTeam(this)">
-                    <option value="">select team</option>
-                    @foreach($teams as $team)
-                        <option value="{{$team->teamId}}">{{$team->teamName}}</option>
+                    <option value="">select group</option>
+                    @foreach($groups as $group)
+                        <option value="{{$group->groupId}}">{{$group->groupName}}</option>
                     @endforeach
                 </select>
 
@@ -92,17 +92,18 @@
     }
     function getTeam(x) {
 
-        var teamId=x.value;
+        var groupId=x.value;
         var jobId={{$job->jobId}};
 
 
-        if(teamId !=''){
+        if(groupId !=''){
             $.ajax({
                 type: 'POST',
                 url: "{!! route('job.getTeamMembers') !!}",
                 cache: false,
-                data: {_token:"{{csrf_token()}}",'teamId': teamId,'jobId':jobId},
+                data: {_token:"{{csrf_token()}}",'groupId': groupId,'jobId':jobId},
                 success: function (data) {
+
                     $('.team-content').html(data);
 
 

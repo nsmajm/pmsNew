@@ -14,10 +14,11 @@ class JobAssignController extends Controller
 {
     public function getTeamMembers(Request $r){
 
-        $users=User::where('teamId',$r->teamId)
-//            ->leftJoin('job')
+        $users=User::where('groupId',$r->groupId)
             ->get();
-        $jobAssain=Jobassign::where('jobId',$r->jobId)->get();
+
+        $jobAssain=Jobassign::where('jobId',$r->jobId)
+            ->get();
 
 
 

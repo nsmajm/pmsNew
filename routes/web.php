@@ -132,6 +132,9 @@ Route::post('rate/setRate','BillController@setRate')->name('rate.setRate');
 //Invoice
 Route::get('invoice','InvoiceController@index')->name('invoice.index');
 Route::post('invoice','InvoiceController@search')->name('invoice.search');
+Route::post('invoice/generate','InvoiceController@generate')->name('invoice.generate');
+Route::get('invoice/pdf','InvoiceController@pdf');
+Route::post('invoice/edit','InvoiceController@edit')->name('invoice.edit');
 
 //Group
 Route::get('group','GroupController@index')->name('group.index');
@@ -178,3 +181,14 @@ Route::post('employee/Update-Employee/{id}','EmployeeController@updateEmployee')
 
 Route::post('employee/Save-Employee','EmployeeController@saveNewEmployee')->name('employee.insertNewEmp');
 
+//Bank
+Route::get('Bank/All-Bank','BankController@allBankInfo')->name('bank.AllBankInfo');
+Route::post('Bank/Bank-Info','BankController@getBankInfo')->name('bank.getBankInfo');
+Route::post('Bank/Edit-Bank-Info/{id}','BankController@updateBankInfo')->name('bank.EditBankInformation');
+Route::post('Bank/Add-Bank-Info','BankController@newBankInfo')->name('bank.getNewBankInfo');
+Route::post('Bank/insert-Bank-Info','BankController@saveNewBankInfo')->name('bank.saveNewBankInformation');
+
+//tech cloud
+Route::get('Tech-Cloud/Info','tclController@allInfo')->name('tcl.tclInfo');
+Route::post('Tech-Cloud/save-Info','tclController@updateTclInfo')->name('tcl.saveInfo');
+Route::post('Tech-Cloud/add-Info','tclController@insertTclInfo')->name('tcl.addInfo');
