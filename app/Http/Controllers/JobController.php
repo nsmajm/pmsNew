@@ -139,6 +139,10 @@ class JobController extends Controller
 
         if ($r->feedback){
             $job->feedback=1;
+            $status=Status::where('statusType','jobStatus')->where('statusName','feedback')
+                ->first();
+            $job->statusId=$status->statusId;
+
         }
 
         $job->other=$r->other;
@@ -209,6 +213,27 @@ class JobController extends Controller
     public function feedback(){
 
         return view('job.feedback');
+
+    }
+
+    public function getFeedbackData(Request $r){
+        $status=Status::where('statusType','jobStatus')->where('statusName','feedback')
+            ->first();
+
+        $jobs=Job::select('client.clientName','file.folderName','job.quantity','job.created_at');
+
+        if($r->date1 && $r->date2){
+            $jobs=$jobs->whereBetween(DB::raw('DATE(job.created_at)'),[$r->date1,$r->date2]);
+        }
+
+
+        $jobs=$jobs->where('job.statusId',$status->statusId)
+            ->leftJoin('file','file.jobId','job.jobId')
+            ->leftJoin('client','client.clientId','job.clientId')
+            ->get();;
+
+        $datatables = Datatables::of($jobs);
+        return $datatables->make(true);
 
     }
 
