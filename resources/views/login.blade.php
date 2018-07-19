@@ -49,7 +49,7 @@
                     <div class="form-group row">
                         <div class="col-12">
                             {{--<input class="form-control" name="loginId" type="text" placeholder="login id" required>--}}
-                            <input id="loginId" type="text" class="form-control{{ $errors->has('loginId') ? ' is-invalid' : '' }}" name="loginId" value="{{ old('loginId') }}" required autofocus>
+                            <input id="loginId" type="text" placeholder="Id" class="form-control{{ $errors->has('loginId') ? ' is-invalid' : '' }}" name="loginId" value="{{ old('loginId') }}" required autofocus>
 
 
                         @if ($errors->has('loginId'))

@@ -99,6 +99,7 @@ Route::post('comments/send','CommentsController@sendComments')->name('comments.s
 
 //Feedback
 Route::get('/feedback','JobController@feedback')->name('job.feedback');
+Route::post('/feedback','JobController@getFeedbackData')->name('job.getFeedbackData');
 
 
 //Brief
