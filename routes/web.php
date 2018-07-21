@@ -65,6 +65,8 @@ Route::post('/job/getQcData','JobController@getQcData')->name('job.getQcData');
 Route::post('/job/StateChange','JobController@jobStateChange')->name('job.StateChange');
 
 //Assign Job
+Route::get('job/assign/history','JobController@assignHistory')->name('assign.history');
+Route::post('job/assign/history','JobController@getAssignHistory')->name('assign.getAssignHistory');
 
 Route::get('/job/assign/{id}','JobController@assignJob')->name('job.assign');
 

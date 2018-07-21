@@ -260,7 +260,7 @@
                     { data: 'deadline', name: 'deadline'},
 
 
-                    @if(Auth::user()->userType==USER_TYPE[2]) //For Production Manager
+                    @if(Auth::user()->userType==USER_TYPE['Production Manager']) //For Production Manager
                     { "data": function(data){
                         return '<select class="form-control"  onchange="productionChange(this)" data-panel-id="'+data.jobstateId+'" data-job-id="'+data.jobId+'">' +
                             '<option value="">'+data.statusName+'</option>'+
@@ -275,7 +275,7 @@
                     @endif
 
 
-                    @if(Auth::user()->userType==USER_TYPE[0]) //For Admin
+                    @if(Auth::user()->userType==USER_TYPE['Admin']) //For Admin
                     { "data": function(data){
                         if(data.priority ==0){
                             return '<a class="btn btn-default btn-sm" data-panel-id="'+data.jobId+'" onclick="editjob(this)"><i class="fa fa-edit"></i></a>'+
@@ -293,7 +293,7 @@
                     },
                         "orderable": false, "searchable":false, "name":"selected_rows" },
 
-                    @elseif(Auth::user()->userType==USER_TYPE[2])//For Production Manager JobAssign
+                    @elseif(Auth::user()->userType==USER_TYPE['Production Manager'])//For Production Manager JobAssign
                     { "data": function(data){
 
 
@@ -374,7 +374,7 @@
                     { data: 'folderName', name: 'folderName' },
                     { data: 'quantity', name: 'quantity'},
                     { data: 'briefType', name: 'briefType'},
-                    @if(Auth::user()->userType==USER_TYPE[3]) //For Processing Manager
+                    @if(Auth::user()->userType==USER_TYPE['Processing Manager']) //For Processing Manager
                     { "data": function(data){
                         return '<select class="form-control" onchange="processingChange(this)" data-panel-id="'+data.jobstateId+'" data-job-id="'+data.jobId+'">' +
                             '<option value="">'+data.statusName+'</option>'+
@@ -384,7 +384,7 @@
                     @else
                     { data: 'statusName', name: 'statusName'},
                     @endif
-                    @if(Auth::user()->userType==USER_TYPE[0]) //For Admin
+                    @if(Auth::user()->userType==USER_TYPE['Admin']) //For Admin
                     { "data": function(data){
                         if(data.priority ==0){
                             return '<a class="btn btn-default btn-sm" data-panel-id="'+data.jobId+'" onclick="editjob(this)"><i class="fa fa-edit"></i></a>'+
@@ -401,7 +401,7 @@
                             },
                         "orderable": false, "searchable":false, "name":"selected_rows" },
 
-                    @elseif(Auth::user()->userType==USER_TYPE[3])//For Processing Manager JobAssign
+                    @elseif(Auth::user()->userType==USER_TYPE['Processing Manager'])//For Processing Manager JobAssign
                     { "data": function(data){
 
 
@@ -484,7 +484,7 @@
                             '</select>';},
                         "orderable": false, "searchable":false, "name":"selected_rows" },
 
-                    @if(Auth::user()->userType==USER_TYPE[0]) //For Admin
+                    @if(Auth::user()->userType==USER_TYPE['Admin']) //For Admin
                     { "data": function(data){
                         if(data.priority ==0){
                             return '<a class="btn btn-default btn-sm" data-panel-id="'+data.jobId+'" onclick="editjob(this)"><i class="fa fa-edit"></i></a>'+
@@ -500,7 +500,7 @@
                            },
                         "orderable": false, "searchable":false, "name":"selected_rows" },
 
-                    @elseif(Auth::user()->userType==USER_TYPE[4])//For Qc Manager JobAssign
+                    @elseif(Auth::user()->userType==USER_TYPE['Qc Manager'])//For Qc Manager JobAssign
                     { "data": function(data){
 
 

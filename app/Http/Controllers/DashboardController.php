@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\JobServiceRelation;
+use App\Service;
 use Illuminate\Http\Request;
 use Auth;
 use App\Jobassign;
@@ -20,7 +22,7 @@ class DashboardController extends Controller
 
     public function index(){
 
-        if(Auth::user()->userType==USER_TYPE[8]){
+        if(Auth::user()->userType==USER_TYPE['User']){
             $todaysDate=date("Y-m-d");
             return view('dashboard.user')
                 ->with('todaysDate',$todaysDate);
@@ -28,16 +30,31 @@ class DashboardController extends Controller
 
         return $this->admin();
 
-//        else if(Auth::user()->userType==USER_TYPE[0]){
-//            return $this->admin();
-//        }
 
 
     }
 
     public function admin(){
+
         $status=Status::where('statusType','jobStatus')
             ->where('statusName','done')->first();
+
+
+//        Process Job Type / last day Basic/Medium/Advance/Complex
+//        $jobService=Job::select('service.complexity',DB::raw('count(job.jobId) as total'))->where('job.statusId',$status->statusId)
+//            ->leftJoin('job_service_relation','job_service_relation.jobId','job.jobId')
+//            ->leftJoin('service','service.serviceId','job_service_relation.serviceId')
+//            ->where('complexity','Basic')
+////            ->groupBy('complexity')
+//            ->get();
+        $jobServiceMorning=Service::select('service.complexity',DB::raw('count(*) as total'))
+            ->leftJoin('job_service_relation','service.serviceId','job_service_relation.serviceId')
+            ->leftJoin('job','job.jobId','job_service_relation.jobId')
+            ->where('job.statusId',$status->statusId)
+            ->groupBy('complexity')
+            ->get();
+
+//        return $jobServiceMorning;
 
         $processStatus=Status::where('statusType','jobStatus')
             ->where('statusName','processing')->first();

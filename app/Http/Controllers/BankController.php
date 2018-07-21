@@ -17,13 +17,17 @@ use Image;
 class BankController extends Controller
 {
     public function allBankInfo(){
+        if(USER_TYPE['Admin']== Auth::user()->userType) {
+            $bankInfo=Bank::select('bankId','bankName','image')->get();
 
-        $bankInfo=Bank::select('bankId','bankName','image')->get();
+            return view('bank.allBankInfo',compact('bankInfo'));
+        }
 
-       return view('bank.allBankInfo',compact('bankInfo'));
+        return back();
+
+
     }
     public function getBankInfo(Request $r){
-
         $bankId=$r->bankId;
         $bankInformation=Bank::select('bankId','bankName','image')->where('bankId',$bankId)->get();
 
@@ -31,16 +35,14 @@ class BankController extends Controller
     }
     public function newBankInfo(){
 
+        return view('bank.addNewBankInformation');
 
-       return view('bank.addNewBankInformation');
     }
-    public function updateBankInfo($id,Request $r){
 
+    public function updateBankInfo($id,Request $r){
         $bank=Bank::findOrFail($id);
 
-        
         $bank->bankName=$r->bankName;
-
         if($r->hasFile('bankImage')){
             $img = $r->file('bankImage');
             $filename= $bank->bankId.".".$img->getClientOriginalExtension();
@@ -58,12 +60,10 @@ class BankController extends Controller
         $bank->save();
         return back();
     }
+
     public function saveNewBankInfo(Request $r){
-
         $bank=new Bank;
-
         $bank->bankName=$r->bankName;
-
         if($r->hasFile('bankImage')){
             $img = $r->file('bankImage');
             $filename= $bank->bankId.".".$img->getClientOriginalExtension();
