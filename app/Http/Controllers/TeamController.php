@@ -90,11 +90,15 @@ class TeamController extends Controller
     }
 
     public function TeamInfo(){
-//        $userTypes=UserType::where('id','!=','cl')->get();
 
-        $users=Employeeinfo::select('user.name','user.userType','employee_info.empId','employee_info.number','employee_info.image','employee_info.designation')
+
+        $users=Employeeinfo::select('user.name','user.userType','team.teamName','employee_info.empId','employee_info.number','employee_info.image','employee_info.designation')
             ->where('user.userType','!=','cl')
-            ->leftJoin('user','employee_info.userId','user.userId')->get();
+            ->leftJoin('user','employee_info.userId','user.userId')
+            ->leftJoin('team','team.teamId','user.teamId')
+            ->get();
+
+        //return $users;
 
         return view('team.showMyTeam',compact('userTypes','users'));
 

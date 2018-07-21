@@ -29,6 +29,13 @@ define('USER_TYPE',array("admin","super","pdm","pcm","qcm","supp","hr","acct","u
 define('USER_DESIGNATION',array(
     "Intern"=>'intern'
 ));
+define('USER_TEAM',array(
+    "Production"=>'production',
+    "Processing"=>'processing',
+    "Qc"=>'qc',
+    "155"=>'155',
+));
+
 define('GENDER',array(
     "Male"=>'m',
     "Female"=>'f',

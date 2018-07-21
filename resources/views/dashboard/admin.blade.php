@@ -128,6 +128,47 @@
                     </div>
                 </div>
 
+                <div class="col-md-12" style="margin-top: 10px;padding: 0px;">
+                </div>
+
+                <div class="col-md-6">
+                    <div class="card">
+                        <div class="card-header">File processed /last day (12am – 12am)</div>
+                        <div class="card-body">
+                            <table class="table table-bordered" style="font-weight: bold">
+                                <thead>
+                                <th></th>
+                                <th>Morning</th>
+                                <th>Evening</th>
+                                </thead>
+                                <tbody>
+
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+
+
+
+                <div class="col-md-6">
+                    <div class="card">
+                        <div class="card-header">File processed /real time (12am – 12am)</div>
+                        <div class="card-body">
+                            <table class="table table-bordered" style="font-weight: bold">
+                                <thead>
+                                <th></th>
+                                <th>Morning</th>
+                                <th>Evening</th>
+                                </thead>
+                                <tbody>
+
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+
 
                 <div class="col-md-12" style="margin-top: 10px;padding: 0px;">
                 </div>

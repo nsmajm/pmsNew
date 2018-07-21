@@ -200,6 +200,130 @@
                     @endforeach
                     </div>
                 </div>
+                <div align="center" class="card-header teamHeder">
+                    <div align="center" ><h4>Production</h4></div>
+                </div>
+
+                <div class="card-body">
+                    <div class="row">
+                    @foreach($users as $user)
+                        @if($user->teamName == USER_TEAM['Production'])
+
+                                <div class="card col-sm-3">
+
+                                    <div style="margin: 10px" align="center">
+                                        @if(!empty($user->image))
+                                            <img style="width: 250px;height: 250px" src="{{url("public/userimage/".$user->image)}}" alt="Card image">
+
+                                        @else
+                                            <img style="width: 250px;height: 250px" src="{{url("public/userimage/noImage.jpg")}}" alt="Card image">
+
+                                        @endif
+                                    </div>
+
+                                    <div class="card-body text-center">
+
+                                        <h5 class="card-title">{{$user->name}}</h5>
+
+                                        <span class="card-text memberInfo">
+                                                    {{$user->designation}}<br><i class="fa fa-phone" aria-hidden="true"></i>&nbsp;{{$user->number}}
+                                        </span>
+                                        <br>
+                                        <a id="editLead" href="{{route('employee.empEdit',$user->empId)}}"><i class="fa fa-pencil-square-o"></i></a>
+
+
+                                    </div>
+
+                                </div>
+
+
+                        @endif
+                    @endforeach
+                    </div>
+                </div>
+
+                <div align="center" class="card-header teamHeder">
+                    <div align="center" ><h4>Processing</h4></div>
+                </div>
+
+                <div class="card-body">
+                    <div class="row">
+                    @foreach($users as $user)
+                        @if($user->teamName == USER_TEAM['Processing'])
+
+                                <div class="card col-sm-3">
+
+                                    <div style="margin: 10px" align="center">
+                                        @if(!empty($user->image))
+                                            <img style="width: 250px;height: 250px" src="{{url("public/userimage/".$user->image)}}" alt="Card image">
+
+                                        @else
+                                            <img style="width: 250px;height: 250px" src="{{url("public/userimage/noImage.jpg")}}" alt="Card image">
+
+                                        @endif
+                                    </div>
+
+                                    <div class="card-body text-center">
+
+                                        <h5 class="card-title">{{$user->name}}</h5>
+
+                                        <span class="card-text memberInfo">
+                                                    {{$user->designation}}<br><i class="fa fa-phone" aria-hidden="true"></i>&nbsp;{{$user->number}}
+                                        </span>
+                                        <br>
+                                        <a id="editLead" href="{{route('employee.empEdit',$user->empId)}}"><i class="fa fa-pencil-square-o"></i></a>
+
+
+                                    </div>
+
+                                </div>
+
+
+                        @endif
+                    @endforeach
+                    </div>
+                </div>
+                <div align="center" class="card-header teamHeder">
+                    <div align="center" ><h4>155</h4></div>
+                </div>
+
+                <div class="card-body">
+                    <div class="row">
+                    @foreach($users as $user)
+                        @if($user->teamName == USER_TEAM['155'])
+
+                                <div class="card col-sm-3">
+
+                                    <div style="margin: 10px" align="center">
+                                        @if(!empty($user->image))
+                                            <img style="width: 250px;height: 250px" src="{{url("public/userimage/".$user->image)}}" alt="Card image">
+
+                                        @else
+                                            <img style="width: 250px;height: 250px" src="{{url("public/userimage/noImage.jpg")}}" alt="Card image">
+
+                                        @endif
+                                    </div>
+
+                                    <div class="card-body text-center">
+
+                                        <h5 class="card-title">{{$user->name}}</h5>
+
+                                        <span class="card-text memberInfo">
+                                                    {{$user->designation}}<br><i class="fa fa-phone" aria-hidden="true"></i>&nbsp;{{$user->number}}
+                                        </span>
+                                        <br>
+                                        <a id="editLead" href="{{route('employee.empEdit',$user->empId)}}"><i class="fa fa-pencil-square-o"></i></a>
+
+
+                                    </div>
+
+                                </div>
+
+
+                        @endif
+                    @endforeach
+                    </div>
+                </div>
 
                 <div align="center" class="card-header teamHeder">
                     <div align="center" ><h4>User</h4></div>

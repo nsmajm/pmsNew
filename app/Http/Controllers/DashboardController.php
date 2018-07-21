@@ -44,6 +44,8 @@ class DashboardController extends Controller
 
         $lastDay= Carbon::yesterday()->format('Y-m-d');
 
+//        $fileProcessed=
+
 //        Procedure
 //        DB::statement('CALL job_information(:date, @created, @delivered);',array($lastDay));
 //        $results = DB::select('select @created as created, @delivered as deliveredJob');
