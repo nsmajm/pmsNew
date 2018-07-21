@@ -29,20 +29,7 @@ class TeamController extends Controller
     }
 
     public function getTeamData(Request $r){
-        $users=User::select('userId','name','userType','team.teamName','teamLeader','user.teamId')
-                ->where('userType','!=',USER_TYPE[0])
-                ->where('userType','!=',USER_TYPE[9])
-                ->where('userType','!=',USER_TYPE[5])
-                ->leftJoin('team','team.teamId','user.teamId');
 
-        if($r->teamId){
-            $users=$users->where('user.teamId',$r->teamId);
-        }
-
-        $users=$users->get();
-
-        $datatables = Datatables::of($users);
-        return $datatables->make(true);
     }
 
     public function changeLeaderState(Request $r){

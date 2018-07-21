@@ -19,15 +19,13 @@ class UserController extends Controller
     }
 
     public function create(){
-        if(!(Auth::user()->userType==USER_TYPE[0] || Auth::user()->userType==USER_TYPE[1])){
-            return back();
+        if(Auth::user()->userType==USER_TYPE['Admin'] || Auth::user()->userType==USER_TYPE['Supervisor']){
+            $userTypes=UserType::where('id','!=','cl')->get();
+            return view('user.create',compact('userTypes'));
+
         }
 
-        $userTypes=UserType::where('id','!=','cl')->get();
-
-
-
-        return view('user.create',compact('userTypes'));
+        return back();
     }
 
     public function insert(Request $r){
@@ -115,7 +113,7 @@ class UserController extends Controller
     }
 
     public function edit($id){
-        if(!(Auth::user()->userType==USER_TYPE[0] || Auth::user()->userType==USER_TYPE[1])){
+        if(!(Auth::user()->userType==USER_TYPE['Admin'] || Auth::user()->userType==USER_TYPE['Supervisor'])){
             return back();
         }
         $user=User::select('user.*','employee_info.empId','employee_info.gender','employee_info.bankAccount','employee_info.number','employee_info.salary','employee_info.joinDate','employee_info.address','employee_info.image')

@@ -18,7 +18,7 @@ class FileController extends Controller
 
     public function index(){
 
-        if(!Auth::user()->userType == USER_TYPE[1]){
+        if(Auth::user()->userType != USER_TYPE['Supervisor']){
             return back();
         }
         $status=Status::where('statusType','jobStatus')->where('statusName','done')->first();

@@ -12,9 +12,13 @@ use Yajra\DataTables\DataTables;
 class LeaveController extends Controller
 {
     public function showLeaveRequest(){
-        $status=Status::where('statusType','leaveStatus')->get();
+        if(Auth::user()->userType == USER_TYPE['Human Resource Management']){
+            $status=Status::where('statusType','leaveStatus')->get();
+            return view('leave.showLeaveRequest')->with('status',$status);
+        }
 
-        return view('leave.showLeaveRequest')->with('status',$status);
+        return back();
+
     }
 
     public function getLeaveRequestData(Request $r){
