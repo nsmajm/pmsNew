@@ -50,7 +50,7 @@ class EmployeeController extends Controller
 
         $this->validate($r,[
             'empName'=>'required|max:45',
-            'empUserName' => 'required|max:45',
+            'empUserName' => 'required|unique:user,loginId|max:45',
             'employeePassword' => 'required|max:20',
 
         ]);
@@ -81,9 +81,6 @@ class EmployeeController extends Controller
         $employee->joinDate=$r->empJoinDate;
 
         $employee->userId=$user->userId;
-
-
-
 
 
         if($r->hasFile('empImage')){
