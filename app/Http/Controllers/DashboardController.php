@@ -51,12 +51,12 @@ class DashboardController extends Controller
 //            ->get();
 
 
-        $jobServiceMorningFixed=Service::select('service.complexity',DB::raw('count(*) as total'))
+        $jobServiceMorningFixed=Service::select('service.complexity',DB::raw('count(job.jobId) as totalJob'))
             ->leftJoin('job_service_relation','service.serviceId','job_service_relation.serviceId')
             ->leftJoin('job','job.jobId','job_service_relation.jobId')
             ->where('job.statusId',$status->statusId)
             ->where('job.shiftId',1)
-            ->groupBy('complexity')
+//            ->groupBy('complexity')
             ->get();
 
 
@@ -160,7 +160,7 @@ class DashboardController extends Controller
 
 //        return $jobInformation;
 
-        return view('dashboard.admin',compact('jobRecievedLastDay','jobInformation'));
+        return view('dashboard.admin',compact('jobRecievedLastDay','jobInformation','jobServiceMorningFixed','jobServiceMorning','jobServiceEvening','jobServiceNight'));
 
 
     }
