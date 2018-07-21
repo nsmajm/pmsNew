@@ -37,10 +37,12 @@ class DashboardController extends Controller
     public function admin(){
 
         $status=Status::where('statusType','jobStatus')
-            ->where('statusName','done')->first();
+            ->where('statusName','done')
+            ->first();
 
 
 //        Process Job Type / last day Basic/Medium/Advance/Complex
+
 //        $jobService=Job::select('service.complexity',DB::raw('count(job.jobId) as total'))->where('job.statusId',$status->statusId)
 //            ->leftJoin('job_service_relation','job_service_relation.jobId','job.jobId')
 //            ->leftJoin('service','service.serviceId','job_service_relation.serviceId')
@@ -48,14 +50,42 @@ class DashboardController extends Controller
 ////            ->groupBy('complexity')
 //            ->get();
 
+
+        $jobServiceMorningFixed=Service::select('service.complexity',DB::raw('count(*) as total'))
+            ->leftJoin('job_service_relation','service.serviceId','job_service_relation.serviceId')
+            ->leftJoin('job','job.jobId','job_service_relation.jobId')
+            ->where('job.statusId',$status->statusId)
+            ->where('job.shiftId',1)
+            ->groupBy('complexity')
+            ->get();
+
+
         $jobServiceMorning=Service::select('service.complexity',DB::raw('count(*) as total'))
             ->leftJoin('job_service_relation','service.serviceId','job_service_relation.serviceId')
             ->leftJoin('job','job.jobId','job_service_relation.jobId')
             ->where('job.statusId',$status->statusId)
+            ->where('job.shiftId',2)
             ->groupBy('complexity')
             ->get();
 
-//        return $jobServiceMorning;
+        $jobServiceEvening=Service::select('service.complexity',DB::raw('count(*) as total'))
+            ->leftJoin('job_service_relation','service.serviceId','job_service_relation.serviceId')
+            ->leftJoin('job','job.jobId','job_service_relation.jobId')
+            ->where('job.statusId',$status->statusId)
+            ->where('job.shiftId',3)
+            ->groupBy('complexity')
+            ->get();
+
+        $jobServiceNight=Service::select('service.complexity',DB::raw('count(*) as total'))
+            ->leftJoin('job_service_relation','service.serviceId','job_service_relation.serviceId')
+            ->leftJoin('job','job.jobId','job_service_relation.jobId')
+            ->where('job.statusId',$status->statusId)
+            ->where('job.shiftId',4)
+            ->groupBy('complexity')
+            ->get();
+
+
+//        return $jobServiceMorningFixed;
 
         $processStatus=Status::where('statusType','jobStatus')
             ->where('statusName','processing')->first();
@@ -70,6 +100,8 @@ class DashboardController extends Controller
 //        $results = DB::select('select @created as created, @delivered as deliveredJob');
 //        return $results;
 
+
+
 //        $created=Job::whereDate('created_at',$lastDay)
 //            ->count();
 //        $deliveredJob=Job::whereDate('deliveryDate',$lastDay)
@@ -81,13 +113,19 @@ class DashboardController extends Controller
 //
 //        $processed=Jobstate::where('statusId',$processStatus)
 //            ->where('endDate',$lastDay)->count();
-//
+
+
+
+        $processed=Jobstate::where('statusId',$processStatus)->where('endDate',$lastDay)->count();
+
+
 //        $jobInformation = array(
 //            "deliveredJob" => $deliveredJob,
 //            "pending" => $pending,
 //            "processed" => $processed,
 //            "created" => $created,
 //        );
+
 
         $jobRecievedLastDay=Job::select('client.clientName', DB::raw('SUM(job.quantity)  as totalFile'),DB::raw('COUNT(job.jobId)  as totalOrder'))
             ->leftJoin('client','client.clientId','job.clientId')
@@ -123,6 +161,7 @@ class DashboardController extends Controller
 //        return $jobInformation;
 
         return view('dashboard.admin',compact('jobRecievedLastDay','jobInformation'));
+
 
     }
 }

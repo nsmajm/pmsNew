@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Service;
+use App\Shiftassign;
 use foo\bar;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
