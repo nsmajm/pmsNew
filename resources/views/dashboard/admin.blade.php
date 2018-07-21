@@ -214,46 +214,7 @@
                     </div>
                 </div>
 
-                <div class="col-md-12" style="margin-top: 10px;padding: 0px;">
-                </div>
 
-                <div class="col-md-6">
-                    <div class="card">
-                        <div class="card-header">File processed /last day (12am – 12am)</div>
-                        <div class="card-body">
-                            <table class="table table-bordered" style="font-weight: bold">
-                                <thead>
-                                <th></th>
-                                <th>Morning</th>
-                                <th>Evening</th>
-                                </thead>
-                                <tbody>
-
-                                </tbody>
-                            </table>
-                        </div>
-                    </div>
-                </div>
-
-
-
-                <div class="col-md-6">
-                    <div class="card">
-                        <div class="card-header">File processed /real time (12am – 12am)</div>
-                        <div class="card-body">
-                            <table class="table table-bordered" style="font-weight: bold">
-                                <thead>
-                                <th></th>
-                                <th>Morning</th>
-                                <th>Evening</th>
-                                </thead>
-                                <tbody>
-
-                                </tbody>
-                            </table>
-                        </div>
-                    </div>
-                </div>
 
 
 
@@ -312,36 +273,15 @@
                                 <th>Total File</th>
                                 </thead>
                                 <tbody>
+                                @foreach($jobRecievedLastDay as $LastDayRecievedJob)
                                 <tr>
-                                    <td>tcl101</td>
-                                    <td>2</td>
-                                    <td>20</td>
+                                    <td>{{$LastDayRecievedJob->clientName}}</td>
+                                    <td>{{$LastDayRecievedJob->totalOrder}}</td>
+                                    <td>{{$LastDayRecievedJob->totalFile}}</td>
 
                                 </tr>
-                                <tr>
-                                    <td>tcl102</td>
-                                    <td>2</td>
-                                    <td>20</td>
+                                @endforeach
 
-                                </tr>
-                                <tr>
-                                    <td>tcl103</td>
-                                    <td>2</td>
-                                    <td>20</td>
-
-                                </tr>
-                                <tr>
-                                    <td>tcl104</td>
-                                    <td>2</td>
-                                    <td>20</td>
-
-                                </tr>
-                                <tr>
-                                    <td>tcl105</td>
-                                    <td>2</td>
-                                    <td>20</td>
-
-                                </tr>
 
                                 </tbody>
                             </table>

@@ -47,6 +47,7 @@ class DashboardController extends Controller
 //            ->where('complexity','Basic')
 ////            ->groupBy('complexity')
 //            ->get();
+
         $jobServiceMorning=Service::select('service.complexity',DB::raw('count(*) as total'))
             ->leftJoin('job_service_relation','service.serviceId','job_service_relation.serviceId')
             ->leftJoin('job','job.jobId','job_service_relation.jobId')
@@ -61,32 +62,67 @@ class DashboardController extends Controller
 
         $lastDay= Carbon::yesterday()->format('Y-m-d');
 
-//        $fileProcessed=
+
+
 
 //        Procedure
 //        DB::statement('CALL job_information(:date, @created, @delivered);',array($lastDay));
 //        $results = DB::select('select @created as created, @delivered as deliveredJob');
 //        return $results;
 
-        $created=Job::whereDate('created_at',$lastDay)
-            ->count();
-        $deliveredJob=Job::whereDate('deliveryDate',$lastDay)
-            ->count();
+//        $created=Job::whereDate('created_at',$lastDay)
+//            ->count();
+//        $deliveredJob=Job::whereDate('deliveryDate',$lastDay)
+//            ->count();
+//
+//        $pending=Job::where('job.deadline','<=',$lastDay)
+//            ->where('job.statusId','!=',$status->statusId)
+//            ->count();
+//
+//        $processed=Jobstate::where('statusId',$processStatus)
+//            ->where('endDate',$lastDay)->count();
+//
+//        $jobInformation = array(
+//            "deliveredJob" => $deliveredJob,
+//            "pending" => $pending,
+//            "processed" => $processed,
+//            "created" => $created,
+//        );
 
-        $pending=Job::where('job.deadline','<=',$lastDay)
-            ->where('job.statusId','!=',$status->statusId)
-            ->count();
+        $jobRecievedLastDay=Job::select('client.clientName', DB::raw('SUM(job.quantity)  as totalFile'),DB::raw('COUNT(job.jobId)  as totalOrder'))
+            ->leftJoin('client','client.clientId','job.clientId')
+            ->orderBy('totalFile', 'desc')
+            ->limit(5)
+            ->groupBy('job.clientId')
+            ->whereDate('job.created_at',$lastDay)
+            ->get();
 
-        $processed=Jobstate::where('statusId',$processStatus)
-            ->where('endDate',$lastDay)->count();
+        $jobInformation = array();
 
-        $jobInformation = array(
-            "deliveredJob" => $deliveredJob,
-            "pending" => $pending,
-            "processed" => $processed,
-            "created" => $created,
-        );
-        return view('dashboard.admin')->with('jobInformation',$jobInformation);
+        for ($ii=0; $ii < 7; $ii++) {
+
+            $dayOfWeek = Carbon::today()->subDays($ii)->format('Y-m-d');
+
+            $fileRecieved = Job::whereDate('created_at','=',$dayOfWeek )->sum('quantity');
+            $fileDelivered = Job::whereDate('deliveryDate','=',$dayOfWeek )->sum('quantity');
+
+//            $jobRecieved = Job::whereDate('created_at','=',$dayOfWeek )->sum('quantity');
+//            $jobRecieved = Job::whereDate('created_at','=',$dayOfWeek )->sum('quantity');
+
+            $data=array(
+                'date'=>$dayOfWeek,
+                'fileRecieved'=>$fileRecieved,
+//                'fileProcessed'=>$jobRecieved,
+//                'filePending'=>$jobRecieved,
+                'fileDelivered'=>$fileDelivered,
+            );
+            array_push($jobInformation,$data);
+
+        }
+
+//        return $jobInformation;
+
+        return view('dashboard.admin',compact('jobRecievedLastDay','jobInformation'));
 
     }
 }
