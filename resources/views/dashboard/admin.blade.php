@@ -136,30 +136,150 @@
                         <div class="card-body">
                             <table class="table table-bordered" style="font-weight: bold">
                                 <thead>
-                                <th>Service</th>
-                                <th>Morning</th>
-                                <th>Evening</th>
+                                <th>Shift</th>
+                                <th>Basic</th>
+                                <th>Medium</th>
+                                <th>Advance</th>
+                                <th>Complex</th>
                                 </thead>
                                 <tbody>
                                 <tr>
-                                    <td>Basic</td>
-                                    <td>10</td>
-                                    <td>5</td>
+                                    <td>Morning (Fixed)</td>
+                                    @if(!$jobServiceMorningFixed->isEmpty())
+                                    @foreach($jobServiceMorningFixed as $service)
+                                        @if($service->complexity=='Basic')
+                                            <td>{{$service->total}}</td>
+                                        @else
+                                            <td>0</td>
+                                        @endif
+
+                                        @if($service->complexity=='Medium')
+                                                <td>{{$service->total}}</td>
+                                            @else
+                                                <td>0</td>
+                                            @endif
+                                        @if($service->complexity=='Advanced')
+                                                <td>{{$service->total}}</td>
+                                            @else
+                                                <td>0</td>
+                                            @endif
+                                        @if($service->complexity=='Complex')
+                                                <td>{{$service->total}}</td>
+                                            @else
+                                                <td>0</td>
+                                            @endif
+
+                                    @endforeach
+                                    @else
+                                        <td>0</td>
+                                        <td>0</td>
+                                        <td>0</td>
+                                        <td>0</td>
+                                    @endif
+
                                 </tr>
                                 <tr>
-                                    <td>Medium</td>
-                                    <td>50</td>
-                                    <td>50</td>
+                                    <td>Morning</td>
+                                    @if(!$jobServiceMorning->isEmpty())
+                                    @foreach($jobServiceMorning as $service)
+                                        @if($service->complexity=='Basic')
+                                            <td>{{$service->total}}</td>
+                                        @else
+                                            <td>0</td>
+                                        @endif
+
+                                        @if($service->complexity=='Medium')
+                                            <td>{{$service->total}}</td>
+                                        @else
+                                            <td>0</td>
+                                        @endif
+                                        @if($service->complexity=='Advanced')
+                                            <td>{{$service->total}}</td>
+                                        @else
+                                            <td>0</td>
+                                        @endif
+                                        @if($service->complexity=='Complex')
+                                            <td>{{$service->total}}</td>
+                                        @else
+                                            <td>0</td>
+                                        @endif
+
+                                    @endforeach
+                                    @else
+                                    <td>0</td>
+                                    <td>0</td>
+                                    <td>0</td>
+                                    <td>0</td>
+                                    @endif
+
                                 </tr>
                                 <tr>
-                                    <td>Advance</td>
-                                    <td>5</td>
-                                    <td>5</td>
+                                    <td>Evening</td>
+                                    @if(!$jobServiceEvening->isEmpty())
+                                    @foreach($jobServiceEvening as $service)
+                                        @if($service->complexity=='Basic')
+                                            <td>{{$service->total}}</td>
+                                        @else
+                                            <td>0</td>
+                                        @endif
+
+                                        @if($service->complexity=='Medium')
+                                            <td>{{$service->total}}</td>
+                                        @else
+                                            <td>0</td>
+                                        @endif
+                                        @if($service->complexity=='Advanced')
+                                            <td>{{$service->total}}</td>
+                                        @else
+                                            <td>0</td>
+                                        @endif
+                                        @if($service->complexity=='Complex')
+                                            <td>{{$service->total}}</td>
+                                        @else
+                                            <td>0</td>
+                                        @endif
+
+                                        @endforeach
+                                    @else
+                                        <td>0</td>
+                                        <td>0</td>
+                                        <td>0</td>
+                                        <td>0</td>
+                                    @endif
                                 </tr>
                                 <tr>
-                                    <td>Complex</td>
-                                    <td>15</td>
-                                    <td>15</td>
+                                    <td>Night</td>
+                                    @if(!$jobServiceNight->isEmpty())
+                                    @foreach($jobServiceNight as $service)
+                                        @if($service->complexity=='Basic')
+                                            <td>{{$service->total}}</td>
+                                        @else
+                                            <td>0</td>
+                                        @endif
+
+                                        @if($service->complexity=='Medium')
+                                            <td>{{$service->total}}</td>
+                                        @else
+                                            <td>0</td>
+                                        @endif
+                                        @if($service->complexity=='Advanced')
+                                            <td>{{$service->total}}</td>
+                                        @else
+                                            <td>0</td>
+                                        @endif
+                                        @if($service->complexity=='Complex')
+                                            <td>{{$service->total}}</td>
+                                        @else
+                                            <td>0</td>
+                                        @endif
+
+                                    @endforeach
+                                    @else
+                                        <td>0</td>
+                                        <td>0</td>
+                                        <td>0</td>
+                                        <td>0</td>
+                                    @endif
                                 </tr>
 
                                 </tbody>

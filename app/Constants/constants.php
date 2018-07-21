@@ -8,7 +8,7 @@ define('SERVICE_TYPE',array(
 
 define('SERVICE_COMPLEXITY',array(
     "Basic",
-    "Normal",
+    "Complex",
     "Medium",
     "Advanced"
 ));
