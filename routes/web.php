@@ -191,6 +191,15 @@ Route::post('Bank/Edit-Bank-Info/{id}','BankController@updateBankInfo')->name('b
 Route::post('Bank/Add-Bank-Info','BankController@newBankInfo')->name('bank.getNewBankInfo');
 Route::post('Bank/insert-Bank-Info','BankController@saveNewBankInfo')->name('bank.saveNewBankInformation');
 
+
+//Time
+Route::get('time/overtime','TimeController@overtime')->name('time.overtime');
+Route::post('time/overtime','TimeController@getOverTimeData')->name('time.getOverTimeData');
+Route::post('time/postOverTime','TimeController@postOverTime')->name('time.postOverTime');
+
+Route::get('time/late','TimeController@late')->name('time.late');
+Route::post('time/submitLate','TimeController@submitLate')->name('time.submitLate');
+
 //tech cloud
 Route::get('Tech-Cloud/Info','tclController@allInfo')->name('tcl.tclInfo');
 Route::post('Tech-Cloud/save-Info','tclController@updateTclInfo')->name('tcl.saveInfo');

@@ -36,6 +36,9 @@
                         <li><a href="advanced-nestable.html">Daily Work Info</a></li>
                     </ul>
                 </li>
+                @endif
+
+                @if(Auth::user()->userType==USER_TYPE['Admin'] || Auth::user()->userType==USER_TYPE['Supervisor'] || Auth::user()->userType==USER_TYPE['Production Manager'] || Auth::user()->userType==USER_TYPE['Processing Manager'] || Auth::user()->userType==USER_TYPE['Qc Manager'])
 
 
                 <li class="has-submenu">
@@ -47,7 +50,7 @@
                     </ul>
                 </li>
 
-                @endif
+              @endif
 
                 @if(USER_TYPE['Admin']== Auth::user()->userType || USER_TYPE['Accounts']== Auth::user()->userType)
                 <li class="has-submenu">
@@ -141,6 +144,16 @@
 
                     </ul>
                 </li>
+
+                <li class="has-submenu">
+                    <a href="#"><i class="fa fa-times"></i>Time</a>
+                    <ul class="submenu">
+                        <li><a href="{{route('time.overtime')}}">Over Time</a></li>
+                        <li><a href="{{route('time.late')}}">Late</a></li>
+                    </ul>
+                </li>
+
+
 
                 <li class="has-submenu"></li>
 
