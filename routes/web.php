@@ -198,7 +198,10 @@ Route::post('time/overtime','TimeController@getOverTimeData')->name('time.getOve
 Route::post('time/postOverTime','TimeController@postOverTime')->name('time.postOverTime');
 
 Route::get('time/late','TimeController@late')->name('time.late');
+Route::post('time/late','TimeController@getLateData')->name('time.getLateData');
 Route::post('time/submitLate','TimeController@submitLate')->name('time.submitLate');
+
+Route::get('time','TimeController@time')->name('overtime.late');
 
 //tech cloud
 Route::get('Tech-Cloud/Info','tclController@allInfo')->name('tcl.tclInfo');

@@ -13,36 +13,41 @@
 @section('content')
 <div class="card">
     <div class="card-header">
-        <h5 align="center">Late Attendance</h5>
+        <div class="form-group col-md-4">
+            <label>Date</label>
+            <input type="text" placeholder="date" class="form-control" id="date1" value="{{date("Y-m-d")}}" onchange="changeDate(this)">
+        </div>
     </div>
+
     <div class="card-body">
-        <div class="row">
-            <div class="form-group col-md-5">
-                <label>Select User</label>
-                <select class="form-control" id="userId" >
-                    <option value="">Select User</option>
-                    @foreach($users as $user)
-                        <option value="{{$user->userId}}">{{$user->loginId}}</option>
-                    @endforeach
-                </select>
-            </div>
+        <div class="table table-responsive">
+            <h5 align="center">Overtime List</h5>
+            <table id="datatableOvertime" class="table table-bordered">
+                <thead>
+                <tr>
+                    <th>Client ID</th>
+                    <th>User</th>
+                    <th>Start time</th>
+                    <th>End time</th>
+                    <th>Assign by</th>
+                    <th>Shift</th>
+                    <th>Date</th>
 
-            <div class="form-group col-md-5">
-                <label>Time</label>
-                <input class="form-control" type="number" id="minute" placeholder="in minutes">
-            </div>
+                </tr>
+                </thead>
+                <tbody>
 
-            <div class="form-group col-md-2">
-
-                <button class="btn btn-success mt-4" onclick="submitForm()">Submit</button>
-            </div>
+                </tbody>
+            </table>
         </div>
 
 
-        <br>
+
+        <br><br>
+
 
         <div class="table table-responsive">
-            <h5 align="center">Todays Late List</h5>
+            <h5 align="center">Late List</h5>
             <table id="datatable" class="table table-bordered">
                 <thead>
                 <tr>
@@ -58,11 +63,14 @@
                 </tbody>
             </table>
         </div>
-
     </div>
 
 
+
 </div>
+
+
+
 
 @endsection
 @section('foot-js')
@@ -78,11 +86,46 @@
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-confirm/3.3.0/jquery-confirm.min.js"></script>
 
-
-
     <script>
+        $('#date1').datepicker({
+            format:'yyyy-m-d'
+        });
 
         $(function() {
+
+            datatableOvertime = $('#datatableOvertime').DataTable({
+                rowReorder: {
+                    selector: 'td:nth-child(0)'
+                },
+                responsive: true,
+                processing: true,
+                serverSide: true,
+                Filter: true,
+                stateSave: true,
+                type:"POST",
+                "ajax":{
+                    "url": "{!! route('time.getOverTimeData') !!}",
+                    "type": "POST",
+                    data:function (d){
+                        d._token="{{csrf_token()}}";
+                        d.date=$('#date1').val();
+
+                    }
+                },
+
+                columns: [
+                    { data: 'clientName', name: 'clientName' },
+                    { data: 'userName', name: 'userName' },
+                    { data: 'startTime', name: 'startTime' },
+                    { data: 'endTime', name: 'endTime' },
+                    { data: 'assignBy', name: 'assignBy' },
+                    { data: 'shiftName', name: 'shiftName'},
+                    { data: 'date', name: 'date'}
+
+
+                ]
+            });
+
             $('#userId').select2();
             dataTable = $('#datatable').DataTable({
                 rowReorder: {
@@ -99,7 +142,7 @@
                     "type": "POST",
                     data:function (d){
                         d._token="{{csrf_token()}}";
-                        d.date="{{date("Y-m-d")}}";
+                        d.date=$('#date1').val();
 
                     }
                 },
@@ -114,39 +157,11 @@
 
         });
 
-        function submitForm() {
-            var userId=$('#userId').val();
-            var minute=$('#minute').val();
-            if(userId !='' && minute!=''){
-                $.ajax({
-                    type: 'POST',
-                    url: "{!! route('time.submitLate') !!}",
-                    cache: false,
-                    data: {_token:"{{csrf_token()}}",'userId': userId,'minute':minute},
-                    success: function (data) {
-                        $.alert({
-                            title: data.title,
-                            content: data.body,
-                        });
-
-                        $('#userId').val('');
-                        $('#minute').val('');
-
-                    }
-
-                });
-
-            }
-
-            else {
-                    $.alert({
-                        title: "Alert",
-                        content: "please insert all required field",
-                    });
-
-            }
+        function changeDate(x) {
+            dataTable.ajax.reload();
+            datatableOvertime.ajax.reload();
+            console.log($(x).val());
 
         }
     </script>
-
 @endsection

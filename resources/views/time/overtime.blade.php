@@ -143,6 +143,7 @@
                     "type": "POST",
                     data:function (d){
                         d._token="{{csrf_token()}}";
+                        d.date="{{date("Y-m-d")}}";
 
                     }
                 },
