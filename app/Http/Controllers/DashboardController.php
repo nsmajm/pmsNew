@@ -158,10 +158,18 @@ class DashboardController extends Controller
         $fileProcessed=JobServiceRelation::select(DB::raw('SUM(job_service_relation.quantity)  as totalFileProcessed'),DB::raw('DATE(job_service_relation.created_at) as recievedDate'))
             ->leftJoin('job','job.jobId','job_service_relation.jobId')
             ->where('job.statusId',$status->statusId)
-            ->groupBy('recievedDate')->whereDate('job_service_relation.created_at', '>=', Carbon::today()->subDays(7)->format('Y-m-d'))->orderBy('recievedDate', 'DESC')->get();
+            ->groupBy('recievedDate')
+            ->whereDate('job_service_relation.created_at', '>=', Carbon::today()->subDays(7)->format('Y-m-d'))->orderBy('recievedDate', 'DESC')->get();
 
-        $fileDelivered=Billing::select(DB::raw('SUM(job.quantity)  as totalFileDelivered'),DB::raw('DATE(billing.created_at) as billingDate'))->leftJoin('job','job.jobId','billing.jobId')
-            ->groupBy('billingDate')->whereDate('billing.created_at', '>=', Carbon::today()->subDays(7)->format('Y-m-d'))->orderBy('billingDate', 'DESC')->get();
+        $fileDelivered=Job::select(DB::raw('SUM(job_service_relation.quantity)  as totalFileDelivered'),DB::raw('DATE(job.created_at) as billingDate'))
+            ->leftJoin('job_service_relation','job_service_relation.jobId','job.jobId')
+            ->where('job.statusId',$status->statusId)
+            ->where('job.fileCheck','!=',null)
+            ->groupBy('billingDate')
+            ->whereDate('job.created_at', '>=', Carbon::today()->subDays(7)->format('Y-m-d'))->orderBy('billingDate', 'DESC')->get();
+
+//            Billing::select(DB::raw('SUM(job.quantity)  as totalFileDelivered'),DB::raw('DATE(billing.created_at) as billingDate'))->leftJoin('job','job.jobId','billing.jobId')
+//            ->groupBy('billingDate')->whereDate('billing.created_at', '>=', Carbon::today()->subDays(7)->format('Y-m-d'))->orderBy('billingDate', 'DESC')->get();
 
 
 
@@ -204,7 +212,7 @@ class DashboardController extends Controller
         }
 
 
-      //  return $fileProcessed;
+       // return $fileDelivered;
 
 
         return view('dashboard.admin',compact('jobRecievedLastDay','jobInformation','jobServiceMorning','jobServiceEvening','jobServiceNight'));
