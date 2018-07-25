@@ -138,7 +138,6 @@
             cache: false,
             data: {_token:"{{csrf_token()}}",'quantity': temp,'jobId':jobId},
             success: function (data) {
-//                console.log('left:'+data+' total:'+temp);
                 qLeft=data;
                 $('#quantityLeft').html(qLeft);
                 if(data<0){
