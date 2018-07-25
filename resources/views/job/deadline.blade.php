@@ -278,14 +278,11 @@
                     @if(Auth::user()->userType==USER_TYPE['Admin']) //For Admin
                     { "data": function(data){
                         if(data.priority ==0){
-                            return '<a class="btn btn-default btn-sm" data-panel-id="'+data.jobId+'" onclick="editjob(this)"><i class="fa fa-edit"></i></a>'+
-                                '<a class="btn btn-default btn-sm" data-panel-id="'+data.jobId+'" onclick="assignjob(this)"><i class="fa fa-exchange"></i></a>'
-                                ;
+                            return '<a class="btn btn-default btn-sm" data-panel-id="'+data.jobId+'" onclick="assignjob(this)"><i class="fa fa-exchange"></i></a>';
                         }
                         else {
-                            return '<a class="btn btn-default btn-sm" data-panel-id="'+data.jobId+'" onclick="editjob(this)"><i class="fa fa-edit"></i></a>'+
-                                '<a class="btn btn-default btn-sm" data-panel-id="'+data.jobId+'" onclick="lessPriority(this)"><i class="fa fa-arrow-circle-down"></i></a>'+
-                                '<a class="btn btn-default btn-sm" data-panel-id="'+data.jobId+'" onclick="assignjob(this)"><i class="fa fa-exchange"></i></a>'
+                            return '<a class="btn btn-default btn-sm" data-panel-id="'+data.jobId+'" onclick="lessPriority(this)"><i class="fa fa-arrow-circle-down"></i></a>'+
+                                  '<a class="btn btn-default btn-sm" data-panel-id="'+data.jobId+'" onclick="assignjob(this)"><i class="fa fa-exchange"></i></a>'
                                 ;
                         }
 
@@ -297,10 +294,9 @@
                     { "data": function(data){
 
 
-                        return '<a class="btn btn-default btn-sm" data-panel-id="'+data.jobId+'" onclick="editjob(this)"><i class="fa fa-edit"></i></a>'+
-                            '<a class="btn btn-default btn-sm" data-panel-id="'+data.jobId+'" onclick="assignjob(this)"><i class="fa fa-exchange"></i></a>'
+                        return '<a class="btn btn-default btn-sm" data-panel-id="'+data.jobId+'" onclick="assignjob(this)"><i class="fa fa-exchange"></i></a>';
 
-                            ;},
+                            },
                         "orderable": false, "searchable":false, "name":"selected_rows" },
 
 
@@ -308,9 +304,7 @@
                     { "data": function(data){
 
 
-                            return '<a class="btn btn-default btn-sm" data-panel-id="'+data.jobId+'" onclick="editjob(this)"><i class="fa fa-edit"></i></a>'
-
-                                ;},
+                            return '';},
                         "orderable": false, "searchable":false, "name":"selected_rows" },
 
                     @endif
@@ -387,13 +381,11 @@
                     @if(Auth::user()->userType==USER_TYPE['Admin']) //For Admin
                     { "data": function(data){
                         if(data.priority ==0){
-                            return '<a class="btn btn-default btn-sm" data-panel-id="'+data.jobId+'" onclick="editjob(this)"><i class="fa fa-edit"></i></a>'+
-                                '<a class="btn btn-default btn-sm" data-panel-id="'+data.jobId+'" onclick="assignjob(this)"><i class="fa fa-exchange"></i></a>'
+                            return '<a class="btn btn-default btn-sm" data-panel-id="'+data.jobId+'" onclick="assignjob(this)"><i class="fa fa-exchange"></i></a>'
                                 ;
                         }
                         else {
-                            return '<a class="btn btn-default btn-sm" data-panel-id="'+data.jobId+'" onclick="editjob(this)"><i class="fa fa-edit"></i></a>'+
-                                '<a class="btn btn-default btn-sm" data-panel-id="'+data.jobId+'" onclick="lessPriority(this)"><i class="fa fa-arrow-circle-down"></i></a>'+
+                            return '<a class="btn btn-default btn-sm" data-panel-id="'+data.jobId+'" onclick="lessPriority(this)"><i class="fa fa-arrow-circle-down"></i></a>'+
                                 '<a class="btn btn-default btn-sm" data-panel-id="'+data.jobId+'" onclick="assignjob(this)"><i class="fa fa-exchange"></i></a>'
                                 ;
                         }
@@ -405,14 +397,13 @@
                     { "data": function(data){
 
 
-                        return '<a class="btn btn-default btn-sm" data-panel-id="'+data.jobId+'" onclick="editjob(this)"><i class="fa fa-edit"></i></a>'+
-                            '<a class="btn btn-default btn-sm" data-panel-id="'+data.jobId+'" onclick="assignjob(this)"><i class="fa fa-exchange"></i></a>'
+                        return '<a class="btn btn-default btn-sm" data-panel-id="'+data.jobId+'" onclick="assignjob(this)"><i class="fa fa-exchange"></i></a>'
 
                             ;},
                         "orderable": false, "searchable":false, "name":"selected_rows" },
                     @else
                     { "data": function(data){
-                            return '<a class="btn btn-default btn-sm" data-panel-id="'+data.jobId+'" onclick="editjob(this)"><i class="fa fa-edit"></i></a>'
+                            return ''
                             ;},
                         "orderable": false, "searchable":false, "name":"selected_rows" },
 

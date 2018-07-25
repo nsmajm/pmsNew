@@ -17,22 +17,17 @@ Route::get('/procedure', function () {
     DB::statement('CALL job_information(:date, @created, @delivered);',array($a));
     $results = DB::select('select @created as created, @delivered as delivered');
     return $results;
-
 });
+
+
 //Long Poll
 Route::get('/poll','PollController@longPool');
-
-
 Route::get('/','Auth\LoginController@loginForm');
-
 Route::get('/dashboard','DashboardController@index')->name('main');
-
 Route::view('/form','form')->name('form');
 Route::view('/datatable','datatable')->name('datatable');
 Route::view('/onlyDatatable','onlyDatatable')->name('only.datatable');
-
 Auth::routes();
-
 Route::get('/home', 'HomeController@index')->name('home');
 
 
@@ -174,14 +169,14 @@ Route::post('account/password','HomeController@changePassword')->name('account.c
 
 //Reporting
 Route::get('/report/performance','ReportController@performance')->name('report.performance');
+Route::get('/report/all','ReportController@all')->name('report.all');
+
+Route::post('/report/fileCountDays','ReportController@fileCountDays')->name('report.fileCountDays');
 
 //Employee
 Route::get('employee/Edit-Employee/{id}','EmployeeController@editEmployee')->name('employee.empEdit');
-
 Route::get('employee/Add-New-Employee','EmployeeController@addNewEmployee')->name('employee.addNewEmp');
-
 Route::post('employee/Update-Employee/{id}','EmployeeController@updateEmployee')->name('employee.empUpdate');
-
 Route::post('employee/Save-Employee','EmployeeController@saveNewEmployee')->name('employee.insertNewEmp');
 
 //Bank
@@ -196,11 +191,9 @@ Route::post('Bank/insert-Bank-Info','BankController@saveNewBankInfo')->name('ban
 Route::get('time/overtime','TimeController@overtime')->name('time.overtime');
 Route::post('time/overtime','TimeController@getOverTimeData')->name('time.getOverTimeData');
 Route::post('time/postOverTime','TimeController@postOverTime')->name('time.postOverTime');
-
 Route::get('time/late','TimeController@late')->name('time.late');
 Route::post('time/late','TimeController@getLateData')->name('time.getLateData');
 Route::post('time/submitLate','TimeController@submitLate')->name('time.submitLate');
-
 Route::get('time','TimeController@time')->name('overtime.late');
 
 //tech cloud

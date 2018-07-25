@@ -94,7 +94,14 @@ class JobController extends Controller
     }
 
     public function edit($id){
-        if(Auth::user()->userType==USER_TYPE['Support'] ||Auth::user()->userType==USER_TYPE['Supervisor']) {
+
+
+        if(Auth::user()->userType==USER_TYPE['Admin'] ||Auth::user()->userType==USER_TYPE['Supervisor'] || Auth::user()->userType==USER_TYPE['Qc Manager']) {
+            $jobCount=Job::where('jobId',$id)->where('job.statusId',5)->count();
+            if($jobCount==0){
+                return "Job Is Not In QC Yet";
+            }
+
             $job = Job::select('job.jobId', 'job.clientId', 'brief.briefId', 'client.clientName', 'job.deadLine', 'job.submissionTime', 'job.quantity', 'job.other', 'brief.briefMsg', 'file.folderName')
                 ->where('job.jobId', $id)
                 ->leftJoin('brief', 'brief.jobId', 'job.jobId')
@@ -369,11 +376,12 @@ class JobController extends Controller
         $jobStateOld->endDate=$todaysDate;
         $jobStateOld->save();
 
+        Jobassign::where('jobId',$r->jobId)
+            ->update(['leaveDate'=> date('Y-m-d')]);
+
         if($r->status=='done'){
             Job::where('jobId',$r->jobId)
                 ->update(['doneBy'=>Auth::user()->userId]);
-            Jobassign::where('jobId',$r->jobId)
-                ->update(['leaveDate'=> date('Y-m-d')]);
         }
 
         else{
@@ -420,13 +428,11 @@ class JobController extends Controller
             ->leftJoin('file','file.jobId','job.jobId')
             ->first();
 
-//        $teams=Team::get();
         $groups=Group::get();
 
         $jobAssignQuantity=Jobassign::where('jobId',$id)
             ->sum('quantity');
 
-//        return $jobAssignQuantity;
 
         return view('job.assignJob')
             ->with('groups',$groups)
