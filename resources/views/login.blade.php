@@ -6,13 +6,14 @@
     <meta charset="utf-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0, minimal-ui">
-    <title>Upcube - Responsive Flat Admin Dashboard</title>
+    <title>PMS - Production Management System</title>
     <meta content="Admin Dashboard" name="description" />
     <meta content="Themesdesign" name="author" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
 
     <!-- App Icons -->
     <link rel="shortcut icon" href="{{url('public/logo/TCL_logo.png')}}">
+
 
     <!-- App css -->
     <link href="{{url('assets/css/bootstrap.min.css')}}" rel="stylesheet" type="text/css" />
@@ -49,7 +50,7 @@
                     <div class="form-group row">
                         <div class="col-12">
                             {{--<input class="form-control" name="loginId" type="text" placeholder="login id" required>--}}
-                            <input id="loginId" type="text" class="form-control{{ $errors->has('loginId') ? ' is-invalid' : '' }}" name="loginId" value="{{ old('loginId') }}" required autofocus>
+                            <input id="loginId" type="text" placeholder="Id" class="form-control{{ $errors->has('loginId') ? ' is-invalid' : '' }}" name="loginId" value="{{ old('loginId') }}" required autofocus>
 
 
                         @if ($errors->has('loginId'))

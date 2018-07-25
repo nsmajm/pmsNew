@@ -8,6 +8,8 @@ use App\Jobassign;
 use Illuminate\Support\Facades\Auth;
 use Yajra\DataTables\DataTables;
 use DB;
+use App\Shift;
+use App\Job;
 
 
 class JobAssignController extends Controller
@@ -28,9 +30,15 @@ class JobAssignController extends Controller
 
     public function assignJobUser(Request $r){
 
+
         for($i=0;$i<count($r->quantity);$i++){
+
             $assign=Jobassign::where('assignTo',$r->user[$i])
-                ->where('jobId',$r->jobId)->first();
+                ->where('jobId',$r->jobId)
+                ->first();
+
+
+
             if($assign==null){
                 $assign=new Jobassign();
                 $assign->jobId=$r->jobId;
@@ -41,10 +49,23 @@ class JobAssignController extends Controller
             }
             else{
                 Jobassign::where('assignTo',$r->user[$i])
-                    ->where('jobId',$r->jobId)->update(['quantity'=> $r->quantity[$i]]);
+                    ->where('jobId',$r->jobId)
+                    ->update(['quantity'=> $r->quantity[$i]]);
             }
 
         }
+
+        //Assign Job To Shift
+        $userInfo=User::findOrFail($r->user[0]);
+        $shift=Shift::select('shift.shiftId')
+            ->leftJoin('shiftassign','shiftassign.shiftId','shift.shiftId')
+            ->leftJoin('group','group.groupId','shiftassign.groupId')
+            ->leftJoin('user','user.groupId','shiftassign.groupId')
+            ->where('user.groupId',$userInfo->groupId)
+            ->first();
+        Job::where('jobId',$r->jobId)
+            ->update(['shiftId'=>$shift->shiftId]);
+        //end Assign Job To Shift
 
     }
 

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Service;
+use App\Shiftassign;
 use foo\bar;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
@@ -82,19 +83,18 @@ class JobController extends Controller
 
 
     public function add(){
-        if(Auth::user()->userType != USER_TYPE[5]){
-            return back();
-        }
-
-        $clients=Client::select('clientId','clientName')
+        if(USER_TYPE['Admin']== Auth::user()->userType || USER_TYPE['Support']== Auth::user()->userType){
+            $clients=Client::select('clientId','clientName')
             ->get();
 
-        return view('job.add')
+            return view('job.add')
                 ->with('clients',$clients);
+        }
+        return back();
     }
 
     public function edit($id){
-        if(Auth::user()->userType==USER_TYPE[5] ||Auth::user()->userType==USER_TYPE[1]) {
+        if(Auth::user()->userType==USER_TYPE['Support'] ||Auth::user()->userType==USER_TYPE['Supervisor']) {
             $job = Job::select('job.jobId', 'job.clientId', 'brief.briefId', 'client.clientName', 'job.deadLine', 'job.submissionTime', 'job.quantity', 'job.other', 'brief.briefMsg', 'file.folderName')
                 ->where('job.jobId', $id)
                 ->leftJoin('brief', 'brief.jobId', 'job.jobId')
@@ -129,7 +129,7 @@ class JobController extends Controller
         $job=new Job();
         $job->clientId=$r->clientName;
         $job->quantity=$r->quantity;
-        $job->deadLine=date('Y-m-d',strtotime($r->submissionDate));
+        $job->deadLine=$r->submissionDate;
         $job->userId=Auth::user()->userId;
         $job->statusId=$status->statusId;
         $job->submissionTime=$r->submissionTime;
@@ -139,6 +139,10 @@ class JobController extends Controller
 
         if ($r->feedback){
             $job->feedback=1;
+            $status=Status::where('statusType','jobStatus')->where('statusName','feedback')
+                ->first();
+            $job->statusId=$status->statusId;
+
         }
 
         $job->other=$r->other;
@@ -209,6 +213,27 @@ class JobController extends Controller
     public function feedback(){
 
         return view('job.feedback');
+
+    }
+
+    public function getFeedbackData(Request $r){
+        $status=Status::where('statusType','jobStatus')->where('statusName','feedback')
+            ->first();
+
+        $jobs=Job::select('client.clientName','file.folderName','job.quantity','job.created_at');
+
+        if($r->date1 && $r->date2){
+            $jobs=$jobs->whereBetween(DB::raw('DATE(job.created_at)'),[$r->date1,$r->date2]);
+        }
+
+
+        $jobs=$jobs->where('job.statusId',$status->statusId)
+            ->leftJoin('file','file.jobId','job.jobId')
+            ->leftJoin('client','client.clientId','job.clientId')
+            ->get();;
+
+        $datatables = Datatables::of($jobs);
+        return $datatables->make(true);
 
     }
 
@@ -348,7 +373,7 @@ class JobController extends Controller
             Job::where('jobId',$r->jobId)
                 ->update(['doneBy'=>Auth::user()->userId]);
             Jobassign::where('jobId',$r->jobId)
-                ->update(['leaveDate'=> date('Y-m-d H:i:s')]);
+                ->update(['leaveDate'=> date('Y-m-d')]);
         }
 
         else{
@@ -360,6 +385,31 @@ class JobController extends Controller
         }
 
 
+
+    }
+
+    public function assignHistory(){
+
+        return view('job.history');
+    }
+
+    public function getAssignHistory(Request $r){
+        $job=Jobassign::select('job.jobId','client.clientName','file.folderName','jobassign.quantity','jobassign.assignDate','jobassign.leaveDate','u1.name as assignBy','u2.name as assignTo')
+            ->leftJoin('job','job.jobId','jobassign.jobId')
+            ->leftJoin('client','client.clientId','job.clientId')
+            ->leftJoin('file','file.jobId','job.jobId')
+            ->leftJoin('user as u1','u1.userId','jobassign.assignBy')
+            ->leftJoin('user as u2','u2.userId','jobassign.assignTo');
+        if(Auth::user()->userType==USER_TYPE['User']){
+            $job=$job->where('jobassign.assignTo',Auth::user()->userId);
+        }
+
+
+        $job= $job->orderBy('jobassignId','desc')
+            ->get();
+
+        $datatables = Datatables::of($job);
+        return $datatables->make(true);
 
     }
 

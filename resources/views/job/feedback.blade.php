@@ -6,11 +6,8 @@
     <link href="{{url('assets/plugins/datatables/buttons.bootstrap4.min.css')}}" rel="stylesheet" type="text/css" />
     <!-- Responsive datatable examples -->
     <link href="{{url('assets/plugins/datatables/responsive.bootstrap4.min.css')}}" rel="stylesheet" type="text/css" />
-    {{--<link href="https://cdn.datatables.net/rowreorder/1.2.3/css/rowReorder.dataTables.min.css" rel="stylesheet" type="text/css" />--}}
-    {{--<link href="https://cdn.datatables.net/responsive/2.2.1/css/responsive.dataTables.min.css" rel="stylesheet" type="text/css" />--}}
     <link href="{{url('public/assets/plugins/bootstrap-datepicker/css/bootstrap-datepicker.min.css')}}" rel="stylesheet">
-    {{--https://cdn.datatables.net/rowreorder/1.2.3/css/rowReorder.dataTables.min.css--}}
-    {{--https://cdn.datatables.net/responsive/2.2.1/css/responsive.dataTables.min.css--}}
+
 
 
 @endsection
@@ -23,12 +20,7 @@
         <div class="col-md-2">
             <div style="background-color: white;margin-bottom: 20px;" class="card-body">
 
-
-
-                <form class="" action="#">
-
-
-                    <div class="form-group">
+                <div class="form-group">
                         <label>Search Date</label>
                         <div class="form-group">
                             <div>
@@ -40,13 +32,13 @@
                         </div>
                         <div class="pull-right">
 
-                            <button class="btn btn-info">Search</button>
+                            <button class="btn btn-info" onclick="onDateSearch()">Search</button>
                         </div>
                         <br>
                     </div>
 
 
-                </form>
+
 
             </div>
         </div>
@@ -60,32 +52,15 @@
                         <table id="datatable" class="table table-bordered">
                             <thead>
                             <tr>
-                                <th style="width: 70%">Name</th>
-                                <th style="width: 30%">Quantity</th>
+                                <th style="width: 10%">Client Id</th>
+                                <th style="width: 30%">Folder Name</th>
+                                <th style="width: 10%">quantity</th>
+                                <th style="width: 20%">created at</th>
 
                             </tr>
                             </thead>
 
-
                             <tbody>
-                            <tr>
-                                <td>Tiger Nixon</td>
-                                <td>61</td>
-                            </tr>
-                            <tr>
-                                <td>Garrett Winters</td>
-                                <td>63</td>
-                            </tr>
-                            <tr>
-                                <td>Ashton Cox</td>
-                                <td>66</td>
-
-                            </tr>
-                            <tr>
-                                <td>Cedric Kelly</td>
-                                <td>22</td>
-                            </tr>
-
                             </tbody>
                         </table>
                     </div>
@@ -113,17 +88,51 @@
     {{--https://cdn.datatables.net/responsive/2.2.1/js/dataTables.responsive.min.js--}}
     <script>
         $(document).ready( function () {
-            $('#datatable').DataTable({
+            dataTable=  $('#datatable').DataTable({
                 rowReorder: {
-                    selector: 'td:nth-child(2)'
+                    selector: 'td:nth-child(0)'
                 },
-                responsive: true
+                responsive: true,
+                processing: true,
+                serverSide: true,
+                Filter: true,
+                stateSave: true,
+                type:"POST",
+                "ajax":{
+                    "url": "{!! route('job.getFeedbackData') !!}",
+                    "type": "POST",
+                    data:function (d){
+                        d._token="{{csrf_token()}}";
+                        d.date1=$('#date1').val();
+                        d.date2=$('#date2').val();
+
+                    },
+                },
+
+                columns: [
+                    { data: 'clientName', name: 'clientName' },
+                    { data: 'folderName', name: 'folderName' },
+                    { data: 'quantity', name: 'quantity'},
+                    { data: 'created_at', name: 'created_at' },
+
+
+                ]
             } );
 
-            $('#date1').datepicker();
-            $('#date2').datepicker();
-//            $().DataTable();
+
+            $('#date1').datepicker({
+                format:'yyyy-m-d'
+            });
+            $('#date2').datepicker({
+                format:'yyyy-m-d'
+            });
         } );
+
+        function onDateSearch() {
+
+            dataTable.ajax.reload();
+
+        }
 
 
     </script>

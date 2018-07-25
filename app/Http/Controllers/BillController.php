@@ -9,24 +9,29 @@ use App\Status;
 use App\JobServiceRelation;
 use App\Client;
 use App\ClientServiceRelation;
-
+use Auth;
 class BillController extends Controller
 {
     public function addRate(){
-        $status=Status::where('statusType','jobStatus')
-            ->where('statusName','done')
-            ->first();
+        if(USER_TYPE['Admin']== Auth::user()->userType || USER_TYPE['Accounts']== Auth::user()->userType){
+            $status=Status::where('statusType','jobStatus')
+                ->where('statusName','done')
+                ->first();
 
-        $jobs=Job::select('job.jobId','client.clientName','file.folderName','job.quantity','job.created_at')
-            ->where('statusId',$status->statusId)
-            ->where('fileCheck','!=',null)
-            ->leftJoin('client','client.clientId','job.clientId')
-            ->leftJoin('file','file.jobId','job.jobId')
-            ->get();
+            $jobs=Job::select('job.jobId','client.clientName','file.folderName','job.quantity','job.created_at')
+                ->where('statusId',$status->statusId)
+                ->where('fileCheck','!=',null)
+                ->leftJoin('client','client.clientId','job.clientId')
+                ->leftJoin('file','file.jobId','job.jobId')
+                ->get();
 
-//        return $jobs;
-        return view('bill.add')
-            ->with('jobs',$jobs);
+            return view('bill.add')
+                ->with('jobs',$jobs);
+
+        }
+
+        return back();
+
     }
 
     public function addBillModal(Request $r){
@@ -36,17 +41,17 @@ class BillController extends Controller
             ->leftJoin('service','service.serviceId','job_service_relation.serviceId')
             ->get();
 
-//        return $jobService;
-
         return view('bill.addBillModal')->with('jobService',$jobService);
     }
 
     public function rate(){
-        $clients=Client::select('clientId','clientName')->get();
+        if(USER_TYPE['Admin']== Auth::user()->userType || USER_TYPE['Accounts']== Auth::user()->userType) {
+            $clients = Client::select('clientId', 'clientName')->get();
 
-//        return $clients;
-        return view('bill.rate')
-            ->with('clients',$clients);
+            return view('bill.rate')
+                ->with('clients', $clients);
+        }
+        return back();
 
     }
 

@@ -8,7 +8,7 @@ define('SERVICE_TYPE',array(
 
 define('SERVICE_COMPLEXITY',array(
     "Basic",
-    "Normal",
+    "Complex",
     "Medium",
     "Advanced"
 ));
@@ -18,7 +18,7 @@ define('BRIEF_TYPE',array(
     "usual"
 ));
 
-define('USER_TYPE',array("admin","super","pdm","pcm","qcm","supp","hr","acct","user","cl"));
+//define('USER_TYPE',array("admin","super","pdm","pcm","qcm","supp","hr","acct","user","cl"));
 
 //define('GENDER',array("Male","Female","Other"));
 
@@ -29,24 +29,31 @@ define('USER_TYPE',array("admin","super","pdm","pcm","qcm","supp","hr","acct","u
 define('USER_DESIGNATION',array(
     "Intern"=>'intern'
 ));
+define('USER_TEAM',array(
+    "Production"=>'production',
+    "Processing"=>'processing',
+    "Qc"=>'qc',
+    "155"=>'155',
+));
+
 define('GENDER',array(
     "Male"=>'m',
     "Female"=>'f',
     "Other"=>'0',
 ));
 
-//define('USER_TYPE',array(
-//    "Admin"=>'admin',
-//    "Supervisor"=>'super',
-//    "Production Manager"=>'pdm',
-//    "Processing Manager"=>'pcm',
-//    "Qc Manager"=>'qcm',
-//    "Support"=>'supp',
-//    "Human Resource Management"=>'hr',
-//    "Accounts"=>'acct',
-//    "User"=>'user',
-//    "Client"=>'cl',
-//));
+define('USER_TYPE',array(
+    "Admin"=>'admin',
+    "Supervisor"=>'super',
+    "Production Manager"=>'pdm',
+    "Processing Manager"=>'pcm',
+    "Qc Manager"=>'qcm',
+    "Support"=>'supp',
+    "Human Resource Management"=>'hr',
+    "Accounts"=>'acct',
+    "User"=>'user',
+    "Client"=>'cl',
+));
 
 
 

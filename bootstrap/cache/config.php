@@ -278,7 +278,7 @@
     array (
       'font_dir' => 'C:\\xampp\\htdocs\\pmsNew\\storage\\fonts/',
       'font_cache' => 'C:\\xampp\\htdocs\\pmsNew\\storage\\fonts/',
-      'temp_dir' => 'C:\\Users\\Farzad\\AppData\\Local\\Temp',
+      'temp_dir' => 'C:\\Users\\NEWUSE~1\\AppData\\Local\\Temp',
       'chroot' => 'C:\\xampp\\htdocs\\pmsNew',
       'enable_font_subsetting' => false,
       'pdf_backend' => 'CPDF',

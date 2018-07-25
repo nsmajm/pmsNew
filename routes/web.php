@@ -65,6 +65,8 @@ Route::post('/job/getQcData','JobController@getQcData')->name('job.getQcData');
 Route::post('/job/StateChange','JobController@jobStateChange')->name('job.StateChange');
 
 //Assign Job
+Route::get('job/assign/history','JobController@assignHistory')->name('assign.history');
+Route::post('job/assign/history','JobController@getAssignHistory')->name('assign.getAssignHistory');
 
 Route::get('/job/assign/{id}','JobController@assignJob')->name('job.assign');
 
@@ -99,6 +101,7 @@ Route::post('comments/send','CommentsController@sendComments')->name('comments.s
 
 //Feedback
 Route::get('/feedback','JobController@feedback')->name('job.feedback');
+Route::post('/feedback','JobController@getFeedbackData')->name('job.getFeedbackData');
 
 
 //Brief
@@ -187,6 +190,18 @@ Route::post('Bank/Bank-Info','BankController@getBankInfo')->name('bank.getBankIn
 Route::post('Bank/Edit-Bank-Info/{id}','BankController@updateBankInfo')->name('bank.EditBankInformation');
 Route::post('Bank/Add-Bank-Info','BankController@newBankInfo')->name('bank.getNewBankInfo');
 Route::post('Bank/insert-Bank-Info','BankController@saveNewBankInfo')->name('bank.saveNewBankInformation');
+
+
+//Time
+Route::get('time/overtime','TimeController@overtime')->name('time.overtime');
+Route::post('time/overtime','TimeController@getOverTimeData')->name('time.getOverTimeData');
+Route::post('time/postOverTime','TimeController@postOverTime')->name('time.postOverTime');
+
+Route::get('time/late','TimeController@late')->name('time.late');
+Route::post('time/late','TimeController@getLateData')->name('time.getLateData');
+Route::post('time/submitLate','TimeController@submitLate')->name('time.submitLate');
+
+Route::get('time','TimeController@time')->name('overtime.late');
 
 //tech cloud
 Route::get('Tech-Cloud/Info','tclController@allInfo')->name('tcl.tclInfo');

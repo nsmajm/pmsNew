@@ -33,9 +33,9 @@ class GroupController extends Controller
 
     public function getGroupData(Request $r){
         $users=User::select('userId','name','userType','group.groupName','teamLeader','user.groupId')
-            ->where('userType','!=',USER_TYPE[0])
-            ->where('userType','!=',USER_TYPE[9])
-            ->where('userType','!=',USER_TYPE[5])
+            ->where('userType','!=',USER_TYPE['Admin'])
+            ->where('userType','!=',USER_TYPE['Client'])
+            ->where('userType','!=',USER_TYPE['Support'])
             ->leftJoin('group','group.groupId','user.groupId');
 
         if($r->groupId){

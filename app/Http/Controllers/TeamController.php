@@ -29,20 +29,7 @@ class TeamController extends Controller
     }
 
     public function getTeamData(Request $r){
-        $users=User::select('userId','name','userType','team.teamName','teamLeader','user.teamId')
-                ->where('userType','!=',USER_TYPE[0])
-                ->where('userType','!=',USER_TYPE[9])
-                ->where('userType','!=',USER_TYPE[5])
-                ->leftJoin('team','team.teamId','user.teamId');
 
-        if($r->teamId){
-            $users=$users->where('user.teamId',$r->teamId);
-        }
-
-        $users=$users->get();
-
-        $datatables = Datatables::of($users);
-        return $datatables->make(true);
     }
 
     public function changeLeaderState(Request $r){
@@ -90,11 +77,15 @@ class TeamController extends Controller
     }
 
     public function TeamInfo(){
-//        $userTypes=UserType::where('id','!=','cl')->get();
 
-        $users=Employeeinfo::select('user.name','user.userType','employee_info.empId','employee_info.number','employee_info.image','employee_info.designation')
+
+        $users=Employeeinfo::select('user.name','user.userType','team.teamName','employee_info.empId','employee_info.number','employee_info.image','employee_info.designation')
             ->where('user.userType','!=','cl')
-            ->leftJoin('user','employee_info.userId','user.userId')->get();
+            ->leftJoin('user','employee_info.userId','user.userId')
+            ->leftJoin('team','team.teamId','user.teamId')
+            ->get();
+
+        //return $users;
 
         return view('team.showMyTeam',compact('userTypes','users'));
 
