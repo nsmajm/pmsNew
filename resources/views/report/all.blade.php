@@ -52,20 +52,20 @@
             <div id="exTab2">
                 <ul class="nav nav-tabs">
                     <li class="nav-item">
-                        <a  class="nav-link" href="" data-toggle="tab" onclick="fileCountDays()">File Count / Days</a>
+                        <a  class="nav-link" href="" id="firstClick" data-toggle="tab" onclick="fileCountDays()">File Count / Days</a>
                     </li>
                     <li class="nav-item">
-                        <a href="#result" class="nav-link" data-toggle="tab">File Process / Shift</a>
+                        <a href="#result" class="nav-link" data-toggle="tab" onclick="fileProcessShift()">File Process / Shift</a>
                     </li>
                     <li class="nav-item">
-                        <a href="#3" class="nav-link" data-toggle="tab">File Type / Day</a>
+                        <a href="#3" class="nav-link" data-toggle="tab" onclick="fileTypeDay()">File Type / Day</a>
                     </li>
 
                     <li class="nav-item">
-                        <a href="#4" class="nav-link" data-toggle="tab">File Process / Hour</a>
+                        <a href="#4" class="nav-link" data-toggle="tab" onclick="fileProcessHour()">File Process / Hour</a>
                     </li>
                     <li class="nav-item">
-                        <a href="#4" class="nav-link" data-toggle="tab">File Count / Month</a>
+                        <a href="#4" class="nav-link" data-toggle="tab" onclick="fileCountMonth()">File Count / Month</a>
                     </li>
 
                     <li class="nav-item">
@@ -104,6 +104,7 @@
 @endsection
 @section('foot-js')
     <script>
+        $('#firstClick').click();
         function fileCountDays() {
 
             $.ajax({
@@ -112,12 +113,35 @@
                 cache: false,
                 data: {_token:"{{csrf_token()}}"},
                 success: function (data) {
-//                    console.log(data);
                     $('#result').html(data);
                 }
 
             });
 
+        }
+
+        function fileProcessShift() {
+//            $('#result').html("Not Done Yet");
+            $.ajax({
+                type: 'POST',
+                url: "{!! route('report.fileProcessShift') !!}",
+                cache: false,
+                data: {_token:"{{csrf_token()}}"},
+                success: function (data) {
+                    $('#result').html(data);
+                }
+
+            });
+        }
+
+        function fileTypeDay() {
+            $('#result').html("Not Done Yet");
+        }
+        function fileProcessHour() {
+            $('#result').html("Not Done Yet");
+        }
+        function fileCountMonth() {
+            $('#result').html("Not Done Yet");
         }
     </script>
 @endsection    
