@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Billing;
 use App\JobServiceRelation;
+use App\OvertimeAssign;
 use App\Service;
 use Illuminate\Http\Request;
 use Auth;
@@ -147,6 +148,18 @@ class DashboardController extends Controller
 
 
 
+        $overTime=OvertimeAssign::select(DB::raw('GROUP_CONCAT(DISTINCT(client.clientName)) as clientsName'),'overtime.date as overTimeDate',DB::raw('TIMEDIFF(overtime.endTime,overtime.startTime) as overTime'),DB::raw('COUNT(overtimeassign.overtimeassignId)  as totalEmployee'))
+            ->leftJoin('overtime','overtime.overtimeId','overtimeassign.overtimeId')
+            ->leftJoin('client','client.clientId','overtime.clientId')
+            ->groupBy('overTimeDate')
+            ->whereDate('overtime.date', '>=', Carbon::today()->subDays(7)->format('Y-m-d'))
+            ->orderBy('overTimeDate', 'DESC')
+            ->get();
+
+     //   return $overTime;
+
+
+
 
         // job information
        // $today = Carbon::today();
@@ -174,6 +187,7 @@ class DashboardController extends Controller
 
 
         $jobInformation = array();
+        $overTimeInformation = array();
 
         for ($ii=0; $ii < 7; $ii++) {
 
@@ -181,10 +195,12 @@ class DashboardController extends Controller
 
 
             $filterBy = $dayOfWeek;
-
+// jobInfo
             $recived=json_decode($fileRecieved,true);
             $processed=json_decode($fileProcessed,true);
             $delivered=json_decode($fileDelivered,true);
+
+
 
             $newFileRecived = array_filter($recived, function ($var) use ($filterBy) {
                 return ($var['recievedDate'] == $filterBy);
@@ -208,14 +224,33 @@ class DashboardController extends Controller
             );
             array_push($jobInformation,$data);
 
+            // overTime
+
+            $overTimeRecords=json_decode($overTime,true);
+
+            $newOverTimeRecords = array_filter($overTimeRecords, function ($var) use ($filterBy) {
+                return ($var['overTimeDate'] == $filterBy);
+            });
+
+            $dataOverTime=array(
+                'date'=>$dayOfWeek,
+                'overTimeData'=>$newOverTimeRecords
+            );
+            array_push($overTimeInformation,$dataOverTime);
+
+
 
         }
 
+        //overTime
 
-       // return $fileDelivered;
 
 
-        return view('dashboard.admin',compact('jobRecievedLastDay','jobInformation','jobServiceMorning','jobServiceEvening','jobServiceNight'));
+
+       // return $overTimeInformation;
+
+
+        return view('dashboard.admin',compact('jobRecievedLastDay','jobInformation','jobServiceMorning','jobServiceEvening','jobServiceNight','overTimeInformation'));
 
 
 
