@@ -38,7 +38,7 @@ class BankController extends Controller
 
         $bank=Bank::findOrFail($id);
 
-        
+
         $bank->bankName=$r->bankName;
 
         if($r->hasFile('bankImage')){
