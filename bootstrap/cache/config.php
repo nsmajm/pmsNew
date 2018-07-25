@@ -174,7 +174,7 @@
       'file' => 
       array (
         'driver' => 'file',
-        'path' => 'C:\\xampp\\htdocs\\pmsNew\\storage\\framework/cache/data',
+        'path' => 'F:\\xampp\\htdocs\\pmsNew\\storage\\framework/cache/data',
       ),
       'memcached' => 
       array (
@@ -276,10 +276,10 @@
     'orientation' => 'portrait',
     'defines' => 
     array (
-      'font_dir' => 'C:\\xampp\\htdocs\\pmsNew\\storage\\fonts/',
-      'font_cache' => 'C:\\xampp\\htdocs\\pmsNew\\storage\\fonts/',
+      'font_dir' => 'F:\\xampp\\htdocs\\pmsNew\\storage\\fonts/',
+      'font_cache' => 'F:\\xampp\\htdocs\\pmsNew\\storage\\fonts/',
       'temp_dir' => 'C:\\Users\\Farzad\\AppData\\Local\\Temp',
-      'chroot' => 'C:\\xampp\\htdocs\\pmsNew',
+      'chroot' => 'F:\\xampp\\htdocs\\pmsNew',
       'enable_font_subsetting' => false,
       'pdf_backend' => 'CPDF',
       'default_media_type' => 'screen',
@@ -302,12 +302,12 @@
       'local' => 
       array (
         'driver' => 'local',
-        'root' => 'C:\\xampp\\htdocs\\pmsNew\\storage\\app',
+        'root' => 'F:\\xampp\\htdocs\\pmsNew\\storage\\app',
       ),
       'public' => 
       array (
         'driver' => 'local',
-        'root' => 'C:\\xampp\\htdocs\\pmsNew\\storage\\app/public',
+        'root' => 'F:\\xampp\\htdocs\\pmsNew\\storage\\app/public',
         'url' => 'http://localhost/storage',
         'visibility' => 'public',
       ),
@@ -346,13 +346,13 @@
       'single' => 
       array (
         'driver' => 'single',
-        'path' => 'C:\\xampp\\htdocs\\pmsNew\\storage\\logs/laravel.log',
+        'path' => 'F:\\xampp\\htdocs\\pmsNew\\storage\\logs/laravel.log',
         'level' => 'debug',
       ),
       'daily' => 
       array (
         'driver' => 'daily',
-        'path' => 'C:\\xampp\\htdocs\\pmsNew\\storage\\logs/laravel.log',
+        'path' => 'F:\\xampp\\htdocs\\pmsNew\\storage\\logs/laravel.log',
         'level' => 'debug',
         'days' => 7,
       ),
@@ -395,7 +395,7 @@
       'theme' => 'default',
       'paths' => 
       array (
-        0 => 'C:\\xampp\\htdocs\\pmsNew\\resources\\views/vendor/mail',
+        0 => 'F:\\xampp\\htdocs\\pmsNew\\resources\\views/vendor/mail',
       ),
     ),
   ),
@@ -476,7 +476,7 @@
     'lifetime' => '120',
     'expire_on_close' => false,
     'encrypt' => false,
-    'files' => 'C:\\xampp\\htdocs\\pmsNew\\storage\\framework/sessions',
+    'files' => 'F:\\xampp\\htdocs\\pmsNew\\storage\\framework/sessions',
     'connection' => NULL,
     'table' => 'sessions',
     'store' => NULL,
@@ -496,9 +496,9 @@
   array (
     'paths' => 
     array (
-      0 => 'C:\\xampp\\htdocs\\pmsNew\\resources\\views',
+      0 => 'F:\\xampp\\htdocs\\pmsNew\\resources\\views',
     ),
-    'compiled' => 'C:\\xampp\\htdocs\\pmsNew\\storage\\framework\\views',
+    'compiled' => 'F:\\xampp\\htdocs\\pmsNew\\storage\\framework\\views',
   ),
   'datatables' => 
   array (

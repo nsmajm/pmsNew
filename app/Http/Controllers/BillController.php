@@ -9,7 +9,7 @@ use App\Status;
 use App\JobServiceRelation;
 use App\Client;
 use App\ClientServiceRelation;
-
+use Auth;
 class BillController extends Controller
 {
     public function addRate(){
