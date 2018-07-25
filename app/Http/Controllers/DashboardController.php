@@ -152,11 +152,16 @@ class DashboardController extends Controller
        // $today = Carbon::today();
         //$JobInfo=Job::select('quantity','deliveryDate',DB::raw('DATE(job.created_at) as created_at'))->whereDate('job.created_at', '>=', $today->subDays(7)->format('Y-m-d'))->orderBy('job.created_at', 'DESC')->get();
 
-        $fileRecieved = Job::select(DB::raw('SUM(job.quantity)  as totalFileRecieved'),DB::raw('DATE(job.created_at) as recievedDate'))->groupBy('recievedDate')->whereDate('job.created_at', '>=', Carbon::today()->subDays(7)->format('Y-m-d'))->orderBy('recievedDate', 'DESC')->get();
+        $fileRecieved = Job::select(DB::raw('SUM(job.quantity)  as totalFileRecieved'),DB::raw('DATE(job.created_at) as recievedDate'))->groupBy('recievedDate')
+            ->whereDate('job.created_at', '>=', Carbon::today()->subDays(7)->format('Y-m-d'))->orderBy('recievedDate', 'DESC')->get();
 
-        $fileProcessed=Job::select(DB::raw('SUM(job.quantity)  as totalFileProcessed'),DB::raw('DATE(job.created_at) as recievedDate'))->where('deliveryDate','!=', null )->groupBy('recievedDate')->whereDate('job.created_at', '>=', Carbon::today()->subDays(7)->format('Y-m-d'))->orderBy('recievedDate', 'DESC')->get();
-//        $filePending=
-        $fileDelivered=Billing::select(DB::raw('SUM(job.quantity)  as totalFileDelivered'),DB::raw('DATE(billing.created_at) as billingDate'))->leftJoin('job','job.jobId','billing.jobId')->groupBy('billingDate')->whereDate('billing.created_at', '>=', Carbon::today()->subDays(7)->format('Y-m-d'))->orderBy('billingDate', 'DESC')->get();
+        $fileProcessed=JobServiceRelation::select(DB::raw('SUM(job_service_relation.quantity)  as totalFileProcessed'),DB::raw('DATE(job_service_relation.created_at) as recievedDate'))
+            ->leftJoin('job','job.jobId','job_service_relation.jobId')
+            ->where('job.statusId',$status->statusId)
+            ->groupBy('recievedDate')->whereDate('job_service_relation.created_at', '>=', Carbon::today()->subDays(7)->format('Y-m-d'))->orderBy('recievedDate', 'DESC')->get();
+
+        $fileDelivered=Billing::select(DB::raw('SUM(job.quantity)  as totalFileDelivered'),DB::raw('DATE(billing.created_at) as billingDate'))->leftJoin('job','job.jobId','billing.jobId')
+            ->groupBy('billingDate')->whereDate('billing.created_at', '>=', Carbon::today()->subDays(7)->format('Y-m-d'))->orderBy('billingDate', 'DESC')->get();
 
 
 
@@ -199,7 +204,7 @@ class DashboardController extends Controller
         }
 
 
-        //return $newFilePending;
+      //  return $fileProcessed;
 
 
         return view('dashboard.admin',compact('jobRecievedLastDay','jobInformation','jobServiceMorning','jobServiceEvening','jobServiceNight'));
