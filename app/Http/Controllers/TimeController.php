@@ -8,6 +8,7 @@ use App\User;
 use App\Overtime;
 use App\OvertimeAssign;
 use App\Late;
+use foo\bar;
 use Illuminate\Http\Request;
 use Yajra\DataTables\DataTables;
 use Auth;
@@ -20,20 +21,21 @@ class TimeController extends Controller
     {
         $this->middleware('auth');
     }
+
     public function overtime(){
-        $clients = Client::select('clientId', 'clientName')
-            ->get();
-        $users=User::select('userId','loginId')
-            ->where('userType','!=',USER_TYPE['Admin'])
-            ->where('userType','!=',USER_TYPE['Client'])
-            ->where('userType','!=',USER_TYPE['Human Resource Management'])
-            ->get();
+        if(Auth::user()->userType==USER_TYPE['Admin'] || Auth::user()->userType==USER_TYPE['Human Resource Management']){
+            $clients = Client::select('clientId', 'clientName')
+                ->get();
+            $users=User::select('userId','loginId')
+                ->where('userType','!=',USER_TYPE['Admin'])
+                ->where('userType','!=',USER_TYPE['Client'])
+                ->where('userType','!=',USER_TYPE['Human Resource Management'])
+                ->get();
 
-        $shifts=Shift::get();
-
-
-
-        return view('time.overtime',compact('clients','users','shifts'));
+            $shifts=Shift::get();
+            return view('time.overtime',compact('clients','users','shifts'));
+        }
+        return back();
     }
 
     public function getOverTimeData(Request $r){
@@ -78,12 +80,17 @@ class TimeController extends Controller
     }
 
     public function late(){
-        $users=User::select('userId','loginId')
-            ->where('userType','!=',USER_TYPE['Admin'])
-            ->where('userType','!=',USER_TYPE['Client'])
-            ->where('userType','!=',USER_TYPE['Human Resource Management'])
-            ->get();
-        return view('time.late',compact('users'));
+        if(Auth::user()->userType==USER_TYPE['Admin'] || Auth::user()->userType==USER_TYPE['Human Resource Management']){
+            $users=User::select('userId','loginId')
+                ->where('userType','!=',USER_TYPE['Admin'])
+                ->where('userType','!=',USER_TYPE['Client'])
+                ->where('userType','!=',USER_TYPE['Human Resource Management'])
+                ->get();
+            return view('time.late',compact('users'));
+        }
+
+
+        return back();
     }
 
     public function getLateData(Request $r){
@@ -113,8 +120,12 @@ class TimeController extends Controller
     }
 
     public function time(){
+        if(Auth::user()->userType==USER_TYPE['Admin'] || Auth::user()->userType==USER_TYPE['Human Resource Management']){
+            return view('time.time');
+        }
 
-        return view('time.time');
+        return back();
+
     }
 
 

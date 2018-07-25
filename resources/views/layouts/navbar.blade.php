@@ -145,6 +145,8 @@
                     </ul>
                 </li>
 
+                @if(Auth::user()->userType==USER_TYPE['Admin'] || Auth::user()->userType==USER_TYPE['Human Resource Management'])
+
                 <li class="has-submenu">
                     <a href="#"><i class="fa fa-times"></i>Time</a>
                     <ul class="submenu">
@@ -153,7 +155,7 @@
                         <li><a href="{{route('overtime.late')}}">Overtime & Late</a></li>
                     </ul>
                 </li>
-
+                @endif
 
 
                 <li class="has-submenu"></li>
