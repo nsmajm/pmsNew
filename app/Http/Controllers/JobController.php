@@ -431,9 +431,8 @@ class JobController extends Controller
         $groups=Group::get();
 
         $jobAssignQuantity=Jobassign::where('jobId',$id)
+            ->where('leaveDate',null)
             ->sum('quantity');
-
-
         return view('job.assignJob')
             ->with('groups',$groups)
             ->with('job',$job)
@@ -441,7 +440,7 @@ class JobController extends Controller
     }
 
     public function checkQuantity(Request $r){
-//        $r->quantity
+
         $job=Job::findOrFail($r->jobId);
 
         return $job->quantity-$r->quantity;
