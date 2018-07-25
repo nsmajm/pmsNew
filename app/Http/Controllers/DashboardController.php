@@ -2,6 +2,7 @@
 namespace App\Http\Controllers;
 use App\Billing;
 use App\JobServiceRelation;
+use App\OvertimeAssign;
 use App\Service;
 use Illuminate\Http\Request;
 use Auth;
@@ -102,6 +103,14 @@ class DashboardController extends Controller
             ->groupBy('job.clientId')
             ->whereDate('job.created_at',$lastDay)
             ->get();
+        $overTime=OvertimeAssign::select(DB::raw('GROUP_CONCAT(DISTINCT(client.clientName)) as clientsName'),'overtime.date as overTimeDate',DB::raw('TIMEDIFF(overtime.endTime,overtime.startTime) as overTime'),DB::raw('COUNT(overtimeassign.overtimeassignId)  as totalEmployee'))
+            ->leftJoin('overtime','overtime.overtimeId','overtimeassign.overtimeId')
+            ->leftJoin('client','client.clientId','overtime.clientId')
+            ->groupBy('overTimeDate')
+            ->whereDate('overtime.date', '>=', Carbon::today()->subDays(7)->format('Y-m-d'))
+            ->orderBy('overTimeDate', 'DESC')
+            ->get();
+        //   return $overTime;
         // job information
         // $today = Carbon::today();
         //$JobInfo=Job::select('quantity','deliveryDate',DB::raw('DATE(job.created_at) as created_at'))->whereDate('job.created_at', '>=', $today->subDays(7)->format('Y-m-d'))->orderBy('job.created_at', 'DESC')->get();
@@ -121,9 +130,11 @@ class DashboardController extends Controller
 //            Billing::select(DB::raw('SUM(job.quantity)  as totalFileDelivered'),DB::raw('DATE(billing.created_at) as billingDate'))->leftJoin('job','job.jobId','billing.jobId')
 //            ->groupBy('billingDate')->whereDate('billing.created_at', '>=', Carbon::today()->subDays(7)->format('Y-m-d'))->orderBy('billingDate', 'DESC')->get();
         $jobInformation = array();
+        $overTimeInformation = array();
         for ($ii=0; $ii < 7; $ii++) {
             $dayOfWeek = Carbon::today()->subDays($ii)->format('Y-m-d');
             $filterBy = $dayOfWeek;
+// jobInfo
             $recived=json_decode($fileRecieved,true);
             $processed=json_decode($fileProcessed,true);
             $delivered=json_decode($fileDelivered,true);
@@ -144,8 +155,19 @@ class DashboardController extends Controller
                 'fileDelivered'=>$newFileDelivered,
             );
             array_push($jobInformation,$data);
+            // overTime
+            $overTimeRecords=json_decode($overTime,true);
+            $newOverTimeRecords = array_filter($overTimeRecords, function ($var) use ($filterBy) {
+                return ($var['overTimeDate'] == $filterBy);
+            });
+            $dataOverTime=array(
+                'date'=>$dayOfWeek,
+                'overTimeData'=>$newOverTimeRecords
+            );
+            array_push($overTimeInformation,$dataOverTime);
         }
-        // return $fileDelivered;
-        return view('dashboard.admin',compact('jobRecievedLastDay','jobInformation','jobServiceMorning','jobServiceEvening','jobServiceNight'));
+        //overTime
+        // return $overTimeInformation;
+        return view('dashboard.admin',compact('jobRecievedLastDay','jobInformation','jobServiceMorning','jobServiceEvening','jobServiceNight','overTimeInformation'));
     }
 }
