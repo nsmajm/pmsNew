@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Billing;
 use App\JobServiceRelation;
 use App\Service;
 use Illuminate\Http\Request;
@@ -51,30 +52,39 @@ class DashboardController extends Controller
 //            ->get();
 
 
-        $jobServiceMorningFixed=Service::select('service.complexity',DB::raw('count(job.jobId) as totalJob'))
-            ->leftJoin('job_service_relation','service.serviceId','job_service_relation.serviceId')
-            ->leftJoin('job','job.jobId','job_service_relation.jobId')
-            ->where('job.statusId',$status->statusId)
-            ->where('job.shiftId',1)
-//            ->groupBy('complexity')
-            ->get();
-
-
         $jobServiceMorning=Service::select('service.complexity',DB::raw('count(*) as total'))
             ->leftJoin('job_service_relation','service.serviceId','job_service_relation.serviceId')
             ->leftJoin('job','job.jobId','job_service_relation.jobId')
             ->where('job.statusId',$status->statusId)
-            ->where('job.shiftId',2)
+            ->where(function ($q) {
+                $q->where('job.shiftId',1)->orWhere('job.shiftId',2);
+            })
+
             ->groupBy('complexity')
             ->get();
+
+       // return $jobServiceMorningFixed;
+
+
+//        $jobServiceMorning=Service::select('service.complexity',DB::raw('count(*) as total'))
+//            ->leftJoin('job_service_relation','service.serviceId','job_service_relation.serviceId')
+//            ->leftJoin('job','job.jobId','job_service_relation.jobId')
+//            ->where('job.statusId',$status->statusId)
+//            ->where('job.shiftId',2)
+//            ->groupBy('complexity')
+//            ->get();
 
         $jobServiceEvening=Service::select('service.complexity',DB::raw('count(*) as total'))
             ->leftJoin('job_service_relation','service.serviceId','job_service_relation.serviceId')
             ->leftJoin('job','job.jobId','job_service_relation.jobId')
             ->where('job.statusId',$status->statusId)
             ->where('job.shiftId',3)
-            ->groupBy('complexity')
+            ->groupBy('service.complexity')
             ->get();
+
+       // $test=Service::
+
+       // return $jobServiceEvening;
 
         $jobServiceNight=Service::select('service.complexity',DB::raw('count(*) as total'))
             ->leftJoin('job_service_relation','service.serviceId','job_service_relation.serviceId')
@@ -135,32 +145,70 @@ class DashboardController extends Controller
             ->whereDate('job.created_at',$lastDay)
             ->get();
 
+
+
+
+        // job information
+       // $today = Carbon::today();
+        //$JobInfo=Job::select('quantity','deliveryDate',DB::raw('DATE(job.created_at) as created_at'))->whereDate('job.created_at', '>=', $today->subDays(7)->format('Y-m-d'))->orderBy('job.created_at', 'DESC')->get();
+
+        $fileRecieved = Job::select(DB::raw('SUM(job.quantity)  as totalFileRecieved'),DB::raw('DATE(job.created_at) as recievedDate'))->groupBy('recievedDate')
+            ->whereDate('job.created_at', '>=', Carbon::today()->subDays(7)->format('Y-m-d'))->orderBy('recievedDate', 'DESC')->get();
+
+        $fileProcessed=JobServiceRelation::select(DB::raw('SUM(job_service_relation.quantity)  as totalFileProcessed'),DB::raw('DATE(job_service_relation.created_at) as recievedDate'))
+            ->leftJoin('job','job.jobId','job_service_relation.jobId')
+            ->where('job.statusId',$status->statusId)
+            ->groupBy('recievedDate')->whereDate('job_service_relation.created_at', '>=', Carbon::today()->subDays(7)->format('Y-m-d'))->orderBy('recievedDate', 'DESC')->get();
+
+        $fileDelivered=Billing::select(DB::raw('SUM(job.quantity)  as totalFileDelivered'),DB::raw('DATE(billing.created_at) as billingDate'))->leftJoin('job','job.jobId','billing.jobId')
+            ->groupBy('billingDate')->whereDate('billing.created_at', '>=', Carbon::today()->subDays(7)->format('Y-m-d'))->orderBy('billingDate', 'DESC')->get();
+
+
+
         $jobInformation = array();
 
         for ($ii=0; $ii < 7; $ii++) {
 
             $dayOfWeek = Carbon::today()->subDays($ii)->format('Y-m-d');
 
-            $fileRecieved = Job::whereDate('created_at','=',$dayOfWeek )->sum('quantity');
-            $fileDelivered = Job::whereDate('deliveryDate','=',$dayOfWeek )->sum('quantity');
 
-//            $jobRecieved = Job::whereDate('created_at','=',$dayOfWeek )->sum('quantity');
-//            $jobRecieved = Job::whereDate('created_at','=',$dayOfWeek )->sum('quantity');
+            $filterBy = $dayOfWeek;
+
+            $recived=json_decode($fileRecieved,true);
+            $processed=json_decode($fileProcessed,true);
+            $delivered=json_decode($fileDelivered,true);
+
+            $newFileRecived = array_filter($recived, function ($var) use ($filterBy) {
+                return ($var['recievedDate'] == $filterBy);
+            });
+            $newFileProcessed = array_filter($processed, function ($var) use ($filterBy) {
+                return ($var['recievedDate'] == $filterBy);
+            });
+            $newFileDelivered = array_filter($delivered, function ($var) use ($filterBy) {
+                return ($var['billingDate'] == $filterBy);
+            });
+
+
+
 
             $data=array(
                 'date'=>$dayOfWeek,
-                'fileRecieved'=>$fileRecieved,
-//                'fileProcessed'=>$jobRecieved,
-//                'filePending'=>$jobRecieved,
-                'fileDelivered'=>$fileDelivered,
+                'fileRecieved'=>$newFileRecived,
+                'fileProcessed'=>$newFileProcessed,
+                //'filePending'=>$newFilePending,
+                'fileDelivered'=>$newFileDelivered,
             );
             array_push($jobInformation,$data);
 
+
         }
 
-//        return $jobInformation;
 
-        return view('dashboard.admin',compact('jobRecievedLastDay','jobInformation','jobServiceMorningFixed','jobServiceMorning','jobServiceEvening','jobServiceNight'));
+      //  return $fileProcessed;
+
+
+        return view('dashboard.admin',compact('jobRecievedLastDay','jobInformation','jobServiceMorning','jobServiceEvening','jobServiceNight'));
+
 
 
     }
