@@ -172,6 +172,7 @@ Route::get('/report/performance','ReportController@performance')->name('report.p
 Route::get('/report/all','ReportController@all')->name('report.all');
 
 Route::post('/report/fileCountDays','ReportController@fileCountDays')->name('report.fileCountDays');
+Route::post('/report/fileProcessShift','ReportController@fileProcessShift')->name('report.fileProcessShift');
 
 //Employee
 Route::get('employee/Edit-Employee/{id}','EmployeeController@editEmployee')->name('employee.empEdit');
