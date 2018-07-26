@@ -130,12 +130,21 @@
                 success: function (data) {
                     $('#result').html(data);
                 }
-
             });
         }
 
         function fileTypeDay() {
-            $('#result').html("Not Done Yet");
+//            $('#result').html("Not Done Yet");
+            $.ajax({
+                type: 'POST',
+                url: "{!! route('report.fileTypeDay') !!}",
+                cache: false,
+                data: {_token:"{{csrf_token()}}"},
+                success: function (data) {
+                    $('#result').html(data);
+                }
+
+            });
         }
         function fileProcessHour() {
             $('#result').html("Not Done Yet");

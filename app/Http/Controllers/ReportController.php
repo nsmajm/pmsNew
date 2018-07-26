@@ -19,8 +19,7 @@ class ReportController extends Controller
     }
 
     public function all(){
-
-
+//        return $this->fileTypeDay();
         return view('report.all');
 
     }
@@ -171,6 +170,109 @@ class ReportController extends Controller
 
 //        return $allDates;
         return view('report.fileProcessShift',compact('allDates'));
+    }
+
+    public function fileTypeDay(){
+        $month=Carbon::now();
+        $Y=Carbon::now()->format('Y');
+        $M=Carbon::now()->format('m');
+
+        $start = Carbon::parse($month)->startOfMonth()->format('Y-m-d');
+        $startDate = Carbon::parse($month)->startOfMonth()->format('d');
+        $end = Carbon::parse($month)->endOfMonth()->format('Y-m-d');
+        $endDate = Carbon::parse($month)->endOfMonth()->format('d');
+
+        $basic=JobServiceRelation::select(DB::raw('sum(quantity) as total'),DB::raw('date(job_service_relation.created_at) as date'))
+            ->leftJoin('service','service.serviceId','job_service_relation.serviceId')
+            ->where('service.complexity',SERVICE_COMPLEXITY[0])
+            ->groupBy(DB::raw('DATE(job_service_relation.created_at)'))
+            ->whereBetween(DB::raw('date(job_service_relation.created_at)'),array([$start,$end]))
+            ->get();
+
+        $medium=JobServiceRelation::select(DB::raw('sum(quantity) as total'),DB::raw('date(job_service_relation.created_at) as date'))
+            ->leftJoin('service','service.serviceId','job_service_relation.serviceId')
+            ->where('service.complexity',SERVICE_COMPLEXITY[2])
+            ->groupBy(DB::raw('DATE(job_service_relation.created_at)'))
+            ->whereBetween(DB::raw('date(job_service_relation.created_at)'),array([$start,$end]))
+            ->get();
+
+        $advanced=JobServiceRelation::select(DB::raw('sum(quantity) as total'),DB::raw('date(job_service_relation.created_at) as date'))
+            ->leftJoin('service','service.serviceId','job_service_relation.serviceId')
+            ->where('service.complexity',SERVICE_COMPLEXITY[3])
+            ->groupBy(DB::raw('DATE(job_service_relation.created_at)'))
+            ->whereBetween(DB::raw('date(job_service_relation.created_at)'),array([$start,$end]))
+            ->get();
+
+        $complex=JobServiceRelation::select(DB::raw('sum(quantity) as total'),DB::raw('date(job_service_relation.created_at) as date'))
+            ->leftJoin('service','service.serviceId','job_service_relation.serviceId')
+            ->where('service.complexity',SERVICE_COMPLEXITY[1])
+            ->groupBy(DB::raw('DATE(job_service_relation.created_at)'))
+            ->whereBetween(DB::raw('date(job_service_relation.created_at)'),array([$start,$end]))
+            ->get();
+
+        $allDates=array();
+        for($i=$startDate;$i<=$endDate;$i++){
+            $o = new stdClass();
+            $tempBasic=false;
+            $tempMedium=false;
+            $tempAdvanced=false;
+            $tempComplex=false;
+            foreach ($basic as $job){
+                if($job->date == Carbon::parse($Y.'-'.$M.'-'.$i)->format('Y-m-d')){
+                    $o->basicTotal= $job->total;
+                    $tempBasic=true;
+                    break;
+                }
+            }
+
+            foreach ($medium as $job){
+                if($job->date == Carbon::parse($Y.'-'.$M.'-'.$i)->format('Y-m-d')){
+                    $o->mediumTotal= $job->total;
+                    $tempMedium=true;
+                    break;
+                }
+            }
+
+            foreach ($advanced as $job){
+                if($job->date == Carbon::parse($Y.'-'.$M.'-'.$i)->format('Y-m-d')){
+                    $o->advancedTotal= $job->total;
+                    $tempAdvanced=true;
+                    break;
+                }
+            }
+
+            foreach ($complex as $job){
+                if($job->date == Carbon::parse($Y.'-'.$M.'-'.$i)->format('Y-m-d')){
+                    $o->complexTotal= $job->total;
+                    $tempComplex=true;
+                    break;
+                }
+            }
+
+            if($tempBasic==false){
+                $o->basicTotal=0;
+            }
+
+            if($tempMedium==false){
+                $o->mediumTotal=0;
+            }
+            if($tempAdvanced==false){
+                $o->advancedTotal=0;
+            }
+            if($tempComplex==false){
+                $o->complexTotal=0;
+            }
+            $o->date=Carbon::parse($Y.'-'.$M.'-'.$i)->format('Y-m-d');
+            array_push($allDates,$o);
+
+
+        }
+
+
+//        return $allDates;
+        return view('report.fileTypeDay',compact('allDates'));
+
+
     }
 
 }
