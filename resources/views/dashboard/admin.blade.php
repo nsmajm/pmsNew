@@ -450,40 +450,66 @@
                                     <thead>
                                     <th>Day</th>
                                     <th>Number of Employee</th>
-                                    <th>Total Hour</th>
+                                    <th>Total Hour(hh:mm:ss)</th>
                                     <th>ClientId</th>
                                     </thead>
                                     <tbody>
+
+                                    @foreach($overTimeInformation as $overTimeInfo)
+
                                     <tr>
-                                        <td>Monday</td>
-                                        <td>10</td>
-                                        <td>2</td>
-                                        <td>tcl104</td>
+                                        <td>{{$overTimeInfo['date']}}</td>
+                                        <td>
+
+                                            @if(!empty($overTimeInfo['overTimeData']))
+
+                                                @foreach($overTimeInfo['overTimeData'] as $times)
+                                                    @if($times['overTimeDate'] == $overTimeInfo['date'] )
+
+                                                        {{$times['totalEmployee']}}
+                                                    @endif
+                                                @endforeach
+                                            @else
+                                                0
+                                            @endif
+
+                                        </td>
+                                        <td>
+
+                                            @if(!empty($overTimeInfo['overTimeData']))
+
+                                                @foreach($overTimeInfo['overTimeData'] as $times)
+                                                    @if($times['overTimeDate'] == $overTimeInfo['date'] )
+
+                                                        {{$times['overTime']}}
+                                                    @endif
+                                                @endforeach
+                                            @else
+                                                0
+                                            @endif
+
+
+                                        </td>
+                                        <td>
+
+                                            @if(!empty($overTimeInfo['overTimeData']))
+
+                                                @foreach($overTimeInfo['overTimeData'] as $times)
+                                                    @if($times['overTimeDate'] == $overTimeInfo['date'] )
+
+                                                        {{$times['clientsName']}}
+                                                    @endif
+                                                @endforeach
+                                            @else
+                                                0
+                                            @endif
+
+
+                                        </td>
                                     </tr>
-                                    <tr>
-                                        <td>Tuesday</td>
-                                        <td>10</td>
-                                        <td>2</td>
-                                        <td>tcl105</td>
-                                    </tr>
-                                    <tr>
-                                        <td>Wednesday</td>
-                                        <td>10</td>
-                                        <td>2</td>
-                                        <td>tcl105</td>
-                                    </tr>
-                                    <tr>
-                                        <td>Thursday</td>
-                                        <td>10</td>
-                                        <td>2</td>
-                                        <td>tcl105</td>
-                                    </tr>
-                                    <tr>
-                                        <td>friday</td>
-                                        <td>10</td>
-                                        <td>2</td>
-                                        <td>tcl105</td>
-                                    </tr>
+
+                                    @endforeach
+
 
                                     </tbody>
                                 </table>
@@ -528,7 +554,7 @@
                                             @if(!empty($jobInfo['fileProcessed']))
 
                                                 @foreach($jobInfo['fileProcessed'] as $files)
-                                                    @if($files['recievedDate'] == $jobInfo['date'] )
+                                                    @if($files['endDate'] == $jobInfo['date'] )
 
                                                         {{$files['totalFileProcessed']}}
                                                     @endif
@@ -544,7 +570,7 @@
                                             @if(!empty($jobInfo['fileProcessed']))
 
                                                 @foreach($jobInfo['fileProcessed'] as $filess)
-                                                    @if($filess['recievedDate'] == $jobInfo['date'] )
+                                                    @if($filess['endDate'] == $jobInfo['date'] )
 
                                                         {{--{{$files['totalFileProcessed']}}--}}
 
