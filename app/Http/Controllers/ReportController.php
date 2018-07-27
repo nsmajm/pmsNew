@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Billing;
+use App\Jobstate;
 use Illuminate\Http\Request;
 use Carbon\Carbon;
 use Carbon\CarbonPeriod;
@@ -19,7 +21,9 @@ class ReportController extends Controller
     }
 
     public function all(){
-//        return $this->fileTypeDay();
+//        return $this->revenueMonth();
+
+
         return view('report.all');
 
     }
@@ -268,11 +272,67 @@ class ReportController extends Controller
 
         }
 
-
-//        return $allDates;
         return view('report.fileTypeDay',compact('allDates'));
 
 
+    }
+
+    public function fileProcessHour(){
+
+        $morning=Jobstate::select(DB::raw('HOUR(jobstate.endTime)  as endHour'),DB::raw('SUM(job_service_relation.quantity)  as total'))->where('jobstate.statusId',5)
+            ->where('endDate',date('Y-m-d'))
+            ->leftJoin('job','job.jobId','jobstate.jobId')
+            ->leftJoin('job_service_relation','job_service_relation.jobId','jobstate.jobId')
+            ->leftJoin('shift','shift.shiftId','job.shiftId')
+            ->where(function($q) {
+                $q->where('shift.shiftName', 'Morning (Fixed)')
+                    ->orWhere('shift.shiftName', 'Morning');
+            })
+            ->groupBy('endHour')
+            ->get();
+
+        $evening=Jobstate::select(DB::raw('HOUR(jobstate.endTime)  as endHour'),DB::raw('SUM(job_service_relation.quantity)  as total'))->where('jobstate.statusId',5)
+            ->where('endDate',date('Y-m-d'))
+            ->leftJoin('job','job.jobId','jobstate.jobId')
+            ->leftJoin('job_service_relation','job_service_relation.jobId','jobstate.jobId')
+            ->leftJoin('shift','shift.shiftId','job.shiftId')
+            ->where('shift.shiftName', 'Evening')
+            ->groupBy('endHour')
+            ->get();
+
+        $night=Jobstate::select(DB::raw('HOUR(jobstate.endTime)  as endHour'),DB::raw('SUM(job_service_relation.quantity)  as total'))->where('jobstate.statusId',5)
+            ->where('endDate',date('Y-m-d'))
+            ->leftJoin('job','job.jobId','jobstate.jobId')
+            ->leftJoin('job_service_relation','job_service_relation.jobId','jobstate.jobId')
+            ->leftJoin('shift','shift.shiftId','job.shiftId')
+            ->where('shift.shiftName', 'Night')
+            ->groupBy('endHour')
+            ->get();
+
+
+        return view('report.fileProcessHour',compact('morning','evening','night'));
+    }
+
+    public function fileCountMonth(){
+        $month=Carbon::now();
+        $Y=Carbon::now()->format('Y');
+        $M=Carbon::now()->format('m');
+
+
+        $jobProcessed=JobServiceRelation::select(DB::raw('sum(quantity) as total'),DB::raw('Month(created_at) as month'),DB::raw('Year(created_at) as year'))
+            ->groupBy(DB::raw('month(created_at)'))
+            ->get();
+        return view('report.fileCountMonth',compact('jobProcessed'));
+
+    }
+
+    public function revenueMonth(){
+        $jobProcessed=Billing::select(DB::raw('sum(total) as total'),DB::raw('Month(created_at) as month'),DB::raw('Year(created_at) as year'))
+            ->groupBy(DB::raw('month(created_at)'))
+            ->get();
+
+//        return $bill;
+        return view('report.revenueMonth',compact('jobProcessed'));
     }
 
 }

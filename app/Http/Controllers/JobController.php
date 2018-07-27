@@ -23,6 +23,7 @@ use Auth;
 use Session;
 use Yajra\DataTables\DataTables;
 use DB;
+use Carbon\Carbon;
 
 class JobController extends Controller
 {
@@ -181,17 +182,19 @@ class JobController extends Controller
     }
 
     public function update(Request $r){
-//
-//        $job=Job::findOrFail($r->jobId);
-//        $job->quantity=$r->jobQuantity;
-//        $job->save();
-//        job_service_relationId
+        Jobstate::where('jobId',$r->jobId)
+            ->where('statusId',5)->update(['endDate'=>date('Y-m-d'),'endTime'=>Carbon::now()->format('H:i')]);
 
-//        return $r;
+        Jobassign::where('jobId',$r->jobId)
+            ->update(['leaveDate'=> date('Y-m-d')]);
+
+
+        Job::where('jobId',$r->jobId)
+                ->update(['doneBy'=>Auth::user()->userId]);
+
 
         for($i=0;$i<count($r->quantity);$i++){
             if($r->quantity[$i] !=null && $r->service[$i] !=null){
-//                echo $r->quantity[$i].$r->service[$i].'<br>';
                 if(isset($r->job_service_relationId[$i])){
                     $jobService=JobServiceRelation::findOrFail($r->job_service_relationId[$i]);
                 }
@@ -374,6 +377,7 @@ class JobController extends Controller
 
         $jobStateOld=Jobstate::findOrFail($r->jobStateId);
         $jobStateOld->endDate=$todaysDate;
+        $jobStateOld->endTime=Carbon::now()->format('H:i');
         $jobStateOld->save();
 
         Jobassign::where('jobId',$r->jobId)

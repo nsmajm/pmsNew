@@ -175,6 +175,9 @@ Route::get('/report/all','ReportController@all')->name('report.all');
 Route::post('/report/fileCountDays','ReportController@fileCountDays')->name('report.fileCountDays');
 Route::post('/report/fileProcessShift','ReportController@fileProcessShift')->name('report.fileProcessShift');
 Route::post('/report/fileTypeDay','ReportController@fileTypeDay')->name('report.fileTypeDay');
+Route::post('/report/fileProcessHour','ReportController@fileProcessHour')->name('report.fileProcessHour');
+Route::post('/report/fileCountMonth','ReportController@fileCountMonth')->name('report.fileCountMonth');
+Route::post('/report/revenueMonth','ReportController@revenueMonth')->name('report.revenueMonth');
 
 //Employee
 Route::get('employee/Edit-Employee/{id}','EmployeeController@editEmployee')->name('employee.empEdit');

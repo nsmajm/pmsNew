@@ -1,47 +1,5 @@
 @extends('main')
 @section('header')
-    {{--<style>--}}
-    {{--body {--}}
-    {{--padding : 10px ;--}}
-
-    {{--}--}}
-
-    {{--#exTab1 .tab-content {--}}
-    {{--color : white;--}}
-    {{--background-color: #428bca;--}}
-    {{--padding : 5px 15px;--}}
-    {{--}--}}
-
-    {{--#exTab2 h3 {--}}
-    {{--color : white;--}}
-    {{--background-color: #428bca;--}}
-    {{--padding : 5px 15px;--}}
-    {{--}--}}
-
-    {{--/* remove border radius for the tab */--}}
-
-    {{--#exTab1 .nav-pills > li > a {--}}
-    {{--border-radius: 0;--}}
-    {{--}--}}
-
-    {{--/* change border radius for the tab , apply corners on top*/--}}
-
-    {{--#exTab3 .nav-pills > li > a {--}}
-    {{--border-radius: 4px 4px 0 0 ;--}}
-    {{--}--}}
-
-    {{--#exTab3 .tab-content {--}}
-    {{--color : white;--}}
-    {{--background-color: #428bca;--}}
-    {{--padding : 5px 15px;--}}
-    {{--}--}}
-
-
-
-
-
-
-    {{--</style>--}}
 
 @endsection
 @section('content')
@@ -69,11 +27,11 @@
                     </li>
 
                     <li class="nav-item">
-                        <a href="#4" class="nav-link" data-toggle="tab">Revenue / Month</a>
+                        <a href="#4" class="nav-link" data-toggle="tab" onclick="revenueMonth()">Revenue / Month</a>
                     </li>
 
                     <li class="nav-item">
-                        <a href="#4" class="nav-link" data-toggle="tab">Revenue / Month</a>
+                        <a href="#4" class="nav-link" data-toggle="tab" onclick="revenueClient()">Revenue / Client</a>
                     </li>
                     <li class="nav-item">
                         <a href="#4" class="nav-link" data-toggle="tab">File Count / Client</a>
@@ -147,9 +105,50 @@
             });
         }
         function fileProcessHour() {
-            $('#result').html("Not Done Yet");
+//            $('#result').html("Not Done Yet");
+            $.ajax({
+                type: 'POST',
+                url: "{!! route('report.fileProcessHour') !!}",
+                cache: false,
+                data: {_token:"{{csrf_token()}}"},
+                success: function (data) {
+                    $('#result').html(data);
+                }
+
+            });
         }
         function fileCountMonth() {
+            $.ajax({
+                type: 'POST',
+                url: "{!! route('report.fileCountMonth') !!}",
+                cache: false,
+                data: {_token:"{{csrf_token()}}"},
+                success: function (data) {
+                    $('#result').html(data);
+                }
+
+            });
+
+        }
+
+        function revenueMonth() {
+
+            $.ajax({
+                type: 'POST',
+                url: "{!! route('report.revenueMonth') !!}",
+                cache: false,
+                data: {_token:"{{csrf_token()}}"},
+                success: function (data) {
+                    $('#result').html(data);
+                }
+
+            });
+
+
+
+        }
+
+        function revenueClient() {
             $('#result').html("Not Done Yet");
         }
     </script>
