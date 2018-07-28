@@ -98,8 +98,11 @@ class JobController extends Controller
 
 
         if(Auth::user()->userType==USER_TYPE['Admin'] ||Auth::user()->userType==USER_TYPE['Supervisor'] || Auth::user()->userType==USER_TYPE['Qc Manager']) {
-            $jobCount=Job::where('jobId',$id)->where('job.statusId',5)->count();
-            if($jobCount==0){
+            $job=Job::findOrFail($id);
+            if($job->statusId == 5 || $job->statusId ==6){
+
+            }
+            else{
                 return "Job Is Not In QC Yet";
             }
 
@@ -159,6 +162,7 @@ class JobController extends Controller
         $jobState=new Jobstate();
         $jobState->jobId=$job->jobId;
         $jobState->statusId=$status->statusId;
+        $jobState->teamId=1;
         //Converting str to date
         $time = strtotime($r->submissionDate);
         $newformat = date('Y-m-d',$time);
@@ -190,7 +194,7 @@ class JobController extends Controller
 
 
         Job::where('jobId',$r->jobId)
-                ->update(['doneBy'=>Auth::user()->userId]);
+                ->update(['doneBy'=>Auth::user()->userId,'statusId'=>6]);
 
 
         for($i=0;$i<count($r->quantity);$i++){
@@ -227,7 +231,8 @@ class JobController extends Controller
     }
 
     public function getFeedbackData(Request $r){
-        $status=Status::where('statusType','jobStatus')->where('statusName','feedback')
+        $status=Status::where('statusType','jobStatus')
+            ->where('statusName','feedback')
             ->first();
 
         $jobs=Job::select('client.clientName','file.folderName','job.quantity','job.created_at');
@@ -250,7 +255,8 @@ class JobController extends Controller
     public function getPendingData(Request $r){
         $todaysDate=date("Y-m-d");
         $status=Status::where('statusType','jobStatus')
-            ->where('statusName','done')->first();
+            ->where('statusName','done')
+            ->first();
 
 
         $jobs=Job::select('job.jobId','job.clientId','client.clientName','file.folderName','job.deadLine','job.quantity')
@@ -393,6 +399,7 @@ class JobController extends Controller
             $jobState->jobId=$r->jobId;
             $jobState->statusId=$status->statusId;
             $jobState->startDate=$todaysDate;
+            $jobState->teamId=Auth::user()->teamId;
             $jobState->save();
         }
 

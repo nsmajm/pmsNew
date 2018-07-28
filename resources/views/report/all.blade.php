@@ -34,10 +34,10 @@
                         <a href="#4" class="nav-link" data-toggle="tab" onclick="revenueClient()">Revenue / Client</a>
                     </li>
                     <li class="nav-item">
-                        <a href="#4" class="nav-link" data-toggle="tab">File Count / Client</a>
+                        <a href="#4" class="nav-link" data-toggle="tab" onclick="fileCountClient()">File Count / Client</a>
                     </li>
                     <li class="nav-item">
-                        <a href="#4" class="nav-link" data-toggle="tab">Employee's Work / Day</a>
+                        <a href="#4" class="nav-link" data-toggle="tab" onclick="employeeWorkDay()">Employee's Work / Day</a>
                     </li>
 
                     <li class="nav-item">
@@ -149,7 +149,46 @@
         }
 
         function revenueClient() {
-            $('#result').html("Not Done Yet");
+//            $('#result').html("Not Done Yet");
+            $.ajax({
+                type: 'POST',
+                url: "{!! route('report.revenueClient') !!}",
+                cache: false,
+                data: {_token:"{{csrf_token()}}"},
+                success: function (data) {
+                    $('#result').html(data);
+                }
+
+            });
+        }
+
+        function fileCountClient() {
+
+//            $('#result').html("Not Done Yet");
+            $.ajax({
+                type: 'POST',
+                url: "{!! route('report.fileCountClient') !!}",
+                cache: false,
+                data: {_token:"{{csrf_token()}}"},
+                success: function (data) {
+                    $('#result').html(data);
+                }
+
+            });
+        }
+
+        function employeeWorkDay() {
+            $.ajax({
+                type: 'POST',
+                url: "{!! route('report.employeeWorkDay') !!}",
+                cache: false,
+                data: {_token:"{{csrf_token()}}"},
+                success: function (data) {
+                    $('#result').html(data);
+                }
+
+            });
+
         }
     </script>
 @endsection    

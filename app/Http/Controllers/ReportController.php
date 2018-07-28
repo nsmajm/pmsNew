@@ -3,7 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Billing;
+use App\Client;
+use App\Jobassign;
 use App\Jobstate;
+use App\User;
 use Illuminate\Http\Request;
 use Carbon\Carbon;
 use Carbon\CarbonPeriod;
@@ -21,7 +24,7 @@ class ReportController extends Controller
     }
 
     public function all(){
-//        return $this->revenueMonth();
+//        return $this->employeeWorkDay();
 
 
         return view('report.all');
@@ -331,8 +334,77 @@ class ReportController extends Controller
             ->groupBy(DB::raw('month(created_at)'))
             ->get();
 
-//        return $bill;
         return view('report.revenueMonth',compact('jobProcessed'));
+    }
+
+    public function revenueClient(){
+        $clients=Client::select('clientName','clientId')
+            ->get();
+
+        $Y=date('Y');
+        $start=$Y.'-01-01';
+        $end=$Y.'-12-31';
+
+        $bills=Billing::select('client.clientId',DB::raw('Month(billing.created_at) as month'),DB::raw('sum(billing.total) as total'))
+            ->leftJoin('job','job.jobId','billing.jobId')
+            ->leftJoin('client','client.clientId','job.clientId')
+            ->groupBy(DB::raw('month(billing.created_at)'))
+            ->groupBy('client.clientId')
+            ->whereBetween(DB::raw('date(billing.created_at)'),array([$start,$end]))
+            ->get();
+
+        return view('report.revenueClient',compact('clients','bills'));
+    }
+
+
+    public function fileCountClient(){
+        $clients=Client::select('clientName','clientId')
+            ->get();
+
+        $Y=date('Y');
+        $start=$Y.'-01-01';
+        $end=$Y.'-12-31';
+
+
+        $bills=JobServiceRelation::select('client.clientId',DB::raw('sum(job_service_relation.quantity) as total'),DB::raw('Month(job_service_relation.created_at) as month'))
+            ->leftJoin('job','job.jobId','job_service_relation.jobId')
+            ->leftJoin('client','client.clientId','job.clientId')
+            ->groupBy(DB::raw('month(job_service_relation.created_at)'))
+            ->groupBy('client.clientId')
+            ->whereBetween(DB::raw('date(job_service_relation.created_at)'),array([$start,$end]))
+            ->get();
+
+
+        return view('report.fileCountClient',compact('clients','bills'));
+
+    }
+
+    public function employeeWorkDay(){
+        $month=Carbon::now();
+        $Y=Carbon::now()->format('Y');
+        $M=Carbon::now()->format('m');
+
+        $start = Carbon::parse($month)->startOfMonth()->format('Y-m-d');
+        $startDate = Carbon::parse($month)->startOfMonth()->format('d');
+
+        $end = Carbon::parse($month)->endOfMonth()->format('Y-m-d');
+        $endDate = Carbon::parse($month)->endOfMonth()->format('d');
+
+        $employee=User::select('userId','name')->where('userType',USER_TYPE['User'])
+            ->get();
+
+        $jobs=Jobassign::select('user.userId',DB::raw('sum(jobassign.quantity) as total'),DB::raw('Day(jobassign.assignDate) as day'))
+            ->leftJoin('user','user.userId','jobassign.assignTo')
+            ->whereBetween(DB::raw('date(jobassign.assignDate)'),array([$start,$end]))
+            ->groupBy('user.userId')
+            ->groupBy(DB::raw('Day(jobassign.assignDate)'))
+            ->get();
+
+
+//        return $startDate;
+        return view('report.employeeWorkDay',compact('startDate','endDate','employee','jobs'));
+
+
     }
 
 }
