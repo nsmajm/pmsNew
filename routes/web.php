@@ -23,7 +23,10 @@ Route::get('/procedure', function () {
 //Long Poll
 Route::get('/poll','PollController@longPool');
 Route::get('/','Auth\LoginController@loginForm');
+
 Route::get('/dashboard','DashboardController@index')->name('main');
+Route::get('/dashboard/fileProcessedRealTime','DashboardController@RealTimeFileProcessed')->name('dashboard.fileProcessedRealTime');
+
 Route::view('/form','form')->name('form');
 Route::view('/datatable','datatable')->name('datatable');
 Route::view('/onlyDatatable','onlyDatatable')->name('only.datatable');
