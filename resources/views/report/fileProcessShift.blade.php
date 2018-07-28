@@ -1,4 +1,4 @@
-<table class="table table-bordered">
+<table class="table table-bordered table-striped">
     <thead>
     <th>Date</th>
     <th>Morning</th>

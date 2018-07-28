@@ -54,6 +54,7 @@ class FileController extends Controller
     public function doneCheck(Request $r){
         $job=Job::findOrFail($r->id);
         $job->fileCheck=Auth::user()->userId;
+        $job->deliveryDate=date('Y-m-d');
         $client=ClientServiceRelation::where('clientId',$job->clientId)->get();
        foreach ($client as $c){
            $c=JobServiceRelation::where('jobId',$r->id)
