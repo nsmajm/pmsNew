@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Client;
+use App\ClientServiceRelation;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Service;
@@ -55,6 +57,29 @@ class ServiceController extends Controller
         $service=Service::findOrFail($r->serviceId);
 
         return view('service.ServiceEditModal')->with('service',$service);
+
+    }
+
+
+    public function serviceAssign(Request $r){
+        $id=$r->serviceId;
+        $notAssignedClients=Client::select('client.clientId','client.clientName')
+            ->whereNotIn('client.clientId',function ($query)use ($r){
+                $query->select('client_service_relation.clientId')
+                    ->from('client_service_relation')
+                    ->where('client_service_relation.serviceId',$r->serviceId);
+            })
+            ->get();
+
+
+        $clients=ClientServiceRelation::select('client_service_relationId','client.clientId','client.clientName')
+            ->where('client_service_relation.serviceId',$r->serviceId)
+            ->leftJoin('client','client.clientId','client_service_relation.clientId')
+//            ->leftJoin('service','service.serviceId','client_service_relation.serviceId')
+            ->get();
+
+
+        return view('service.serviceAssignModal',compact('clients','notAssignedClients','id'));
 
     }
 

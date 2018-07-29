@@ -39,6 +39,8 @@ Route::get('/home', 'HomeController@index')->name('home');
 Route::get('/client/add','ClientController@add')->name('client.add');
 Route::post('/client/insert','ClientController@insert')->name('client.insert');
 Route::get('/client/show','ClientController@show')->name('client.show');
+Route::get('/client/edit/{id}','ClientController@edit')->name('client.edit');
+Route::post('/client/update','ClientController@update')->name('client.update');
 Route::post('/client/show','ClientController@getData')->name('client.getData');
 
 //Service
@@ -46,6 +48,7 @@ Route::post('/client/show','ClientController@getData')->name('client.getData');
 Route::post('/service/insert','ServiceController@insert')->name('service.insert');
 Route::post('/service/show','ServiceController@getData')->name('service.getData');
 Route::post('/service/getServiceEditModal','ServiceController@getServiceEditModal')->name('service.getServiceEditModal');
+Route::post('/service/serviceAssign','ServiceController@serviceAssign')->name('service.serviceAssign');
 Route::get('/service/show','ServiceController@show')->name('service.show');
 
 //JOB
