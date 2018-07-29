@@ -49,6 +49,8 @@ Route::post('/service/insert','ServiceController@insert')->name('service.insert'
 Route::post('/service/show','ServiceController@getData')->name('service.getData');
 Route::post('/service/getServiceEditModal','ServiceController@getServiceEditModal')->name('service.getServiceEditModal');
 Route::post('/service/serviceAssign','ServiceController@serviceAssign')->name('service.serviceAssign');
+Route::post('/service/serviceAssign/delete','ServiceController@serviceAssignDelete')->name('service.serviceAssignDelete');
+Route::post('/service/serviceAssign/assignClientToService','ServiceController@assignClientToService')->name('service.assignClientToService');
 Route::get('/service/show','ServiceController@show')->name('service.show');
 
 //JOB

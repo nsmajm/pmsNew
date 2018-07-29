@@ -1,14 +1,14 @@
 
 <div class="form-group">
     <label>Select Client To Assign</label>
-    <select class="form-control">
+    <select class="form-control" id="assignClientId">
         <option value="">Select Client To Assign</option>
         @foreach($notAssignedClients as $client)
             <option value="{{$client->clientId}}">{{$client->clientName}}</option>
         @endforeach
     </select>
 </div>
-<button class="btn btn-success" onclick="showAssignModal({{$id}})">Assign</button>
+<button class="btn btn-success" onclick="assignTo()">Assign</button>
 
 
 <br>
@@ -23,7 +23,7 @@
         @foreach($clients as $client)
         <tr>
             <td>{{$client->clientName}}</td>
-            <td><button class="btn btn-danger btn-sm" onclick="deleteAssign({{$client->client_service_relationId}})"><i class="fa fa-times"></i></button></td>
+            <td><button class="btn btn-danger btn-sm" onclick="deleteAssign({{$client->client_service_relationId}},{{$id}})"><i class="fa fa-times"></i></button></td>
         </tr>
         @endforeach
     </tbody>
@@ -37,8 +37,15 @@
         $('#serviceAssignDatatable').DataTable();
     });
 
-    function deleteAssign(x) {
-        alert(x);
+    function assignTo() {
+                {{--{{$id}}--}}
+        var clientId=$('#assignClientId').val();
+        if(clientId!=""){
+            assignClientToService(clientId,{{$id}});
 
+        }
     }
+
+
+
 </script>

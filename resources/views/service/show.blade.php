@@ -218,13 +218,7 @@
             });
         }
 
-        function assign(x){
-            serviceId= $(x).data('panel-id');
-            // serviceAssign
-            showAssignModal(serviceId);
 
-
-        }
 
 
         function showAssignModal(serviceId) {
@@ -241,6 +235,45 @@
                 }
 
             });
+
+        }
+
+        function assign(x){
+            serviceId= $(x).data('panel-id');
+            // serviceAssign
+            showAssignModal(serviceId);
+        }
+
+        function assignClientToService(clientId,serviceId) {
+
+            $.ajax({
+                type: 'POST',
+                url: "{!! route('service.assignClientToService') !!}",
+                cache: false,
+                data: {_token: "{{csrf_token()}}",'clientId': clientId,'serviceId':serviceId},
+                success: function (data) {
+                    console.log(data);
+                    showAssignModal(serviceId);
+
+                }
+
+            });
+        }
+        function deleteAssign(x,serviceId) {
+
+            $.ajax({
+                type: 'POST',
+                url: "{!! route('service.serviceAssignDelete') !!}",
+                cache: false,
+                data: {_token: "{{csrf_token()}}",'id': x},
+                success: function (data) {
+                    // console.log(data);
+                    showAssignModal(serviceId);
+
+                }
+
+            });
+
 
         }
     </script>

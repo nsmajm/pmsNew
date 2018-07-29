@@ -83,4 +83,18 @@ class ServiceController extends Controller
 
     }
 
+    public function assignClientToService(Request $r){
+        $service=new ClientServiceRelation();
+        $service->clientId=$r->clientId;
+        $service->serviceId=$r->serviceId;
+        $service->save();
+//        return $r;
+    }
+
+    public function serviceAssignDelete(Request $r){
+        $service=ClientServiceRelation::findOrFail($r->id);
+        $service->delete();
+
+    }
+
 }
