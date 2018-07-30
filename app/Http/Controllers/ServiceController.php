@@ -9,6 +9,7 @@ use App\Http\Controllers\Controller;
 use App\Service;
 use Yajra\DataTables\DataTables;
 use Session;
+use DB;
 
 class ServiceController extends Controller
 {
@@ -45,7 +46,11 @@ class ServiceController extends Controller
     }
 
     public function getData(Request $r){
-        $service =Service::get() ;
+        $service =Service::select(DB::raw('GROUP_CONCAT(DISTINCT(client.clientName)) as clientsName'),'service.*')
+            ->leftJoin('client_service_relation','client_service_relation.serviceId','service.serviceId')
+            ->leftJoin('client','client.clientId','client_service_relation.clientId')
+            ->groupBy('service.serviceId')
+            ->get() ;
         $datatables = Datatables::of($service);
         return $datatables->make(true);
 

@@ -369,7 +369,7 @@ class DashboardController extends Controller
             ->orderBy('endDate', 'DESC')
             ->get();
 
-        //return $productionFileProcessedlastdayPerShift;
+       // return $qcFileProcessedlastdayPerShift;
 
         foreach ($team as $te){
             $filteredBy=$te->teamId;
