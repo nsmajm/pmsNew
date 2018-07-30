@@ -395,6 +395,7 @@ class JobController extends Controller
         $jobStateOld=Jobstate::findOrFail($r->jobStateId);
         $jobStateOld->endDate=$todaysDate;
         $jobStateOld->endTime=Carbon::now()->format('H:i');
+        $jobStateOld->teamId=Auth::user()->teamId;
         $jobStateOld->save();
 
         Jobassign::where('jobId',$r->jobId)
