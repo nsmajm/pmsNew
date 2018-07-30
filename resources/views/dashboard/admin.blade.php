@@ -512,7 +512,7 @@
                                 <th>Evening</th>
                                 <th>Night</th>
                                 </thead>
-                                
+
                             </table>
 
                         </div>
@@ -562,7 +562,7 @@
                                     <thead>
                                     <th>Day</th>
                                     <th>Number of Employee</th>
-                                    <th>Total Hour(hh:mm:ss)</th>
+                                    <th>Total Hour</th>
                                     <th>ClientId</th>
                                     </thead>
                                     <tbody>
@@ -593,7 +593,7 @@
                                                 @foreach($overTimeInfo['overTimeData'] as $times)
                                                     @if($times['overTimeDate'] == $overTimeInfo['date'] )
 
-                                                        {{$times['overTime']}}
+                                                        {{($times['overTime']*$times['totalEmployee'])}}
                                                     @endif
                                                 @endforeach
                                             @else

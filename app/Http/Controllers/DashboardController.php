@@ -241,7 +241,7 @@ class DashboardController extends Controller
 
 
 
-        $overTime=OvertimeAssign::select(DB::raw('GROUP_CONCAT(DISTINCT(client.clientName)) as clientsName'),'overtime.date as overTimeDate',DB::raw('TIMEDIFF(overtime.endTime,overtime.startTime) as overTime'),DB::raw('COUNT(overtimeassign.overtimeassignId)  as totalEmployee'))
+        $overTime=OvertimeAssign::select(DB::raw('GROUP_CONCAT(DISTINCT(client.clientName)) as clientsName'),'overtime.date as overTimeDate',DB::raw('totalHour as overTime'),DB::raw('COUNT(overtimeassign.overtimeassignId)  as totalEmployee'))
             ->leftJoin('overtime','overtime.overtimeId','overtimeassign.overtimeId')
             ->leftJoin('client','client.clientId','overtime.clientId')
             ->groupBy('overTimeDate')
