@@ -65,18 +65,17 @@ class DashboardController extends Controller
             ->orderBy('endDate', 'DESC')
             ->get();
 
-        $productionFileProcessedlastdayPerShift=JobServiceRelation::select(DB::raw('SUM(job_service_relation.quantity)  as totalFileProcessed'),'job.shiftId','jobstate.teamId as teamId')
-            ->leftJoin('jobstate','jobstate.jobId','job_service_relation.jobId')
-            ->leftJoin('job','job.jobId','job_service_relation.jobId')
+        $productionFileProcessedlastdayPerShift=Jobstate::select(DB::raw('SUM(job.quantity)  as totalFileProcessed'),'job.shiftId','jobstate.teamId as teamId')
+            ->leftJoin('job','job.jobId','jobstate.jobId')
             ->where('jobstate.statusId',$productionDonestatus->statusId)
             ->groupBy('job.shiftId')
             ->whereDate('jobstate.endDate', '=', Carbon::today()->subDays(0)->format('Y-m-d'))
             ->orderBy('endDate', 'DESC')
             ->get();
 
-        $processingFileProcessedlastdayPerShift=JobServiceRelation::select(DB::raw('SUM(job_service_relation.quantity)  as totalFileProcessed'),'job.shiftId','jobstate.teamId as teamId')
-            ->leftJoin('jobstate','jobstate.jobId','job_service_relation.jobId')
-            ->leftJoin('job','job.jobId','job_service_relation.jobId')
+        $processingFileProcessedlastdayPerShift=Jobstate::select(DB::raw('SUM(job.quantity)  as totalFileProcessed'),'job.shiftId','jobstate.teamId as teamId')
+
+            ->leftJoin('job','job.jobId','jobstate.jobId')
             ->where('jobstate.statusId',$processingDonestatus->statusId)
             ->groupBy('job.shiftId')
             ->whereDate('jobstate.endDate', '=', Carbon::today()->subDays(0)->format('Y-m-d'))
@@ -353,25 +352,24 @@ class DashboardController extends Controller
             ->orderBy('endDate', 'DESC')
             ->get();
 
-        $productionFileProcessedlastdayPerShift=JobServiceRelation::select(DB::raw('SUM(job_service_relation.quantity)  as totalFileProcessed'),'job.shiftId','jobstate.teamId as teamId')
-            ->leftJoin('jobstate','jobstate.jobId','job_service_relation.jobId')
-            ->leftJoin('job','job.jobId','job_service_relation.jobId')
+        $productionFileProcessedlastdayPerShift=Jobstate::select(DB::raw('SUM(job.quantity)  as totalFileProcessed'),'job.shiftId','jobstate.teamId as teamId')
+            ->leftJoin('job','job.jobId','jobstate.jobId')
             ->where('jobstate.statusId',$productionDonestatus->statusId)
             ->groupBy('job.shiftId')
             ->whereDate('jobstate.endDate', '=', Carbon::today()->subDays(1)->format('Y-m-d'))
             ->orderBy('endDate', 'DESC')
             ->get();
 
-        $processingFileProcessedlastdayPerShift=JobServiceRelation::select(DB::raw('SUM(job_service_relation.quantity)  as totalFileProcessed'),'job.shiftId','jobstate.teamId as teamId')
-            ->leftJoin('jobstate','jobstate.jobId','job_service_relation.jobId')
-            ->leftJoin('job','job.jobId','job_service_relation.jobId')
+        $processingFileProcessedlastdayPerShift=Jobstate::select(DB::raw('SUM(job.quantity)  as totalFileProcessed'),'job.shiftId','jobstate.teamId as teamId')
+
+            ->leftJoin('job','job.jobId','jobstate.jobId')
             ->where('jobstate.statusId',$processingDonestatus->statusId)
             ->groupBy('job.shiftId')
             ->whereDate('jobstate.endDate', '=', Carbon::today()->subDays(1)->format('Y-m-d'))
             ->orderBy('endDate', 'DESC')
             ->get();
 
-       // return $processingFileProcessedlastdayPerShift;
+       // return $productionFileProcessedlastdayPerShift;
 
         foreach ($team as $te){
             $filteredBy=$te->teamId;

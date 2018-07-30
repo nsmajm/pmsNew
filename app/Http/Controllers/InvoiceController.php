@@ -76,13 +76,37 @@ class InvoiceController extends Controller
 
     public function generate(Request $r){
 
-        foreach ($r->jobId as $jobId)
-        {
-            $job=Job::findOrFail($jobId);
+//        foreach ($r->jobId as $jobId)
+//        {
+//            $job=Job::findOrFail($jobId);
+//        }
+
+
+//        return $r;
+        $jobs=Job::select('job.jobId','job.clientId','file.folderName','Service.serviceName','job_service_relation.quantity','job_service_relation.rate','job.created_at')
+            ->whereIn('job.jobId',$r->jobId)
+            ->where('fileCheck','!=',null)
+            ->leftJoin('file','file.jobId','job.jobId')
+            ->leftJoin('job_service_relation','job_service_relation.jobId','job.jobId')
+            ->leftJoin('service','job_service_relation.serviceId','service.serviceId')
+            ->get();
+
+        $tcl=TclInfo::first();
+
+
+
+        if(!$jobs->isEmpty()){
+            $client=Client::select('companyName','email','phoneNumber','countryName')
+                ->leftJoin('country','country.countryId','client.countryId')
+                ->findOrFail($jobs[0]->clientId);
+
         }
 
 
-        return $r;
+
+        $pdf = PDF::loadView('invoice.pdf',compact('jobs','client','tcl'));
+        return $pdf->stream('invoice.pdf',array('Attachment'=>0));
+
     }
 
     public function pdf(){
