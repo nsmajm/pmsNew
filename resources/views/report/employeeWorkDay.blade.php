@@ -23,10 +23,6 @@
                 </td>
             @endfor
             <td>{{$temp}}</td>
-
-
-
-
         </tr>
     @endforeach
     </tbody>

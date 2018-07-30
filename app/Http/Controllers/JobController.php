@@ -98,15 +98,15 @@ class JobController extends Controller
 
 
         if(Auth::user()->userType==USER_TYPE['Admin'] ||Auth::user()->userType==USER_TYPE['Supervisor'] || Auth::user()->userType==USER_TYPE['Qc Manager']) {
-            $job=Job::findOrFail($id);
-            if($job->statusId == 5 || $job->statusId ==6){
+//            $job=Job::findOrFail($id);
+//            if($job->statusId == 5 || $job->statusId ==6){
+//
+//            }
+//            else{
+//                return "Job Is Not In QC Yet";
+//            }
 
-            }
-            else{
-                return "Job Is Not In QC Yet";
-            }
-
-            $job = Job::select('job.jobId', 'job.clientId', 'brief.briefId', 'client.clientName', 'job.deadLine', 'job.submissionTime', 'job.quantity', 'job.other', 'brief.briefMsg', 'file.folderName')
+            $job = Job::select('job.jobId','job.feedback','job.clientId', 'brief.briefId', 'client.clientName', 'job.deadLine', 'job.submissionTime', 'job.quantity', 'job.other', 'brief.briefMsg', 'file.folderName')
                 ->where('job.jobId', $id)
                 ->leftJoin('brief', 'brief.jobId', 'job.jobId')
                 ->leftJoin('client', 'client.clientId', 'job.clientId')
@@ -130,6 +130,18 @@ class JobController extends Controller
         else{
             return back();
         }
+    }
+
+    public function changeFeedbackState(Request $r){
+        $job=Job::findOrFail($r->jobId);
+        if($job->feedback == null){
+            $job->feedback=1;
+        }
+        else{
+            $job->feedback=null;
+        }
+        $job->save();
+//        return $r;
     }
 
     public function insert(Request $r){
@@ -158,7 +170,6 @@ class JobController extends Controller
 
         $job->other=$r->other;
         $job->save();
-
         $jobState=new Jobstate();
         $jobState->jobId=$job->jobId;
         $jobState->statusId=$status->statusId;

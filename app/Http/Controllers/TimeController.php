@@ -39,7 +39,7 @@ class TimeController extends Controller
     }
 
     public function getOverTimeData(Request $r){
-        $overtime=OvertimeAssign::select('overtime.date','client.clientName','u1.name as userName','overtime.startTime','overtime.endTime','hr.name as assignBy','shift.shiftName')
+        $overtime=OvertimeAssign::select('overtime.date','client.clientName','u1.name as userName','overtime.totalHour','hr.name as assignBy','shift.shiftName')
             ->leftJoin('overtime','overtime.overtimeId','overtimeassign.overtimeId')
             ->leftJoin('user as u1','u1.userId','overtimeassign.userId')
             ->leftJoin('user as hr','hr.userId','overtime.createdBy')
@@ -60,8 +60,9 @@ class TimeController extends Controller
 
     public function postOverTime(Request $r){
         $overtime=new Overtime();
-        $overtime->startTime=$r->startTime;
-        $overtime->endTime=$r->endTime;
+//        $overtime->startTime=$r->startTime;
+//        $overtime->endTime=$r->endTime;
+        $overtime->totalHour=$r->totalHour;
         $overtime->date=$r->date;
         $overtime->clientId=$r->clientId;
         $overtime->shiftId=$r->shiftId;
@@ -103,7 +104,6 @@ class TimeController extends Controller
         }
         $late=$late->get();
 
-
         $datatables = Datatables::of($late);
         return $datatables->make(true);
     }
@@ -115,7 +115,6 @@ class TimeController extends Controller
         $late->minute=$r->minute;
         $late->save();
 
-
         return response()->json(['title'=>'Success','body'=>'Late Submitted Successfully']);
     }
 
@@ -125,7 +124,6 @@ class TimeController extends Controller
         }
 
         return back();
-
     }
 
 
