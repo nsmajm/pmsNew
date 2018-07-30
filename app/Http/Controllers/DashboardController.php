@@ -356,7 +356,7 @@ class DashboardController extends Controller
             ->leftJoin('job','job.jobId','jobstate.jobId')
             ->where('jobstate.statusId',$productionDonestatus->statusId)
             ->groupBy('job.shiftId')
-            ->whereDate('jobstate.endDate', '=', Carbon::today()->subDays(1)->format('Y-m-d'))
+            ->whereDate('jobstate.endDate', '=', Carbon::today()->subDays(0)->format('Y-m-d'))
             ->orderBy('endDate', 'DESC')
             ->get();
 
@@ -369,7 +369,7 @@ class DashboardController extends Controller
             ->orderBy('endDate', 'DESC')
             ->get();
 
-       // return $productionFileProcessedlastdayPerShift;
+//        return $productionFileProcessedlastdayPerShift;
 
         foreach ($team as $te){
             $filteredBy=$te->teamId;
@@ -445,6 +445,9 @@ class DashboardController extends Controller
 
 
       //  return $fileProcessedPerTeam;
+
+
+
 
 
 

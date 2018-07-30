@@ -15,7 +15,6 @@
         <div class="col-md-6">
             <h5><b style="color:blueviolet">{{$tcl->companyTitle}}</b></h5>
             <h6>{{$tcl->companyAddress}}</h6>
-
             <h6>P :{{$tcl->companyPhone1}}</h6>
             <h6>P : {{$tcl->companyPhone1}}</h6>
             <h6>E : {{$tcl->companyEmail}}</h6>
@@ -98,7 +97,7 @@
     </div>
 </div>
 
-<script src="{{url('public/assets/js/bootstrap.min.js')}}"></script>
+{{--<script src="{{url('public/assets/js/bootstrap.min.js')}}"></script>--}}
 </body>
 
 </html>

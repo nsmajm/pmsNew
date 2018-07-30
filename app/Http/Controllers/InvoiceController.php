@@ -82,7 +82,7 @@ class InvoiceController extends Controller
 //        }
 
 
-//        return $r;
+        return $r;
         $jobs=Job::select('job.jobId','job.clientId','file.folderName','Service.serviceName','job_service_relation.quantity','job_service_relation.rate','job.created_at')
             ->whereIn('job.jobId',$r->jobId)
             ->where('fileCheck','!=',null)
@@ -111,7 +111,7 @@ class InvoiceController extends Controller
 
     public function pdf(){
         $jobs=Job::select('job.jobId','job.clientId','file.folderName','Service.serviceName','job_service_relation.quantity','job_service_relation.rate','job.created_at')
-            ->where('job.jobId',5)
+            ->where('job.jobId',44)
             ->where('fileCheck','!=',null)
             ->leftJoin('file','file.jobId','job.jobId')
             ->leftJoin('job_service_relation','job_service_relation.jobId','job.jobId')
@@ -120,21 +120,16 @@ class InvoiceController extends Controller
 
         $tcl=TclInfo::first();
 
-
-
         if(!$jobs->isEmpty()){
             $client=Client::select('companyName','email','phoneNumber','countryName')
                 ->leftJoin('country','country.countryId','client.countryId')
                 ->findOrFail($jobs[0]->clientId);
-
-
-
         }
 
 
 //        return $jobs;
 
-//        return view('invoice.pdf',compact('jobs','client'));
+        return view('invoice.pdf',compact('jobs','client','tcl'));
 
         $pdf = PDF::loadView('invoice.pdf',compact('jobs','client','tcl'));
         return $pdf->stream('invoice.pdf',array('Attachment'=>0));
