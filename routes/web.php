@@ -60,6 +60,7 @@ Route::post('/job/insert','JobController@insert')->name('job.insert');
 Route::get('/job/edit/{id}','JobController@edit')->name('job.edit');
 Route::post('/job/update','JobController@update')->name('job.update');
 Route::get('/job/pending','JobController@pending')->name('job.pending');
+Route::post('/job/changeFeedbackState','JobController@changeFeedbackState')->name('job.changeFeedbackState');
 Route::post('/job/pending','JobController@getPendingData')->name('job.getPendingData');
 Route::get('/job/deadline','JobController@deadline')->name('job.deadline');
 Route::post('/job/getProductionData','JobController@getProductionData')->name('job.getProductionData');
@@ -189,6 +190,7 @@ Route::post('/report/revenueMonth','ReportController@revenueMonth')->name('repor
 Route::post('/report/revenueClient','ReportController@revenueClient')->name('report.revenueClient');
 Route::post('/report/fileCountClient','ReportController@fileCountClient')->name('report.fileCountClient');
 Route::post('/report/employeeWorkDay','ReportController@employeeWorkDay')->name('report.employeeWorkDay');
+Route::post('/report/employeeWorkMonth','ReportController@employeeWorkMonth')->name('report.employeeWorkMonth');
 
 //Employee
 Route::get('employee/Edit-Employee/{id}','EmployeeController@editEmployee')->name('employee.empEdit');

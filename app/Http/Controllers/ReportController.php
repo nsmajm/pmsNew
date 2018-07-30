@@ -24,7 +24,7 @@ class ReportController extends Controller
     }
 
     public function all(){
-//        return $this->employeeWorkDay();
+//        return $this->employeeWorkMonth();
 
 
         return view('report.all');
@@ -400,11 +400,27 @@ class ReportController extends Controller
             ->groupBy(DB::raw('Day(jobassign.assignDate)'))
             ->get();
 
-
-//        return $startDate;
         return view('report.employeeWorkDay',compact('startDate','endDate','employee','jobs'));
 
+    }
 
+    public function employeeWorkMonth(){
+        $Y=date('Y');
+        $start=$Y.'-01-01';
+        $end=$Y.'-12-31';
+        $employee=User::select('userId','name')->where('userType',USER_TYPE['User'])
+            ->get();
+
+        $jobs=Jobassign::select('user.userId',DB::raw('sum(jobassign.quantity) as total'),DB::raw('Month(jobassign.assignDate) as month'))
+            ->leftJoin('user','user.userId','jobassign.assignTo')
+            ->whereBetween(DB::raw('date(jobassign.assignDate)'),array([$start,$end]))
+            ->groupBy('user.userId')
+            ->groupBy(DB::raw('Month(jobassign.assignDate)'))
+            ->get();
+
+//        return $jobs;
+
+        return view('report.employeeWorkMonth',compact('employee','jobs'));
     }
 
 }

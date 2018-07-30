@@ -41,7 +41,7 @@
                     </li>
 
                     <li class="nav-item">
-                        <a href="#4" class="nav-link" data-toggle="tab">Employee's Work / Month</a>
+                        <a href="#4" class="nav-link" data-toggle="tab" onclick="employeeWorkMonth()">Employee's Work / Month</a>
                     </li>
                 </ul>
 
@@ -181,6 +181,20 @@
             $.ajax({
                 type: 'POST',
                 url: "{!! route('report.employeeWorkDay') !!}",
+                cache: false,
+                data: {_token:"{{csrf_token()}}"},
+                success: function (data) {
+                    $('#result').html(data);
+                }
+
+            });
+
+        }
+
+        function employeeWorkMonth() {
+            $.ajax({
+                type: 'POST',
+                url: "{!! route('report.employeeWorkMonth') !!}",
                 cache: false,
                 data: {_token:"{{csrf_token()}}"},
                 success: function (data) {

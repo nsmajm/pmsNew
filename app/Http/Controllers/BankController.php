@@ -12,6 +12,7 @@ use Illuminate\Support\Facades\DB;
 
 use Session;
 use Image;
+use Auth;
 
 
 class BankController extends Controller
