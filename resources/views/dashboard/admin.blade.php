@@ -512,7 +512,7 @@
                                 <th>Evening</th>
                                 <th>Night</th>
                                 </thead>
-                                
+
                             </table>
 
                         </div>
