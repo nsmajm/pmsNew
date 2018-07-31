@@ -10,6 +10,35 @@
 
 @endsection
 @section('content')
+
+    <!--  Comment  Modal -->
+    <div style="text-align: center;" class="modal " id="showAssignDetailsModal" >
+        <div class="modal-dialog">
+            <div class="modal-content" style="width:1000px;">
+                <!-- Modal Header -->
+                <div class="modal-header">
+                    <h4 class="modal-title">Assign History</h4>
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                </div>
+                <!-- Modal body -->
+                <div class="modal-body" id="">
+                    <div id="showAssignDetailsModalBody"></div>
+
+
+                </div>
+                <!-- Modal footer -->
+                <div class="modal-footer">
+
+                    <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <!-- End Comment Modal -->
+
+
 <div class="card">
     <div class="card-body">
         <div class="table table-responsive">
@@ -19,10 +48,6 @@
                     <th>Client ID</th>
                     <th>Folder Name</th>
                     <th>Quantity</th>
-                    <th>Assign By</th>
-                    <th>Assign to</th>
-                    <th>Assign Date</th>
-                    <th>Done Date</th>
 
                 </tr>
                 </thead>
@@ -76,18 +101,34 @@
 
             columns: [
                 { data: 'clientName', name: 'clientName' },
-                { data: 'folderName', name: 'folderName' },
-                { data: 'quantity', name: 'quantity' },
-                { data: 'assignBy', name: 'assignBy' },
-                { data: 'assignTo', name: 'assignTo' },
-                { data: 'assignDate', name: 'assignDate'},
-                { data: 'leaveDate', name: 'leaveDate'}
-
+                { "data": function(data){
+                        return '<button class="btn btn-default" data-panel-id="'+data.jobId+'" onclick="showAssignDetails(this)">'+data.folderName+'</button>'
+                        ;},
+                    "orderable": false, "searchable":false, "name":"selected_rows" },
+                { data: 'total', name: 'total' },
 
             ]
         });
 
     });
+
+    function showAssignDetails(x) {
+        var jobId=$(x).data('panel-id');
+        $.ajax({
+               type: 'POST',
+               url: "{!! route('assign.showAssignDetails') !!}",
+               cache: false,
+               data: {_token: "{{csrf_token()}}",'jobId': jobId},
+               success: function (data) {
+                   $("#showAssignDetailsModalBody").html(data);
+                   $("#showAssignDetailsModal").modal();
+//                   console.log(data);
+               }
+
+           });
+
+
+    }
 </script>
 
 @endsection

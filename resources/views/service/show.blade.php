@@ -152,6 +152,7 @@
                             <th>Name</th>
                             <th>Complexity</th>
                             <th>Type</th>
+                            <th>Clients</th>
                             <th>Action</th>
                         </tr>
                         </thead>
@@ -188,16 +189,20 @@
                 },
                 columns: [
                     { data: 'serviceName', name: 'serviceName' },
+
                     { data: 'complexity', name: 'complexity' },
                     { data: 'type', name: 'type'},
+                    { data: 'clientsName', name: 'clientsName'},
+
                     { "data": function(data){
                         return ' <button type="button" class="btn btn-info btn-sm" data-panel-id="'+data.serviceId+'" onclick="showInfo(this)"> <i class="fa fa-edit"></i> </button>' +
-                                 ' <button type="button" class="btn btn-info btn-sm" data-panel-id="'+data.serviceId+'" onclick="assign(this)"> <i class="fa fa-exchange"></i> </button>'
+                            ' <button type="button" class="btn btn-info btn-sm" data-panel-id="'+data.serviceId+'" onclick="assign(this)"> <i class="fa fa-exchange"></i> </button>'
 
                             ;},
                         "orderable": false, "searchable":false, "name":"selected_rows" }
 
-                ]
+                ],
+
             });
         } );
 

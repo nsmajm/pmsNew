@@ -1,123 +1,190 @@
-<html>
+<!DOCTYPE html>
+<html lang="en">
 <head>
-    <link href="{{url('public/assets/css/bootstrap.min.css')}}" rel="stylesheet" type="text/css" />
+    <title>PMS form design</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    {{--<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">--}}
+    <style>
+        body {
+            background: #ddd none repeat scroll 0 0;
+        }
 
+
+
+        .logo img {
+            width: 80px;
+
+        }
+        .versity_name span {
+            color: red;
+        }
+
+        .application h3 {
+            color: red;
+            font-size: 25px;
+            margin-bottom: 30px;
+            text-align: center;
+            text-transform: uppercase;
+        }
+
+        .versity_name h2 {
+            font-size: 37px;
+            margin-left: 18px;
+        }
+        .application p {
+            margin: 0;
+            padding: 0;
+        }
+        .photo > p {
+            border: 1px solid;
+            height: 122px;
+            margin-top: 5px;
+            text-align: center;
+            width: 110px;
+        }
+
+        .personal {
+            border: 1px solid #000;
+            margin-top: 5px;
+            background-color: #B0DBF0;
+        }
+        .first_name {
+            -moz-border-bottom-colors: none;
+            -moz-border-left-colors: none;
+            -moz-border-right-colors: none;
+            -moz-border-top-colors: none;
+            border-color: -moz-use-text-color #000 #000;
+            border-image: none;
+            border-style: none solid solid;
+            border-width: medium 1px 1px;
+        }
+        table, th, td {
+            border: 1px solid black;
+            border-collapse: collapse;
+        }
+        th, td {
+            padding: 5px;
+            text-align: left;
+        }
+
+        input {
+            border: medium none;
+
+            padding: 0;
+        }
+    </style>
+    {{--<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>--}}
+    {{--<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>--}}
 </head>
-<body>
-<div class="container-fluid">
-    <h5 align="center">
-        <img src="{{url('public/logo/TCL_logo.png')}}" height="150" width="200"><br>
-        <b>Invoice</b>
 
-    </h5>
+<style>
+    @page { size: auto;  margin: 0mm; }
+</style>
 
-    <div class="row ">
-        <div class="col-md-6">
-            <h5><b style="color:blueviolet">{{$tcl->companyTitle}}</b></h5>
-            <h6>{{$tcl->companyAddress}}</h6>
-            <h6>P :{{$tcl->companyPhone1}}</h6>
-            <h6>P : {{$tcl->companyPhone1}}</h6>
-            <h6>E : {{$tcl->companyEmail}}</h6>
-        </div>
+<body style="background: #fff ">
+<div class="structure">
+    <div style= "background: #fff; padding: 25px; " class="container">
 
-        <div class="col-md-6" style="background-color: lightgrey; text-align: right">
-            <h6><b>Invoice Number :</b> 123</h6>
-            <h6><b>Invoice Date :</b> 123</h6>
-            <h6><b>Payment Date :</b> 123</h6>
-        </div>
-
-        <div class="col-md-6">
-
-            <h5><b style="color:blueviolet">{{$client->companyName}}</b></h5>
-            <h6>House # 379 Road # 06, Baridhara DOHS,</h6>
-            <h6>Dhaka-1206, {{$client->countryName}}</h6>
-            <h6>P : {{$client->phoneNumber}}</h6>
-            <h6>E : {{$client->email}}</h6>
-
-        </div>
-
-    </div>
-
-    <div  style="width: 100%">
-        <table class="table table-bordered">
-            <thead>
-            <tr>
-                <th width="20%">Date</th>
-                <th width="30%">Folder Name</th>
-                <th width="10%">Service</th>
-                <th width="10%">Quantity</th>
-                <th width="10%">Rate</th>
-                <th width="10%">Total</th>
-            </tr>
-            </thead>
-            <tbody>
-
-            @foreach($jobs as $job)
-                @php($total=0)
-                <tr>
-                    <td>{{date('Y-m-d',strtotime($job->created_at))}}</td>
-                    <td>{{$job->folderName}}</td>
-                    <td>{{$job->serviceName}}</td>
-                    <td>{{$job->quantity}}</td>
-                    <td>{{$job->rate}}</td>
-                    <td>{{$total+=$job->rate * $job->quantity}}</td>
-                </tr>
-
-            @endforeach
-
-            </tbody>
-            <tfoot>
-            <tr>
-                <td colspan="4"></td>
-                <td><b>Total</b></td>
-                <td>{{$total}}</td>
-            </tr>
+        <table border="0" style="width:100%; margin-top: 20px; text-align: center; border: none;">
 
             <tr>
-                <td colspan="4"></td>
-                <td><b>Paid</b></td>
-                <td><input type="number" onkeyup="checkDue()" id="paid" class="form-control"></td>
-            </tr>
 
+                <td style="text-align: center; border: none;">  <h3><span style="border: 1px solid #787878; padding: 3px 40px;  background-color: #ddd;font-weight: bold">INVOICE</span> </h3> </td>
 
-            <tr>
-                <td colspan="4"></td>
-                <td><b>Payment Date</b></td>
-                <td><input type="text" id="paymentDate" class="form-control"></td>
             </tr>
-            <tr>
-                <td colspan="4"></td>
-                <td><b>Due</b></td>
-                <td><input type="number" id="due" class="form-control" readonly></td>
-            </tr>
-
-            </tfoot>
 
         </table>
+
+
+        <table style="width:100%; margin-top: 15px; border: none;">
+
+            <tr>
+                <td style="width: 85%; border: none;">
+                    <h3 style="color: #0476BD">{{$tcl->companyTitle}}</h3>
+                    <p>{{$tcl->companyAddress}} <br>
+                        P : {{$tcl->companyPhone1}}, {{$tcl->companyPhone2}} <br>
+                        E : {{$tcl->companyEmail}}
+                    </p>
+                </td>
+
+                <td style="border: none;"> <img src="{{url('public/logo/logo.png')}}" alt=""> </td>
+            </tr>
+
+            <tr>
+                <td style="width: 75%; border: none;">
+                    <h3 style="color: #0476BD">{{$client->companyName}}</h3>
+                    <p>{{$client->countryName}}<br>
+                        E: {{$client->email}} <br>
+                        P: {{$client->phoneNumber}}
+
+                    </p>
+                </td>
+
+                <td style="width: 25%;border: none;">
+                    <p><small> <b>Invoice Number: {{$invoiceNumber}}</b> </small> </p>
+                    <p><small> <b>Invoice Date: {{date('Y-m-d')}}</b> </small> </p>
+                    <p><small> <b>Payment Date: {{$paymentDate}}</b> </small> </p>
+                </td>
+            </tr>
+
+        </table>
+
+        <table border="0" style="width:100%;">
+            <tr style="background: #B0DBF0;">
+                <td style="text-align: center;" colspan=""><b>Date</b></td>
+                <td style="text-align: center;" colspan=""><b>Folder Name</b></td>
+                <td style="text-align: center;" colspan=""><b>Service</b></td>
+                <td style="text-align: center;" colspan=""><b>Quantity</b></td>
+                <td style="text-align: center;" colspan=""><b>Rate</b></td>
+                <td style="text-align: center;" colspan=""><b>Total</b></td>
+            </tr>
+            @php($total=0)
+            @foreach($jobs as $job)
+
+                <tr>
+                    <td style="text-align: center;">{{$job->date}}</td>
+                    <td style="text-align: center;">{{$job->folderName}}</td>
+                    <td style="text-align: center;">{{$job->serviceName}} </td>
+                    <td style="text-align: center;">{{$job->quantity}}</td>
+                    <td style="text-align: center;">{{$job->rate}}</td>
+                    <td style="text-align: center;">{{$job->quantity * $job->rate}}</td>
+                </tr>
+                @php($total+=$job->quantity * $job->rate)
+            @endforeach
+
+            <tr>
+                <td colspan="5" style="text-align: right;"><b>Total =</b> </td>
+                <td style="text-align: center;">{{$currency}} {{$total}}</td>
+
+            </tr>
+            <tr>
+                <td colspan="5" style="text-align: right;"><b>Paid =</b> </td>
+                <td style="text-align: center;">{{$currency}} {{$paid}}</td>
+
+            </tr>
+            <tr>
+                <td colspan="5" style="text-align: right;"><b>Due =</b> </td>
+                <td style="text-align: center;">{{$currency}} {{$total-$paid}}</td>
+
+            </tr>
+
+
+        </table>
+
+        <table border="0" style="width:100%; margin-top: 20px; text-align: center; border: none; margin-bottom: 0px;">
+            <tr>
+                <td style="text-align: center; border: none;">  <h4><b>***For Bank Details Please Check Next Page***</b></h4> </td>
+            </tr>
+        </table>
+        
+        <div style="text-align: center;">Bank Details (Tech Cloud Ltd.)<br>
+            ----------------------------------------------  <br>
+            <img src="{{url('public/bankImage/').'/'.$bank->image}}" style="width: 80%;">
+        </div>
+        
+
     </div>
 </div>
-
-{{--<script src="{{url('public/assets/js/bootstrap.min.js')}}"></script>--}}
 </body>
-
 </html>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

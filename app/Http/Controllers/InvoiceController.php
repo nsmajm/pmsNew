@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Bank;
 use App\JobServiceRelation;
 use Illuminate\Http\Request;
 use App\Client;
@@ -10,10 +11,13 @@ use App\File;
 use App\Invoice;
 use App\TclInfo;
 use PDF;
+use DB;
 class InvoiceController extends Controller
 {
     public function index(){
-        $clients=Client::select('clientId','clientName')->get();
+        $clients=Client::select('clientId','clientName')
+            ->get();
+
 
 
         return view('invoice.index',compact('clients'));
@@ -39,7 +43,11 @@ class InvoiceController extends Controller
             return "";
         }
 
-        return view('invoice.table',compact('jobs'));
+        $banks=Bank::select('bankId','bankName')
+            ->get();
+
+
+        return view('invoice.table',compact('jobs','banks'));
 
 
 
@@ -76,14 +84,8 @@ class InvoiceController extends Controller
 
     public function generate(Request $r){
 
-//        foreach ($r->jobId as $jobId)
-//        {
-//            $job=Job::findOrFail($jobId);
-//        }
 
-
-        return $r;
-        $jobs=Job::select('job.jobId','job.clientId','file.folderName','Service.serviceName','job_service_relation.quantity','job_service_relation.rate','job.created_at')
+        $jobs=Job::select('job.jobId','job.clientId','file.folderName','Service.serviceName','job_service_relation.quantity','job_service_relation.rate',DB::raw('DATE(job.created_at) as date'))
             ->whereIn('job.jobId',$r->jobId)
             ->where('fileCheck','!=',null)
             ->leftJoin('file','file.jobId','job.jobId')
@@ -91,8 +93,16 @@ class InvoiceController extends Controller
             ->leftJoin('service','job_service_relation.serviceId','service.serviceId')
             ->get();
 
-        $tcl=TclInfo::first();
+        $paid=$r->paid;
+        $paymentDate=$r->paymentDate;
+        $currency=$r->currency;
+        $invoiceNumber=$r->invoiceNumber;
 
+
+//        return $jobs;
+
+        $tcl=TclInfo::first();
+        $bank=Bank::findOrFail($r->bankId);
 
 
         if(!$jobs->isEmpty()){
@@ -102,15 +112,17 @@ class InvoiceController extends Controller
 
         }
 
+        $pdf = PDF::loadView('invoice.pdf',compact('jobs','client','tcl','paid','paymentDate','currency','invoiceNumber','bank'));
+        $pdf->save('public/pdf/tst.pdf');
 
+//        return $pdf->stream('invoice.pdf',array('Attachment'=>0));
 
-        $pdf = PDF::loadView('invoice.pdf',compact('jobs','client','tcl'));
-        return $pdf->stream('invoice.pdf',array('Attachment'=>0));
+        return 'public/pdf/tst.pdf';
 
     }
 
     public function pdf(){
-        $jobs=Job::select('job.jobId','job.clientId','file.folderName','Service.serviceName','job_service_relation.quantity','job_service_relation.rate','job.created_at')
+        $jobs=Job::select('job.jobId','job.clientId','file.folderName','Service.serviceName','job_service_relation.quantity','job_service_relation.rate',DB::raw('DATE(job.created_at) as date'))
             ->where('job.jobId',44)
             ->where('fileCheck','!=',null)
             ->leftJoin('file','file.jobId','job.jobId')
@@ -129,7 +141,7 @@ class InvoiceController extends Controller
 
 //        return $jobs;
 
-        return view('invoice.pdf',compact('jobs','client','tcl'));
+//        return view('invoice.pdf',compact('jobs','client','tcl'));
 
         $pdf = PDF::loadView('invoice.pdf',compact('jobs','client','tcl'));
         return $pdf->stream('invoice.pdf',array('Attachment'=>0));

@@ -421,20 +421,27 @@ class JobController extends Controller
 
     public function assignHistory(){
 
+
+
         return view('job.history');
     }
 
     public function getAssignHistory(Request $r){
-        $job=Jobassign::select('job.jobId','client.clientName','file.folderName','jobassign.quantity','jobassign.assignDate','jobassign.leaveDate','u1.name as assignBy','u2.name as assignTo')
+
+        $job=Jobassign::select('job.jobId','folderName','client.clientName',DB::raw('SUM(jobassign.quantity) as total'))
+            ->leftJoin('file','file.jobId','jobassign.jobId')
             ->leftJoin('job','job.jobId','jobassign.jobId')
             ->leftJoin('client','client.clientId','job.clientId')
-            ->leftJoin('file','file.jobId','job.jobId')
-            ->leftJoin('user as u1','u1.userId','jobassign.assignBy')
-            ->leftJoin('user as u2','u2.userId','jobassign.assignTo');
+            ->groupBy('jobassign.jobId')
+            ->orderBy('jobassignId','desc');
+
+
         if(Auth::user()->userType==USER_TYPE['User']){
             $job=$job->where('jobassign.assignTo',Auth::user()->userId);
         }
-
+        else{
+            $job=$job->where('jobassign.assignBy',Auth::user()->userId);
+        }
 
         $job= $job->orderBy('jobassignId','desc')
             ->get();
@@ -442,6 +449,22 @@ class JobController extends Controller
         $datatables = Datatables::of($job);
         return $datatables->make(true);
 
+    }
+
+    public function showAssignDetails(Request $r){
+        $job=Jobassign::select('job.jobId','client.clientName','file.folderName','jobassign.quantity','jobassign.assignDate','jobassign.leaveDate','u1.name as assignBy','u2.name as assignTo')
+            ->where('jobassign.jobId',$r->jobId)
+            ->leftJoin('job','job.jobId','jobassign.jobId')
+            ->leftJoin('client','client.clientId','job.clientId')
+            ->leftJoin('file','file.jobId','job.jobId')
+            ->leftJoin('user as u1','u1.userId','jobassign.assignBy')
+            ->leftJoin('user as u2','u2.userId','jobassign.assignTo');
+
+        $job= $job->orderBy('jobassignId','desc')
+            ->get();
+
+//        return $job;
+        return view('job.showAssignDetails',compact('job'));
     }
 
 

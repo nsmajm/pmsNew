@@ -636,7 +636,7 @@
                             <div class="card-body">
                                 <table class="table table-bordered" style="font-weight: bold">
                                     <thead>
-                                    <th>Date</th>
+                                    <th width="40%">Date</th>
                                     <th>File received</th>
                                     <th>File processed</th>
                                     <th>File pending</th>

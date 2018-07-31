@@ -8,7 +8,7 @@
     <th>Total</th>
     </thead>
     <tbody>
-
+    @php($grandTotal=0)
     @foreach($jobs as $job)
         @php($total=0)
         <tr>
@@ -20,7 +20,7 @@
             <td data-panel-id="{{$job->job_service_relationId}}" onclick="listenForDoubleClick(this);" onblur="this.contentEditable=false;" onfocusout="changeRate(this)">{{$job->rate}}</td>
             <td>{{$total+=$job->rate * $job->quantity}}</td>
         </tr>
-
+        @php($grandTotal+=$total)
     @endforeach
 
     </tbody>
@@ -28,7 +28,7 @@
     <tr>
         <td colspan="4"></td>
         <td><b>Total</b></td>
-        <td><input type="number" id="total" class="form-control" value="{{$total}}" readonly></td>
+        <td><input type="number" id="total" class="form-control" value="{{$grandTotal}}" readonly></td>
     </tr>
 
     <tr>
@@ -41,7 +41,7 @@
         <td colspan="4"></td>
         <td><b>Currency</b></td>
         <td>
-        <select class="form-control">
+        <select class="form-control" id="currency">
             <option>$</option>
             <option>€</option>
             <option>£</option>
@@ -60,9 +60,17 @@
     </tr>
 
     <tr>
-        <td colspan="4"></td>
+        <td colspan="4">
+            @foreach($banks as $bank)
+                <div class="form-check">
+                <label class="form-check-label">
+                <input type="radio" class="form-check-input" name="optradio" value="{{$bank->bankId}}">{{$bank->bankName}}
+                </label>
+                </div>
+            @endforeach
+        </td>
         <td><b>Invoice Number</b></td>
-        <td><input type="number" class="form-control"></td>
+        <td><input type="number" id="invoiceNumber" class="form-control"></td>
     </tr>
 
     <tr>
@@ -169,14 +177,27 @@
 
         var paymentDate=$('#paymentDate').val();
         var paid=$('#paid').val();
+        var currency=$('#currency').val();
+        var bankId=$('input[name=optradio]:checked').val();
+        var invoiceNumber=$('#invoiceNumber').val();
+
 
         $.ajax({
             type: 'POST',
             url: "{!! route('invoice.generate') !!}",
             cache: false,
-            data: {_token: "{{csrf_token()}}",jobId: jobId,paid:paid,paymentDate:paymentDate},
+            data: {_token: "{{csrf_token()}}",jobId: jobId,paid:paid,paymentDate:paymentDate,currency:currency,bankId:bankId,invoiceNumber:invoiceNumber},
             success: function (data) {
-                console.log(data);
+//                console.log(data);
+                var link = document.createElement("a");
+                link.download = data+".pdf";
+                var uri = '{{url("public/pdf/tst.pdf")}}';
+                link.href = uri;
+                document.body.appendChild(link);
+                link.click();
+                document.body.removeChild(link);
+                delete link;
+
 
 
             }
