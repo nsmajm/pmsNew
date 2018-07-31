@@ -180,6 +180,7 @@
         
         <div style="text-align: center;">Bank Details (Tech Cloud Ltd.)<br>
             ----------------------------------------------  <br>
+            
             <img src="{{url('public/bankImage/').'/'.$bank->image}}" style="width: 80%;">
         </div>
         
