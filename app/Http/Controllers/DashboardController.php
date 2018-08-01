@@ -113,15 +113,16 @@ class DashboardController extends Controller
         //   return $overTime;
         // job information
         // $today = Carbon::today();
-        //$JobInfo=Job::select('quantity','deliveryDate',DB::raw('DATE(job.created_at) as created_at'))->whereDate('job.created_at', '>=', $today->subDays(7)->format('Y-m-d'))->orderBy('job.created_at', 'DESC')->get();
+//        $JobInfo=Job::select('job.quantity',DB::raw('DATE(job.created_at) as created_at'))->whereDate('job.created_at', '>=', Carbon::today()->subDays(7)->format('Y-m-d'))->orderBy('job.created_at', 'DESC')->get();
         $fileRecieved = Job::select(DB::raw('SUM(job.quantity)  as totalFileRecieved'),DB::raw('DATE(job.created_at) as recievedDate'))->groupBy('recievedDate')
             ->whereDate('job.created_at', '>=', Carbon::today()->subDays(7)->format('Y-m-d'))->orderBy('recievedDate', 'DESC')->get();
-        $fileProcessed=JobServiceRelation::select(DB::raw('SUM(job_service_relation.quantity)  as totalFileProcessed'),DB::raw('DATE(job_service_relation.created_at) as recievedDate'))
-            ->leftJoin('job','job.jobId','job_service_relation.jobId')
-            ->where('job.statusId',$status->statusId)
-            ->groupBy('recievedDate')
-            ->whereDate('job_service_relation.created_at', '>=', Carbon::today()->subDays(7)->format('Y-m-d'))->orderBy('recievedDate', 'DESC')->get();
-        $fileDelivered=Job::select(DB::raw('SUM(job_service_relation.quantity)  as totalFileDelivered'),DB::raw('DATE(job.created_at) as billingDate'))
+        $fileProcessed=JobServiceRelation::select(DB::raw('SUM(job_service_relation.quantity)  as totalFileProcessed'),DB::raw('DATE(jobstate.endDate) as endDate'))
+            ->leftJoin('jobstate','jobstate.jobId','job_service_relation.jobId')
+            ->where('jobstate.statusId',$status->statusId)
+            ->groupBy('endDate')
+            ->whereDate('jobstate.startDate', '>=', Carbon::today()->subDays(7)->format('Y-m-d'))
+            ->orderBy('endDate', 'DESC')->get();
+        $fileDelivered=Job::select(DB::raw('SUM(job_service_relation.quantity)  as totalFileDelivered'),DB::raw('DATE(job.deliveryDate) as billingDate'))
             ->leftJoin('job_service_relation','job_service_relation.jobId','job.jobId')
             ->where('job.statusId',$status->statusId)
             ->where('job.fileCheck','!=',null)
@@ -142,7 +143,7 @@ class DashboardController extends Controller
                 return ($var['recievedDate'] == $filterBy);
             });
             $newFileProcessed = array_filter($processed, function ($var) use ($filterBy) {
-                return ($var['recievedDate'] == $filterBy);
+                return ($var['endDate'] == $filterBy);
             });
             $newFileDelivered = array_filter($delivered, function ($var) use ($filterBy) {
                 return ($var['billingDate'] == $filterBy);
@@ -166,8 +167,16 @@ class DashboardController extends Controller
             );
             array_push($overTimeInformation,$dataOverTime);
         }
+
+
+        $processJob = JobServiceRelation::select(DB::raw('COUNT(job_service_relation.jobId) ') )
+            
+        ->get();
+
+
         //overTime
-        // return $overTimeInformation;
+        // return $jobInformation;
         return view('dashboard.admin',compact('jobRecievedLastDay','jobInformation','jobServiceMorning','jobServiceEvening','jobServiceNight','overTimeInformation'));
+
     }
 }

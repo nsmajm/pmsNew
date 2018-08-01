@@ -554,7 +554,7 @@
                                             @if(!empty($jobInfo['fileProcessed']))
 
                                                 @foreach($jobInfo['fileProcessed'] as $files)
-                                                    @if($files['recievedDate'] == $jobInfo['date'] )
+                                                    @if($files['endDate'] == $jobInfo['date'] )
 
                                                         {{$files['totalFileProcessed']}}
                                                     @endif
@@ -570,7 +570,7 @@
                                             @if(!empty($jobInfo['fileProcessed']))
 
                                                 @foreach($jobInfo['fileProcessed'] as $filess)
-                                                    @if($filess['recievedDate'] == $jobInfo['date'] )
+                                                    @if($filess['endDate'] == $jobInfo['date'] )
 
                                                         {{--{{$files['totalFileProcessed']}}--}}
 
