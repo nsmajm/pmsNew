@@ -31,7 +31,7 @@
                     <ul class="submenu">
                         <li><a href="{{route('report.all')}}">Report</a></li>
                         <li><a href="{{route('report.performance')}}">Performance</a></li>
-                        <li><a href="advanced-rating.html">Job History</a></li>
+                        <li><a href="{{route('report.invoice')}}">Invoice</a></li>
                         <li><a href="advanced-nestable.html">Hourly Report</a></li>
                         <li><a href="advanced-nestable.html">Daily Work Info</a></li>
 

@@ -181,6 +181,8 @@ Route::post('account/password','HomeController@changePassword')->name('account.c
 //Reporting
 Route::get('/report/performance','ReportController@performance')->name('report.performance');
 Route::get('/report/all','ReportController@all')->name('report.all');
+Route::get('/report/invoice','ReportController@invoice')->name('report.invoice');
+Route::post('/report/getInvoice','ReportController@getInvoice')->name('report.getInvoice');
 
 Route::post('/report/fileCountDays','ReportController@fileCountDays')->name('report.fileCountDays');
 Route::post('/report/fileProcessShift','ReportController@fileProcessShift')->name('report.fileProcessShift');

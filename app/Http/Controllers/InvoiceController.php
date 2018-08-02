@@ -19,10 +19,9 @@ class InvoiceController extends Controller
         $clients=Client::select('clientId','clientName')
             ->get();
 
-
-
         return view('invoice.index',compact('clients'));
     }
+
 
 
     public function search(Request $r){
@@ -123,6 +122,7 @@ class InvoiceController extends Controller
             $billing->bankId=$r->bankId;
             $billing->invoice=$r->invoiceNumber;
             $billing->bill=$r->bill;
+            $billing->statusId=11;
             $billing->clientId=$jobs[0]->clientId;
             $billing->save();
 

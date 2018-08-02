@@ -23,8 +23,27 @@ class ReportController extends Controller
         return view('report.performance');
     }
 
+    public function invoice(){
+        $clients=Client::select('clientId','clientName')
+            ->get();
+
+
+        return view('report.invoice',compact('clients'));
+    }
+
+    public function getInvoice(Request $r){
+
+        $billing=Billing::where('clientId',$r->clientId)
+            ->leftJoin('status','status.statusId','billing.statusId')
+            ->orderBy('billing.billingId','desc')
+            ->get();
+
+//        return $billing;
+        return view('report.getInvoice',compact('billing'));
+    }
+
+
     public function all(){
-//        return $this->employeeWorkMonth();
 
 
         return view('report.all');
