@@ -221,3 +221,9 @@ Route::get('time','TimeController@time')->name('overtime.late');
 Route::get('Tech-Cloud/Info','tclController@allInfo')->name('tcl.tclInfo');
 Route::post('Tech-Cloud/save-Info','tclController@updateTclInfo')->name('tcl.saveInfo');
 Route::post('Tech-Cloud/add-Info','tclController@insertTclInfo')->name('tcl.addInfo');
+
+//Employee Attendence
+Route::get('Employee/Attendence','EmployeeController@allAttendence')->name('employee.attendence');
+Route::post('Employee/Info','EmployeeController@getattendenceData')->name('Employee.getattendenceData');
+
+Route::post('Employee/add-Attendence','EmployeeController@addAttendence')->name('employee.addAttendence');

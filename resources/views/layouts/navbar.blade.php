@@ -34,6 +34,8 @@
                         <li><a href="advanced-rating.html">Job History</a></li>
                         <li><a href="advanced-nestable.html">Hourly Report</a></li>
                         <li><a href="advanced-nestable.html">Daily Work Info</a></li>
+
+
                     </ul>
                 </li>
                 @endif
@@ -141,6 +143,7 @@
                         </li>
 
                           @endif
+                        <li><a href="{{route('employee.attendence')}}">Employee Attendence</a></li>
 
                     </ul>
                 </li>
