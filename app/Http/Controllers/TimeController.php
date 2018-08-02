@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+
 use App\Client;
 use App\Shift;
 use App\User;
@@ -60,8 +61,6 @@ class TimeController extends Controller
 
     public function postOverTime(Request $r){
         $overtime=new Overtime();
-//        $overtime->startTime=$r->startTime;
-//        $overtime->endTime=$r->endTime;
         $overtime->totalHour=$r->totalHour;
         $overtime->date=$r->date;
         $overtime->clientId=$r->clientId;

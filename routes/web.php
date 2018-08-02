@@ -216,6 +216,7 @@ Route::post('time/late','TimeController@getLateData')->name('time.getLateData');
 Route::post('time/submitLate','TimeController@submitLate')->name('time.submitLate');
 Route::get('time','TimeController@time')->name('overtime.late');
 
+
 //tech cloud
 Route::get('Tech-Cloud/Info','tclController@allInfo')->name('tcl.tclInfo');
 Route::post('Tech-Cloud/save-Info','tclController@updateTclInfo')->name('tcl.saveInfo');

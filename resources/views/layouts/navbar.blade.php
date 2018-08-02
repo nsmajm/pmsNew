@@ -153,6 +153,7 @@
                         <li><a href="{{route('time.overtime')}}">Over Time</a></li>
                         <li><a href="{{route('time.late')}}">Late</a></li>
                         <li><a href="{{route('overtime.late')}}">Overtime & Late</a></li>
+
                     </ul>
                 </li>
                 @endif

@@ -70,7 +70,11 @@
             @endforeach
         </td>
         <td><b>Invoice Number</b></td>
-        <td><input type="number" id="invoiceNumber" class="form-control"></td>
+
+        <td>
+            <input type="number" id="invoiceNumber" class="form-control" value="{{$clientId.time()}}">
+        </td>
+
     </tr>
 
     <tr>
@@ -175,23 +179,43 @@
             return this.value; // $(this).val()
         }).get();
 
+        var bill="{{$grandTotal}}";
+
         var paymentDate=$('#paymentDate').val();
         var paid=$('#paid').val();
         var currency=$('#currency').val();
         var bankId=$('input[name=optradio]:checked').val();
         var invoiceNumber=$('#invoiceNumber').val();
 
+        if(paymentDate==""){
+            alert('please insert payment date');
+            return false;
+        }
+        if(paid==""){
+            alert('please insert payment');
+            return false;
+        }
+        if(bankId==""){
+            alert('please select bank');
+            return false;
+        }
+
+        if(invoiceNumber==""){
+            alert('invoice number in empty');
+            return false;
+        }
+
 
         $.ajax({
             type: 'POST',
             url: "{!! route('invoice.generate') !!}",
             cache: false,
-            data: {_token: "{{csrf_token()}}",jobId: jobId,paid:paid,paymentDate:paymentDate,currency:currency,bankId:bankId,invoiceNumber:invoiceNumber},
+            data: {_token: "{{csrf_token()}}",jobId: jobId,paid:paid,paymentDate:paymentDate,currency:currency,bankId:bankId,invoiceNumber:invoiceNumber,bill:bill},
             success: function (data) {
 //                console.log(data);
                 var link = document.createElement("a");
                 link.download = data+".pdf";
-                var uri = '{{url("public/pdf/tst.pdf")}}';
+                var uri = '{{url("public/invoice")}}'+'/'+data+'.pdf';
                 link.href = uri;
                 document.body.appendChild(link);
                 link.click();

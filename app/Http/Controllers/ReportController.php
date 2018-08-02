@@ -346,8 +346,8 @@ class ReportController extends Controller
         $end=$Y.'-12-31';
 
         $bills=Billing::select('client.clientId',DB::raw('Month(billing.created_at) as month'),DB::raw('sum(billing.total) as total'))
-            ->leftJoin('job','job.jobId','billing.jobId')
-            ->leftJoin('client','client.clientId','job.clientId')
+//            ->leftJoin('job','job.jobId','billing.jobId')
+            ->leftJoin('client','client.clientId','billing.clientId')
             ->groupBy(DB::raw('month(billing.created_at)'))
             ->groupBy('client.clientId')
             ->whereBetween(DB::raw('date(billing.created_at)'),array([$start,$end]))
