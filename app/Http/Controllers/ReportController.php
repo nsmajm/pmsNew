@@ -27,7 +27,6 @@ class ReportController extends Controller
         $clients=Client::select('clientId','clientName')
             ->get();
 
-
         return view('report.invoice',compact('clients'));
     }
 
@@ -38,7 +37,6 @@ class ReportController extends Controller
             ->orderBy('billing.billingId','desc')
             ->get();
 
-//        return $billing;
         return view('report.getInvoice',compact('billing'));
     }
 

@@ -31,9 +31,8 @@
                     <ul class="submenu">
                         <li><a href="{{route('report.all')}}">Report</a></li>
                         <li><a href="{{route('report.performance')}}">Performance</a></li>
-                        <li><a href="{{route('report.invoice')}}">Invoice</a></li>
-                        <li><a href="advanced-nestable.html">Hourly Report</a></li>
-                        <li><a href="advanced-nestable.html">Daily Work Info</a></li>
+                        {{--<li><a href="{{route('report.invoice')}}">Invoice</a></li>--}}
+                      
 
 
                     </ul>
@@ -60,9 +59,10 @@
                     <ul class="submenu">
                         <li><a href="{{route('bill.addRate')}}">Add Bill</a></li>
                         {{--<li><a href="advanced-highlight.html">Edit Bill</a></li>--}}
-                        <li><a href="{{route('bill.summery')}}">Bill Summery</a></li>
+                        <li><a href="{{route('report.invoice')}}">Bill Summery</a></li>
                         <li><a href="{{route('invoice.index')}}">Invoice</a></li>
                         <li><a href="advanced-nestable.html">Bill Copy</a></li>
+
                     </ul>
                 </li>
                 @endif
