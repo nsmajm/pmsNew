@@ -23,7 +23,10 @@ Route::get('/procedure', function () {
 //Long Poll
 Route::get('/poll','PollController@longPool');
 Route::get('/','Auth\LoginController@loginForm');
+
 Route::get('/dashboard','DashboardController@index')->name('main');
+Route::get('/dashboard/fileProcessedRealTime','DashboardController@RealTimeFileProcessed')->name('dashboard.fileProcessedRealTime');
+
 Route::view('/form','form')->name('form');
 Route::view('/datatable','datatable')->name('datatable');
 Route::view('/onlyDatatable','onlyDatatable')->name('only.datatable');
@@ -36,6 +39,8 @@ Route::get('/home', 'HomeController@index')->name('home');
 Route::get('/client/add','ClientController@add')->name('client.add');
 Route::post('/client/insert','ClientController@insert')->name('client.insert');
 Route::get('/client/show','ClientController@show')->name('client.show');
+Route::get('/client/edit/{id}','ClientController@edit')->name('client.edit');
+Route::post('/client/update','ClientController@update')->name('client.update');
 Route::post('/client/show','ClientController@getData')->name('client.getData');
 
 //Service
@@ -43,6 +48,9 @@ Route::post('/client/show','ClientController@getData')->name('client.getData');
 Route::post('/service/insert','ServiceController@insert')->name('service.insert');
 Route::post('/service/show','ServiceController@getData')->name('service.getData');
 Route::post('/service/getServiceEditModal','ServiceController@getServiceEditModal')->name('service.getServiceEditModal');
+Route::post('/service/serviceAssign','ServiceController@serviceAssign')->name('service.serviceAssign');
+Route::post('/service/serviceAssign/delete','ServiceController@serviceAssignDelete')->name('service.serviceAssignDelete');
+Route::post('/service/serviceAssign/assignClientToService','ServiceController@assignClientToService')->name('service.assignClientToService');
 Route::get('/service/show','ServiceController@show')->name('service.show');
 
 //JOB
@@ -52,6 +60,7 @@ Route::post('/job/insert','JobController@insert')->name('job.insert');
 Route::get('/job/edit/{id}','JobController@edit')->name('job.edit');
 Route::post('/job/update','JobController@update')->name('job.update');
 Route::get('/job/pending','JobController@pending')->name('job.pending');
+Route::post('/job/changeFeedbackState','JobController@changeFeedbackState')->name('job.changeFeedbackState');
 Route::post('/job/pending','JobController@getPendingData')->name('job.getPendingData');
 Route::get('/job/deadline','JobController@deadline')->name('job.deadline');
 Route::post('/job/getProductionData','JobController@getProductionData')->name('job.getProductionData');
@@ -62,6 +71,7 @@ Route::post('/job/StateChange','JobController@jobStateChange')->name('job.StateC
 //Assign Job
 Route::get('job/assign/history','JobController@assignHistory')->name('assign.history');
 Route::post('job/assign/history','JobController@getAssignHistory')->name('assign.getAssignHistory');
+Route::post('job/showAssignDetails','JobController@showAssignDetails')->name('assign.showAssignDetails');
 
 Route::get('/job/assign/{id}','JobController@assignJob')->name('job.assign');
 
@@ -141,6 +151,7 @@ Route::post('/group','GroupController@getGroupData')->name('group.getGroupData')
 Route::post('/group/assign','GroupController@assign')->name('group.assign');
 Route::post('/getIndividualTeamMember','GroupController@getIndividualTeamMember')->name('group.getIndividualTeamMember');
 
+
 //Team
 Route::get('/team/myTeam','TeamController@TeamInfo')->name('team.myTeam');
 Route::get('/team','TeamController@index')->name('team.index');
@@ -173,6 +184,14 @@ Route::get('/report/all','ReportController@all')->name('report.all');
 
 Route::post('/report/fileCountDays','ReportController@fileCountDays')->name('report.fileCountDays');
 Route::post('/report/fileProcessShift','ReportController@fileProcessShift')->name('report.fileProcessShift');
+Route::post('/report/fileTypeDay','ReportController@fileTypeDay')->name('report.fileTypeDay');
+Route::post('/report/fileProcessHour','ReportController@fileProcessHour')->name('report.fileProcessHour');
+Route::post('/report/fileCountMonth','ReportController@fileCountMonth')->name('report.fileCountMonth');
+Route::post('/report/revenueMonth','ReportController@revenueMonth')->name('report.revenueMonth');
+Route::post('/report/revenueClient','ReportController@revenueClient')->name('report.revenueClient');
+Route::post('/report/fileCountClient','ReportController@fileCountClient')->name('report.fileCountClient');
+Route::post('/report/employeeWorkDay','ReportController@employeeWorkDay')->name('report.employeeWorkDay');
+Route::post('/report/employeeWorkMonth','ReportController@employeeWorkMonth')->name('report.employeeWorkMonth');
 
 //Employee
 Route::get('employee/Edit-Employee/{id}','EmployeeController@editEmployee')->name('employee.empEdit');

@@ -1,9 +1,12 @@
 <?php
 namespace App\Http\Controllers;
 use App\Billing;
+use App\Group;
 use App\JobServiceRelation;
 use App\OvertimeAssign;
 use App\Service;
+use App\Shift;
+use App\Team;
 use Illuminate\Http\Request;
 use Auth;
 use App\Jobassign;
@@ -26,9 +29,78 @@ class DashboardController extends Controller
         }
         return $this->admin();
     }
+    public function RealTimeFileProcessed(){
+        $qcDonestatus=Status::where('statusType','jobStatus')
+            ->where('statusName','qc')
+            ->first();
+        $productionDonestatus=Status::where('statusType','jobStatus')
+            ->where('statusName','production')
+            ->first();
+        $processingDonestatus=Status::where('statusType','jobStatus')
+            ->where('statusName','processing')
+            ->first();
+        $team=Team::get();
+        $fileProcessedPerTeam=array();
+        $qcFileProcessedlastdayPerShift=JobServiceRelation::select(DB::raw('SUM(job_service_relation.quantity)  as totalFileProcessed'),'job.shiftId','jobstate.teamId as teamId')
+            ->leftJoin('jobstate','jobstate.jobId','job_service_relation.jobId')
+            ->leftJoin('job','job.jobId','job_service_relation.jobId')
+            ->where('jobstate.statusId',$qcDonestatus->statusId)
+            ->groupBy('job.shiftId')
+            ->whereDate('jobstate.endDate', '=', Carbon::today()->subDays(0)->format('Y-m-d'))
+            ->orderBy('endDate', 'DESC')
+            ->get();
+        $productionFileProcessedlastdayPerShift=Jobstate::select(DB::raw('SUM(job.quantity)  as totalFileProcessed'),'job.shiftId','jobstate.teamId as teamId')
+            ->leftJoin('job','job.jobId','jobstate.jobId')
+            ->where('jobstate.statusId',$productionDonestatus->statusId)
+            ->groupBy('job.shiftId')
+            ->whereDate('jobstate.endDate', '=', Carbon::today()->subDays(0)->format('Y-m-d'))
+            ->orderBy('endDate', 'DESC')
+            ->get();
+        $processingFileProcessedlastdayPerShift=Jobstate::select(DB::raw('SUM(job.quantity)  as totalFileProcessed'),'job.shiftId','jobstate.teamId as teamId')
+            ->leftJoin('job','job.jobId','jobstate.jobId')
+            ->where('jobstate.statusId',$processingDonestatus->statusId)
+            ->groupBy('job.shiftId')
+            ->whereDate('jobstate.endDate', '=', Carbon::today()->subDays(0)->format('Y-m-d'))
+            ->orderBy('endDate', 'DESC')
+            ->get();
+        // return $processingFileProcessedlastdayPerShift;
+        foreach ($team as $te){
+            $filteredBy=$te->teamId;
+            $qcProcessedLastDay=json_decode($qcFileProcessedlastdayPerShift,true);
+            $productionProcessedLastDay=json_decode($productionFileProcessedlastdayPerShift,true);
+            $processingProcessedLastDay=json_decode($processingFileProcessedlastdayPerShift,true);
+            $newFileProcessedProduction = array_filter($productionProcessedLastDay, function ($var) use ($filteredBy) {
+                return ($var['teamId'] == $filteredBy);
+            });
+            $newFileProcessedProcessing = array_filter($processingProcessedLastDay, function ($var) use ($filteredBy) {
+                return ($var['teamId'] == $filteredBy);
+            });
+            $newFileProcessedQc = array_filter($qcProcessedLastDay, function ($var) use ($filteredBy) {
+                return ($var['teamId'] == $filteredBy);
+            });
+            $dataLastDayProcessed=array(
+                'Team'=>$te->teamId,
+                'ProductionProcessed'=>$newFileProcessedProduction,
+                'ProcessingProcessed'=>$newFileProcessedProcessing,
+                'QcProcessed'=>$newFileProcessedQc,
+                '155'=>$newFileProcessedQc,
+            );
+            array_push($fileProcessedPerTeam,$dataLastDayProcessed);
+        }
+        return view('dashboard.adminFileProcessedRealTime',compact('fileProcessedPerTeam','team'));
+    }
     public function admin(){
         $status=Status::where('statusType','jobStatus')
             ->where('statusName','done')
+            ->first();
+        $qcDonestatus=Status::where('statusType','jobStatus')
+            ->where('statusName','qc')
+            ->first();
+        $productionDonestatus=Status::where('statusType','jobStatus')
+            ->where('statusName','production')
+            ->first();
+        $processingDonestatus=Status::where('statusType','jobStatus')
+            ->where('statusName','processing')
             ->first();
 //        Process Job Type / last day Basic/Medium/Advance/Complex
 //        $jobService=Job::select('service.complexity',DB::raw('count(job.jobId) as total'))->where('job.statusId',$status->statusId)
@@ -103,7 +175,7 @@ class DashboardController extends Controller
             ->groupBy('job.clientId')
             ->whereDate('job.created_at',$lastDay)
             ->get();
-        $overTime=OvertimeAssign::select(DB::raw('GROUP_CONCAT(DISTINCT(client.clientName)) as clientsName'),'overtime.date as overTimeDate',DB::raw('TIMEDIFF(overtime.endTime,overtime.startTime) as overTime'),DB::raw('COUNT(overtimeassign.overtimeassignId)  as totalEmployee'))
+        $overTime=OvertimeAssign::select(DB::raw('GROUP_CONCAT(DISTINCT(client.clientName)) as clientsName'),'overtime.date as overTimeDate',DB::raw('totalHour as overTime'),DB::raw('COUNT(overtimeassign.overtimeassignId)  as totalEmployee'))
             ->leftJoin('overtime','overtime.overtimeId','overtimeassign.overtimeId')
             ->leftJoin('client','client.clientId','overtime.clientId')
             ->groupBy('overTimeDate')
@@ -118,9 +190,9 @@ class DashboardController extends Controller
             ->whereDate('job.created_at', '>=', Carbon::today()->subDays(7)->format('Y-m-d'))->orderBy('recievedDate', 'DESC')->get();
         $fileProcessed=JobServiceRelation::select(DB::raw('SUM(job_service_relation.quantity)  as totalFileProcessed'),DB::raw('DATE(jobstate.endDate) as endDate'))
             ->leftJoin('jobstate','jobstate.jobId','job_service_relation.jobId')
-            ->where('jobstate.statusId',$status->statusId)
+            ->where('jobstate.statusId',$qcDonestatus->statusId)
             ->groupBy('endDate')
-            ->whereDate('jobstate.startDate', '>=', Carbon::today()->subDays(7)->format('Y-m-d'))
+            ->whereDate('jobstate.endDate', '>=', Carbon::today()->subDays(7)->format('Y-m-d'))
             ->orderBy('endDate', 'DESC')->get();
         $fileDelivered=Job::select(DB::raw('SUM(job_service_relation.quantity)  as totalFileDelivered'),DB::raw('DATE(job.deliveryDate) as billingDate'))
             ->leftJoin('job_service_relation','job_service_relation.jobId','job.jobId')
@@ -167,16 +239,159 @@ class DashboardController extends Controller
             );
             array_push($overTimeInformation,$dataOverTime);
         }
+        $team=Team::get();
+        $fileProcessedPerTeam=array();
+        $qcFileProcessedlastdayPerShift=JobServiceRelation::select(DB::raw('SUM(job_service_relation.quantity)  as totalFileProcessed'),'job.shiftId','jobstate.teamId as teamId')
+            ->leftJoin('jobstate','jobstate.jobId','job_service_relation.jobId')
+            ->leftJoin('job','job.jobId','job_service_relation.jobId')
+            ->where('jobstate.statusId',$qcDonestatus->statusId)
+            ->groupBy('job.shiftId')
+            ->whereDate('jobstate.endDate', '=', Carbon::today()->subDays(1)->format('Y-m-d'))
+            ->orderBy('endDate', 'DESC')
+            ->get();
+        $productionFileProcessedlastdayPerShift=Jobstate::select(DB::raw('SUM(job.quantity)  as totalFileProcessed'),'job.shiftId','jobstate.teamId as teamId')
+            ->leftJoin('job','job.jobId','jobstate.jobId')
+            ->where('jobstate.statusId',$productionDonestatus->statusId)
+            ->groupBy('job.shiftId')
+            ->whereDate('jobstate.endDate', '=', Carbon::today()->subDays(1)->format('Y-m-d'))
+            ->orderBy('endDate', 'DESC')
+            ->get();
+        $processingFileProcessedlastdayPerShift=Jobstate::select(DB::raw('SUM(job.quantity)  as totalFileProcessed'),'job.shiftId','jobstate.teamId as teamId')
+            ->leftJoin('job','job.jobId','jobstate.jobId')
+            ->where('jobstate.statusId',$processingDonestatus->statusId)
+            ->groupBy('job.shiftId')
+            ->whereDate('jobstate.endDate', '=', Carbon::today()->subDays(1)->format('Y-m-d'))
+            ->orderBy('endDate', 'DESC')
+            ->get();
+        // return $qcFileProcessedlastdayPerShift;
+        foreach ($team as $te){
+            $filteredBy=$te->teamId;
+            $qcProcessedLastDay=json_decode($qcFileProcessedlastdayPerShift,true);
+            $productionProcessedLastDay=json_decode($productionFileProcessedlastdayPerShift,true);
+            $processingProcessedLastDay=json_decode($processingFileProcessedlastdayPerShift,true);
+            $newFileProcessedProduction = array_filter($productionProcessedLastDay, function ($var) use ($filteredBy) {
+                return ($var['teamId'] == $filteredBy);
+            });
+            $newFileProcessedProcessing = array_filter($processingProcessedLastDay, function ($var) use ($filteredBy) {
+                return ($var['teamId'] == $filteredBy);
+            });
+            $newFileProcessedQc = array_filter($qcProcessedLastDay, function ($var) use ($filteredBy) {
+                return ($var['teamId'] == $filteredBy);
+            });
+            $dataLastDayProcessed=array(
+                'Team'=>$te->teamId,
+                'ProductionProcessed'=>$newFileProcessedProduction,
+                'ProcessingProcessed'=>$newFileProcessedProcessing,
+                'QcProcessed'=>$newFileProcessedQc,
+                '155'=>$newFileProcessedQc,
+            );
+            array_push($fileProcessedPerTeam,$dataLastDayProcessed);
+        }
+//        $group=Group::get();
+        // $allShift=Shift::get();
+//
+//        $fileProcessedPerShiftLastDay=array();
+//
+//        $processedPerShift=json_decode($fileProcessedlastdayPerShift,true);
+//
+//        foreach ($group as $group){
+//
+//            foreach ($allShift as $shifts){
+//
+//
+//                $filterByShift = $shifts->shiftId;
+//                if ($group->)
+//
+//                $newprocessedPerShiftRecords = array_filter($processedPerShift, function ($var) use ($filterByShift) {
+//                    return ($var['shiftId'] == $filterByShift);
+//                });
+//
+//
+//
+//                $dataq=array(
+//                    'shift'=>$filterByShift,
+//                    'shiftData'=>$newprocessedPerShiftRecords
+//
+//                );
+//                array_push($fileProcessedPerShiftLastDay,$dataq);
+//
+//
+//            }
+//
+//
+//        }
+        //  return $fileProcessedPerTeam;
+
+        $complex = Service::select('complexity')
+            ->groupBy('service.complexity')
+            ->get();
 
 
-        $processJob = JobServiceRelation::select(DB::raw('COUNT(job_service_relation.jobId) ') )
-            
-        ->get();
+        $processMoirningBasic = JobServiceRelation::Select(DB::raw('COUNT(job_service_relation.jobId)  as processMoirningBasic'))
+            ->leftJoin('service','job_service_relation.serviceId','service.serviceId')
+            ->leftJoin('job','job_service_relation.jobId','job.jobId')
+            ->where('job.shiftId' , '1')
+            ->orWhere('job.shiftId' , '2')
+            ->where('service.complexity', 'Basic')
+            ->first();
+
+        $processMoirningMedium = JobServiceRelation::Select(DB::raw('COUNT(job_service_relation.jobId)  as processMoirningMedium'))
+            ->leftJoin('service','job_service_relation.serviceId','service.serviceId')
+            ->leftJoin('job','job_service_relation.jobId','job.jobId')
+            ->where('service.complexity', 'Medium')
+            ->where('job.shiftId' , '1')
+            ->orWhere('job.shiftId' , '2')
+            ->first();
+
+        $processMoirningAdvance = JobServiceRelation::Select(DB::raw('COUNT(job_service_relation.jobId)  as processMoirningAdvance'))
+            ->leftJoin('service','job_service_relation.serviceId','service.serviceId')
+            ->leftJoin('job','job_service_relation.jobId','job.jobId')
+            ->where('service.complexity', 'Advance')
+            ->where('job.shiftId' , '1')
+            ->orWhere('job.shiftId' , '2')
+            ->first();
+
+        $processMoirningComplex = JobServiceRelation::Select(DB::raw('COUNT(job_service_relation.jobId)  as processMoirningComplex'))
+            ->leftJoin('service','job_service_relation.serviceId','service.serviceId')
+            ->leftJoin('job','job_service_relation.jobId','job.jobId')
+            ->where('service.complexity', 'Complex')
+            ->where('job.shiftId' , '1')
+            ->orWhere('job.shiftId' , '2')
+            ->first();
 
 
-        //overTime
-        // return $jobInformation;
-        return view('dashboard.admin',compact('jobRecievedLastDay','jobInformation','jobServiceMorning','jobServiceEvening','jobServiceNight','overTimeInformation'));
+        $processEveningBasic = JobServiceRelation::Select(DB::raw('COUNT(job_service_relation.jobId)  as processEveningBasic'))
+            ->leftJoin('service','job_service_relation.serviceId','service.serviceId')
+            ->leftJoin('job','job_service_relation.jobId','job.jobId')
+            ->where('job.shiftId' , '3')
+            ->where('service.complexity', 'Basic')
+            ->first();
 
+        $processEveningMedium = JobServiceRelation::Select(DB::raw('COUNT(job_service_relation.jobId)  as processEveningMedium'))
+            ->leftJoin('service','job_service_relation.serviceId','service.serviceId')
+            ->leftJoin('job','job_service_relation.jobId','job.jobId')
+            ->where('service.complexity', 'Medium')
+            ->where('job.shiftId' , '3')
+            ->first();
+
+        $processEveningAdvance = JobServiceRelation::Select(DB::raw('COUNT(job_service_relation.jobId)  as processEveningAdvance'))
+            ->leftJoin('service','job_service_relation.serviceId','service.serviceId')
+            ->leftJoin('job','job_service_relation.jobId','job.jobId')
+            ->where('service.complexity', 'Advance')
+            ->where('job.shiftId' , '3')
+            ->first();
+
+        $processEveningComplex = JobServiceRelation::Select(DB::raw('COUNT(job_service_relation.jobId)  as processEveningComplex'))
+            ->leftJoin('service','job_service_relation.serviceId','service.serviceId')
+            ->leftJoin('job','job_service_relation.jobId','job.jobId')
+            ->where('service.complexity', 'Complex')
+            ->where('job.shiftId' , '3')
+            ->first();
+
+      // return $processMoirningBasic;
+
+     //  return view('dashboard.test',compact('processMoirningBasic','processMoirningMedium','processMoirningAdvance','processMoirningComplex','processEveningBasic','processEveningMedium','processEveningAdvance','processEveningComplex'));
+
+        return view('dashboard.admin',compact('processMoirningBasic','processMoirningMedium','processMoirningAdvance','processMoirningComplex','processEveningBasic','processEveningMedium','processEveningAdvance','processEveningComplex','jobRecievedLastDay','jobInformation','fileProcessedPerTeam','team','jobServiceMorning','jobServiceEvening','jobServiceNight','overTimeInformation'));
     }
 }

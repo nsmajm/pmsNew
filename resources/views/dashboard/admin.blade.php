@@ -144,6 +144,24 @@
                                 <th>Complex</th>
                                 </thead>
                                 <tbody>
+                                <tr>
+                                    <td>Morning</td>
+                                    <td>{{$processMoirningBasic->processMoirningBasic}}</td>
+                                    <td>{{$processMoirningMedium->processMoirningMedium}}</td>
+                                    <td>{{$processMoirningAdvance->processMoirningAdvance}}</td>
+                                    <td>{{$processMoirningComplex->processMoirningComplex}}</td>
+
+                                </tr>
+                                <tr>
+                                    <td>Evening</td>
+                                    <td>{{$processEveningBasic->processEveningBasic}}</td>
+                                    <td>{{$processEveningMedium->processEveningMedium}}</td>
+                                    <td>{{$processEveningAdvance->processEveningAdvance}}</td>
+                                    <td>{{$processEveningComplex->processEveningComplex}}</td>
+
+                                </tr>
+
+
                                 {{--<tr>--}}
                                     {{--<td>Morning (Fixed)</td>--}}
                                     {{--@if(!$jobServiceMorningFixed->isEmpty())--}}
@@ -179,60 +197,60 @@
                                     {{--@endif--}}
 
                                 {{--</tr>--}}
-                                <tr>
-                                    <td>Morning</td>
-                                    @if(!$jobServiceMorning->isEmpty())
-                                    @foreach($jobServiceMorning as $service)
-                                        @if($service->complexity=='Basic')
-                                            <td>{{$service->total}}</td>
-                                        @else
-                                            <td>0</td>
-                                        @endif
+                                {{--<tr>--}}
+                                    {{--<td>Morning</td>--}}
+                                    {{--@if(!$jobServiceMorning->isEmpty())--}}
+                                    {{--@foreach($jobServiceMorning as $service)--}}
+                                        {{--@if($service->complexity=='Basic')--}}
+                                            {{--<td>{{$service->total}}</td>--}}
+                                        {{--@else--}}
+                                            {{--<td>0</td>--}}
+                                        {{--@endif--}}
 
-                                        @if($service->complexity=='Medium')
-                                            <td>{{$service->total}}</td>
-                                        @else
-                                            <td>0</td>
-                                        @endif
-                                        @if($service->complexity=='Advanced')
-                                            <td>{{$service->total}}</td>
-                                        @else
-                                            <td>0</td>
-                                        @endif
-                                        @if($service->complexity=='Complex')
-                                            <td>{{$service->total}}</td>
-                                        @else
-                                            <td>0</td>
-                                        @endif
+                                        {{--@if($service->complexity=='Medium')--}}
+                                            {{--<td>{{$service->total}}</td>--}}
+                                        {{--@else--}}
+                                            {{--<td>0</td>--}}
+                                        {{--@endif--}}
+                                        {{--@if($service->complexity=='Advanced')--}}
+                                            {{--<td>{{$service->total}}</td>--}}
+                                        {{--@else--}}
+                                            {{--<td>0</td>--}}
+                                        {{--@endif--}}
+                                        {{--@if($service->complexity=='Complex')--}}
+                                            {{--<td>{{$service->total}}</td>--}}
+                                        {{--@else--}}
+                                            {{--<td>0</td>--}}
+                                        {{--@endif--}}
 
-                                    @endforeach
-                                    @else
-                                    <td>0</td>
-                                    <td>0</td>
-                                    <td>0</td>
-                                    <td>0</td>
-                                    @endif
+                                    {{--@endforeach--}}
+                                    {{--@else--}}
+                                    {{--<td>0</td>--}}
+                                    {{--<td>0</td>--}}
+                                    {{--<td>0</td>--}}
+                                    {{--<td>0</td>--}}
+                                    {{--@endif--}}
 
-                                </tr>
-                                <tr>
-                                    <td>Evening</td>
-                                    @if(!$jobServiceEvening->isEmpty())
-
-
-
-                                            @foreach($jobServiceEvening as $service)
-
-                                                @for($i=0;$i<count(SERVICE_COMPLEXITY);$i++)
-                                                    @if($service->complexity==SERVICE_COMPLEXITY[$i])
-                                                    <td>{{$service->total}}</td>
-                                                    @endif
-                                                @endfor
+                                {{--</tr>--}}
+                                {{--<tr>--}}
+                                    {{--<td>Evening</td>--}}
+                                    {{--@if(!$jobServiceEvening->isEmpty())--}}
 
 
 
+                                            {{--@foreach($jobServiceEvening as $service)--}}
+
+                                                {{--@for($i=0;$i<count(SERVICE_COMPLEXITY);$i++)--}}
+                                                    {{--@if($service->complexity==SERVICE_COMPLEXITY[$i])--}}
+                                                    {{--<td>{{$service->total}}</td>--}}
+                                                    {{--@endif--}}
+                                                {{--@endfor--}}
 
 
-                                            @endforeach
+
+
+
+                                            {{--@endforeach--}}
 
 
 
@@ -261,52 +279,52 @@
 
 
                                         {{--@endforeach--}}
-                                    @else
-                                        <td>0</td>
-                                        <td>0</td>
-                                        <td>0</td>
-                                        <td>0</td>
-                                    @endif
-                                </tr>
-                                <tr>
-                                    <td>Night</td>
-                                    @if(!$jobServiceNight->isEmpty())
-                                        @for($i=0;$i<count(SERVICE_COMPLEXITY);$i++)
+                                    {{--@else--}}
+                                        {{--<td>0</td>--}}
+                                        {{--<td>0</td>--}}
+                                        {{--<td>0</td>--}}
+                                        {{--<td>0</td>--}}
+                                    {{--@endif--}}
+                                {{--</tr>--}}
+                                {{--<tr>--}}
+                                    {{--<td>Night</td>--}}
+                                    {{--@if(!$jobServiceNight->isEmpty())--}}
+                                        {{--@for($i=0;$i<count(SERVICE_COMPLEXITY);$i++)--}}
 
-                                        @endfor
-                                    @foreach($jobServiceNight as $service)
+                                        {{--@endfor--}}
+                                    {{--@foreach($jobServiceNight as $service)--}}
 
 
-                                        @if($service->complexity=='Basic')
-                                            <td>{{$service->total}}</td>
-                                        @else
-                                            <td>0</td>
-                                        @endif
+                                        {{--@if($service->complexity=='Basic')--}}
+                                            {{--<td>{{$service->total}}</td>--}}
+                                        {{--@else--}}
+                                            {{--<td>0</td>--}}
+                                        {{--@endif--}}
 
-                                        @if($service->complexity=='Medium')
-                                            <td>{{$service->total}}</td>
-                                        @else
-                                            <td>0</td>
-                                        @endif
-                                        @if($service->complexity=='Advanced')
-                                            <td>{{$service->total}}</td>
-                                        @else
-                                            <td>0</td>
-                                        @endif
-                                        @if($service->complexity=='Complex')
-                                            <td>{{$service->total}}</td>
-                                        @else
-                                            <td>0</td>
-                                        @endif
+                                        {{--@if($service->complexity=='Medium')--}}
+                                            {{--<td>{{$service->total}}</td>--}}
+                                        {{--@else--}}
+                                            {{--<td>0</td>--}}
+                                        {{--@endif--}}
+                                        {{--@if($service->complexity=='Advanced')--}}
+                                            {{--<td>{{$service->total}}</td>--}}
+                                        {{--@else--}}
+                                            {{--<td>0</td>--}}
+                                        {{--@endif--}}
+                                        {{--@if($service->complexity=='Complex')--}}
+                                            {{--<td>{{$service->total}}</td>--}}
+                                        {{--@else--}}
+                                            {{--<td>0</td>--}}
+                                        {{--@endif--}}
 
-                                    @endforeach
-                                    @else
-                                        <td>0</td>
-                                        <td>0</td>
-                                        <td>0</td>
-                                        <td>0</td>
-                                    @endif
-                                </tr>
+                                    {{--@endforeach--}}
+                                    {{--@else--}}
+                                        {{--<td>0</td>--}}
+                                        {{--<td>0</td>--}}
+                                        {{--<td>0</td>--}}
+                                        {{--<td>0</td>--}}
+                                    {{--@endif--}}
+                                {{--</tr>--}}
 
                                 </tbody>
                             </table>
@@ -327,33 +345,169 @@
                                 <th>Team</th>
                                 <th>Morning</th>
                                 <th>Evening</th>
-                                <th>Night</th>
+
+
+
                                 </thead>
                                 <tbody>
-                                <tr>
-                                    <td>Production</td>
-                                    <td>10</td>
-                                    <td>5</td>
-                                    <td>50</td>
-                                </tr>
-                                <tr>
-                                    <td>Processing</td>
-                                    <td>10</td>
-                                    <td>5</td>
-                                    <td>50</td>
-                                </tr>
-                                <tr>
-                                    <td>Qc</td>
-                                    <td>10</td>
-                                    <td>5</td>
-                                    <td>50</td>
-                                </tr>
-                                <tr>
-                                    <td>155</td>
-                                    <td>10</td>
-                                    <td>5</td>
-                                    <td>50</td>
-                                </tr>
+
+                                @foreach($team as $allTeam)
+                                    @foreach($fileProcessedPerTeam as $filePro)
+
+
+
+                                        <tr>
+
+                                            @if($filePro['Team']==$allTeam['teamId'] && $filePro['Team'] == '1' )
+                                                <td>{{$allTeam['teamName']}}</td>
+                                                <td>
+                                                    @if(!empty($filePro['ProductionProcessed']))
+                                                        @php $t=0;$to=0;@endphp
+                                                        @foreach($filePro['ProductionProcessed'] as $ProdPro)
+                                                            @if($ProdPro['shiftId']=='1'|| $ProdPro['shiftId']=='2' )
+
+                                                                @php $to=$ProdPro['totalFileProcessed']@endphp
+                                                            @endif
+                                                        @endforeach
+                                                        {{$t=$t+$to}}
+                                                    @else
+                                                        0
+                                                    @endif
+                                                </td>
+                                                <td>
+                                                    @if(!empty($filePro['ProductionProcessed']))
+                                                        @php $t=0;$to=0;@endphp
+                                                        @foreach($filePro['ProductionProcessed'] as $ProdPro)
+                                                            @if($ProdPro['shiftId']=='3')
+
+                                                                @php $to=$ProdPro['totalFileProcessed']@endphp
+                                                            @endif
+                                                        @endforeach
+                                                        {{$t=$t+$to}}
+                                                    @else
+                                                        0
+                                                    @endif
+                                                </td>
+
+                                            @endif
+                                        </tr>
+                                        <tr>
+
+                                            @if($filePro['Team']==$allTeam['teamId'] && $filePro['Team'] == '2' )
+                                                <td>{{$allTeam['teamName']}}</td>
+
+                                                <td>
+                                                    @if(!empty($filePro['ProcessingProcessed']))
+                                                        @php $t=0;$to=0;@endphp
+                                                        @foreach($filePro['ProcessingProcessed'] as $ProcessPro)
+                                                            @if($ProcessPro['shiftId']=='1'|| $ProcessPro['shiftId']== '2' )
+
+                                                                @php $to=$ProcessPro['totalFileProcessed']@endphp
+                                                            @endif
+                                                        @endforeach
+                                                        {{$t=$t+$to}}
+                                                    @else
+                                                        0
+                                                    @endif
+                                                </td>
+                                                <td>
+                                                    @if(!empty($filePro['ProcessingProcessed']))
+                                                        @php $t=0;$to=0;@endphp
+                                                        @foreach($filePro['ProcessingProcessed'] as $ProcessPro)
+                                                            @if($ProcessPro['shiftId']== '3')
+
+                                                                @php $to=$ProcessPro['totalFileProcessed']@endphp
+                                                            @endif
+                                                        @endforeach
+                                                        {{$t=$t+$to}}
+                                                    @else
+                                                        0
+                                                    @endif
+                                                </td>
+
+                                            @endif
+                                        </tr>
+
+
+                                            <tr>
+                                                @if($filePro['Team']==$allTeam['teamId'] && $filePro['Team'] == '3')
+                                                <td>{{$allTeam['teamName']}}</td>
+                                                <td>
+                                                    @if(!empty($filePro['QcProcessed']))
+                                                        @php $t=0;$to=0;@endphp
+                                                        @foreach($filePro['QcProcessed'] as $qcPro)
+                                                            @if($qcPro['shiftId']=='1'|| $qcPro['shiftId']=='2' )
+
+                                                                @php $to=$qcPro['totalFileProcessed']@endphp
+                                                            @endif
+                                                        @endforeach
+                                                        {{$t=$t+$to}}
+                                                    @else
+                                                        0
+                                                    @endif
+                                                </td>
+                                                <td>
+                                                    @if(!empty($filePro['QcProcessed']))
+                                                        @php $t=0;$to=0;@endphp
+                                                        @foreach($filePro['QcProcessed'] as $qcPro)
+                                                            @if($qcPro['shiftId']=='3')
+
+                                                                @php $to=$qcPro['totalFileProcessed']@endphp
+                                                            @endif
+                                                        @endforeach
+                                                        {{$t=$t+$to}}
+                                                    @else
+                                                        0
+                                                    @endif
+                                                </td>
+
+                                                @endif
+                                            </tr>
+
+                                        <tr>
+                                                @if($filePro['Team']==$allTeam['teamId'] && $filePro['Team'] == '4')
+                                                <td>{{$allTeam['teamName']}}</td>
+                                                <td>
+                                                    @if(!empty($filePro['155']))
+                                                        @php $t=0;$to=0;@endphp
+                                                        @foreach($filePro['155'] as $Process155)
+                                                            @if($Process155['shiftId']=='1'|| $Process155['shiftId']=='2' )
+
+                                                                @php $to=$Process155['totalFileProcessed']@endphp
+                                                            @endif
+                                                        @endforeach
+                                                        {{$t=$t+$to}}
+                                                    @else
+                                                        0
+                                                    @endif
+                                                </td>
+                                                <td>
+                                                    @if(!empty($filePro['155']))
+                                                        @php $t=0;$to=0;@endphp
+                                                        @foreach($filePro['155'] as $Process155)
+                                                            @if($Process155['shiftId']=='3')
+
+                                                                @php $to=$Process155['totalFileProcessed']@endphp
+                                                            @endif
+                                                        @endforeach
+                                                        {{$t=$t+$to}}
+                                                    @else
+                                                        0
+                                                    @endif
+                                                </td>
+
+                                                @endif
+                                            </tr>
+
+
+
+
+
+
+                                    @endforeach
+                                    @endforeach
+
+
                                 </tbody>
                             </table>
                         </div>
@@ -368,41 +522,17 @@
                     <div class="card">
                         <div class="card-header">File processed (Real time 12am-12am)</div>
                         <div class="card-body">
-                            <table class="table table-bordered" style="font-weight: bold">
+
+                            <table id="FileProcessedRealTime" class="table table-bordered" style="font-weight: bold">
                                 <thead>
                                 <th>Team</th>
                                 <th>Morning</th>
                                 <th>Evening</th>
                                 <th>Night</th>
                                 </thead>
-                                <tbody>
-                                <tr>
-                                    <td>Production</td>
-                                    <td>10</td>
-                                    <td>5</td>
-                                    <td>50</td>
-                                </tr>
-                                <tr>
-                                    <td>Processing</td>
-                                    <td>10</td>
-                                    <td>5</td>
-                                    <td>50</td>
-                                </tr>
-                                <tr>
-                                    <td>Qc</td>
-                                    <td>10</td>
-                                    <td>5</td>
-                                    <td>50</td>
-                                </tr>
-                                <tr>
-                                    <td>155</td>
-                                    <td>10</td>
-                                    <td>5</td>
-                                    <td>50</td>
-                                </tr>
 
-                                </tbody>
                             </table>
+
                         </div>
                     </div>
                 </div>
@@ -450,7 +580,7 @@
                                     <thead>
                                     <th>Day</th>
                                     <th>Number of Employee</th>
-                                    <th>Total Hour(hh:mm:ss)</th>
+                                    <th>Total Hour</th>
                                     <th>ClientId</th>
                                     </thead>
                                     <tbody>
@@ -481,7 +611,7 @@
                                                 @foreach($overTimeInfo['overTimeData'] as $times)
                                                     @if($times['overTimeDate'] == $overTimeInfo['date'] )
 
-                                                        {{$times['overTime']}}
+                                                        {{($times['overTime']*$times['totalEmployee'])}}
                                                     @endif
                                                 @endforeach
                                             @else
@@ -524,7 +654,7 @@
                             <div class="card-body">
                                 <table class="table table-bordered" style="font-weight: bold">
                                     <thead>
-                                    <th>Date</th>
+                                    <th width="40%">Date</th>
                                     <th>File received</th>
                                     <th>File processed</th>
                                     <th>File pending</th>
@@ -663,6 +793,26 @@
             {{--});--}}
         {{--});--}}
     {{--</script>--}}
+
+    <script>
+
+        setInterval(function(){
+
+                $.ajax({
+                    type : 'get',
+                    url:'{{route('dashboard.fileProcessedRealTime')}}',
+                    data: {},
+                    cache: false,
+                    success : function(datan){
+
+                        $('#FileProcessedRealTime').html(datan);
+
+                    }
+                });
+
+
+        },5000);
+    </script>
 
 
 @endsection

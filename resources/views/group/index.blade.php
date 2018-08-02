@@ -159,7 +159,7 @@
                     { data: 'groupName', name: 'groupName' },
 
                     { "data": function(data){
-                        if(data.teamId!=null) {
+                        if(data.groupId!=null) {
                             if (data.teamLeader == 0) {
                                 return "<button class='btn btn-info btn-sm' data-panel-id='"+data.userId+"' onclick='changeLeader(this)'><i class='fa fa-check'></i></button>";
                             }

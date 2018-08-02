@@ -27,8 +27,7 @@
                 <tr>
                     <th>Client ID</th>
                     <th>User</th>
-                    <th>Start time</th>
-                    <th>End time</th>
+                    <th>Hour</th>
                     <th>Assign by</th>
                     <th>Shift</th>
                     <th>Date</th>
@@ -116,8 +115,7 @@
                 columns: [
                     { data: 'clientName', name: 'clientName' },
                     { data: 'userName', name: 'userName' },
-                    { data: 'startTime', name: 'startTime' },
-                    { data: 'endTime', name: 'endTime' },
+                    { data: 'totalHour', name: 'totalHour' },
                     { data: 'assignBy', name: 'assignBy' },
                     { data: 'shiftName', name: 'shiftName'},
                     { data: 'date', name: 'date'}

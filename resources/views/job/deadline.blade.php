@@ -468,24 +468,7 @@
                     { data: 'folderName', name: 'folderName' },
                     { data: 'quantity', name: 'quantity'},
                     { data: 'briefType', name: 'briefType'},
-                    @if(Auth::user()->userType==USER_TYPE['Qc Manager'])
-                    { "data": function(data){
-                        return '<select class="form-control" onchange="qcJobChange(this)" data-panel-id="'+data.jobstateId+'" data-job-id="'+data.jobId+'">' +
-                            '<option value="">'+data.statusName+'</option>'+
-                            '<option value="done">Done</option>'+
-                            '</select>';},
-                        "orderable": false, "searchable":false, "name":"selected_rows" },
-                    @else
-//                    { "data": function(data){
-//                        return '<select class="form-control" onchange="qcJobChange(this)" data-panel-id="'+data.jobstateId+'" data-job-id="'+data.jobId+'">' +
-//                            '<option value="">'+data.statusName+'</option>'+
-//                            '<option value="done">Done</option>'+
-//                            '</select>';},
-//                        "orderable": false, "searchable":false, "name":"selected_rows" },
                     { data: 'statusName', name: 'statusName'},
-
-                    @endif
-
 
                     @if(Auth::user()->userType==USER_TYPE['Admin']) //For Admin
                     { "data": function(data){

@@ -95,6 +95,15 @@
                             @endif
                         </div>
 
+                        <div class="form-group row">
+                            <label for="example-tel-input" class="col-sm-2 col-form-label">Feedback</label>
+                            <div class="col-sm-10">
+                                <input type="checkbox" @if($job->feedback == 1) checked @endif onclick="changeFeedbackState()">
+                            </div>
+                            {{--&nbsp;&nbsp;--}}
+
+                        </div>
+
                         {{--ADD Services--}}
 
                         <h4 align="center">Total Quantity {{$job->quantity}}</h4>
@@ -186,6 +195,22 @@
             $("#service").dashboardCodeBsMultiSelect();
 
         });
+        function changeFeedbackState() {
+//            alert('checked');
+
+            $.ajax({
+                type: 'POST',
+                url: "{!! route('job.changeFeedbackState') !!}",
+                cache: false,
+                data: {_token:"{{csrf_token()}}",jobId:"{{$job->jobId}}"},
+                success: function (data) {
+                    console.log(data);
+
+                }
+
+            });
+
+        }
 
 
         $(document).ready(function(){

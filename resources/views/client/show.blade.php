@@ -33,6 +33,7 @@
                             <th>Contact Person</th>
                             <th>Country</th>
                             <th>timezoneId</th>
+                            <th>Edit</th>
                         </tr>
                         </thead>
 
@@ -77,9 +78,23 @@
                     { data: 'contactPerson', name: 'contactPerson'},
                     { data: 'countryName', name: 'countryName'},
                     { data: 'timezoneName', name: 'timezoneName'},
+                    { "data": function(data){
+
+                                return '<a class="btn btn-default btn-sm" data-panel-id="'+data.clientId+'" onclick="editClient(this)"><i class="fa fa-edit"></i></a>'
+                                ;},
+                        "orderable": false, "searchable":false, "name":"selected_rows" },
                 ]
             });
         } );
+
+
+        function editClient(x) {
+            btn = $(x).data('panel-id');
+            var url = '{{route("client.edit", ":id") }}';
+            var newUrl=url.replace(':id', btn);
+            window.location.href = newUrl;
+
+        }
     </script>
 
 @endsection

@@ -35,14 +35,19 @@
                 </div>
 
 
-                <div class="form-group col-md-4">
-                    <label>Start Time</label>
-                    <input type="time" name="startTime" class="form-control" id="time" placeholder="start" required>
-                </div>
+                {{--<div class="form-group col-md-4">--}}
+                    {{--<label>Start Time</label>--}}
+                    {{--<input type="time" name="startTime" class="form-control" id="time" placeholder="start" required>--}}
+                {{--</div>--}}
 
+                {{--<div class="form-group col-md-4">--}}
+                    {{--<label>End Time</label>--}}
+                    {{--<input type="time" name="endTime" class="form-control" placeholder="end" required>--}}
+                {{--</div>--}}
+                {{----}}
                 <div class="form-group col-md-4">
-                    <label>End Time</label>
-                    <input type="time" name="endTime" class="form-control" placeholder="end" required>
+                    <label>Total Hour</label>
+                    <input type="number" name="totalHour" class="form-control" placeholder="hour" required>
                 </div>
 
                 <div class="form-group col-md-4">
@@ -89,8 +94,7 @@
             <tr>
                 <th>Client ID</th>
                 <th>User</th>
-                <th>Start time</th>
-                <th>End time</th>
+                <th>Hour</th>
                 <th>Assign by</th>
                 <th>Shift</th>
                 <th>Date</th>
@@ -151,8 +155,7 @@
                 columns: [
                     { data: 'clientName', name: 'clientName' },
                     { data: 'userName', name: 'userName' },
-                    { data: 'startTime', name: 'startTime' },
-                    { data: 'endTime', name: 'endTime' },
+                    { data: 'totalHour', name: 'totalHour' },
                     { data: 'assignBy', name: 'assignBy' },
                     { data: 'shiftName', name: 'shiftName'},
                     { data: 'date', name: 'date'}

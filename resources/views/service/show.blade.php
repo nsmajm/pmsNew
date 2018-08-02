@@ -35,9 +35,28 @@
     </div>
 
     <!-- End Edit Service Modal -->
+    <div style="text-align: center;" class="modal" id="assignServiceModal" >
+        <div class="modal-dialog">
+            <div class="modal-content" style="width: 600px;">
+                <!-- Modal Header -->
+                <div class="modal-header">
+                    <h4 class="modal-title">Assign Service</h4>
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                </div>
+                <!-- Modal body -->
+                <div class="modal-body" id="assignServiceModalBody">
 
+                </div>
+                <!-- Modal footer -->
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+                </div>
 
+            </div>
+        </div>
+    </div>
 
+    <!-- End Assign Service Modal -->
 
 
 
@@ -133,6 +152,7 @@
                             <th>Name</th>
                             <th>Complexity</th>
                             <th>Type</th>
+                            <th>Clients</th>
                             <th>Action</th>
                         </tr>
                         </thead>
@@ -169,13 +189,20 @@
                 },
                 columns: [
                     { data: 'serviceName', name: 'serviceName' },
+
                     { data: 'complexity', name: 'complexity' },
                     { data: 'type', name: 'type'},
+                    { data: 'clientsName', name: 'clientsName'},
+
                     { "data": function(data){
-                        return ' <button type="button" class="btn btn-info btn-sm" data-panel-id="'+data.serviceId+'" onclick="showInfo(this)"> <i class="fa fa-edit"></i> </button>';},
+                        return ' <button type="button" class="btn btn-info btn-sm" data-panel-id="'+data.serviceId+'" onclick="showInfo(this)"> <i class="fa fa-edit"></i> </button>' +
+                            ' <button type="button" class="btn btn-info btn-sm" data-panel-id="'+data.serviceId+'" onclick="assign(this)"> <i class="fa fa-exchange"></i> </button>'
+
+                            ;},
                         "orderable": false, "searchable":false, "name":"selected_rows" }
 
-                ]
+                ],
+
             });
         } );
 
@@ -194,6 +221,65 @@
                 }
 
             });
+        }
+
+
+
+
+        function showAssignModal(serviceId) {
+            // alert(serviceId);
+            $.ajax({
+                type: 'POST',
+                url: "{!! route('service.serviceAssign') !!}",
+                cache: false,
+                data: {_token: "{{csrf_token()}}",'serviceId': serviceId},
+                success: function (data) {
+                    // console.log(data);
+                    $("#assignServiceModalBody").html(data);
+                    $("#assignServiceModal").modal();
+                }
+
+            });
+
+        }
+
+        function assign(x){
+            serviceId= $(x).data('panel-id');
+            // serviceAssign
+            showAssignModal(serviceId);
+        }
+
+        function assignClientToService(clientId,serviceId) {
+
+            $.ajax({
+                type: 'POST',
+                url: "{!! route('service.assignClientToService') !!}",
+                cache: false,
+                data: {_token: "{{csrf_token()}}",'clientId': clientId,'serviceId':serviceId},
+                success: function (data) {
+                    console.log(data);
+                    showAssignModal(serviceId);
+
+                }
+
+            });
+        }
+        function deleteAssign(x,serviceId) {
+
+            $.ajax({
+                type: 'POST',
+                url: "{!! route('service.serviceAssignDelete') !!}",
+                cache: false,
+                data: {_token: "{{csrf_token()}}",'id': x},
+                success: function (data) {
+                    // console.log(data);
+                    showAssignModal(serviceId);
+
+                }
+
+            });
+
+
         }
     </script>
 

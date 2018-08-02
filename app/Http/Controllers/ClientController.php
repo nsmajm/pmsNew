@@ -77,6 +77,33 @@ class ClientController extends Controller
         return back();
     }
 
+    public function edit($id){
+        $client=Client::findOrFail($id);
+        $services=Service::select('serviceId','serviceName')->get();
+        $countries=Country::get();
+        $timezones=Timezone::get();
+
+//        return $client;
+
+        return view('client.edit',compact('client','services','countries','timezones'));
+    }
+
+    public function update(Request $r){
+        $client=Client::findOrFail($r->id);
+        $client->clientName=$r->clientName;
+        $client->companyName=$r->companyName;
+        $client->contactPerson=$r->contactPerson;
+        $client->email=$r->clientEmail;
+        $client->phoneNumber=$r->clientNumber;
+        $client->countryId=$r->country;
+        $client->timezoneId=$r->timezone;
+        $client->save();
+
+
+        Session::flash('message', 'Client Edited Successfully!');
+        return back();
+    }
+
     public function show(){
 
         return view('client.show');
