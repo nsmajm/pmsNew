@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Bank;
+use App\Billing;
 use App\JobServiceRelation;
 use Illuminate\Http\Request;
 use App\Client;
@@ -18,10 +19,9 @@ class InvoiceController extends Controller
         $clients=Client::select('clientId','clientName')
             ->get();
 
-
-
         return view('invoice.index',compact('clients'));
     }
+
 
 
     public function search(Request $r){
@@ -43,11 +43,13 @@ class InvoiceController extends Controller
             return "";
         }
 
+        $clientId=$r->clientId;
+
         $banks=Bank::select('bankId','bankName')
             ->get();
 
 
-        return view('invoice.table',compact('jobs','banks'));
+        return view('invoice.table',compact('jobs','banks','clientId'));
 
 
 
@@ -101,6 +103,7 @@ class InvoiceController extends Controller
 
 //        return $jobs;
 
+
         $tcl=TclInfo::first();
         $bank=Bank::findOrFail($r->bankId);
 
@@ -110,14 +113,26 @@ class InvoiceController extends Controller
                 ->leftJoin('country','country.countryId','client.countryId')
                 ->findOrFail($jobs[0]->clientId);
 
+
+            Job::whereIn('jobId',$r->jobId)
+                ->update(['invoiceNumber'=>$r->invoiceNumber]);
+
+            $billing=new Billing();
+            $billing->total=$r->paid;
+            $billing->bankId=$r->bankId;
+            $billing->invoice=$r->invoiceNumber;
+            $billing->bill=$r->bill;
+            $billing->statusId=11;
+            $billing->clientId=$jobs[0]->clientId;
+            $billing->save();
+
         }
 
         $pdf = PDF::loadView('invoice.pdf',compact('jobs','client','tcl','paid','paymentDate','currency','invoiceNumber','bank'));
-        $pdf->save('public/pdf/tst.pdf');
+        $pdf->save('public/invoice/'.$invoiceNumber.'.pdf');
 
-//        return $pdf->stream('invoice.pdf',array('Attachment'=>0));
 
-        return 'public/pdf/tst.pdf';
+        return $invoiceNumber;
 
     }
 
@@ -137,11 +152,6 @@ class InvoiceController extends Controller
                 ->leftJoin('country','country.countryId','client.countryId')
                 ->findOrFail($jobs[0]->clientId);
         }
-
-
-//        return $jobs;
-
-//        return view('invoice.pdf',compact('jobs','client','tcl'));
 
         $pdf = PDF::loadView('invoice.pdf',compact('jobs','client','tcl'));
         return $pdf->stream('invoice.pdf',array('Attachment'=>0));

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\EmployeeAttendence;
 use App\Group;
 use App\Shift;
 use App\Status;
@@ -18,6 +19,9 @@ use Session;
 use Image;
 
 use Hash;
+use Yajra\DataTables\DataTables;
+
+use Auth;
 
 
 
@@ -35,6 +39,7 @@ class EmployeeController extends Controller
 
        return view('employee.editEmployee',compact('employee','group','shift','status','teams'));
     }
+
     public function addNewEmployee(){
 
 
@@ -158,6 +163,61 @@ class EmployeeController extends Controller
         Session::flash('message', 'Information Updated Successfully!');
         return back();
 
+
+
+    }
+
+    //attendence
+    public function allAttendence(){
+
+//        $employeeAttendence=EmployeeAttendence::select('employeeattendence.*','user.name',DB::raw('DATE(employeeattendence.date) as attendenceDate'))
+//            ->leftJoin('employee_info','employee_info.empId','employeeattendence.insertedBy')
+//            ->leftJoin('user','employee_info.userId','user.userId')
+//            ->groupBy('attendenceDate')
+//            ->get();
+
+        $shifts=Shift::where(function ($q) {
+            $q->where('shiftName','Morning')->orWhere('shiftName','Evening');
+        })->get();
+
+        return view('attendence.allAttendence',compact('shifts'));
+
+
+
+    }
+    public function getattendenceData(Request $r){
+
+        $employeeAttendence=EmployeeAttendence::select('employeeattendence.*','user.name as EmpName','shift.shiftName')
+            ->leftJoin('user','employeeattendence.insertedBy','user.userId')
+            ->leftJoin('shift','shift.shiftId','employeeattendence.shiftId');
+
+        if($r->date){
+            $employeeAttendence=$employeeAttendence->where('date',$r->date);
+        }
+        $employeeAttendence=$employeeAttendence->get();
+
+        $datatables = Datatables::of($employeeAttendence);
+
+        return $datatables->make(true);
+
+
+
+    }
+    public function addAttendence(Request $r){
+
+        $employeeAttendence=new EmployeeAttendence();
+
+        $employeeAttendence->totalEmployee=$r->totalEmployee;
+        $employeeAttendence->present=$r->presentToday;
+        $employeeAttendence->onLeave=$r->onLeave;
+        $employeeAttendence->latePresent=$r->todayLate;
+        $employeeAttendence->date=date("Y-m-d");
+        $employeeAttendence->insertedBy=Auth::user()->userId;
+        $employeeAttendence->shiftId=$r->shiftId;
+
+        $employeeAttendence->save();
+
+        return back();
 
 
     }

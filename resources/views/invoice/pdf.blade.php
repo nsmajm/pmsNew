@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <title>PMS form design</title>
+    <title>Invoice</title>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     {{--<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">--}}
@@ -177,10 +177,10 @@
                 <td style="text-align: center; border: none;">  <h4><b>***For Bank Details Please Check Next Page***</b></h4> </td>
             </tr>
         </table>
-        
+        <p style="page-break-before: always"></p>
         <div style="text-align: center;">Bank Details (Tech Cloud Ltd.)<br>
             ----------------------------------------------  <br>
-            
+
             <img src="{{url('public/bankImage/').'/'.$bank->image}}" style="width: 80%;">
         </div>
         

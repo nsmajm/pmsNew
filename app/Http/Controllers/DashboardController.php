@@ -1,6 +1,7 @@
 <?php
 namespace App\Http\Controllers;
 use App\Billing;
+use App\EmployeeAttendence;
 use App\Group;
 use App\JobServiceRelation;
 use App\OvertimeAssign;
@@ -320,6 +321,7 @@ class DashboardController extends Controller
 //
 //
 //        }
+
         //  return $fileProcessedPerTeam;
 
         $complex = Service::select('complexity')
@@ -392,6 +394,21 @@ class DashboardController extends Controller
 
      //  return view('dashboard.test',compact('processMoirningBasic','processMoirningMedium','processMoirningAdvance','processMoirningComplex','processEveningBasic','processEveningMedium','processEveningAdvance','processEveningComplex'));
 
-        return view('dashboard.admin',compact('processMoirningBasic','processMoirningMedium','processMoirningAdvance','processMoirningComplex','processEveningBasic','processEveningMedium','processEveningAdvance','processEveningComplex','jobRecievedLastDay','jobInformation','fileProcessedPerTeam','team','jobServiceMorning','jobServiceEvening','jobServiceNight','overTimeInformation'));
+       // return view('dashboard.admin',compact('processMoirningBasic','processMoirningMedium','processMoirningAdvance','processMoirningComplex','processEveningBasic','processEveningMedium','processEveningAdvance','processEveningComplex','jobRecievedLastDay','jobInformation','fileProcessedPerTeam','team','jobServiceMorning','jobServiceEvening','jobServiceNight','overTimeInformation'));
+
+
+        $employeeAttendence=EmployeeAttendence::where('date',date('Y-m-d'))
+            ->where(function ($q) {
+                $q->where('shift.shiftName','Morning')->orWhere('shift.shiftName','Evening');
+            })
+            ->leftJoin('shift','shift.shiftId','employeeattendence.shiftId')
+
+            ->groupBy('shift.shiftName')
+            ->get();
+
+       //   return $employeeAttendence;
+        return view('dashboard.admin',compact('processMoirningBasic','processMoirningMedium','processMoirningAdvance','processMoirningComplex','processEveningBasic','processEveningMedium','processEveningAdvance','processEveningComplex','jobRecievedLastDay','jobInformation','fileProcessedPerTeam','team','jobServiceMorning','jobServiceEvening','jobServiceNight','overTimeInformation','jobRecievedLastDay','jobInformation','fileProcessedPerTeam','team','jobServiceMorning','jobServiceEvening',
+            'employeeAttendence','jobServiceNight','overTimeInformation'));
+
     }
 }

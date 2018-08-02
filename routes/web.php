@@ -181,6 +181,8 @@ Route::post('account/password','HomeController@changePassword')->name('account.c
 //Reporting
 Route::get('/report/performance','ReportController@performance')->name('report.performance');
 Route::get('/report/all','ReportController@all')->name('report.all');
+Route::get('/report/invoice','ReportController@invoice')->name('report.invoice');
+Route::post('/report/getInvoice','ReportController@getInvoice')->name('report.getInvoice');
 
 Route::post('/report/fileCountDays','ReportController@fileCountDays')->name('report.fileCountDays');
 Route::post('/report/fileProcessShift','ReportController@fileProcessShift')->name('report.fileProcessShift');
@@ -216,7 +218,14 @@ Route::post('time/late','TimeController@getLateData')->name('time.getLateData');
 Route::post('time/submitLate','TimeController@submitLate')->name('time.submitLate');
 Route::get('time','TimeController@time')->name('overtime.late');
 
+
 //tech cloud
 Route::get('Tech-Cloud/Info','tclController@allInfo')->name('tcl.tclInfo');
 Route::post('Tech-Cloud/save-Info','tclController@updateTclInfo')->name('tcl.saveInfo');
 Route::post('Tech-Cloud/add-Info','tclController@insertTclInfo')->name('tcl.addInfo');
+
+//Employee Attendence
+Route::get('Employee/Attendence','EmployeeController@allAttendence')->name('employee.attendence');
+Route::post('Employee/Info','EmployeeController@getattendenceData')->name('Employee.getattendenceData');
+
+Route::post('Employee/add-Attendence','EmployeeController@addAttendence')->name('employee.addAttendence');
