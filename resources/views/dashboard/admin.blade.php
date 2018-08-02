@@ -9,26 +9,30 @@
 
                 <div class="col-md-4">
                     <div class="card">
-                        <div class="card-header">Employee info / Morning shift ( real time)</div>
+                        <div class="card-header">Employee info / Morning shift</div>
                         <div class="card-body">
                             <table class="table table-bordered" style="font-weight: bold">
                                 <tbody>
+                                @foreach($employeeAttendence as $attendence)
+                                    @if($attendence->shiftName=='Morning')
                                 <tr>
                                     <td>Total Employee</td>
-                                    <td>95</td>
+                                    <td>{{$attendence->totalEmployee}}</td>
                                 </tr>
                                 <tr>
                                     <td>Present Today</td>
-                                    <td>90</td>
+                                    <td>{{$attendence->present}}</td>
                                 </tr>
                                 <tr>
                                     <td>On Leave</td>
-                                    <td>5</td>
+                                    <td>{{$attendence->onLeave}}</td>
                                 </tr>
                                 <tr>
                                     <td>Late present</td>
-                                    <td>10</td>
+                                    <td>{{$attendence->latePresent}}</td>
                                 </tr>
+                                @endif
+                                    @endforeach
                                 </tbody>
                             </table>
                         </div>
@@ -37,26 +41,30 @@
 
                 <div class="col-md-4">
                     <div class="card">
-                        <div class="card-header">Employee info / Evening shift ( real time)</div>
+                        <div class="card-header">Employee info / Evening shift</div>
                         <div class="card-body">
                             <table class="table table-bordered" style="font-weight: bold">
                                 <tbody>
-                                <tr>
-                                    <td>Total Employee</td>
-                                    <td>95</td>
-                                </tr>
-                                <tr>
-                                    <td>Present Today</td>
-                                    <td>90</td>
-                                </tr>
-                                <tr>
-                                    <td>On Leave</td>
-                                    <td>5</td>
-                                </tr>
-                                <tr>
-                                    <td>Late present</td>
-                                    <td>10</td>
-                                </tr>
+                                @foreach($employeeAttendence as $attendence)
+                                    @if($attendence->shiftName=='Evening')
+                                        <tr>
+                                            <td>Total Employee</td>
+                                            <td>{{$attendence->totalEmployee}}</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Present Today</td>
+                                            <td>{{$attendence->present}}</td>
+                                        </tr>
+                                        <tr>
+                                            <td>On Leave</td>
+                                            <td>{{$attendence->onLeave}}</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Late present</td>
+                                            <td>{{$attendence->latePresent}}</td>
+                                        </tr>
+                                    @endif
+                                @endforeach
                                 </tbody>
                             </table>
                         </div>
