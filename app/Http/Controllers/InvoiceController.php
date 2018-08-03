@@ -22,6 +22,13 @@ class InvoiceController extends Controller
         return view('invoice.index',compact('clients'));
     }
 
+    public function changeInvoiceStatus(Request $r){
+        $billing=Billing::findOrFail($r->id);
+        $billing->statusId=$r->statusId;
+        $billing->save();
+//        return $r;
+    }
+
 
 
     public function search(Request $r){

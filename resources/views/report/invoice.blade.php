@@ -57,18 +57,22 @@
         function getClientInvoice() {
             clientId=$('#client').val();
 
+            getAllInv(clientId);
+
+        }
+
+        function getAllInv(clientId) {
             $.ajax({
-            type: 'POST',
-            url: "{!! route('report.getInvoice') !!}",
-            cache: false,
-            data: {_token: "{{csrf_token()}}",'clientId': clientId},
-            success: function (data) {
-            $("#invoiceBody").html(data);
-//            console.log(data);
-            }
+                type: 'POST',
+                url: "{!! route('report.getInvoice') !!}",
+                cache: false,
+                data: {_token: "{{csrf_token()}}",'clientId': clientId},
+                success: function (data) {
+                    $("#invoiceBody").html(data);
+
+                }
 
             });
-
         }
     </script>
 @endsection

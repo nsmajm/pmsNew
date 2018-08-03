@@ -6,6 +6,7 @@ use App\Billing;
 use App\Client;
 use App\Jobassign;
 use App\Jobstate;
+use App\Status;
 use App\User;
 use Illuminate\Http\Request;
 use Carbon\Carbon;
@@ -31,13 +32,15 @@ class ReportController extends Controller
     }
 
     public function getInvoice(Request $r){
+        $status=Status::where('statusType','billing')
+            ->get();
 
         $billing=Billing::where('clientId',$r->clientId)
             ->leftJoin('status','status.statusId','billing.statusId')
             ->orderBy('billing.billingId','desc')
             ->get();
 
-        return view('report.getInvoice',compact('billing'));
+        return view('report.getInvoice',compact('billing','status'));
     }
 
 

@@ -32,7 +32,7 @@
                         <li><a href="{{route('report.all')}}">Report</a></li>
                         <li><a href="{{route('report.performance')}}">Performance</a></li>
                         {{--<li><a href="{{route('report.invoice')}}">Invoice</a></li>--}}
-                      
+
 
 
                     </ul>
@@ -40,8 +40,7 @@
                 @endif
 
                 @if(Auth::user()->userType==USER_TYPE['Admin'] || Auth::user()->userType==USER_TYPE['Supervisor'] || Auth::user()->userType==USER_TYPE['Production Manager'] || Auth::user()->userType==USER_TYPE['Processing Manager'] || Auth::user()->userType==USER_TYPE['Qc Manager'])
-
-
+                    
                 <li class="has-submenu">
                     <a href="#"><i class="ti-notepad"></i>Brief</a>
                     <ul class="submenu">
