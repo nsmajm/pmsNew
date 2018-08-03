@@ -179,6 +179,12 @@
             return this.value; // $(this).val()
         }).get();
 
+        uniqueArray = jobId.filter(function(item, pos, self) {
+            return self.indexOf(item) == pos;
+        });
+        jobId=uniqueArray;
+
+
         var bill="{{$grandTotal}}";
 
         var paymentDate=$('#paymentDate').val();
@@ -195,10 +201,11 @@
             alert('please insert payment');
             return false;
         }
-        if(bankId==""){
+        if(!$("input:radio[name='optradio']").is(":checked")) {
             alert('please select bank');
             return false;
         }
+
 
         if(invoiceNumber==""){
             alert('invoice number in empty');

@@ -57,10 +57,8 @@
                     <a href="#"><i class="ti-money"></i>Billing</a>
                     <ul class="submenu">
                         <li><a href="{{route('bill.addRate')}}">Add Bill</a></li>
-                        {{--<li><a href="advanced-highlight.html">Edit Bill</a></li>--}}
                         <li><a href="{{route('report.invoice')}}">Bill Summery</a></li>
                         <li><a href="{{route('invoice.index')}}">Invoice</a></li>
-                        <li><a href="advanced-nestable.html">Bill Copy</a></li>
 
                     </ul>
                 </li>

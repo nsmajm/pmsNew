@@ -21,6 +21,7 @@ class BillController extends Controller
             $jobs=Job::select('job.jobId','client.clientName','file.folderName','job.quantity','job.created_at')
                 ->where('statusId',$status->statusId)
                 ->where('fileCheck','!=',null)
+                ->where('job.invoiceNumber',null)
                 ->leftJoin('client','client.clientId','job.clientId')
                 ->leftJoin('file','file.jobId','job.jobId')
                 ->get();

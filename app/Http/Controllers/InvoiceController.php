@@ -11,6 +11,7 @@ use App\Job;
 use App\File;
 use App\Invoice;
 use App\TclInfo;
+use App\BillJobRelation;
 use PDF;
 use DB;
 class InvoiceController extends Controller
@@ -26,7 +27,6 @@ class InvoiceController extends Controller
         $billing=Billing::findOrFail($r->id);
         $billing->statusId=$r->statusId;
         $billing->save();
-//        return $r;
     }
 
 
@@ -120,7 +120,6 @@ class InvoiceController extends Controller
                 ->leftJoin('country','country.countryId','client.countryId')
                 ->findOrFail($jobs[0]->clientId);
 
-
             Job::whereIn('jobId',$r->jobId)
                 ->update(['invoiceNumber'=>$r->invoiceNumber]);
 
@@ -132,6 +131,13 @@ class InvoiceController extends Controller
             $billing->statusId=11;
             $billing->clientId=$jobs[0]->clientId;
             $billing->save();
+
+            foreach ($r->jobId as $jobId){
+                $billJob=new BillJobRelation();
+                $billJob->jobId=$jobId;
+                $billJob->billingId=$billing->billingId;
+                $billJob->save();
+            }
 
         }
 
