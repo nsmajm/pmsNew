@@ -410,7 +410,11 @@ class ReportController extends Controller
         $end = Carbon::parse($month)->endOfMonth()->format('Y-m-d');
         $endDate = Carbon::parse($month)->endOfMonth()->format('d');
 
-        $employee=User::select('userId','name')->where('userType',USER_TYPE['User'])
+        $employee=User::select('userId','name')
+            ->where('userType',USER_TYPE['User'])
+            ->orWhere('userType',USER_TYPE['Production Manager'])
+            ->orWhere('userType',USER_TYPE['Processing Manager'])
+            ->orWhere('userType',USER_TYPE['Qc Manager'])
             ->get();
 
         $jobs=Jobassign::select('user.userId',DB::raw('sum(jobassign.quantity) as total'),DB::raw('Day(jobassign.assignDate) as day'))
@@ -428,7 +432,11 @@ class ReportController extends Controller
         $Y=date('Y');
         $start=$Y.'-01-01';
         $end=$Y.'-12-31';
-        $employee=User::select('userId','name')->where('userType',USER_TYPE['User'])
+        $employee=User::select('userId','name')
+            ->where('userType',USER_TYPE['User'])
+            ->orWhere('userType',USER_TYPE['Production Manager'])
+            ->orWhere('userType',USER_TYPE['Processing Manager'])
+            ->orWhere('userType',USER_TYPE['Qc Manager'])
             ->get();
 
         $jobs=Jobassign::select('user.userId',DB::raw('sum(jobassign.quantity) as total'),DB::raw('Month(jobassign.assignDate) as month'))

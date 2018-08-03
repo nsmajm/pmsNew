@@ -19,7 +19,9 @@ $totalReceive=0;
                 <td><a href="{{url('public/invoice/'.$bil->invoice.'.pdf')}}" download>{{$bil->invoice}}</a></td>
                 <td>{{$bil->bill}}</td>
                 @php($totalBill+=$bil->bill)
-                <td>{{$bil->total}}</td>
+                {{--<td>{{$bil->total}}</td>--}}
+                <td data-panel-id="{{$bil->billingId}}" data-client-id="{{$bil->clientId}}"  onclick="listenForDoubleClick(this);" onblur="this.contentEditable=false;" onfocusout="changeTotal(this)">{{$bil->total}}</td>
+
                 @if($bil->statusId==12)
                 @php($totalReceive+=$bil->total)
                 @endif
@@ -50,6 +52,16 @@ $totalReceive=0;
     </table>
 </div>
 <script>
+    function listenForDoubleClick(element) {
+
+        element.contentEditable = true;
+        setTimeout(function() {
+            if (document.activeElement !== element) {
+                element.contentEditable = false;
+            }
+        }, 300);
+
+    }
     function changeStatus(x) {
         var id=$(x).data('panel-id');
         var statusId=$(x).val();
@@ -62,8 +74,6 @@ $totalReceive=0;
             cache: false,
             data: {_token: "{{csrf_token()}}",'id': id,'statusId':statusId},
             success: function (data) {
-
-//            console.log(data);
                 getAllInv(clientId);
             }
 
@@ -71,5 +81,23 @@ $totalReceive=0;
 
     }
 
+    function changeTotal(x) {
+        var id=$(x).data('panel-id');
+        var value=$(x).html();
+        var clientId=$(x).data('client-id');
+
+        console.log(value);
+        {{--$.ajax({--}}
+            {{--type: 'POST',--}}
+            {{--url: "{!! route('invoice.changeInvoiceStatus') !!}",--}}
+            {{--cache: false,--}}
+            {{--data: {_token: "{{csrf_token()}}",'id': id,'statusId':statusId},--}}
+            {{--success: function (data) {--}}
+                {{--getAllInv(clientId);--}}
+            {{--}--}}
+
+        {{--});--}}
+
+    }
 
 </script>
