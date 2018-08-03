@@ -52,22 +52,7 @@
 
 
                         <tbody>
-                        {{--<tr>--}}
-                            {{--<td>Tiger Nixon</td>--}}
-                            {{--<td>Manager</td>--}}
-                            {{--<td>1/6/18</td>--}}
-                            {{--<td>6/6/18</td>--}}
-                            {{--<td>20/5/18</td>--}}
-                            {{--<td>fever</td>--}}
-                            {{--<td>dummy text</td>--}}
-                            {{--<td>--}}
-                                {{--<select class="form-control">--}}
-                                    {{--<option >approved</option>--}}
-                                    {{--<option selected>pending</option>--}}
-                                {{--</select>--}}
-                            {{--</td>--}}
 
-                        {{--</tr>--}}
 
                         </tbody>
                     </table>
@@ -98,14 +83,13 @@
                 serverSide: true,
                 Filter: true,
                 stateSave: true,
+                "aaSorting" : [[]],
                 type:"POST",
                 "ajax":{
                     "url": "{!! route('leave.getLeaveRequestData') !!}",
                     "type": "POST",
                     data:function (d){
                         d._token="{{csrf_token()}}";
-//                        d.date=$('#date1').val();
-//                        d.clientId=$('#clientId').val();
                         d.statusId=$('#statusId').val();
                     },
                 },

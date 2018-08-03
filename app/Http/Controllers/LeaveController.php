@@ -30,7 +30,7 @@ class LeaveController extends Controller
             $leaves=$leaves->where('leave.statusId',$r->statusId);
         }
 
-        $leaves=$leaves->get();
+        $leaves=$leaves->orderBy('leaveId','desc')->get();
         $datatables = Datatables::of($leaves);
         return $datatables->make(true);
 
