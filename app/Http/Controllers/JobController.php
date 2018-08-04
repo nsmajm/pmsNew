@@ -169,11 +169,22 @@ class JobController extends Controller
         }
 
         $job->other=$r->other;
+
+        if(date("H") <12){
+
+            $job->created_at=Carbon::yesterday()->format('Y-m-d H:i:s');
+
+        }
+//        else{
+//            return  Carbon::yesterday()->format('Y-m-d H:i:s');
+//            return "more than 12";
+//        }
         $job->save();
         $jobState=new Jobstate();
         $jobState->jobId=$job->jobId;
         $jobState->statusId=$status->statusId;
         $jobState->teamId=1;
+
         //Converting str to date
         $time = strtotime($r->submissionDate);
         $newformat = date('Y-m-d',$time);

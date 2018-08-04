@@ -131,7 +131,7 @@ class InvoiceController extends Controller
 
 
         if(!$jobs->isEmpty()){
-            $client=Client::select('companyName','email','phoneNumber','countryName')
+            $client=Client::select('companyName','address','email','phoneNumber','countryName')
                 ->leftJoin('country','country.countryId','client.countryId')
                 ->findOrFail($jobs[0]->clientId);
 
@@ -143,7 +143,12 @@ class InvoiceController extends Controller
             $billing->bankId=$r->bankId;
             $billing->invoice=$r->invoiceNumber;
             $billing->bill=$r->bill;
-            $billing->statusId=11;
+            if($r->bill == $r->paid){
+                $billing->statusId=12;
+            }
+            else{
+                $billing->statusId=11;
+            }
             $billing->clientId=$jobs[0]->clientId;
             $billing->save();
 
@@ -156,8 +161,10 @@ class InvoiceController extends Controller
 
         }
 
+
         $pdf = PDF::loadView('invoice.pdf',compact('jobs','client','tcl','paid','paymentDate','currency','invoiceNumber','bank'));
         $pdf->save('public/invoice/'.$invoiceNumber.'.pdf');
+
 
 
         return $invoiceNumber;
@@ -180,8 +187,15 @@ class InvoiceController extends Controller
                 ->leftJoin('country','country.countryId','client.countryId')
                 ->findOrFail($jobs[0]->clientId);
         }
+        $invoiceNumber=123;
+        $paymentDate="2018-08-01";
+        $currency="$";
+        $paid=500;
+        $bank=Bank::findOrFail(1);
 
-        $pdf = PDF::loadView('invoice.pdf',compact('jobs','client','tcl'));
+        return view('invoice.pdf',compact('jobs','client','tcl','invoiceNumber','paymentDate','currency','paid','bank'));
+
+        $pdf = PDF::loadView('invoice.pdf',compact('jobs','client','tcl','invoiceNumber','paymentDate','currency','paid','bank'));
         return $pdf->stream('invoice.pdf',array('Attachment'=>0));
 
 

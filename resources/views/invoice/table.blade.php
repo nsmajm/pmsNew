@@ -157,7 +157,7 @@
     $(function() {
 
         $('#paymentDate').datepicker({
-            format:'yyyy-m-d'
+            format:'yyyy-mm-dd'
         });
         checkDue();
 

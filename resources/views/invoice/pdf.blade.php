@@ -70,7 +70,6 @@
 
         input {
             border: medium none;
-
             padding: 0;
         }
     </style>
@@ -101,30 +100,42 @@
 
             <tr>
                 <td style="width: 85%; border: none;">
-                    <h3 style="color: #0476BD">{{$tcl->companyTitle}}</h3>
+                    <h4 style="color: #0476BD">{{$tcl->companyTitle}}</h4>
                     <p>{{$tcl->companyAddress}} <br>
                         P : {{$tcl->companyPhone1}}, {{$tcl->companyPhone2}} <br>
                         E : {{$tcl->companyEmail}}
                     </p>
                 </td>
 
-                <td style="border: none;"> <img src="{{url('public/logo/logo.png')}}" alt=""> </td>
+                <td style="border: none;width: 15%;"> <img style="float: right;" src="{{url('public/logo/logo.png')}}" alt=""> </td>
             </tr>
 
-            <tr>
-                <td style="width: 75%; border: none;">
+            <tr style="width: 100%">
+                <td style="width:60%; border: none;">
                     <h3 style="color: #0476BD">{{$client->companyName}}</h3>
-                    <p>{{$client->countryName}}<br>
+                    <p>{{$client->address}}<br>{{$client->countryName}}<br>
                         E: {{$client->email}} <br>
                         P: {{$client->phoneNumber}}
 
                     </p>
                 </td>
+                <td style="width: 40%;border: none;">
+                    <table style="text-align: center;padding: 0;margin: 0"width="100%">
 
-                <td style="width: 25%;border: none;">
-                    <p><small> <b>Invoice Number: {{$invoiceNumber}}</b> </small> </p>
-                    <p><small> <b>Invoice Date: {{date('Y-m-d')}}</b> </small> </p>
-                    <p><small> <b>Payment Date: {{$paymentDate}}</b> </small> </p>
+                        <tr style="text-align: center;padding: 0;margin: 0">
+                            <td style="text-align: center;padding: 0;margin: 0">Invoice Number:</td>
+                            <td style="text-align: center;padding: 0;margin: 0"><b>{{$invoiceNumber}}</b></td>
+                        </tr>
+                        <tr style="text-align: center;padding: 0;margin: 0">
+                            <td style="text-align: center;padding: 0;margin: 0">Invoice Date: </td>
+                            <td style="text-align: center;padding: 0;margin: 0">{{date('Y-m-d')}}</td>
+                        </tr>
+                        <tr style="text-align: center;padding: 0;margin: 0">
+                            <td style="text-align: center;padding: 0;margin: 0">Payment Date:</td>
+                            <td style="text-align: center;padding: 0;margin: 0">{{$paymentDate}}</td>
+                        </tr>
+                    </table>
+
                 </td>
             </tr>
 
