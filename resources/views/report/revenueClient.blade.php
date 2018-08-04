@@ -25,7 +25,8 @@
             <td>
                 @foreach($bills as $bill)
                     @if($bill->clientId == $client->clientId && $bill->month==1)
-                        {{$bill->total}}
+                        <span @if($bill->statusName=="pending") style="color: red; font-weight: bold;" @endif>  {{$bill->total}}</span>
+
                         @php($temp+=$bill->total)
                         @break
                     @endif
@@ -34,7 +35,8 @@
             <td>
                 @foreach($bills as $bill)
                     @if($bill->clientId == $client->clientId && $bill->month==2)
-                        {{$bill->total}}
+                        <span @if($bill->statusName=="pending") style="color: red; font-weight: bold;" @endif>  {{$bill->total}}</span>
+
                         @php($temp+=$bill->total)
                         @break
                     @endif
@@ -43,7 +45,8 @@
             <td>
                 @foreach($bills as $bill)
                     @if($bill->clientId == $client->clientId && $bill->month==3)
-                        {{$bill->total}}
+                        <span @if($bill->statusName=="pending") style="color: red; font-weight: bold;" @endif>  {{$bill->total}}</span>
+
                         @php($temp+=$bill->total)
                         @break
                     @endif
@@ -52,7 +55,8 @@
             <td>
                 @foreach($bills as $bill)
                     @if($bill->clientId == $client->clientId && $bill->month==4)
-                        {{$bill->total}}
+                        <span @if($bill->statusName=="pending") style="color: red; font-weight: bold;" @endif>  {{$bill->total}}</span>
+
                         @php($temp+=$bill->total)
                         @break
                     @endif
@@ -61,7 +65,8 @@
             <td>
                 @foreach($bills as $bill)
                     @if($bill->clientId == $client->clientId && $bill->month==5)
-                        {{$bill->total}}
+                        <span @if($bill->statusName=="pending") style="color: red; font-weight: bold;" @endif>  {{$bill->total}}</span>
+
                         @php($temp+=$bill->total)
                         @break
                     @endif
@@ -70,7 +75,8 @@
             <td>
                 @foreach($bills as $bill)
                     @if($bill->clientId == $client->clientId && $bill->month==6)
-                        {{$bill->total}}
+                        <span @if($bill->statusName=="pending") style="color: red; font-weight: bold;" @endif>  {{$bill->total}}</span>
+
                         @php($temp+=$bill->total)
                         @break
                     @endif
@@ -79,7 +85,8 @@
             <td>
                 @foreach($bills as $bill)
                     @if($bill->clientId == $client->clientId && $bill->month==7)
-                        {{$bill->total}}
+                        <span @if($bill->statusName=="pending") style="color: red; font-weight: bold;" @endif>  {{$bill->total}}</span>
+
                         @php($temp+=$bill->total)
                         @break
                     @endif
@@ -88,7 +95,7 @@
             <td>
                 @foreach($bills as $bill)
                     @if($bill->clientId == $client->clientId && $bill->month==8)
-                        {{$bill->total}}
+                        <span @if($bill->statusName=="pending") style="color: red; font-weight: bold;" @endif>  {{$bill->total}}</span>
                         @php($temp+=$bill->total)
                         @break
                     @endif
@@ -97,7 +104,8 @@
             <td>
                 @foreach($bills as $bill)
                     @if($bill->clientId == $client->clientId && $bill->month==9)
-                        {{$bill->total}}
+                        <span @if($bill->statusName=="pending") style="color: red; font-weight: bold;" @endif>  {{$bill->total}}</span>
+
                         @php($temp+=$bill->total)
                         @break
                     @endif
@@ -106,7 +114,8 @@
             <td>
                 @foreach($bills as $bill)
                     @if($bill->clientId == $client->clientId && $bill->month==10)
-                        {{$bill->total}}
+                        <span @if($bill->statusName=="pending") style="color: red; font-weight: bold;" @endif>  {{$bill->total}}</span>
+
                         @php($temp+=$bill->total)
                         @break
                     @endif
@@ -115,7 +124,8 @@
             <td>
                 @foreach($bills as $bill)
                     @if($bill->clientId == $client->clientId && $bill->month==11)
-                        {{$bill->total}}
+                        <span @if($bill->statusName=="pending") style="color: red; font-weight: bold;" @endif>  {{$bill->total}}</span>
+
                         @php($temp+=$bill->total)
                         @break
                     @endif
@@ -124,7 +134,7 @@
             <td>
                 @foreach($bills as $bill)
                     @if($bill->clientId == $client->clientId && $bill->month==12)
-                        {{$bill->total}}
+                        <span @if($bill->statusName=="pending") style="color: red; font-weight: bold;" @endif>  {{$bill->total}}</span>
                         @php($temp+=$bill->total)
                         @break
                     @endif

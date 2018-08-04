@@ -365,9 +365,10 @@ class ReportController extends Controller
         $start=$Y.'-01-01';
         $end=$Y.'-12-31';
 
-        $bills=Billing::select('client.clientId',DB::raw('Month(billing.created_at) as month'),DB::raw('sum(billing.total) as total'))
+        $bills=Billing::select('client.clientId','status.statusName',DB::raw('Month(billing.created_at) as month'),DB::raw('sum(billing.total) as total'))
 //            ->leftJoin('job','job.jobId','billing.jobId')
             ->leftJoin('client','client.clientId','billing.clientId')
+            ->leftJoin('status','status.statusId','billing.statusId')
             ->groupBy(DB::raw('month(billing.created_at)'))
             ->groupBy('client.clientId')
             ->whereBetween(DB::raw('date(billing.created_at)'),array([$start,$end]))
@@ -419,6 +420,7 @@ class ReportController extends Controller
 
         $jobs=Jobassign::select('user.userId',DB::raw('sum(jobassign.quantity) as total'),DB::raw('Day(jobassign.assignDate) as day'))
             ->leftJoin('user','user.userId','jobassign.assignTo')
+            ->where('jobassign.leaveDate','!=',null)
             ->whereBetween(DB::raw('date(jobassign.assignDate)'),array([$start,$end]))
             ->groupBy('user.userId')
             ->groupBy(DB::raw('Day(jobassign.assignDate)'))
@@ -441,6 +443,7 @@ class ReportController extends Controller
 
         $jobs=Jobassign::select('user.userId',DB::raw('sum(jobassign.quantity) as total'),DB::raw('Month(jobassign.assignDate) as month'))
             ->leftJoin('user','user.userId','jobassign.assignTo')
+            ->where('jobassign.leaveDate','!=',null)
             ->whereBetween(DB::raw('date(jobassign.assignDate)'),array([$start,$end]))
             ->groupBy('user.userId')
             ->groupBy(DB::raw('Month(jobassign.assignDate)'))

@@ -29,9 +29,10 @@
                 <li class="has-submenu">
                     <a href="#"><i class="ti-bookmark-alt"></i>Reporting</a>
                     <ul class="submenu">
+                        @if(Auth::user()->userType==USER_TYPE["Admin"])
                         <li><a href="{{route('report.all')}}">Report</a></li>
+                        @endif
                         <li><a href="{{route('report.performance')}}">Performance</a></li>
-                        {{--<li><a href="{{route('report.invoice')}}">Invoice</a></li>--}}
 
 
 

@@ -254,6 +254,7 @@ class JobController extends Controller
 
 
         $jobs=$jobs->where('job.statusId',$status->statusId)
+            ->orWhere('job.feedback','!=',null)
             ->leftJoin('file','file.jobId','job.jobId')
             ->leftJoin('client','client.clientId','job.clientId')
             ->get();;

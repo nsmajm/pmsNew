@@ -12,9 +12,9 @@
 @section('content')
 
     <!--  Comment  Modal -->
-    <div style="text-align: center;" class="modal " id="showAssignDetailsModal" >
-        <div class="modal-dialog">
-            <div class="modal-content" style="width:1000px;">
+    <div  class="modal" id="showAssignDetailsModal" >
+        <div class="modal-dialog" style=" max-width: 1000px;">
+            <div class="modal-content" >
                 <!-- Modal Header -->
                 <div class="modal-header">
                     <h4 class="modal-title">Assign History</h4>

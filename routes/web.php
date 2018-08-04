@@ -144,6 +144,7 @@ Route::post('invoice/generate','InvoiceController@generate')->name('invoice.gene
 Route::get('invoice/pdf','InvoiceController@pdf');
 Route::post('invoice/edit','InvoiceController@edit')->name('invoice.edit');
 Route::post('invoice/changeInvoiceStatus','InvoiceController@changeInvoiceStatus')->name('invoice.changeInvoiceStatus');
+Route::post('invoice/changeInvoiceTotal','InvoiceController@changeInvoiceTotal')->name('invoice.changeInvoiceTotal');
 
 //Group
 Route::get('group','GroupController@index')->name('group.index');

@@ -19,12 +19,15 @@ $totalReceive=0;
                 <td><a href="{{url('public/invoice/'.$bil->invoice.'.pdf')}}" download>{{$bil->invoice}}</a></td>
                 <td>{{$bil->bill}}</td>
                 @php($totalBill+=$bil->bill)
-                {{--<td>{{$bil->total}}</td>--}}
-                <td data-panel-id="{{$bil->billingId}}" data-client-id="{{$bil->clientId}}"  onclick="listenForDoubleClick(this);" onblur="this.contentEditable=false;" onfocusout="changeTotal(this)">{{$bil->total}}</td>
 
-                @if($bil->statusId==12)
-                @php($totalReceive+=$bil->total)
+                @if(Auth::user()->userType==USER_TYPE['Accounts'])
+                <td data-panel-id="{{$bil->billingId}}" data-client-id="{{$bil->clientId}}"  onclick="listenForDoubleClick(this);" onblur="this.contentEditable=false;" onfocusout="changeTotal(this)">{{$bil->total}}</td>
+                @else
+                    <td>{{$bil->total}}</td>
                 @endif
+
+                @php($totalReceive+=$bil->total)
+
                 <td>{{$bil->created_at}}</td>
                 @if(Auth::user()->userType==USER_TYPE['Accounts'])
                     <td>
@@ -87,16 +90,17 @@ $totalReceive=0;
         var clientId=$(x).data('client-id');
 
         console.log(value);
-        {{--$.ajax({--}}
-            {{--type: 'POST',--}}
-            {{--url: "{!! route('invoice.changeInvoiceStatus') !!}",--}}
-            {{--cache: false,--}}
-            {{--data: {_token: "{{csrf_token()}}",'id': id,'statusId':statusId},--}}
-            {{--success: function (data) {--}}
-                {{--getAllInv(clientId);--}}
-            {{--}--}}
+        $.ajax({
+            type: 'POST',
+            url: "{!! route('invoice.changeInvoiceTotal') !!}",
+            cache: false,
+            data: {_token: "{{csrf_token()}}",'id': id,'value':value},
+            success: function (data) {
+//                console.log(data);
+                getAllInv(clientId);
+            }
 
-        {{--});--}}
+        });
 
     }
 
