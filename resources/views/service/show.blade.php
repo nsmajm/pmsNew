@@ -89,7 +89,7 @@
                                     <button type="button" class="close" data-dismiss="modal">&times;</button>
                                 </div>
                                 <!-- Modal body -->
-                                <div class="modal-body">
+                                <div class="modal-body" >
                                     <form method="post" action="{{route('service.insert')}}">
                                         {{csrf_field()}}
                                         <div class="form-group row">
@@ -175,6 +175,20 @@
     <!-- Buttons examples -->
     <script src="{{url('public/assets/plugins/datatables/dataTables.buttons.min.js')}}"></script>
     <script>
+        $( '#addServiceModal' )
+            .on('hide', function() {
+                //console.log('hide');
+                
+            })
+            .on('hidden', function(){
+               // console.log('hidden');
+            })
+            .on('show', function() {
+               // console.log('show');
+            })
+            .on('shown', function(){
+               // console.log('shown' )
+            });
         $(document).ready( function () {
             $('#datatable').DataTable({
                 processing: true,
