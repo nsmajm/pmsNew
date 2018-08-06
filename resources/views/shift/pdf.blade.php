@@ -127,5 +127,5 @@
 </div>
 </body>
 </html>
-<script src="{{url('public/assets/js/bootstrap.min.js')}}"></script>
+{{--<script src="{{url('public/assets/js/bootstrap.min.js')}}"></script>--}}
 

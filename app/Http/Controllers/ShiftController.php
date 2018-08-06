@@ -38,8 +38,8 @@ class ShiftController extends Controller
 
 
     public function create(){
-        $shifts=Shift::get();
-        $teams=Team::get();
+        $shifts=Shift::where('shiftName','!=','Night')->get();
+//        $teams=Team::get();
         $groups=Group::get();
 
 
@@ -50,7 +50,6 @@ class ShiftController extends Controller
 
 
     public function assign(Request $r){
-
 
 
         $from=$r->fromDate;
@@ -193,9 +192,9 @@ class ShiftController extends Controller
         //End Morning Fixed
 
         //Morning
-        $morningProductionTeam1=$r['Morning__production1'];
-        $morningProductionTeam2=$r['Morning__production2'];
-        $morningProductionTeam3=$r['Morning__production3'];
+        $morningProductionTeam1=$r['Morning_production1'];
+        $morningProductionTeam2=$r['Morning_production2'];
+        $morningProductionTeam3=$r['Morning_production3'];
 
         if($morningProductionTeam1 !=null){
             $shiftAssign=new Shiftassign();
@@ -226,9 +225,9 @@ class ShiftController extends Controller
             $shiftAssign->save();
         }
 
-        $morningProcessingTeam1=$r['Morning__processing1'];
-        $morningProcessingTeam2=$r['Morning__processing2'];
-        $morningProcessingTeam3=$r['Morning__processing3'];
+        $morningProcessingTeam1=$r['Morning_processing1'];
+        $morningProcessingTeam2=$r['Morning_processing2'];
+        $morningProcessingTeam3=$r['Morning_processing3'];
 
         if($morningProcessingTeam1 !=null){
             $shiftAssign=new Shiftassign();
@@ -258,9 +257,9 @@ class ShiftController extends Controller
             $shiftAssign->save();
         }
 
-        $morningQcTeam1=$r['Morning__qc1'];
-        $morningQcTeam2=$r['Morning__qc2'];
-        $morningQcTeam3=$r['Morning__qc3'];
+        $morningQcTeam1=$r['Morning_qc1'];
+        $morningQcTeam2=$r['Morning_qc2'];
+        $morningQcTeam3=$r['Morning_qc3'];
 
         if($morningQcTeam1 !=null){
             $shiftAssign=new Shiftassign();
@@ -488,7 +487,7 @@ class ShiftController extends Controller
         }
 
         //End Night
-        $this->makepdf($shiftMain->shiftmainId);
+//        $this->makepdf($shiftMain->shiftmainId);
 
 
         Session::flash('message', 'Shift Assigned Successfully!');
@@ -499,7 +498,7 @@ class ShiftController extends Controller
     public function show($id)
     {
         $shiftMain=Shiftmain::findOrFail($id);
-        $shifts=Shift::get();
+        $shifts=Shift::where('shiftName','!=','Night')->get();
         $production=Status::where('statusType','jobStatus')
             ->where('statusName','production')
             ->first();
@@ -520,7 +519,7 @@ class ShiftController extends Controller
 //        return $ProductionManager;
         $ProcessingManager=Shiftassign::select('group.groupId','group.groupName','shiftassign.shiftId','user.name','user.userType','user.teamLeader')
             ->where('jobStatus',$processing->statusId)
-            ->leftJoin('team','group.groupId','shiftassign.groupId')
+            ->leftJoin('group','group.groupId','shiftassign.groupId')
             ->leftJoin('user','user.groupId','group.groupId')
             ->where('shiftassign.shiftmainId',$id)
             ->orderBy('groupName')
@@ -528,7 +527,7 @@ class ShiftController extends Controller
             ->get();
         $QcManager=Shiftassign::select('group.groupId','group.groupName','shiftassign.shiftId','user.name','user.userType','user.teamLeader')
             ->where('jobStatus',$qc->statusId)
-            ->leftJoin('team','group.groupId','shiftassign.groupId')
+            ->leftJoin('group','group.groupId','shiftassign.groupId')
             ->leftJoin('user','user.groupId','group.groupId')
             ->where('shiftassign.shiftmainId',$id)
             ->orderBy('groupName')
@@ -562,7 +561,7 @@ class ShiftController extends Controller
     public function makepdf($id){
         $shiftMain=Shiftmain::findOrFail($id);
 
-        $shifts=Shift::get();
+        $shifts=Shift::where('shiftName','!=','Night')->get();
         $production=Status::where('statusType','jobStatus')
             ->where('statusName','production')
             ->first();
@@ -638,7 +637,7 @@ class ShiftController extends Controller
     {
         $shiftMain=Shiftmain::findOrFail($id);
 
-        $shifts=Shift::get();
+        $shifts=Shift::where('shiftName','!=','Night')->get();
         $production=Status::where('statusType','jobStatus')
             ->where('statusName','production')
             ->first();

@@ -42,7 +42,7 @@
                             @foreach($productionTeams as $pt)
                                 @if($pt->teamId == $user->teamId)
                                     @if($user->teamLeader==1)
-                                        <b>{{$user->name}} ({{$user->teamName}})</b>
+                                        <b>{{$user->name}} ({{$user->groupName}})</b>
                                      @else
                                         {{$user->name}}
                                      @endif
@@ -63,7 +63,7 @@
 
                                 @if($pt->teamId == $user->teamId)
                                     @if($user->teamLeader==1)
-                                        <b>{{$user->name}} ({{$user->teamName}})</b>
+                                        <b>{{$user->name}} ({{$user->groupName}})</b>
                                     @else
                                         {{$user->name}}
                                     @endif
@@ -80,7 +80,7 @@
                             @foreach($qcTeams as $pt)
                                 @if($pt->teamId == $user->teamId)
                                     @if($user->teamLeader==1)
-                                        <b>{{$user->name}} ({{$user->teamName}})</b>
+                                        <b>{{$user->name}} ({{$user->groupName}})</b>
                                     @else
                                         {{$user->name}}
                                     @endif
