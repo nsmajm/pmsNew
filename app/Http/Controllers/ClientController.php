@@ -18,14 +18,17 @@ use Yajra\DataTables\DataTables;
 class ClientController extends Controller
 {
     public function add(){
-        $services=Service::select('serviceId','serviceName')->get();
-        $countries=Country::get();
-        $timezones=Timezone::get();
+        if(Auth::user()->userType ==USER_TYPE['Admin'] ||Auth::user()->userType ==USER_TYPE['Accounts'] || Auth::user()->userType ==USER_TYPE['Human Resource Management']){
+            $services=Service::select('serviceId','serviceName')->get();
+            $countries=Country::get();
+            $timezones=Timezone::get();
 
-        return view('client.add')
-                    ->with('services',$services)
-                    ->with('countries',$countries)
-                    ->with('timezones',$timezones);
+            return view('client.add')
+                ->with('services',$services)
+                ->with('countries',$countries)
+                ->with('timezones',$timezones);
+        }
+
 
     }
 

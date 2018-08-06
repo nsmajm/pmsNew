@@ -14,13 +14,25 @@
                 <li class="has-submenu">
                     <a href="#"><i class="ti-light-bulb"></i>Job Info</a>
                     <ul class="submenu">
-                        <li><a href="{{route('job.pending')}}">Pending Job</a></li>
-                        <li><a href="{{route('job.all')}}">Job Tally</a></li>
+                        @if(USER_TYPE['Admin']== Auth::user()->userType ||
+                        USER_TYPE['Supervisor']== Auth::user()->userType ||
+                        USER_TYPE['Production Manager']== Auth::user()->userType ||
+                        USER_TYPE['Processing Manager']== Auth::user()->userType ||
+                        USER_TYPE['Qc Manager']== Auth::user()->userType ||
+                        USER_TYPE['Human Resource Management']== Auth::user()->userType
+
+                        )
+                            <li><a href="{{route('job.pending')}}">Pending Job</a></li>
+                            <li><a href="{{route('job.all')}}">Job Tally</a></li>
+                            <li><a href="{{route('job.feedback')}}">Feedback</a></li>
+                            <li><a href="{{route('job.deadline')}}">Deadline</a></li>
+                        @endif
+
                         @if(USER_TYPE['Admin']== Auth::user()->userType || USER_TYPE['Support']== Auth::user()->userType)
                         <li><a href="{{route('job.add')}}">Add New</a></li>
                         @endif
-                        <li><a href="{{route('job.feedback')}}">Feedback</a></li>
-                        <li><a href="{{route('job.deadline')}}">Deadline</a></li>
+
+
 
                     </ul>
                 </li>
@@ -47,7 +59,9 @@
                     <ul class="submenu">
                         <li><a href="{{route('brief.check')}}">Brief Check</a></li>
                         <li><a href="{{route('brief.index')}}">Brief</a></li>
-                        <li><a href="{{route('brief.add')}}">Add Brief</a></li>
+                        @if(Auth::user()->userType ==USER_TYPE['Admin'] ||Auth::user()->userType ==USER_TYPE['Supervisor'] || Auth::user()->userType ==USER_TYPE['Support'])
+                            <li><a href="{{route('brief.add')}}">Add Brief</a></li>
+                            @endif
                     </ul>
                 </li>
 
@@ -99,26 +113,32 @@
                             <li><a href="{{route('file.check')}}">File Check</a></li>
                         @endif
 
+                            @if(Auth::user()->userType ==USER_TYPE['Admin'] ||Auth::user()->userType ==USER_TYPE['Supervisor'])
                         <li><a href="{{route('group.index')}}">Group</a></li>
+                            @endif
 
                         <li class="has-submenu">
                             <a href="#">Shift</a>
                             <ul class="submenu">
-                                @if(Auth::user()->userType ==USER_TYPE['Admin'] ||Auth::user()->userType ==USER_TYPE['Supervisor'])
+                                @if(Auth::user()->userType ==USER_TYPE['Admin'] ||Auth::user()->userType ==USER_TYPE['Supervisor'] || Auth::user()->userType ==USER_TYPE['Human Resource Management'])
                                 <li><a href="{{route('shift.create')}}">Create Shift</a></li>
                                 @endif
                                 <li><a href="{{route('shift.index')}}">View Shift</a></li>
                             </ul>
                         </li>
 
+                            @if(Auth::user()->userType ==USER_TYPE['Admin'] ||Auth::user()->userType ==USER_TYPE['Accounts'] || Auth::user()->userType ==USER_TYPE['Human Resource Management'])
 
                         <li class="has-submenu">
                             <a href="#">Client</a>
                             <ul class="submenu">
+                                @if(Auth::user()->userType ==USER_TYPE['Admin'] ||Auth::user()->userType ==USER_TYPE['Supervisor'] )
                                 <li><a href="{{route('client.add')}}">Add</a></li>
+                                @endif
                                 <li><a href="{{route('client.show')}}">Show</a></li>
                             </ul>
                         </li>
+                            @endif
 
                         @if(Auth::user()->userType ==USER_TYPE['Admin'] || Auth::user()->userType ==USER_TYPE['Supervisor'])
                             <li class="has-submenu">

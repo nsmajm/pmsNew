@@ -123,15 +123,15 @@
                     <table >
 
                         <tr >
-                            <td >Invoice Number:</td>
+                            <td style="width: 20px;">Invoice Number:</td>
                             <td ><b>{{$invoiceNumber}}</b></td>
                         </tr>
                         <tr >
-                            <td >Invoice Date: </td>
+                            <td  style="width: 20px;" >Invoice Date: </td>
                             <td >{{date('Y-m-d')}}</td>
                         </tr>
                         <tr >
-                            <td >Payment Date:</td>
+                            <td  style="width: 20px;" >Payment Date:</td>
                             <td >{{$paymentDate}}</td>
                         </tr>
                     </table>
