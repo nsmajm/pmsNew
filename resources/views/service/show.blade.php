@@ -72,12 +72,14 @@
                 <div class="card-body">
 
 
-
+                @if(USER_TYPE['Admin']== Auth::user()->userType ||
+                        USER_TYPE['Supervisor']== Auth::user()->userType)
                     <!-- Button to Open Add Service Modal -->
                     <button type="button" class="btn btn-primary pull-right" data-toggle="modal" data-target="#addServiceModal">
                         <i class="fa fa-plus"></i>
                     </button>
                     <!-- End Button to Open Add Service Modal -->
+                @endif
 
                     <!--  Add Service Modal -->
                     <div style="text-align: center;" class="modal" id="addServiceModal" >
@@ -89,7 +91,7 @@
                                     <button type="button" class="close" data-dismiss="modal">&times;</button>
                                 </div>
                                 <!-- Modal body -->
-                                <div class="modal-body">
+                                <div class="modal-body" >
                                     <form method="post" action="{{route('service.insert')}}">
                                         {{csrf_field()}}
                                         <div class="form-group row">
@@ -175,6 +177,20 @@
     <!-- Buttons examples -->
     <script src="{{url('public/assets/plugins/datatables/dataTables.buttons.min.js')}}"></script>
     <script>
+        $( '#addServiceModal' )
+            .on('hide', function() {
+                //console.log('hide');
+
+            })
+            .on('hidden', function(){
+               // console.log('hidden');
+            })
+            .on('show', function() {
+               // console.log('show');
+            })
+            .on('shown', function(){
+               // console.log('shown' )
+            });
         $(document).ready( function () {
             $('#datatable').DataTable({
                 processing: true,
@@ -195,10 +211,16 @@
                     { data: 'clientsName', name: 'clientsName'},
 
                     { "data": function(data){
+                        @if(USER_TYPE['Admin']== Auth::user()->userType ||
+                            USER_TYPE['Supervisor']== Auth::user()->userType)
                         return ' <button type="button" class="btn btn-info btn-sm" data-panel-id="'+data.serviceId+'" onclick="showInfo(this)"> <i class="fa fa-edit"></i> </button>' +
                             ' <button type="button" class="btn btn-info btn-sm" data-panel-id="'+data.serviceId+'" onclick="assign(this)"> <i class="fa fa-exchange"></i> </button>'
 
-                            ;},
+                            ;
+                        @endif
+                        return "";
+
+                },
                         "orderable": false, "searchable":false, "name":"selected_rows" }
 
                 ],

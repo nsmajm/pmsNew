@@ -9,6 +9,7 @@ use App\BriefItem;
 use App\BriefInstructions;
 use Session;
 use Yajra\DataTables\DataTables;
+use Auth;
 
 class BriefController extends Controller
 {
@@ -45,24 +46,31 @@ class BriefController extends Controller
     }
 
     public function edit($id){
-        $briefItems=BriefItem::select('brief_item.*','client.clientName')
-            ->where('brief_itemId',$id)
-            ->leftJoin('client','client.clientId','brief_item.clientId')->first();
+        if(Auth::user()->userType ==USER_TYPE['Admin'] ||Auth::user()->userType ==USER_TYPE['Supervisor'] ){
 
-        $instruction=BriefInstructions::where('brief_itemId',$id)
-            ->orderBy('brief_instructionsId','desc')->first();
+            $briefItems=BriefItem::select('brief_item.*','client.clientName')
+                ->where('brief_itemId',$id)
+                ->leftJoin('client','client.clientId','brief_item.clientId')->first();
+
+            $instruction=BriefInstructions::where('brief_itemId',$id)
+                ->orderBy('brief_instructionsId','desc')->first();
 
 
-        return view('brief.edit')
-            ->with('briefItems',$briefItems)
-            ->with('instruction',$instruction);
+            return view('brief.edit')
+                ->with('briefItems',$briefItems)
+                ->with('instruction',$instruction);
+        }
+
     }
 
 
     public function add(){
-        $clients=Client::select('clientId','clientName')->get();
+        if(Auth::user()->userType ==USER_TYPE['Admin'] ||Auth::user()->userType ==USER_TYPE['Supervisor'] || Auth::user()->userType ==USER_TYPE['Support']){
+            $clients=Client::select('clientId','clientName')->get();
 
-        return view('brief.add',compact('clients'));
+            return view('brief.add',compact('clients'));
+        }
+
     }
 
     public function insert(Request $r){
