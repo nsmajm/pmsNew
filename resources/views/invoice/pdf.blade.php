@@ -124,15 +124,15 @@
 
                         <tr >
                             <td >Invoice Number:</td>
-                            <td ><b>{{$invoiceNumber}}</b></td>
+                            <td ><small> <b>{{$invoiceNumber}}</b></small></td>
                         </tr>
                         <tr >
                             <td >Invoice Date: </td>
-                            <td >{{date('Y-m-d')}}</td>
+                            <td ><small> {{date('Y-m-d')}}</small></td>
                         </tr>
                         <tr >
                             <td >Payment Date:</td>
-                            <td >{{$paymentDate}}</td>
+                            <td ><small> {{$paymentDate}}</small></td>
                         </tr>
                     </table>
                     {{--<table>--}}
