@@ -11,9 +11,7 @@
                 <h4 class="mb-md-6" style="text-align: center">Add Job</h4>
 
                 <div class="card-body">
-                    <form method="post" action="{{route('job.update')}}" onsubmit="return jobCount()">
-                        {{csrf_field()}}
-                        <input type="hidden" name="jobId" value="{{$job->jobId}}">
+
                         <div class="form-group row">
                             <label for="example-text-input" class="col-sm-2 col-form-label">Client Id</label>
                             <div class="col-sm-10">
@@ -105,6 +103,9 @@
                         </div>
 
                         {{--ADD Services--}}
+                    <form method="post" action="{{route('job.update')}}" onsubmit="return jobCount()">
+                        {{csrf_field()}}
+                        <input type="hidden" name="jobId" value="{{$job->jobId}}">
 
                         <h4 align="center">Total Quantity {{$job->quantity}}</h4>
                         <?php $count=1;?>
@@ -167,10 +168,11 @@
 
 
 
-
+                        @if(Auth::user()->userType==USER_TYPE['Admin'] || Auth::user()->userType==USER_TYPE['Supervisor'] || Auth::user()->userType==USER_TYPE['Qc Manager'])
                         <div align="center">
-                            <button class="btn btn-success btn-lg" type="submit">Update</button>
+                            <button class="btn btn-success btn-lg" type="submit">Assign Service</button>
                         </div>
+                        @endif
 
                     </form>
 

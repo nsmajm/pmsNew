@@ -35,7 +35,7 @@
                     <div class="form-group row">
                         <label for="example-search-input" class="col-sm-2 col-form-label">Folder Name</label>
                         <div class="col-sm-10">
-                            <input class="form-control" type="text" name="folderName" placeholder="path" id="example-search-input">
+                            <input class="form-control" type="text" name="folderName" placeholder="path" id="example-search-input" required>
                         </div>
                         @if ($errors->has('folderName'))
                             <span class="alert-feedback">
@@ -47,7 +47,7 @@
                     <div class="form-group row">
                         <label for="example-email-input" class="col-sm-2 col-form-label">Submission Date</label>
                         <div class="col-sm-10">
-                            <input class="form-control" name="submissionDate" type="text"  id="date">
+                            <input class="form-control" name="submissionDate" type="text"  id="date" required>
                             @if ($errors->has('submissionDate'))
                                 <span class="alert-feedback">
                                         <strong>{{ $errors->first('submissionDate') }}</strong>

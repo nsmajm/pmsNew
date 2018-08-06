@@ -140,6 +140,19 @@
                             </div>
                         </div>
 
+                        <div class="form-group row">
+                            <label for="example-email-input" class="col-sm-2 col-form-label">Address</label>
+                            <div class="col-sm-10">
+                               <textarea class="form-control" name="address"></textarea>
+
+                                @if ($errors->has('address'))
+                                    <span class="alert-feedback">
+                                        <strong>{{ $errors->first('address') }}</strong>
+                            </span>
+                                @endif
+                            </div>
+                        </div>
+
 
                         <div class="form-group row">
                             <label for="example-text-input" class="col-sm-2 col-form-label">Time Zone</label>

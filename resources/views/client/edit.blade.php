@@ -88,38 +88,6 @@
                         </div>
 
 
-                        {{--<div class="form-group row">--}}
-                            {{--<label for="example-text-input" class="col-sm-2 col-form-label">Password</label>--}}
-                            {{--<div class="col-sm-10">--}}
-                                {{--<input class="form-control" type="text" name="password" placeholder="*****" id="example-search-input" value="{{old('password')}}">--}}
-                                {{--@if ($errors->has('password'))--}}
-                                    {{--<span class="alert-feedback">--}}
-                                        {{--<strong>{{ $errors->first('password') }}</strong>--}}
-                            {{--</span>--}}
-                                {{--@endif--}}
-                            {{--</div>--}}
-                        {{--</div>--}}
-
-
-                        {{--<div class="form-group row">--}}
-                            {{--<label for="example-text-input" class="col-sm-2 col-form-label">Services</label>--}}
-                            {{--<div class="col-sm-10">--}}
-                                {{--<select name="service[]" id="service" class="form-control"  multiple="multiple" style="display: none;">--}}
-                                    {{--@foreach($services as $service)--}}
-                                        {{--<option value="{{$service->serviceId}}">{{$service->serviceName}}</option>--}}
-                                    {{--@endforeach--}}
-
-                                {{--</select>--}}
-                                {{--@if ($errors->has('clientService'))--}}
-                                    {{--<span class="alert-feedback">--}}
-                                        {{--<strong>{{$errors->first('clientService')}}</strong>--}}
-                            {{--</span>--}}
-                                {{--@endif--}}
-                            {{--</div>--}}
-
-
-                        {{--</div>--}}
-
 
 
 
@@ -142,7 +110,18 @@
                                 @endif
                             </div>
                         </div>
+                        <div class="form-group row">
+                            <label for="example-email-input" class="col-sm-2 col-form-label">Address</label>
+                            <div class="col-sm-10">
+                                <textarea class="form-control" name="address">{{$client->address}}</textarea>
 
+                                @if ($errors->has('address'))
+                                    <span class="alert-feedback">
+                                        <strong>{{ $errors->first('address') }}</strong>
+                            </span>
+                                @endif
+                            </div>
+                        </div>
 
                         <div class="form-group row">
                             <label for="example-text-input" class="col-sm-2 col-form-label">Time Zone</label>

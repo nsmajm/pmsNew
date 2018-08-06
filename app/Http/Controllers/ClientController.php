@@ -61,6 +61,7 @@ class ClientController extends Controller
         $client->email=$r->clientEmail;
         $client->phoneNumber=$r->clientNumber;
         $client->countryId=$r->country;
+        $client->address=$r->address;
         $client->timezoneId=$r->timezone;
         $client->save();
 
@@ -96,6 +97,7 @@ class ClientController extends Controller
         $client->email=$r->clientEmail;
         $client->phoneNumber=$r->clientNumber;
         $client->countryId=$r->country;
+        $client->address=$r->address;
         $client->timezoneId=$r->timezone;
         $client->save();
 

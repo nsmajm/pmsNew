@@ -50,6 +50,7 @@ class InvoiceController extends Controller
 
         $jobs=Job::select('job.jobId','file.fileId','file.folderName','Service.serviceName','job_service_relation.quantity','job_service_relation.job_service_relationId','job_service_relation.rate','job.created_at')
             ->where('clientId',$r->clientId)
+//            ->where('job.invoiceNumber',null)
             ->where('fileCheck','!=',null)
             ->leftJoin('file','file.jobId','job.jobId')
             ->leftJoin('job_service_relation','job_service_relation.jobId','job.jobId')
@@ -58,6 +59,10 @@ class InvoiceController extends Controller
 
         if($r->folderName!=null){
             $jobs=$jobs->where('file.folderName', 'like', '%' . $r->folderName. '%');
+        }
+
+        if($r->startDate !="" && $r->endDate !=""){
+            $jobs=$jobs->whereBetween(DB::raw('DATE(job.created_at)'),[$r->startDate,$r->endDate]);
         }
         $jobs=$jobs->get();
 
