@@ -29,7 +29,7 @@
                 <li class="has-submenu">
                     <a href="#"><i class="ti-bookmark-alt"></i>Reporting</a>
                     <ul class="submenu">
-                        @if(Auth::user()->userType==USER_TYPE["Admin"])
+                        @if(Auth::user()->userType==USER_TYPE["Admin"] ||Auth::user()->userType==USER_TYPE["Human Resource Management"])
                         <li><a href="{{route('report.all')}}">Report</a></li>
                         @endif
                         <li><a href="{{route('report.performance')}}">Performance</a></li>
@@ -104,10 +104,14 @@
                         <li class="has-submenu">
                             <a href="#">Shift</a>
                             <ul class="submenu">
+                                @if(Auth::user()->userType ==USER_TYPE['Admin'] ||Auth::user()->userType ==USER_TYPE['Supervisor'])
                                 <li><a href="{{route('shift.create')}}">Create Shift</a></li>
+                                @endif
                                 <li><a href="{{route('shift.index')}}">View Shift</a></li>
                             </ul>
                         </li>
+
+
                         <li class="has-submenu">
                             <a href="#">Client</a>
                             <ul class="submenu">

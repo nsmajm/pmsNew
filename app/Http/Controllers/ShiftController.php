@@ -38,14 +38,16 @@ class ShiftController extends Controller
 
 
     public function create(){
-        $shifts=Shift::where('shiftName','!=','Night')->get();
-//        $teams=Team::get();
-        $groups=Group::get();
+        if(Auth::user()->userType ==USER_TYPE['Admin'] ||Auth::user()->userType ==USER_TYPE['Supervisor']){
+            $shifts=Shift::where('shiftName','!=','Night')->get();
+            $groups=Group::get();
 
 
-        return view('shift.create')
-            ->with('shifts',$shifts)
-            ->with('teams',$groups);
+            return view('shift.create')
+                ->with('shifts',$shifts)
+                ->with('teams',$groups);
+        }
+
     }
 
 

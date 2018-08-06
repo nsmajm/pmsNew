@@ -83,7 +83,7 @@
 
 <body style="background: #fff ">
 <div class="structure">
-    <div style= "background: #fff; padding: 25px; " class="container">
+    <div style= "background: #fff; padding: 40px; " class="container">
 
         <table border="0" style="width:100%; margin-top: 20px; text-align: center; border: none;">
 
@@ -107,7 +107,7 @@
                     </p>
                 </td>
 
-                <td style="border: none;width: 15%;"> <img style="float: right;" src="{{url('public/logo/logo.png')}}" alt=""> </td>
+                <td style="border: none;width: 30%;"> <img style="float: right;" src="{{url('public/logo/logo.png')}}" alt=""> </td>
             </tr>
 
             <tr style="width: 100%">
@@ -119,22 +119,33 @@
 
                     </p>
                 </td>
-                <td style="width: 40%;border: none;">
-                    <table style="text-align: center;padding: 0;margin: 0"width="100%">
+                <td style="border: none;width:30%;">
+                    <table >
 
-                        <tr style="text-align: center;padding: 0;margin: 0">
-                            <td style="text-align: center;padding: 0;margin: 0">Invoice Number:</td>
-                            <td style="text-align: center;padding: 0;margin: 0"><b>{{$invoiceNumber}}</b></td>
+                        <tr >
+                            <td >Invoice Number:</td>
+                            <td ><b>{{$invoiceNumber}}</b></td>
                         </tr>
-                        <tr style="text-align: center;padding: 0;margin: 0">
-                            <td style="text-align: center;padding: 0;margin: 0">Invoice Date: </td>
-                            <td style="text-align: center;padding: 0;margin: 0">{{date('Y-m-d')}}</td>
+                        <tr >
+                            <td >Invoice Date: </td>
+                            <td >{{date('Y-m-d')}}</td>
                         </tr>
-                        <tr style="text-align: center;padding: 0;margin: 0">
-                            <td style="text-align: center;padding: 0;margin: 0">Payment Date:</td>
-                            <td style="text-align: center;padding: 0;margin: 0">{{$paymentDate}}</td>
+                        <tr >
+                            <td >Payment Date:</td>
+                            <td >{{$paymentDate}}</td>
                         </tr>
                     </table>
+                    {{--<table>--}}
+                        {{--<tr>--}}
+                            {{--<td> <small> <b>Invoice Numbe:</b> </small> </td>--}}
+                            {{--<td> <small> <b>001256</b> </small> </td>--}}
+                        {{--</tr>--}}
+                        {{--<tr>--}}
+                            {{--<td> <small> <b>Invoice Date:</b> </small> </td>--}}
+                            {{--<td> <small> <b>001256</b> </small> </td>--}}
+                        {{--</tr>--}}
+
+                    {{--</table>--}}
 
                 </td>
             </tr>
