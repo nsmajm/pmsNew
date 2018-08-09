@@ -82,6 +82,13 @@
                         content: 'Assign Successfully',
                     });
 
+
+                    var qLeft= $('#quantityLeft').html();
+                    if(qLeft=='0'){
+                        window.location.href = "{{route('job.deadline')}}";
+                    }
+
+
                 }
             });
 

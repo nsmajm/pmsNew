@@ -492,6 +492,7 @@ class JobController extends Controller
         $jobAssignQuantity=Jobassign::where('jobId',$id)
             ->where('leaveDate',null)
             ->sum('quantity');
+
         return view('job.assignJob')
             ->with('groups',$groups)
             ->with('job',$job)

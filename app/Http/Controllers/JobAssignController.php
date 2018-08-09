@@ -23,7 +23,6 @@ class JobAssignController extends Controller
             ->get();
 
 
-
         return view('assignJob.getTeamMember',compact('users','jobAssain'));
 
     }
