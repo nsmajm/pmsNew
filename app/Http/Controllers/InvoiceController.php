@@ -48,7 +48,7 @@ class InvoiceController extends Controller
 
     public function search(Request $r){
 
-        $jobs=Job::select('job.jobId','file.fileId','file.folderName','Service.serviceName','job_service_relation.quantity','job_service_relation.job_service_relationId','job_service_relation.rate','job.created_at')
+        $jobs=Job::select('job.jobId','file.fileId','file.folderName','service.serviceName','job_service_relation.quantity','job_service_relation.job_service_relationId','job_service_relation.rate','job.created_at')
             ->where('clientId',$r->clientId)
 //            ->where('job.invoiceNumber',null)
             ->where('fileCheck','!=',null)
@@ -114,7 +114,7 @@ class InvoiceController extends Controller
     public function generate(Request $r){
 
 
-        $jobs=Job::select('job.jobId','job.clientId','file.folderName','Service.serviceName','job_service_relation.quantity','job_service_relation.rate',DB::raw('DATE(job.created_at) as date'))
+        $jobs=Job::select('job.jobId','job.clientId','file.folderName','service.serviceName','job_service_relation.quantity','job_service_relation.rate',DB::raw('DATE(job.created_at) as date'))
             ->whereIn('job.jobId',$r->jobId)
             ->where('fileCheck','!=',null)
             ->leftJoin('file','file.jobId','job.jobId')
@@ -177,7 +177,7 @@ class InvoiceController extends Controller
     }
 
     public function pdf(){
-        $jobs=Job::select('job.jobId','job.clientId','file.folderName','Service.serviceName','job_service_relation.quantity','job_service_relation.rate',DB::raw('DATE(job.created_at) as date'))
+        $jobs=Job::select('job.jobId','job.clientId','file.folderName','service.serviceName','job_service_relation.quantity','job_service_relation.rate',DB::raw('DATE(job.created_at) as date'))
             ->where('job.jobId',44)
             ->where('fileCheck','!=',null)
             ->leftJoin('file','file.jobId','job.jobId')

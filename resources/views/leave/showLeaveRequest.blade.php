@@ -83,7 +83,9 @@
                 serverSide: true,
                 Filter: true,
                 stateSave: true,
-                "aaSorting" : [[]],
+                ordering: false,
+              
+
                 type:"POST",
                 "ajax":{
                     "url": "{!! route('leave.getLeaveRequestData') !!}",
