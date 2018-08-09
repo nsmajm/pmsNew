@@ -15,6 +15,7 @@ use Session;
 use Hash;
 use Auth;
 use Yajra\DataTables\DataTables;
+use Auth;
 
 class ClientController extends Controller
 {

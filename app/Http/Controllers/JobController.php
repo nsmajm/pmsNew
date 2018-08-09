@@ -433,8 +433,6 @@ class JobController extends Controller
 
     public function assignHistory(){
 
-
-
         return view('job.history');
     }
 
@@ -450,6 +448,9 @@ class JobController extends Controller
 
         if(Auth::user()->userType==USER_TYPE['User']){
             $job=$job->where('jobassign.assignTo',Auth::user()->userId);
+        }
+        else if(Auth::user()->userType==USER_TYPE['Admin'] || Auth::user()->userType==USER_TYPE['Supervisor'] || Auth::user()->userType==USER_TYPE['Human Resource Management']){
+
         }
         else{
             $job=$job->where('jobassign.assignBy',Auth::user()->userId);
@@ -491,6 +492,7 @@ class JobController extends Controller
         $jobAssignQuantity=Jobassign::where('jobId',$id)
             ->where('leaveDate',null)
             ->sum('quantity');
+
         return view('job.assignJob')
             ->with('groups',$groups)
             ->with('job',$job)

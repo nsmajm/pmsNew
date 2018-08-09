@@ -165,8 +165,9 @@
                         </li>
 
                           @endif
+                        @if(Auth::user()->userType ==USER_TYPE['Supervisor'])
                         <li><a href="{{route('employee.attendence')}}">Employee Attendence</a></li>
-
+                        @endif
                     </ul>
                 </li>
 

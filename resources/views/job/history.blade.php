@@ -46,6 +46,7 @@
                     <th>Client ID</th>
                     <th>Folder Name</th>
                     <th>Quantity</th>
+                    <th>Action</th>
 
                 </tr>
                 </thead>
@@ -99,11 +100,13 @@
 
             columns: [
                 { data: 'clientName', name: 'clientName' },
+                { data: 'folderName', name: 'folderName' },
+
+                { data: 'total', name: 'total' },
                 { "data": function(data){
-                        return '<button class="btn btn-default" data-panel-id="'+data.jobId+'" onclick="showAssignDetails(this)">'+data.folderName+'</button>'
+                    return '<button class="btn btn-default" data-panel-id="'+data.jobId+'" onclick="showAssignDetails(this)"><i class="fa fa-eye"></i></button>'
                         ;},
                     "orderable": false, "searchable":false, "name":"selected_rows" },
-                { data: 'total', name: 'total' },
 
             ]
         });
