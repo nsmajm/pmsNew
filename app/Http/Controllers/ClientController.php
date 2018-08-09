@@ -14,6 +14,7 @@ use App\Timezone;
 use Session;
 use Hash;
 use Yajra\DataTables\DataTables;
+use Auth;
 
 class ClientController extends Controller
 {
