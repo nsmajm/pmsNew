@@ -12,7 +12,7 @@ use Yajra\DataTables\DataTables;
 class LeaveController extends Controller
 {
     public function showLeaveRequest(){
-        if(Auth::user()->userType == USER_TYPE['Human Resource Management']){
+        if(Auth::user()->userType == USER_TYPE['Human Resource Management'] || Auth::user()->userType == USER_TYPE['Admin'] ){
             $status=Status::where('statusType','leaveStatus')->get();
             return view('leave.showLeaveRequest')->with('status',$status);
         }

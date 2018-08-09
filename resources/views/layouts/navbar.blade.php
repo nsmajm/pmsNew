@@ -98,7 +98,7 @@
                             <a href="#">Leave</a>
                             <ul class="submenu">
                                 <li><a href="{{route('leave.apply')}}">Apply Leave</a></li>
-                                @if(Auth::user()->userType == USER_TYPE['Human Resource Management'])
+                                @if(Auth::user()->userType == USER_TYPE['Human Resource Management'] || Auth::user()->userType == USER_TYPE['Admin'])
                                     <li><a href="{{route('leave.showLeaveRequest')}}">Show Leave Request</a></li>
                                 @endif
                                 <li><a href="{{route('leave.show')}}">Show Leave</a></li>
