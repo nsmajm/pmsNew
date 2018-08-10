@@ -82,15 +82,17 @@ class UserController extends Controller
         $emp->address=$r->address;
         if($r->hasFile('image')){
             $img = $r->file('image');
+            $filename= $user->userId.".".$img->getClientOriginalExtension();
 
-//            $filename = 'test.'.$img->getClientOriginalName();
-            $filename= $user->userId.'.'.$img->getClientOriginalExtension();
             $pathName='public/userimage';
             $location = $pathName.'/'. $filename;
+
             Image::make($img)->resize(200, null, function ($constraint) {
                 $constraint->aspectRatio();
             })->save($location);
-            $emp->image=$location;
+            $emp->image=$filename;
+
+
 
         }
         $emp->save();

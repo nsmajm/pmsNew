@@ -149,7 +149,7 @@
                                     <div class="col-sm-10">
                                         <input type="file" name="image" class="form-control" accept="image/*">
                                         <div>
-                                            <img src="{{url("").'/'.$user->image}}" class="thumb-lg">
+                                            <img src="{{url("public/userimage").'/'.$user->image}}" class="thumb-lg">
                                         </div>
                                         @if ($errors->has('image'))
                                             <span class="invalid-feedback">

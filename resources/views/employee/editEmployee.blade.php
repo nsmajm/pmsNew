@@ -199,21 +199,17 @@
                             </div>
                         </div>
 
-                        {{--<div class="form-group row">--}}
-                            {{--<label for="example-text-input" class="col-sm-2 col-form-label">Shift</label>--}}
-                            {{--<div class="col-sm-10">--}}
+                        <div class="form-group row">
+                            <label for="example-text-input" class="col-sm-2 col-form-label">Change Password</label>
+                            <div class="col-sm-10">
 
-                                {{--<select class="form-control" name="team" required>--}}
-                                    {{--<option value="">Select Shift</option>--}}
+                                <input type="password" name="password" class="form-control" placeholder="type password to change">
 
-                                    {{--@foreach($shift as $empshift)--}}
-                                        {{--<option @if($empshift->shiftId == $employee->teamId ) selected @endif value="{{$empshift->shiftId}}">{{$empshift->shiftName}}</option>--}}
-                                    {{--@endforeach--}}
+                            </div>
+                        </div>
 
-                                {{--</select>--}}
 
-                            {{--</div>--}}
-                        {{--</div>--}}
+
 
                         <div class="form-group row">
                             <label for="example-email-input" class="col-sm-2 col-form-label">Image</label>

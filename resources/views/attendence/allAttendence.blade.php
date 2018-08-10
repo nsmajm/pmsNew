@@ -6,8 +6,11 @@
     <link href="{{url('assets/plugins/datatables/buttons.bootstrap4.min.css')}}" rel="stylesheet" type="text/css" />
 
     {{--<link href="{{url('assets/plugins/datatables/responsive.bootstrap4.min.css')}}" rel="stylesheet" type="text/css" />--}}
-
     <link href="{{url('public/assets/plugins/bootstrap-datepicker/css/bootstrap-datepicker.min.css')}}" rel="stylesheet">
+
+    {{--Select Picker--}}
+
+    <link href="{{url('public/assets/select/css/picker.min.css')}}" rel="stylesheet">
 
 
 
@@ -44,6 +47,7 @@
                         <input type="number" id="presentToday" name="presentToday" class="form-control" placeholder="Present Today" required>
                     </div>
                 </div>
+
                 <div class="row">
                     <div class="form-group col-md-6">
                         <label>Late Today</label>
@@ -55,6 +59,17 @@
                     </div>
                 </div>
 
+                <div class="row">
+                    <label>Absent:</label>
+                    <select name="absent[]" id="ex-search" class="form-control" multiple>
+                        @foreach($employees as $employee)
+                            <option value="{{$employee->userId}}">{{$employee->loginId}}</option>
+
+                        @endforeach
+                    </select>
+
+                </div>
+
             <div align="center" class="row">
                     <div style="text-align: center" align="center" class="form-group">
                         <button type="submit" class="btn btn-success pull-right">Submit</button>
@@ -63,6 +78,9 @@
 
 
             </form>
+
+
+
 
 
         </div>
@@ -115,14 +133,18 @@
 
     <script src="{{url('public/assets/plugins/bootstrap-datepicker/js/bootstrap-datepicker.min.js')}}"></script>
 
-    {{--<script src="{{url('public/js/select2.min.js')}}"></script>--}}
+    {{--Select Picker--}}
 
-    {{--<script src="{{url('public/dist/js/BsMultiSelect.js')}}"></script>--}}
+    <script src="{{url('public/assets/select/js/picker.min.js')}}"></script>
+
 
     <script>
         $('#date1').datepicker({
             format:'yyyy-m-d'
         });
+        $('#ex-search').picker({containerWidth: 465, search: true});
+
+
         $(function() {
 
 
