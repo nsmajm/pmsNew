@@ -8,7 +8,7 @@
     <div class="row">
         <div class="col-12">
             <div class="card m-b-30">
-                <h4 class="mb-md-6" style="text-align: center">Add Job</h4>
+                <h4 class="mb-md-6" style="text-align: center">Edit Job</h4>
 
                 <div class="card-body">
 
@@ -51,18 +51,24 @@
                                 <input class="form-control" name="submissionTime" type="text"  id="date" value="{{$job->submissionTime}}" readonly>
                             </div>
                         </div>
-
+                <form method="post" action="{{route('job.ChangeQuantity')}}">
+                    {{csrf_field()}}
+                    <input type="hidden" name="jobId" value="{{$job->jobId}}">
                         <div class="form-group row">
                             <label for="example-tel-input" class="col-sm-2 col-form-label">Quantity</label>
                             <div class="col-sm-10">
-                                <input class="form-control" name="jobQuantity" type="number" id="example-tel-input" value="{{$job->quantity}}" readonly>
+                                <input class="form-control" name="jobQuantity" type="number" id="example-tel-input" value="{{$job->quantity}}" >
                             </div>
                             @if ($errors->has('quantity'))
                                 <span class="alert-feedback">
                                         <strong>{{ $errors->first('quantity') }}</strong>
                             </span>
                             @endif
+
                         </div>
+                    <button class="btn btn-danger btn-sm pull-right">Change</button>
+
+                </form>
 
 
 
@@ -224,7 +230,6 @@
 
 
             @foreach($services as $service)
-            {{--<option value="{{$service->serviceId}}">{{$service->serviceName}}</option>--}}
                     arr.push('<option id="s'+i+'" value="{{$service->serviceId}}">{{$service->serviceName}}</option>');
                     @endforeach
 
@@ -239,17 +244,11 @@
                     return false;
                 }
 
-//            if(counter == '2')
-//            {
-//                var id=document.getElementById("service1").value;
-//
-//            }
-//            else{
+
                 var id=document.getElementById("service"+(counter-1)).value;
                 if(id=="") {
                     alert("Please Select a Service First!!");
                     return false;
-//                }
 
                 }
 

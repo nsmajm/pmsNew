@@ -16,17 +16,17 @@
 @endsection
 @section('content')
 <div class="row">
-    <div class="col-md-12">
-        <div class="card">
-            <div class="card-header">
-                <h6>Service List</h6>
-            </div>
-            <div class="card-body">
+    {{--<div class="col-md-12">--}}
+        {{--<div class="card">--}}
+            {{--<div class="card-header">--}}
+                {{--<h6>Service List</h6>--}}
+            {{--</div>--}}
+            {{--<div class="card-body">--}}
 
-            </div>
-        </div>
-<br><br>
-    </div>
+            {{--</div>--}}
+        {{--</div>--}}
+{{--<br><br>--}}
+    {{--</div>--}}
 
     <div class="col-md-12">
         <div class="card">
@@ -65,7 +65,6 @@
                             <td>
                                 <button class="btn btn-success btn-sm" data-panel-id="{{$job->jobId}}" onclick="onFileCheck(this)"><i class="fa fa-check"></i></button>
                                 <a class="btn btn-info btn-sm" href="{{route('job.edit',['id'=>$job->jobId])}}"><i class="fa fa-edit"></i></a>
-                                <button class="btn btn-danger btn-sm"><i class="fa fa-trash"></i></button>
                             </td>
                         </tr>
 

@@ -38,9 +38,13 @@ class GroupController extends Controller
             ->where('userType','!=',USER_TYPE['Support'])
             ->leftJoin('group','group.groupId','user.groupId');
 
-        if($r->groupId){
+        if($r->groupId=="notAssigned"){
+            $users=$users->where('user.groupId',null);
+        }
+        else if($r->groupId){
             $users=$users->where('user.groupId',$r->groupId);
         }
+
 
         $users=$users->get();
 

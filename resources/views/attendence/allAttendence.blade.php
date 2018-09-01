@@ -59,9 +59,11 @@
                     </div>
                 </div>
 
+                <hr>
+
                 <div class="row">
                     <label>Absent:</label>
-                    <select name="absent[]" id="ex-search" class="form-control" multiple>
+                    <select name="absent[]" id="ex-search" class="form-control"  multiple>
                         @foreach($employees as $employee)
                             <option value="{{$employee->userId}}">{{$employee->loginId}}</option>
 

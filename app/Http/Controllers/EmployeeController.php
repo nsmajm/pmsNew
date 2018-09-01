@@ -187,17 +187,17 @@ class EmployeeController extends Controller
     //attendence
     public function allAttendence(){
 
+        if(Auth::user()->userType ==USER_TYPE['Production Manager']){
+            $employees=User::select('loginId','userId')->where('userType',USER_TYPE['User'])->get();
+
+            $shifts=Shift::where(function ($q) {
+                $q->where('shiftName','Morning')->orWhere('shiftName','Evening');
+            })->get();
+
+            return view('attendence.allAttendence',compact('shifts','employees'));
+        }
 
 
-        $employees=User::select('loginId','userId')->where('userType',USER_TYPE['User'])->get();
-
-
-
-        $shifts=Shift::where(function ($q) {
-            $q->where('shiftName','Morning')->orWhere('shiftName','Evening');
-        })->get();
-
-        return view('attendence.allAttendence',compact('shifts','employees'));
 
 
 

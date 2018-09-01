@@ -62,6 +62,32 @@
                         </tbody>
                     </table>
 
+<br><br>
+                        <h4>Absent</h4>
+
+                    <table class="table table-bordered" style="width: 20%">
+                        <thead>
+                        <tr>
+                            <th>Absent</th>
+
+                        </tr>
+                        </thead>
+
+                        <tbody>
+
+                        @foreach($absents as $absent)
+                            <tr>
+                                <td>{{$absent->date}}</td>
+
+                            </tr>
+                        @endforeach
+
+                        </tbody>
+                        <thead>
+                        <td><b>Total :{{Count($absents)}}</b></td>
+                        </thead>
+                    </table>
+
                 </div>
             </div>
         </div> <!-- end col -->

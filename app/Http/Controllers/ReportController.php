@@ -365,7 +365,7 @@ class ReportController extends Controller
         $start=$Y.'-01-01';
         $end=$Y.'-12-31';
 
-        $bills=Billing::select('client.clientId','status.statusName',DB::raw('Month(billing.created_at) as month'),DB::raw('sum(billing.total) as total'))
+        $bills=Billing::select('client.clientId','status.statusName',DB::raw('Month(billing.created_at) as month'),DB::raw('sum(billing.total) as total'),DB::raw('sum(billing.bill) as bill'))
 //            ->leftJoin('job','job.jobId','billing.jobId')
             ->leftJoin('client','client.clientId','billing.clientId')
             ->leftJoin('status','status.statusId','billing.statusId')
@@ -394,7 +394,6 @@ class ReportController extends Controller
             ->groupBy('client.clientId')
             ->whereBetween(DB::raw('date(job_service_relation.created_at)'),array([$start,$end]))
             ->get();
-
 
         return view('report.fileCountClient',compact('clients','bills'));
 

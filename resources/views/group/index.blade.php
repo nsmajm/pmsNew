@@ -40,7 +40,7 @@
 
                 <!-- Modal footer -->
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+
                 </div>
 
             </div>
@@ -57,6 +57,7 @@
                     <label class="col-md-2">Filter Group</label>
                     <select class="form-control col-md-4" id="filterTeam" >
                         <option value="">Select Group</option>
+                        <option value="notAssigned">User Not Assigned</option>
                         @foreach($groups as $team)
                             <option value="{{$team->groupId}}">{{$team->groupName}}</option>
                         @endforeach

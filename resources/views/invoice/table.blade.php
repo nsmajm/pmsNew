@@ -79,7 +79,7 @@
 
     <tr>
         <td colspan="5"></td>
-        <td><button class="btn btn-success" onclick="submit()">Submit</button></td>
+        <td><button class="btn btn-success" onclick="submit()">Generate Invoice</button></td>
     </tr>
 
 

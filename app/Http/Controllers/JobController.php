@@ -95,16 +95,10 @@ class JobController extends Controller
     }
 
     public function edit($id){
+        if(Auth::user()->userType==USER_TYPE['User'] ){
+            return back();
+        }
 
-
-        if(Auth::user()->userType==USER_TYPE['Admin'] ||Auth::user()->userType==USER_TYPE['Supervisor'] || Auth::user()->userType==USER_TYPE['Qc Manager']) {
-//            $job=Job::findOrFail($id);
-//            if($job->statusId == 5 || $job->statusId ==6){
-//
-//            }
-//            else{
-//                return "Job Is Not In QC Yet";
-//            }
 
             $job = Job::select('job.jobId','job.feedback','job.clientId', 'brief.briefId', 'client.clientName', 'job.deadLine', 'job.submissionTime', 'job.quantity', 'job.other', 'brief.briefMsg', 'file.folderName')
                 ->where('job.jobId', $id)
@@ -114,9 +108,19 @@ class JobController extends Controller
                 ->orderBy('briefId', 'desc')
                 ->first();
 
-            $services = ClientServiceRelation::where('clientId', $job->clientId)
-                ->leftJoin('service', 'service.serviceId', 'client_service_relation.serviceId')
-                ->get();
+            if(Auth::user()->userType==USER_TYPE['Supervisor'] ){
+                   $services=Service::get();
+
+
+            }
+            else{
+                $services = ClientServiceRelation::where('clientId', $job->clientId)
+                    ->leftJoin('service', 'service.serviceId', 'client_service_relation.serviceId')
+                    ->get();
+            }
+
+
+
 
 
             $jobService = JobServiceRelation::where('jobId', $id)->get();
@@ -126,11 +130,17 @@ class JobController extends Controller
                 ->with('job', $job)
                 ->with('services', $services)
                 ->with('jobService', $jobService);
-        }
-        else{
-            return back();
-        }
+
     }
+
+    public function ChangeQuantity(Request $r){
+        $job=Job::findOrFail($r->jobId);
+        $job->quantity=$r->jobQuantity;
+        $job->save();
+
+        return back();
+    }
+
 
     public function changeFeedbackState(Request $r){
         $job=Job::findOrFail($r->jobId);
@@ -141,7 +151,7 @@ class JobController extends Controller
             $job->feedback=null;
         }
         $job->save();
-//        return $r;
+
     }
 
     public function insert(Request $r){
@@ -322,8 +332,8 @@ class JobController extends Controller
         $productionStatusId=Status::where('statusType','jobStatus')
             ->where('statusName','production')->first();
 
-        $time = strtotime($r->date);
-        $newformat = date('Y-m-d',$time);
+//        $time = strtotime($r->date);
+//        $newformat = date('Y-m-d',$time);
 
         $productionJob=Jobstate::select('jobstate.jobstateId','job.jobId','job.clientId','brief.briefId','client.clientName','file.folderName','job.quantity','brief.briefType','job.statusId','status.statusName','job.deadline','job.urgent','job.priority')
             ->where('jobstate.statusId',$productionStatusId->statusId)
@@ -331,9 +341,18 @@ class JobController extends Controller
             ->leftJoin('file','file.jobId','job.jobId')
             ->leftJoin('brief','brief.jobId','job.jobId')
             ->leftJoin('client','client.clientId','job.clientId')
-            ->leftJoin('status','status.statusId','job.statusId')
-            ->where('job.deadline','<=',$newformat)
-            ->where('endDate',null)
+            ->leftJoin('status','status.statusId','job.statusId');
+
+        if($r->date){
+            $productionJob=$productionJob->where('job.deadline',$r->date);
+        }
+        else{
+            $productionJob=$productionJob->where('job.deadline','<=',date('Y-m-d'));
+        }
+
+
+        $productionJob =$productionJob ->where('endDate',null)
+            ->orderBy('job.deadline','desc')
             ->get();
 
 
@@ -347,8 +366,8 @@ class JobController extends Controller
         $processingStatusId=Status::where('statusType','jobStatus')
             ->where('statusName','processing')->first();
 
-        $time = strtotime($r->date);
-        $newformat = date('Y-m-d',$time);
+//        $time = strtotime($r->date);
+//        $newformat = date('Y-m-d',$time);
 
 
         $processingJob=Jobstate::select('jobstate.jobstateId','job.jobId','job.clientId','brief.briefId','client.clientName','file.folderName','job.quantity','brief.briefType','job.statusId','status.statusName','job.deadline','job.urgent','job.priority')
@@ -357,9 +376,18 @@ class JobController extends Controller
             ->leftJoin('file','file.jobId','job.jobId')
             ->leftJoin('brief','brief.jobId','job.jobId')
             ->leftJoin('client','client.clientId','job.clientId')
-            ->leftJoin('status','status.statusId','job.statusId')
-            ->where('job.deadline','<=',$newformat)
-            ->where('endDate',null)
+            ->leftJoin('status','status.statusId','job.statusId');
+
+        if($r->date){
+            $processingJob=$processingJob->where('job.deadline',$r->date);
+        }
+        else{
+            $processingJob=$processingJob->where('job.deadline','<=',date('Y-m-d'));
+        }
+
+
+        $processingJob  =$processingJob ->where('endDate',null)
+            ->orderBy('job.deadline','desc')
             ->get();
 
         $datatables = Datatables::of($processingJob);
@@ -381,9 +409,18 @@ class JobController extends Controller
             ->leftJoin('file','file.jobId','job.jobId')
             ->leftJoin('brief','brief.jobId','job.jobId')
             ->leftJoin('client','client.clientId','job.clientId')
-            ->leftJoin('status','status.statusId','job.statusId')
-            ->where('job.deadline','<=',$newformat)
-            ->where('endDate',null)
+            ->leftJoin('status','status.statusId','job.statusId');
+
+        if($r->date){
+            $qcJob=$qcJob->where('job.deadline',$r->date);
+        }
+        else{
+            $qcJob=$qcJob->where('job.deadline','<=',date('Y-m-d'));
+        }
+
+
+        $qcJob=$qcJob->where('endDate',null)
+            ->orderBy('job.deadline','desc')
             ->get();
 
         $datatables = Datatables::of($qcJob);
@@ -412,6 +449,12 @@ class JobController extends Controller
 
         Jobassign::where('jobId',$r->jobId)
             ->update(['leaveDate'=> date('Y-m-d')]);
+
+        //Remove Leave date if job state reversed
+        $jobStatus=Job::findOrFail($r->jobId)->statusId;
+        Jobassign::where('jobId',$r->jobId)
+            ->where('jobState',$jobStatus)
+            ->update(['leaveDate'=> null]);
 
         if($r->status=='done'){
             Job::where('jobId',$r->jobId)
@@ -483,11 +526,22 @@ class JobController extends Controller
 
 
     public function assignJob($id){
+        if(Auth::user()->userType==USER_TYPE['User']){
+            return back();
+        }
+
+
         $job=Job::where('job.jobId',$id)
             ->leftJoin('file','file.jobId','job.jobId')
             ->first();
 
-        $groups=Group::get();
+        if(Auth::user()->userType==USER_TYPE['Supervisor']){
+            $groups=Group::get();
+        }
+        else{
+            $groups=Group::where('groupId',Auth::user()->groupId)->get();
+        }
+
 
         $jobAssignQuantity=Jobassign::where('jobId',$id)
             ->where('leaveDate',null)

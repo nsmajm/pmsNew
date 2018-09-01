@@ -23,7 +23,7 @@
                         <label>Search Date</label>
                         <div class="form-group">
                             <div>
-                                <input type="text" class="form-control" id="date1" name="start" placeholder="Start Date" value="{{$todaysDate}}" onchange="dateChange(this)"/>
+                                <input type="text" class="form-control" id="date1" name="start" placeholder="Start Date" value="" onchange="dateChange(this)"/>
                             </div>
                         </div>
                         <br>
@@ -205,6 +205,7 @@
                 rowReorder: {
                     selector: 'td:nth-child(0)'
                 },
+                "ordering": false,
                 responsive: true,
                 processing: true,
                 serverSide: true,
@@ -260,7 +261,7 @@
                     { data: 'deadline', name: 'deadline'},
 
 
-                    @if(Auth::user()->userType==USER_TYPE['Production Manager']) //For Production Manager
+                    @if(Auth::user()->userType==USER_TYPE['Production Manager'] ) //For Production Manager
                     { "data": function(data){
                         return '<select class="form-control"  onchange="productionChange(this)" data-panel-id="'+data.jobstateId+'" data-job-id="'+data.jobId+'">' +
                             '<option value="">'+data.statusName+'</option>'+
@@ -290,7 +291,7 @@
                     },
                         "orderable": false, "searchable":false, "name":"selected_rows" },
 
-                    @elseif(Auth::user()->userType==USER_TYPE['Production Manager'])//For Production Manager JobAssign
+                    @elseif(Auth::user()->userType==USER_TYPE['Production Manager'] || Auth::user()->userType==USER_TYPE['Supervisor'])//For Production Manager JobAssign
                     { "data": function(data){
 
 
@@ -320,6 +321,7 @@
                 rowReorder: {
                     selector: 'td:nth-child(0)'
                 },
+                "ordering": false,
                 responsive: true,
                 processing: true,
                 serverSide: true,
@@ -368,11 +370,12 @@
                     { data: 'folderName', name: 'folderName' },
                     { data: 'quantity', name: 'quantity'},
                     { data: 'briefType', name: 'briefType'},
-                    @if(Auth::user()->userType==USER_TYPE['Processing Manager']) //For Processing Manager
+                    @if(Auth::user()->userType==USER_TYPE['Processing Manager'] ) //For Processing Manager
                     { "data": function(data){
                         return '<select class="form-control" onchange="processingChange(this)" data-panel-id="'+data.jobstateId+'" data-job-id="'+data.jobId+'">' +
                             '<option value="">'+data.statusName+'</option>'+
                             '<option value="qc">Pass To QC</option>'+
+                            '<option value="production">Pass To Production</option>'+
                             '</select>';},
                         "orderable": false, "searchable":false, "name":"selected_rows" },
                     @else
@@ -393,7 +396,7 @@
                             },
                         "orderable": false, "searchable":false, "name":"selected_rows" },
 
-                    @elseif(Auth::user()->userType==USER_TYPE['Processing Manager'])//For Processing Manager JobAssign
+                    @elseif(Auth::user()->userType==USER_TYPE['Processing Manager'] || Auth::user()->userType==USER_TYPE['Supervisor'])//For Processing Manager JobAssign
                     { "data": function(data){
 
 
@@ -419,6 +422,7 @@
                 rowReorder: {
                     selector: 'td:nth-child(0)'
                 },
+                "ordering": false,
                 responsive: true,
                 processing: true,
                 serverSide: true,
@@ -486,7 +490,7 @@
                            },
                         "orderable": false, "searchable":false, "name":"selected_rows" },
 
-                    @elseif(Auth::user()->userType==USER_TYPE['Qc Manager'])//For Qc Manager JobAssign
+                    @elseif(Auth::user()->userType==USER_TYPE['Qc Manager'] || Auth::user()->userType==USER_TYPE['Supervisor'])//For Qc Manager JobAssign
                     { "data": function(data){
 
 
@@ -498,8 +502,7 @@
 
                     @else
                     { "data": function(data){
-                        {{--var url='{{url("product/edit/", ":id") }}';--}}
-                            return '<a class="btn btn-default btn-sm" data-panel-id="'+data.jobId+'" onclick="editjob(this)"><i class="fa fa-edit"></i></a>'
+                            return ''
                             ;},
                         "orderable": false, "searchable":false, "name":"selected_rows" },
 

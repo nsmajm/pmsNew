@@ -9,6 +9,8 @@ use App\Status;
 use Auth;
 use Session;
 use Yajra\DataTables\DataTables;
+use App\Absent;
+use DB;
 class LeaveController extends Controller
 {
     public function showLeaveRequest(){
@@ -38,11 +40,14 @@ class LeaveController extends Controller
     }
 
     public function show(){
-        $leaves=Leave::where('userId',Auth::user()->userId)->get();
 
-//        return $leaves;
+        $leaves=Leave::where('userId',Auth::user()->userId)->get();
+        $absents=Absent::select('userId',DB::raw('Date(created_at) as date'))->where('userId',Auth::user()->userId)->get();
+
+
         return view('leave.index')
-            ->with('leaves',$leaves);
+            ->with('leaves',$leaves)
+            ->with('absents',$absents);
     }
 
     public function apply(){

@@ -26,6 +26,10 @@ class InvoiceController extends Controller
     public function changeInvoiceStatus(Request $r){
         $billing=Billing::findOrFail($r->id);
         $billing->statusId=$r->statusId;
+        if($r->statusId==12){
+            $bill=$billing->bill;
+            $billing->total=$bill;
+        }
         $billing->save();
     }
 
