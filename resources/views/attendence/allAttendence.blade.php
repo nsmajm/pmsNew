@@ -53,10 +53,10 @@
                         <label>Late Today</label>
                         <input type="number" id="todayLate" name="todayLate" class="form-control" placeholder="Late Today" required>
                     </div>
-                    <div class="form-group col-md-6">
-                        <label>On Leave</label>
-                        <input type="number" id="onLeave" name="onLeave" class="form-control" placeholder="On Leave" required>
-                    </div>
+                    {{--<div class="form-group col-md-6">--}}
+                        {{--<label>On Leave</label>--}}
+                        {{--<input type="number" id="onLeave" name="onLeave" class="form-control" placeholder="On Leave" required>--}}
+                    {{--</div>--}}
                 </div>
 
                 <hr>
@@ -175,8 +175,8 @@
 
                     { data: 'totalEmployee', name: 'totalEmployee' },
                     { data: 'present', name: 'present' },
-                    { data: 'onLeave', name: 'onLeave' },
                     { data: 'latePresent', name: 'latePresent'},
+                    { data: 'onLeave', name: 'onLeave' },
                     { data: 'shiftName', name: 'shiftName'},
                     { data: 'date', name: 'date'},
                     { data: 'EmpName', name: 'EmpName'}

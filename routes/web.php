@@ -175,6 +175,7 @@ Route::get('shift/pdf/{id}','ShiftController@downloadPdf')->name('shift.download
 //File Check
 Route::get('file/check','FileController@index')->name('file.check');
 Route::post('file/check','FileController@doneCheck')->name('file.doneCheck');
+Route::post('file/editJobService','FileController@editJobService')->name('file.editJobService');
 
 
 //Password

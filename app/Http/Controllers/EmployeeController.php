@@ -227,18 +227,23 @@ class EmployeeController extends Controller
         $employeeAttendence=new EmployeeAttendence();
         $employeeAttendence->totalEmployee=$r->totalEmployee;
         $employeeAttendence->present=$r->presentToday;
-        $employeeAttendence->onLeave=$r->onLeave;
+//        $employeeAttendence->onLeave=$r->onLeave;
         $employeeAttendence->latePresent=$r->todayLate;
         $employeeAttendence->date=date("Y-m-d");
         $employeeAttendence->insertedBy=Auth::user()->userId;
         $employeeAttendence->shiftId=$r->shiftId;
         $employeeAttendence->save();
 
-        foreach ($r->absent as $user){
-            $absent=new Absent();
-            $absent->userId=$user;
-            $absent->save();
+        if($r->absent){
+            foreach ($r->absent as $user){
+                $absent=new Absent();
+                $absent->userId=$user;
+                $absent->shiftId=$r->shiftId;
+                $absent->save();
+            }
+
         }
+
 
         return back();
 

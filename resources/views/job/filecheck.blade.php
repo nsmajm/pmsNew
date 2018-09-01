@@ -16,17 +16,30 @@
 @endsection
 @section('content')
 <div class="row">
-    {{--<div class="col-md-12">--}}
-        {{--<div class="card">--}}
-            {{--<div class="card-header">--}}
-                {{--<h6>Service List</h6>--}}
-            {{--</div>--}}
-            {{--<div class="card-body">--}}
+    <!-- The Modal -->
+    <div class="modal fade" id="serviceModal">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
 
-            {{--</div>--}}
-        {{--</div>--}}
-{{--<br><br>--}}
-    {{--</div>--}}
+                <!-- Modal Header -->
+                <div class="modal-header">
+                    <h4 class="modal-title" id="serviceModalHead"></h4>
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                </div>
+
+                <!-- Modal body -->
+                <div class="modal-body" id="serviceModalBody">
+
+                </div>
+
+                <!-- Modal footer -->
+                <div class="modal-footer">
+                </div>
+
+            </div>
+        </div>
+    </div>
+
 
     <div class="col-md-12">
         <div class="card">
@@ -64,7 +77,8 @@
                             <td>{{$job->doneBy}}</td>
                             <td>
                                 <button class="btn btn-success btn-sm" data-panel-id="{{$job->jobId}}" onclick="onFileCheck(this)"><i class="fa fa-check"></i></button>
-                                <a class="btn btn-info btn-sm" href="{{route('job.edit',['id'=>$job->jobId])}}"><i class="fa fa-edit"></i></a>
+                                {{--<a class="btn btn-info btn-sm" href="{{route('job.edit',['id'=>$job->jobId])}}"><i class="fa fa-edit"></i></a>--}}
+                                <button class="btn btn-info btn-sm" data-jobid="{{$job->jobId}}" data-foldername="{{$job->folderName}}" onclick="editJobService(this)" ><i class="fa fa-edit"></i></button>
                             </td>
                         </tr>
 
@@ -115,6 +129,26 @@
 ////            $().DataTable();
         } );
 
+        function editJobService(x) {
+           var folderName=$(x).data('foldername');
+           var jobId=$(x).data('jobid');
+
+            $.ajax({
+                type: 'POST',
+                url: "{!! route('file.editJobService') !!}",
+                cache: false,
+                data: {_token:"{{csrf_token()}}",'jobId': jobId},
+                success: function (data) {
+                    console.log(data);
+                    $('#serviceModalHead').html(folderName);
+                    $('#serviceModalBody').html(data);
+                    $('#serviceModal').modal();
+
+                }
+            });
+
+
+        }
         function onFileCheck(x) {
             var id=$(x).data('panel-id');
 
