@@ -55,7 +55,8 @@
                                 <th style="width: 10%">Client Id</th>
                                 <th style="width: 30%">Folder Name</th>
                                 <th style="width: 10%">quantity</th>
-                                <th style="width: 20%">created at</th>
+                                <th style="width: 10%">created at</th>
+                                <th style="width: 20%">Status</th>
 
                             </tr>
                             </thead>
@@ -92,6 +93,7 @@
                 rowReorder: {
                     selector: 'td:nth-child(0)'
                 },
+                "ordering": false,
                 responsive: true,
                 processing: true,
                 serverSide: true,
@@ -113,7 +115,33 @@
                     { data: 'clientName', name: 'clientName' },
                     { data: 'folderName', name: 'folderName' },
                     { data: 'quantity', name: 'quantity'},
-                    { data: 'created_at', name: 'created_at' },
+                    { data: 'feedback', name: 'feedback' },
+                    @if(Auth::user()->userType==USER_TYPE['Admin'] || Auth::user()->userType==USER_TYPE['Supervisor'] || Auth::user()->userType==USER_TYPE['Production Manager'] || Auth::user()->userType==USER_TYPE['Processing Manager'] || Auth::user()->userType==USER_TYPE['Qc Manager']  )
+                    { "data": function(data){
+                        if(data.feedbackStatus == 13){
+                            return "<a href='#' class='btn btn-success' data-jobid='"+data.jobId+"' data-status='14' onclick='changeFeedbackStatus(this)'>done<a>";
+                        }
+                        else if(data.feedbackStatus == 14){
+                            return "Done";
+                        }
+                        else{
+                            return '';
+                        }
+
+                            },
+                        "orderable": false, "searchable":false, "name":"selected_rows" },
+                    @else
+                    { "data": function(data){
+                            if(data.feedbackStatus == 13){
+                                return "Pending";
+                            }
+                            else if(data.feedbackStatus == 14){
+                                return "Done";
+                            }
+                            return ''
+                            ;},
+                        "orderable": false, "searchable":false, "name":"selected_rows" },
+                    @endif
 
 
                 ]
@@ -121,16 +149,35 @@
 
 
             $('#date1').datepicker({
-                format:'yyyy-m-d'
+                format:'yyyy-mm-dd'
             });
             $('#date2').datepicker({
-                format:'yyyy-m-d'
+                format:'yyyy-mm-dd'
             });
         } );
 
         function onDateSearch() {
 
             dataTable.ajax.reload();
+
+        }
+
+        function changeFeedbackStatus(x) {
+            var jobId=$(x).data('jobid');
+            var status=$(x).data('status');
+
+            $.ajax({
+               type: 'POST',
+               url: "{!! route('feedback.changeStatus') !!}",
+               cache: false,
+               data: {_token: "{{csrf_token()}}",'jobId': jobId,'status':status},
+               success: function (data) {
+                   dataTable.ajax.reload();
+               }
+
+           });
+
+
 
         }
 

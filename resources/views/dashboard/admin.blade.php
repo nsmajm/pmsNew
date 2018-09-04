@@ -25,7 +25,11 @@
                                 </tr>
                                 <tr>
                                     <td>On Leave</td>
-                                    <td>{{$attendence->onLeave}}</td>
+                                    <td>{{$onLeaveMorning}}</td>
+                                </tr>
+                                <tr>
+                                    <td>Absent</td>
+                                    <td>{{$absentMorning}}</td>
                                 </tr>
                                 <tr>
                                     <td>Late present</td>
@@ -60,8 +64,12 @@
                                             <td>{{$attendence->onLeave}}</td>
                                         </tr>
                                         <tr>
+                                            <td>Absent</td>
+                                            <td>{{$absentEvening}}</td>
+                                        </tr>
+                                        <tr>
                                             <td>Late present</td>
-                                            <td>{{$attendence->latePresent}}</td>
+                                            <td>{{$onLeaveEvening}}</td>
                                         </tr>
                                     @endif
                                 @endforeach

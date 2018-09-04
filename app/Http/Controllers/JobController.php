@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Feedback;
 use App\Service;
 use App\Shiftassign;
 use foo\bar;
@@ -145,10 +146,21 @@ class JobController extends Controller
     public function changeFeedbackState(Request $r){
         $job=Job::findOrFail($r->jobId);
         if($job->feedback == null){
-            $job->feedback=1;
+            $job->feedback=date('Y-m-d');
+            $job->feedbackUser=Auth::user()->userId;
+            $job->statusId=10;
+
+            $feedback=new Feedback();
+            $feedback->jobId=$r->jobId;
+            $feedback->statusId=13;
+            $feedback->save();
+
         }
         else{
             $job->feedback=null;
+            $job->feedbackUser=null;
+
+            Feedback::where('jobId',$r->jobId)->delete();
         }
         $job->save();
 
@@ -267,22 +279,26 @@ class JobController extends Controller
             ->where('statusName','feedback')
             ->first();
 
-        $jobs=Job::select('client.clientName','file.folderName','job.quantity','job.created_at');
+        $jobs=Job::select('job.jobId','client.clientName','file.folderName','job.quantity','job.feedback','feedback.statusId as feedbackStatus');
 
         if($r->date1 && $r->date2){
-            $jobs=$jobs->whereBetween(DB::raw('DATE(job.created_at)'),[$r->date1,$r->date2]);
+            $jobs=$jobs->whereBetween('job.feedback',[$r->date1,$r->date2]);
         }
 
 
-        $jobs=$jobs->where('job.statusId',$status->statusId)
-            ->orWhere('job.feedback','!=',null)
+        $jobs=$jobs->where('job.feedback','!=',null)
             ->leftJoin('file','file.jobId','job.jobId')
             ->leftJoin('client','client.clientId','job.clientId')
-            ->get();;
+            ->leftJoin('feedback','feedback.jobId','job.jobId')
+            ->orderBy('job.feedback','desc')
+            ->get();
 
         $datatables = Datatables::of($jobs);
         return $datatables->make(true);
 
+    }
+    public function changeFeedbackStatus(Request $r){
+        Feedback::where('jobId',$r->jobId)->update(['statusId' => $r->status]);
     }
 
     public function getPendingData(Request $r){

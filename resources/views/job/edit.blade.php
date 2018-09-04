@@ -102,7 +102,7 @@
                         <div class="form-group row">
                             <label for="example-tel-input" class="col-sm-2 col-form-label">Feedback</label>
                             <div class="col-sm-10">
-                                <input type="checkbox" @if($job->feedback == 1) checked @endif onclick="changeFeedbackState()">
+                                <input type="checkbox" @if($job->feedback != null) checked @endif onclick="changeFeedbackState()">
                             </div>
                             {{--&nbsp;&nbsp;--}}
 
