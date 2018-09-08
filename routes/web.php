@@ -67,6 +67,7 @@ Route::post('/job/getProductionData','JobController@getProductionData')->name('j
 Route::post('/job/getProcessingData','JobController@getProcessingData')->name('job.getProcessingData');
 Route::post('/job/getQcData','JobController@getQcData')->name('job.getQcData');
 Route::post('/job/StateChange','JobController@jobStateChange')->name('job.StateChange');
+Route::post('/job/ChangeQuantity','JobController@ChangeQuantity')->name('job.ChangeQuantity');
 
 //Assign Job
 Route::get('job/assign/history','JobController@assignHistory')->name('assign.history');
@@ -174,6 +175,7 @@ Route::get('shift/pdf/{id}','ShiftController@downloadPdf')->name('shift.download
 //File Check
 Route::get('file/check','FileController@index')->name('file.check');
 Route::post('file/check','FileController@doneCheck')->name('file.doneCheck');
+Route::post('file/editJobService','FileController@editJobService')->name('file.editJobService');
 
 
 //Password

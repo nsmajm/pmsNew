@@ -29,6 +29,7 @@ class JobAssignController extends Controller
 
     public function assignJobUser(Request $r){
 
+        $jobStatus=Job::findOrFail($r->jobId)->statusId;
 
         for($i=0;$i<count($r->quantity);$i++){
 
@@ -44,6 +45,7 @@ class JobAssignController extends Controller
                 $assign->assignBy=Auth::user()->userId;
                 $assign->assignTo=$r->user[$i];
                 $assign->quantity=$r->quantity[$i];
+                $assign->jobState=$jobStatus;
                 $assign->save();
             }
             else{

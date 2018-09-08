@@ -12,6 +12,7 @@ use App\User;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Employeeinfo;
+use App\Absent;
 
 use Illuminate\Support\Facades\DB;
 
@@ -22,6 +23,7 @@ use Hash;
 use Yajra\DataTables\DataTables;
 
 use Auth;
+
 
 
 
@@ -128,14 +130,29 @@ class EmployeeController extends Controller
         $employee->sudoName=$r->empSudoName;
         $employee->employeeId=$r->employeeId;
 
+        if($r->password){
 
-        $data=array(
-            'statusId'=>$r->empStatus,
-            'teamId'=>$r->team,
-            'name'=>$r->empName,
-            'loginId'=>$r->empUserName,
+            $pass=Hash::make($r->password);
+            $data=array(
+                'statusId'=>$r->empStatus,
+                'teamId'=>$r->team,
+                'name'=>$r->empName,
+                'loginId'=>$r->empUserName,
+                'password'=>$pass,
 
-        );
+            );
+
+        }else{
+            $data=array(
+                'statusId'=>$r->empStatus,
+                'teamId'=>$r->team,
+                'name'=>$r->empName,
+                'loginId'=>$r->empUserName,
+
+            );
+
+        }
+
 
 
         if($r->hasFile('empImage')){
@@ -170,17 +187,17 @@ class EmployeeController extends Controller
     //attendence
     public function allAttendence(){
 
-//        $employeeAttendence=EmployeeAttendence::select('employeeattendence.*','user.name',DB::raw('DATE(employeeattendence.date) as attendenceDate'))
-//            ->leftJoin('employee_info','employee_info.empId','employeeattendence.insertedBy')
-//            ->leftJoin('user','employee_info.userId','user.userId')
-//            ->groupBy('attendenceDate')
-//            ->get();
+        if(Auth::user()->userType ==USER_TYPE['Production Manager']){
+            $employees=User::select('loginId','userId')->where('userType',USER_TYPE['User'])->get();
 
-        $shifts=Shift::where(function ($q) {
-            $q->where('shiftName','Morning')->orWhere('shiftName','Evening');
-        })->get();
+            $shifts=Shift::where(function ($q) {
+                $q->where('shiftName','Morning')->orWhere('shiftName','Evening');
+            })->get();
 
-        return view('attendence.allAttendence',compact('shifts'));
+            return view('attendence.allAttendence',compact('shifts','employees'));
+        }
+
+
 
 
 
@@ -205,17 +222,28 @@ class EmployeeController extends Controller
     }
     public function addAttendence(Request $r){
 
-        $employeeAttendence=new EmployeeAttendence();
 
+
+        $employeeAttendence=new EmployeeAttendence();
         $employeeAttendence->totalEmployee=$r->totalEmployee;
         $employeeAttendence->present=$r->presentToday;
-        $employeeAttendence->onLeave=$r->onLeave;
+//        $employeeAttendence->onLeave=$r->onLeave;
         $employeeAttendence->latePresent=$r->todayLate;
         $employeeAttendence->date=date("Y-m-d");
         $employeeAttendence->insertedBy=Auth::user()->userId;
         $employeeAttendence->shiftId=$r->shiftId;
-
         $employeeAttendence->save();
+
+        if($r->absent){
+            foreach ($r->absent as $user){
+                $absent=new Absent();
+                $absent->userId=$user;
+                $absent->shiftId=$r->shiftId;
+                $absent->save();
+            }
+
+        }
+
 
         return back();
 

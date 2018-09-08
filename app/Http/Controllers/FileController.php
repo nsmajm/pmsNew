@@ -8,6 +8,7 @@ use Auth;
 use App\Job;
 use App\Status;
 use App\JobServiceRelation;
+use App\Service;
 class FileController extends Controller
 {
     public function __construct()
@@ -67,5 +68,39 @@ class FileController extends Controller
 
         return response()->json(['title'=>'Success','content'=>'File Checked successfully','flag'=>1]);
 
+    }
+
+    public function editJobService(Request $r){
+        $id=$r->jobId;
+        $job = Job::select('job.jobId','job.feedback','job.clientId', 'brief.briefId', 'client.clientName', 'job.deadLine', 'job.submissionTime', 'job.quantity', 'job.other', 'brief.briefMsg', 'file.folderName')
+            ->where('job.jobId', $id)
+            ->leftJoin('brief', 'brief.jobId', 'job.jobId')
+            ->leftJoin('client', 'client.clientId', 'job.clientId')
+            ->leftJoin('file', 'file.jobId', 'job.jobId')
+            ->orderBy('briefId', 'desc')
+            ->first();
+
+        if(Auth::user()->userType==USER_TYPE['Supervisor'] ){
+            $services=Service::get();
+
+
+        }
+        else{
+            $services = ClientServiceRelation::where('clientId', $job->clientId)
+                ->leftJoin('service', 'service.serviceId', 'client_service_relation.serviceId')
+                ->get();
+        }
+
+
+
+
+
+        $jobService = JobServiceRelation::where('jobId', $id)->get();
+
+
+        return view('job.editJobService')
+            ->with('job', $job)
+            ->with('services', $services)
+            ->with('jobService', $jobService);
     }
 }

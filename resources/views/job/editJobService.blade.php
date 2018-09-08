@@ -1,114 +1,5 @@
-@extends('main')
-@section('header')
-    <link href="{{url('public/assets/plugins/bootstrap-datepicker/css/bootstrap-datepicker.min.css')}}" rel="stylesheet">
-@endsection
 
-@section('content')
-
-    <div class="row">
-        <div class="col-12">
-            <div class="card m-b-30">
-                <h4 class="mb-md-6" style="text-align: center">Edit Job</h4>
-
-                <div class="card-body">
-
-                        <div class="form-group row">
-                            <label for="example-text-input" class="col-sm-2 col-form-label">Client Id</label>
-                            <div class="col-sm-10">
-                            <input class="form-control" type="text" name="clientName" placeholder="id" id="example-search-input" value="{{$job->clientName}}" readonly>
-                            </div>
-                        </div>
-
-
-                        <div class="form-group row">
-                            <label for="example-search-input" class="col-sm-2 col-form-label">Folder Name</label>
-                            <div class="col-sm-10">
-                                <input class="form-control" type="text" name="folderName" placeholder="path" id="example-search-input" value="{{$job->folderName}}" readonly>
-                            </div>
-                            @if ($errors->has('folderName'))
-                                <span class="alert-feedback">
-                                        <strong>{{ $errors->first('folderName') }}</strong>
-                            </span>
-                            @endif
-                        </div>
-
-                        <div class="form-group row">
-                            <label for="example-email-input" class="col-sm-2 col-form-label">Submission Date</label>
-                            <div class="col-sm-10">
-                                <input class="form-control" name="submissionDate" type="text"  id="date" value="{{$job->deadLine}}" readonly>
-                                @if ($errors->has('submissionDate'))
-                                    <span class="alert-feedback">
-                                        <strong>{{ $errors->first('submissionDate') }}</strong>
-                                </span>
-                                @endif
-                            </div>
-                        </div>
-
-                        <div class="form-group row">
-                            <label for="example-text-input"  class="col-sm-2 col-form-label">Submission Time</label>
-                            <div class="col-sm-10">
-
-                                <input class="form-control" name="submissionTime" type="text"  id="date" value="{{$job->submissionTime}}" readonly>
-                            </div>
-                        </div>
-                <form method="post" action="{{route('job.ChangeQuantity')}}">
-                    {{csrf_field()}}
-                    <input type="hidden" name="jobId" value="{{$job->jobId}}">
-                        <div class="form-group row">
-                            <label for="example-tel-input" class="col-sm-2 col-form-label">Quantity</label>
-                            <div class="col-sm-10">
-                                <input class="form-control" name="jobQuantity" type="number" id="example-tel-input" value="{{$job->quantity}}" >
-                            </div>
-                            @if ($errors->has('quantity'))
-                                <span class="alert-feedback">
-                                        <strong>{{ $errors->first('quantity') }}</strong>
-                            </span>
-                            @endif
-
-                        </div>
-                    <button class="btn btn-danger btn-sm pull-right">Change</button>
-
-                </form>
-
-
-
-
-
-                        <div class="form-group row">
-                            <label for="example-email-input" class="col-sm-2 col-form-label">Brief</label>
-                            <div class="col-sm-10">
-                            <textarea class="form-control" name="brief" readonly>{{$job->briefMsg}}</textarea>
-                            </div>
-                            @if ($errors->has('brief'))
-                                <span class="alert-feedback">
-                                        <strong>{{ $errors->first('brief')}}</strong>
-                            </span>
-                            @endif
-                        </div>
-
-
-                        <div class="form-group row">
-                            <label for="example-tel-input" class="col-sm-2 col-form-label">Other</label>
-                            <div class="col-sm-10">
-                                <input class="form-control" name="other" type="text" id="example-tel-input" value="{{$job->other}}" readonly>
-                            </div>
-                            @if ($errors->has('other'))
-                                <span class="alert-feedback">
-                                        <strong>{{ $errors->first('other') }}</strong>
-                            </span>
-                            @endif
-                        </div>
-
-                        <div class="form-group row">
-                            <label for="example-tel-input" class="col-sm-2 col-form-label">Feedback</label>
-                            <div class="col-sm-10">
-                                <input type="checkbox" @if($job->feedback == 1) checked @endif onclick="changeFeedbackState()">
-                            </div>
-                            {{--&nbsp;&nbsp;--}}
-
-                        </div>
-
-                        {{--ADD Services--}}
+                    {{--ADD Services--}}
                     <form method="post" action="{{route('job.update')}}" onsubmit="return jobCount()">
                         {{csrf_field()}}
                         <input type="hidden" name="jobId" value="{{$job->jobId}}">
@@ -118,14 +9,14 @@
                         @foreach($jobService as $jService)
                             <input type="hidden" name="job_service_relationId[]" value="{{$jService->job_service_relationId}}">
 
-                            <div class="row col-md-6">
+                            <div class="row col-md-12">
                                 <div class="col-md-6">
                                     <label class="col-md-4">Service:#{{$count}}</label>
                                     <select class="form-control col-md-8" id="service1" name="service[]">
 
                                         @foreach($services as $service)
                                             <option value="{{$service->serviceId}}" @if($jService->serviceId ==$service->serviceId)
-                                                selected @endif>{{$service->serviceName}}</option>
+                                            selected @endif>{{$service->serviceName}}</option>
                                         @endforeach
                                     </select>
                                 </div>
@@ -140,7 +31,7 @@
 
                         @endforeach
 
-                        <div class="row col-md-6">
+                        <div class="row col-md-12">
                             <div class="col-md-6">
                                 <label class="col-md-4">Service:#{{$count}}</label>
                                 <select class="form-control col-md-8" id="service1" name="service[]">
@@ -175,9 +66,9 @@
 
 
                         @if(Auth::user()->userType==USER_TYPE['Admin'] || Auth::user()->userType==USER_TYPE['Supervisor'] || Auth::user()->userType==USER_TYPE['Qc Manager'])
-                        <div align="center">
-                            <button class="btn btn-success btn-lg" type="submit">Assign Service</button>
-                        </div>
+                            <div align="center">
+                                <button class="btn btn-success btn-lg" type="submit">Assign Service</button>
+                            </div>
                         @endif
 
                     </form>
@@ -192,8 +83,6 @@
 
 
 
-@endsection
-@section('foot-js')
 
     <script src="{{url('public/dist/js/BsMultiSelect.js')}}"></script>
 
@@ -257,7 +146,7 @@
                 var newTextBoxDiv = $(document.createElement('div'))
                     .attr("id", 'TextBoxDiv' + counter);
 
-                newTextBoxDiv.after().html('<div class="row col-md-6">'+
+                newTextBoxDiv.after().html('<div class="row col-md-12">'+
                     '<div class="col-md-6">'+
 
                     '<label class="col-md-4">Service:#'+ii+'</label>'+
@@ -324,5 +213,4 @@
 
 
 
-@endsection
 
