@@ -12,10 +12,10 @@
 
     <div class="row">
         <div class="col-12">
-            <div class="card m-b-30">
+            <div class="card container">
                 <h4 class="mb-md-6" style="text-align: center">Add Client</h4>
 
-                <div class="card-body">
+                <div class="card-body ">
 
 
                     <form method="post" action="{{route('client.insert')}}">
