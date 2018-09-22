@@ -1,12 +1,15 @@
 <?php
 namespace App\Http\Controllers;
+use App\Absent;
 use App\Billing;
 use App\EmployeeAttendence;
 use App\Group;
 use App\JobServiceRelation;
+use App\Leave;
 use App\OvertimeAssign;
 use App\Service;
 use App\Shift;
+use App\Shiftmain;
 use App\Team;
 use Illuminate\Http\Request;
 use Auth;
@@ -406,9 +409,51 @@ class DashboardController extends Controller
             ->groupBy('shift.shiftName')
             ->get();
 
-       //   return $employeeAttendence;
+        $shifMain=Shiftmain::orderBy('shiftmainId','desc')
+            ->limit(1)
+            ->first();
+
+
+        $onLeaveMorning=Leave::where(function ($query) {
+                $query->where('leave.startDate', '<=', date('Y-m-d'));
+                $query->where('leave.endDate', '>=', date('Y-m-d'));
+            })
+            ->where('leave.statusId',8)
+            ->leftJoin('user','user.userId','leave.userId')
+            ->leftJoin('group','group.groupId','user.groupId')
+            ->leftJoin('shiftassign','shiftassign.groupId','group.groupId')
+            ->where('shiftassign.shiftmainId',$shifMain->shiftmainId)
+            ->where(function ($query) {
+                $query->orWhere('shiftassign.shiftId', 1);
+                $query->orWhere('shiftassign.shiftId',2);
+            })
+            ->count();
+
+        $onLeaveEvening=Leave::where(function ($query) {
+            $query->where('leave.startDate', '<=', date('Y-m-d'));
+            $query->where('leave.endDate', '>=', date('Y-m-d'));
+        })
+            ->where('leave.statusId',8)
+            ->leftJoin('user','user.userId','leave.userId')
+            ->leftJoin('group','group.groupId','user.groupId')
+            ->leftJoin('shiftassign','shiftassign.groupId','group.groupId')
+            ->where('shiftassign.shiftmainId',$shifMain->shiftmainId)
+            ->where('shiftassign.shiftId',3)
+            ->count();
+
+        $absentMorning=Absent::where(DB::raw('DATE(absent.created_at)'),date('Y-m-d'))
+            ->where(function ($query) {
+                $query->orWhere('absent.shiftId', 1);
+                $query->orWhere('absent.shiftId',2);
+            })
+            ->count();
+
+        $absentEvening=Absent::where(DB::raw('DATE(absent.created_at)'),date('Y-m-d'))
+            ->where('absent.shiftId',3)
+            ->count();
+
         return view('dashboard.admin',compact('processMoirningBasic','processMoirningMedium','processMoirningAdvance','processMoirningComplex','processEveningBasic','processEveningMedium','processEveningAdvance','processEveningComplex','jobRecievedLastDay','jobInformation','fileProcessedPerTeam','team','jobServiceMorning','jobServiceEvening','jobServiceNight','overTimeInformation','jobRecievedLastDay','jobInformation','fileProcessedPerTeam','team','jobServiceMorning','jobServiceEvening',
-            'employeeAttendence','jobServiceNight','overTimeInformation'));
+            'employeeAttendence','jobServiceNight','overTimeInformation','onLeaveMorning','onLeaveEvening','absentMorning','absentEvening'));
 
     }
 }

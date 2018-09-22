@@ -510,31 +510,125 @@ class ShiftController extends Controller
         $qc=Status::where('statusType','jobStatus')
             ->where('statusName','qc')
             ->first();
-        $ProductionManager=Shiftassign::select('group.groupName','group.groupId','shiftassign.shiftId','user.name','user.userType','user.teamLeader')
+//        $ProductionManager=Shiftassign::select('group.groupName','group.groupId','shiftassign.shiftId','user.name','user.userType','user.teamLeader')
+//            ->where('jobStatus',$production->statusId)
+//            ->leftJoin('group','group.groupId','shiftassign.groupId')
+//            ->leftJoin('user','user.groupId','group.groupId')
+//            ->where('shiftassign.shiftmainId',$id)
+//            ->orderBy('groupName')
+//            ->orderBy('user.teamLeader','desc')
+//            ->get();
+
+        $ProductionMorningFixed=Shiftassign::select('group.groupName','group.groupId','shiftassign.shiftId','user.name','user.userType','user.teamLeader')
             ->where('jobStatus',$production->statusId)
             ->leftJoin('group','group.groupId','shiftassign.groupId')
             ->leftJoin('user','user.groupId','group.groupId')
             ->where('shiftassign.shiftmainId',$id)
+            ->where('shiftassign.shiftId',1)
             ->orderBy('groupName')
             ->orderBy('user.teamLeader','desc')
             ->get();
-//        return $ProductionManager;
-        $ProcessingManager=Shiftassign::select('group.groupId','group.groupName','shiftassign.shiftId','user.name','user.userType','user.teamLeader')
+
+        $ProductionMorning=Shiftassign::select('group.groupName','group.groupId','shiftassign.shiftId','user.name','user.userType','user.teamLeader')
+            ->where('jobStatus',$production->statusId)
+            ->leftJoin('group','group.groupId','shiftassign.groupId')
+            ->leftJoin('user','user.groupId','group.groupId')
+            ->where('shiftassign.shiftmainId',$id)
+            ->where('shiftassign.shiftId',2)
+            ->orderBy('groupName')
+            ->orderBy('user.teamLeader','desc')
+            ->get();
+        $ProductionEvening=Shiftassign::select('group.groupName','group.groupId','shiftassign.shiftId','user.name','user.userType','user.teamLeader')
+            ->where('jobStatus',$production->statusId)
+            ->leftJoin('group','group.groupId','shiftassign.groupId')
+            ->leftJoin('user','user.groupId','group.groupId')
+            ->where('shiftassign.shiftmainId',$id)
+            ->where('shiftassign.shiftId',3)
+            ->orderBy('groupName')
+            ->orderBy('user.teamLeader','desc')
+            ->get();
+
+
+
+//        $ProcessingManager=Shiftassign::select('group.groupId','group.groupName','shiftassign.shiftId','user.name','user.userType','user.teamLeader')
+//            ->where('jobStatus',$processing->statusId)
+//            ->leftJoin('group','group.groupId','shiftassign.groupId')
+//            ->leftJoin('user','user.groupId','group.groupId')
+//            ->where('shiftassign.shiftmainId',$id)
+//            ->orderBy('groupName')
+//            ->orderBy('user.teamLeader','desc')
+//            ->get();
+
+        $ProcessingMoringFixed=Shiftassign::select('group.groupId','group.groupName','shiftassign.shiftId','user.name','user.userType','user.teamLeader')
             ->where('jobStatus',$processing->statusId)
             ->leftJoin('group','group.groupId','shiftassign.groupId')
             ->leftJoin('user','user.groupId','group.groupId')
             ->where('shiftassign.shiftmainId',$id)
+            ->where('shiftassign.shiftId',1)
             ->orderBy('groupName')
             ->orderBy('user.teamLeader','desc')
             ->get();
-        $QcManager=Shiftassign::select('group.groupId','group.groupName','shiftassign.shiftId','user.name','user.userType','user.teamLeader')
+
+        $ProcessingMoring=Shiftassign::select('group.groupId','group.groupName','shiftassign.shiftId','user.name','user.userType','user.teamLeader')
+            ->where('jobStatus',$processing->statusId)
+            ->leftJoin('group','group.groupId','shiftassign.groupId')
+            ->leftJoin('user','user.groupId','group.groupId')
+            ->where('shiftassign.shiftmainId',$id)
+            ->where('shiftassign.shiftId',2)
+            ->orderBy('groupName')
+            ->orderBy('user.teamLeader','desc')
+            ->get();
+        $ProcessingEvening=Shiftassign::select('group.groupId','group.groupName','shiftassign.shiftId','user.name','user.userType','user.teamLeader')
+            ->where('jobStatus',$processing->statusId)
+            ->leftJoin('group','group.groupId','shiftassign.groupId')
+            ->leftJoin('user','user.groupId','group.groupId')
+            ->where('shiftassign.shiftmainId',$id)
+            ->where('shiftassign.shiftId',3)
+            ->orderBy('groupName')
+            ->orderBy('user.teamLeader','desc')
+            ->get();
+
+
+//        $QcManager=Shiftassign::select('group.groupId','group.groupName','shiftassign.shiftId','user.name','user.userType','user.teamLeader')
+//            ->where('jobStatus',$qc->statusId)
+//            ->leftJoin('group','group.groupId','shiftassign.groupId')
+//            ->leftJoin('user','user.groupId','group.groupId')
+//            ->where('shiftassign.shiftmainId',$id)
+//            ->orderBy('groupName')
+//            ->orderBy('user.teamLeader','desc')
+//            ->get();
+
+        $QcMorningFixed=Shiftassign::select('group.groupId','group.groupName','shiftassign.shiftId','user.name','user.userType','user.teamLeader')
             ->where('jobStatus',$qc->statusId)
             ->leftJoin('group','group.groupId','shiftassign.groupId')
             ->leftJoin('user','user.groupId','group.groupId')
             ->where('shiftassign.shiftmainId',$id)
+            ->where('shiftassign.shiftId',1)
             ->orderBy('groupName')
             ->orderBy('user.teamLeader','desc')
             ->get();
+
+        $QcMorning=Shiftassign::select('group.groupId','group.groupName','shiftassign.shiftId','user.name','user.userType','user.teamLeader')
+            ->where('jobStatus',$qc->statusId)
+            ->leftJoin('group','group.groupId','shiftassign.groupId')
+            ->leftJoin('user','user.groupId','group.groupId')
+            ->where('shiftassign.shiftmainId',$id)
+            ->where('shiftassign.shiftId',2)
+            ->orderBy('groupName')
+            ->orderBy('user.teamLeader','desc')
+            ->get();
+
+        $QcEvening=Shiftassign::select('group.groupId','group.groupName','shiftassign.shiftId','user.name','user.userType','user.teamLeader')
+            ->where('jobStatus',$qc->statusId)
+            ->leftJoin('group','group.groupId','shiftassign.groupId')
+            ->leftJoin('user','user.groupId','group.groupId')
+            ->where('shiftassign.shiftmainId',$id)
+            ->where('shiftassign.shiftId',3)
+            ->orderBy('groupName')
+            ->orderBy('user.teamLeader','desc')
+            ->get();
+
+
         $productionTeams=Shiftassign::select('groupId')
             ->where('jobStatus',$production->statusId)
             ->groupBy('groupId')
@@ -547,174 +641,356 @@ class ShiftController extends Controller
             ->where('jobStatus',$qc->statusId)
             ->groupBy('groupId')
             ->get();
+//
+//        return view('shift.show')
+//            ->with('shifts',$shifts)
+//            ->with('ProductionManager',$ProductionManager)
+//            ->with('ProcessingManager',$ProcessingManager)
+//            ->with('QcManager',$QcManager)
+//            // Variable For Teams
+//            ->with('productionTeams',$productionTeams)
+//            ->with('processingnTeams',$processingnTeams)
+//            ->with('qcTeams',$qcTeams)
+//            ->with('shiftMain',$shiftMain);
 
-        return view('shift.show')
+//        return $QcMorningFixed;
+        return view('shift.test')
             ->with('shifts',$shifts)
-            ->with('ProductionManager',$ProductionManager)
-            ->with('ProcessingManager',$ProcessingManager)
-            ->with('QcManager',$QcManager)
+            ->with('ProductionMorningFixed',$ProductionMorningFixed)
+            ->with('ProductionMorning',$ProductionMorning)
+            ->with('ProductionEvening',$ProductionEvening)
             // Variable For Teams
-            ->with('productionTeams',$productionTeams)
-            ->with('processingnTeams',$processingnTeams)
-            ->with('qcTeams',$qcTeams)
+            ->with('ProcessingMoringFixed',$ProcessingMoringFixed)
+            ->with('ProcessingMoring',$ProcessingMoring)
+            ->with('ProcessingEvening',$ProcessingEvening)
+            ->with('QcMorningFixed',$QcMorningFixed)
+            ->with('QcMorning',$QcMorning)
+            ->with('QcEvening',$QcEvening)
             ->with('shiftMain',$shiftMain);
     }
 
     public function makepdf($id){
         $shiftMain=Shiftmain::findOrFail($id);
-
         $shifts=Shift::where('shiftName','!=','Night')->get();
         $production=Status::where('statusType','jobStatus')
             ->where('statusName','production')
             ->first();
-
         $processing=Status::where('statusType','jobStatus')
             ->where('statusName','processing')
             ->first();
-
         $qc=Status::where('statusType','jobStatus')
             ->where('statusName','qc')
             ->first();
 
-
-        $ProductionManager=Shiftassign::select('group.groupName','group.groupId','shiftassign.shiftId','user.name','user.userType','user.teamLeader')
+        $ProductionMorningFixed=Shiftassign::select('group.groupName','group.groupId','shiftassign.shiftId','user.name','user.userType','user.teamLeader')
             ->where('jobStatus',$production->statusId)
             ->leftJoin('group','group.groupId','shiftassign.groupId')
             ->leftJoin('user','user.groupId','group.groupId')
             ->where('shiftassign.shiftmainId',$id)
+            ->where('shiftassign.shiftId',1)
             ->orderBy('groupName')
             ->orderBy('user.teamLeader','desc')
             ->get();
 
-
-
-        $ProcessingManager=Shiftassign::select('group.groupId','group.groupName','shiftassign.shiftId','user.name','user.userType','user.teamLeader')
-            ->where('jobStatus',$processing->statusId)
-            ->leftJoin('group','group.groupId','shiftassign.groupId')
-            ->leftJoin('user','user.groupId','group.groupId')
-            ->where('shiftassign.shiftmainId',$id)
-            ->orderBy('groupName')
-            ->orderBy('user.teamLeader','desc')
-            ->get();
-
-
-        $QcManager=Shiftassign::select('group.groupId','group.groupName','shiftassign.shiftId','user.name','user.userType','user.teamLeader')
-            ->where('jobStatus',$qc->statusId)
-            ->leftJoin('group','group.groupId','shiftassign.groupId')
-            ->leftJoin('user','user.groupId','group.groupId')
-            ->where('shiftassign.shiftmainId',$id)
-            ->orderBy('groupName')
-            ->orderBy('user.teamLeader','desc')
-            ->get();
-
-
-
-
-
-        $productionTeams=Shiftassign::select('groupId')
+        $ProductionMorning=Shiftassign::select('group.groupName','group.groupId','shiftassign.shiftId','user.name','user.userType','user.teamLeader')
             ->where('jobStatus',$production->statusId)
-            ->groupBy('groupId')
+            ->leftJoin('group','group.groupId','shiftassign.groupId')
+            ->leftJoin('user','user.groupId','group.groupId')
+            ->where('shiftassign.shiftmainId',$id)
+            ->where('shiftassign.shiftId',2)
+            ->orderBy('groupName')
+            ->orderBy('user.teamLeader','desc')
+            ->get();
+        $ProductionEvening=Shiftassign::select('group.groupName','group.groupId','shiftassign.shiftId','user.name','user.userType','user.teamLeader')
+            ->where('jobStatus',$production->statusId)
+            ->leftJoin('group','group.groupId','shiftassign.groupId')
+            ->leftJoin('user','user.groupId','group.groupId')
+            ->where('shiftassign.shiftmainId',$id)
+            ->where('shiftassign.shiftId',3)
+            ->orderBy('groupName')
+            ->orderBy('user.teamLeader','desc')
             ->get();
 
-        $processingnTeams=Shiftassign::select('groupId')
+
+        $ProcessingMoringFixed=Shiftassign::select('group.groupId','group.groupName','shiftassign.shiftId','user.name','user.userType','user.teamLeader')
             ->where('jobStatus',$processing->statusId)
-            ->groupBy('groupId')
+            ->leftJoin('group','group.groupId','shiftassign.groupId')
+            ->leftJoin('user','user.groupId','group.groupId')
+            ->where('shiftassign.shiftmainId',$id)
+            ->where('shiftassign.shiftId',1)
+            ->orderBy('groupName')
+            ->orderBy('user.teamLeader','desc')
             ->get();
 
-        $qcTeams=Shiftassign::select('groupId')
+        $ProcessingMoring=Shiftassign::select('group.groupId','group.groupName','shiftassign.shiftId','user.name','user.userType','user.teamLeader')
+            ->where('jobStatus',$processing->statusId)
+            ->leftJoin('group','group.groupId','shiftassign.groupId')
+            ->leftJoin('user','user.groupId','group.groupId')
+            ->where('shiftassign.shiftmainId',$id)
+            ->where('shiftassign.shiftId',2)
+            ->orderBy('groupName')
+            ->orderBy('user.teamLeader','desc')
+            ->get();
+        $ProcessingEvening=Shiftassign::select('group.groupId','group.groupName','shiftassign.shiftId','user.name','user.userType','user.teamLeader')
+            ->where('jobStatus',$processing->statusId)
+            ->leftJoin('group','group.groupId','shiftassign.groupId')
+            ->leftJoin('user','user.groupId','group.groupId')
+            ->where('shiftassign.shiftmainId',$id)
+            ->where('shiftassign.shiftId',3)
+            ->orderBy('groupName')
+            ->orderBy('user.teamLeader','desc')
+            ->get();
+
+
+        $QcMorningFixed=Shiftassign::select('group.groupId','group.groupName','shiftassign.shiftId','user.name','user.userType','user.teamLeader')
             ->where('jobStatus',$qc->statusId)
-            ->groupBy('groupId')
+            ->leftJoin('group','group.groupId','shiftassign.groupId')
+            ->leftJoin('user','user.groupId','group.groupId')
+            ->where('shiftassign.shiftmainId',$id)
+            ->where('shiftassign.shiftId',1)
+            ->orderBy('groupName')
+            ->orderBy('user.teamLeader','desc')
+            ->get();
+
+        $QcMorning=Shiftassign::select('group.groupId','group.groupName','shiftassign.shiftId','user.name','user.userType','user.teamLeader')
+            ->where('jobStatus',$qc->statusId)
+            ->leftJoin('group','group.groupId','shiftassign.groupId')
+            ->leftJoin('user','user.groupId','group.groupId')
+            ->where('shiftassign.shiftmainId',$id)
+            ->where('shiftassign.shiftId',2)
+            ->orderBy('groupName')
+            ->orderBy('user.teamLeader','desc')
+            ->get();
+
+        $QcEvening=Shiftassign::select('group.groupId','group.groupName','shiftassign.shiftId','user.name','user.userType','user.teamLeader')
+            ->where('jobStatus',$qc->statusId)
+            ->leftJoin('group','group.groupId','shiftassign.groupId')
+            ->leftJoin('user','user.groupId','group.groupId')
+            ->where('shiftassign.shiftmainId',$id)
+            ->where('shiftassign.shiftId',3)
+            ->orderBy('groupName')
+            ->orderBy('user.teamLeader','desc')
             ->get();
 
 
 
-
-        $pdf = PDF::loadView('shift.pdf',compact('shifts','ProductionManager','ProcessingManager','QcManager','productionTeams','processingnTeams','qcTeams','shiftMain'));
-
+        $pdf = PDF::loadView('shift.test')
+            ->with('shifts',$shifts)
+            ->with('ProductionMorningFixed',$ProductionMorningFixed)
+            ->with('ProductionMorning',$ProductionMorning)
+            ->with('ProductionEvening',$ProductionEvening)
+            // Variable For Teams
+            ->with('ProcessingMoringFixed',$ProcessingMoringFixed)
+            ->with('ProcessingMoring',$ProcessingMoring)
+            ->with('ProcessingEvening',$ProcessingEvening)
+            ->with('QcMorningFixed',$QcMorningFixed)
+            ->with('QcMorning',$QcMorning)
+            ->with('QcEvening',$QcEvening)
+            ->with('shiftMain',$shiftMain);
         $pdf->save('public/pdf/tst.pdf');
 
 
     }
     public function downloadPdf($id)
     {
-        $shiftMain=Shiftmain::findOrFail($id);
 
+//        $shiftMain=Shiftmain::findOrFail($id);
+//
+//        $shifts=Shift::where('shiftName','!=','Night')->get();
+//        $production=Status::where('statusType','jobStatus')
+//            ->where('statusName','production')
+//            ->first();
+//
+//        $processing=Status::where('statusType','jobStatus')
+//            ->where('statusName','processing')
+//            ->first();
+//
+//        $qc=Status::where('statusType','jobStatus')
+//            ->where('statusName','qc')
+//            ->first();
+//
+//
+//        $ProductionManager=Shiftassign::select('group.groupName','group.groupId','shiftassign.shiftId','user.name','user.userType','user.teamLeader')
+//            ->where('jobStatus',$production->statusId)
+//            ->leftJoin('group','group.groupId','shiftassign.groupId')
+//            ->leftJoin('user','user.groupId','group.groupId')
+//            ->where('shiftassign.shiftmainId',$id)
+//            ->orderBy('groupName')
+//            ->orderBy('user.teamLeader','desc')
+//            ->get();
+//
+//
+//
+//        $ProcessingManager=Shiftassign::select('group.groupId','group.groupName','shiftassign.shiftId','user.name','user.userType','user.teamLeader')
+//            ->where('jobStatus',$processing->statusId)
+//            ->leftJoin('group','group.groupId','shiftassign.groupId')
+//            ->leftJoin('user','user.groupId','group.groupId')
+//            ->where('shiftassign.shiftmainId',$id)
+//            ->orderBy('groupName')
+//            ->orderBy('user.teamLeader','desc')
+//            ->get();
+//
+//
+//        $QcManager=Shiftassign::select('group.groupId','group.groupName','shiftassign.shiftId','user.name','user.userType','user.teamLeader')
+//            ->where('jobStatus',$qc->statusId)
+//            ->leftJoin('group','group.groupId','shiftassign.groupId')
+//            ->leftJoin('user','user.groupId','group.groupId')
+//            ->where('shiftassign.shiftmainId',$id)
+//            ->orderBy('groupName')
+//            ->orderBy('user.teamLeader','desc')
+//            ->get();
+//
+//
+//
+//
+//
+//        $productionTeams=Shiftassign::select('groupId')
+//            ->where('jobStatus',$production->statusId)
+//            ->groupBy('groupId')
+//            ->get();
+//
+//        $processingnTeams=Shiftassign::select('groupId')
+//            ->where('jobStatus',$processing->statusId)
+//            ->groupBy('groupId')
+//            ->get();
+//
+//        $qcTeams=Shiftassign::select('groupId')
+//            ->where('jobStatus',$qc->statusId)
+//            ->groupBy('groupId')
+//            ->get();
+//
+//
+//        $ProductionManager=Shiftassign::select('group.groupName','group.groupId','shiftassign.shiftId','user.name','user.userType','user.teamLeader')
+//            ->where('jobStatus',$production->statusId)
+//            ->leftJoin('group','group.groupId','shiftassign.groupId')
+//            ->leftJoin('user','user.groupId','group.groupId')
+//            ->where('shiftassign.shiftmainId',$id)
+//            ->orderBy('groupName')
+//            ->orderBy('user.teamLeader','desc')
+//            ->get();
+//
+
+
+        $shiftMain=Shiftmain::findOrFail($id);
         $shifts=Shift::where('shiftName','!=','Night')->get();
         $production=Status::where('statusType','jobStatus')
             ->where('statusName','production')
             ->first();
-
         $processing=Status::where('statusType','jobStatus')
             ->where('statusName','processing')
             ->first();
-
         $qc=Status::where('statusType','jobStatus')
             ->where('statusName','qc')
             ->first();
 
-
-        $ProductionManager=Shiftassign::select('group.groupName','group.groupId','shiftassign.shiftId','user.name','user.userType','user.teamLeader')
+        $ProductionMorningFixed=Shiftassign::select('group.groupName','group.groupId','shiftassign.shiftId','user.name','user.userType','user.teamLeader')
             ->where('jobStatus',$production->statusId)
             ->leftJoin('group','group.groupId','shiftassign.groupId')
             ->leftJoin('user','user.groupId','group.groupId')
             ->where('shiftassign.shiftmainId',$id)
+            ->where('shiftassign.shiftId',1)
+            ->orderBy('groupName')
+            ->orderBy('user.teamLeader','desc')
+            ->get();
+
+        $ProductionMorning=Shiftassign::select('group.groupName','group.groupId','shiftassign.shiftId','user.name','user.userType','user.teamLeader')
+            ->where('jobStatus',$production->statusId)
+            ->leftJoin('group','group.groupId','shiftassign.groupId')
+            ->leftJoin('user','user.groupId','group.groupId')
+            ->where('shiftassign.shiftmainId',$id)
+            ->where('shiftassign.shiftId',2)
+            ->orderBy('groupName')
+            ->orderBy('user.teamLeader','desc')
+            ->get();
+        $ProductionEvening=Shiftassign::select('group.groupName','group.groupId','shiftassign.shiftId','user.name','user.userType','user.teamLeader')
+            ->where('jobStatus',$production->statusId)
+            ->leftJoin('group','group.groupId','shiftassign.groupId')
+            ->leftJoin('user','user.groupId','group.groupId')
+            ->where('shiftassign.shiftmainId',$id)
+            ->where('shiftassign.shiftId',3)
             ->orderBy('groupName')
             ->orderBy('user.teamLeader','desc')
             ->get();
 
 
-
-        $ProcessingManager=Shiftassign::select('group.groupId','group.groupName','shiftassign.shiftId','user.name','user.userType','user.teamLeader')
+        $ProcessingMoringFixed=Shiftassign::select('group.groupId','group.groupName','shiftassign.shiftId','user.name','user.userType','user.teamLeader')
             ->where('jobStatus',$processing->statusId)
             ->leftJoin('group','group.groupId','shiftassign.groupId')
             ->leftJoin('user','user.groupId','group.groupId')
             ->where('shiftassign.shiftmainId',$id)
+            ->where('shiftassign.shiftId',1)
             ->orderBy('groupName')
             ->orderBy('user.teamLeader','desc')
             ->get();
 
-
-        $QcManager=Shiftassign::select('group.groupId','group.groupName','shiftassign.shiftId','user.name','user.userType','user.teamLeader')
-            ->where('jobStatus',$qc->statusId)
-            ->leftJoin('group','group.groupId','shiftassign.groupId')
-            ->leftJoin('user','user.groupId','group.groupId')
-            ->where('shiftassign.shiftmainId',$id)
-            ->orderBy('groupName')
-            ->orderBy('user.teamLeader','desc')
-            ->get();
-
-
-
-
-
-        $productionTeams=Shiftassign::select('groupId')
-            ->where('jobStatus',$production->statusId)
-            ->groupBy('groupId')
-            ->get();
-
-        $processingnTeams=Shiftassign::select('groupId')
+        $ProcessingMoring=Shiftassign::select('group.groupId','group.groupName','shiftassign.shiftId','user.name','user.userType','user.teamLeader')
             ->where('jobStatus',$processing->statusId)
-            ->groupBy('groupId')
-            ->get();
-
-        $qcTeams=Shiftassign::select('groupId')
-            ->where('jobStatus',$qc->statusId)
-            ->groupBy('groupId')
-            ->get();
-
-
-        $ProductionManager=Shiftassign::select('group.groupName','group.groupId','shiftassign.shiftId','user.name','user.userType','user.teamLeader')
-            ->where('jobStatus',$production->statusId)
             ->leftJoin('group','group.groupId','shiftassign.groupId')
             ->leftJoin('user','user.groupId','group.groupId')
             ->where('shiftassign.shiftmainId',$id)
+            ->where('shiftassign.shiftId',2)
+            ->orderBy('groupName')
+            ->orderBy('user.teamLeader','desc')
+            ->get();
+        $ProcessingEvening=Shiftassign::select('group.groupId','group.groupName','shiftassign.shiftId','user.name','user.userType','user.teamLeader')
+            ->where('jobStatus',$processing->statusId)
+            ->leftJoin('group','group.groupId','shiftassign.groupId')
+            ->leftJoin('user','user.groupId','group.groupId')
+            ->where('shiftassign.shiftmainId',$id)
+            ->where('shiftassign.shiftId',3)
             ->orderBy('groupName')
             ->orderBy('user.teamLeader','desc')
             ->get();
 
 
+        $QcMorningFixed=Shiftassign::select('group.groupId','group.groupName','shiftassign.shiftId','user.name','user.userType','user.teamLeader')
+            ->where('jobStatus',$qc->statusId)
+            ->leftJoin('group','group.groupId','shiftassign.groupId')
+            ->leftJoin('user','user.groupId','group.groupId')
+            ->where('shiftassign.shiftmainId',$id)
+            ->where('shiftassign.shiftId',1)
+            ->orderBy('groupName')
+            ->orderBy('user.teamLeader','desc')
+            ->get();
 
-        $pdf = PDF::loadView('shift.pdf',compact('shifts','ProductionManager','ProcessingManager','QcManager','productionTeams','processingnTeams','qcTeams','shiftMain'));
+        $QcMorning=Shiftassign::select('group.groupId','group.groupName','shiftassign.shiftId','user.name','user.userType','user.teamLeader')
+            ->where('jobStatus',$qc->statusId)
+            ->leftJoin('group','group.groupId','shiftassign.groupId')
+            ->leftJoin('user','user.groupId','group.groupId')
+            ->where('shiftassign.shiftmainId',$id)
+            ->where('shiftassign.shiftId',2)
+            ->orderBy('groupName')
+            ->orderBy('user.teamLeader','desc')
+            ->get();
+
+        $QcEvening=Shiftassign::select('group.groupId','group.groupName','shiftassign.shiftId','user.name','user.userType','user.teamLeader')
+            ->where('jobStatus',$qc->statusId)
+            ->leftJoin('group','group.groupId','shiftassign.groupId')
+            ->leftJoin('user','user.groupId','group.groupId')
+            ->where('shiftassign.shiftmainId',$id)
+            ->where('shiftassign.shiftId',3)
+            ->orderBy('groupName')
+            ->orderBy('user.teamLeader','desc')
+            ->get();
+
+
+//
+//        $pdf = PDF::loadView('shift.test')
+//            ->with('shifts',$shifts)
+//            ->with('ProductionMorningFixed',$ProductionMorningFixed)
+//            ->with('ProductionMorning',$ProductionMorning)
+//            ->with('ProductionEvening',$ProductionEvening)
+//            // Variable For Teams
+//            ->with('ProcessingMoringFixed',$ProcessingMoringFixed)
+//            ->with('ProcessingMoring',$ProcessingMoring)
+//            ->with('ProcessingEvening',$ProcessingEvening)
+//            ->with('QcMorningFixed',$QcMorningFixed)
+//            ->with('QcMorning',$QcMorning)
+//            ->with('QcEvening',$QcEvening)
+//            ->with('shiftMain',$shiftMain);
+//        $pdf->save('public/pdf/tst.pdf');
+
+        $pdf = PDF::loadView('shift.test',compact('shifts','ProductionMorningFixed','ProductionMorning','ProductionEvening','ProcessingMoringFixed','ProcessingMoring','ProcessingEvening','QcMorningFixed','QcMorning','QcEvening','shiftMain'));
 
         //        $pdf->save('public/pdf/tst.pdf'); Saving Pdf To Server
 
