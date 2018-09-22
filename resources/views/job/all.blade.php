@@ -166,15 +166,15 @@
                 },
 
                 columns: [
-                    { data: 'clientName', name: 'clientName' },
-                    { data: 'folderName', name: 'folderName' },
-                    { data: 'created_at', name: 'created_at' },
-                    { data: 'deadLine', name: 'deadLine' },
-                    { data: 'deliveryDate', name: 'deliveryDate' },
-                    { data: 'statusName', name: 'statusName' },
-                    { data: 'quantity', name: 'quantity'},
-                    { data: 'amount', name: 'amount'},
-                    { data: 'name', name: 'name'},
+                    { data: 'clientName', name: 'client.clientName' },
+                    { data: 'folderName', name: 'file.folderName' },
+                    { data: 'created_at', name: 'job.created_at' },
+                    { data: 'deadLine', name: 'job.deadLine' },
+                    { data: 'deliveryDate', name: 'job.deliveryDate' },
+                    { data: 'statusName', name: 'status.statusName' },
+                    { data: 'quantity', name: 'job.quantity'},
+                    { data: 'amount', name: 'rate.amount'},
+                    { data: 'name', name: 'user.name'},
                     { "data": function(data){
                         {{--var url='{{url("product/edit/", ":id") }}';--}}
                             return '<a class="btn btn-default btn-sm" data-panel-id="'+data.jobId+'" onclick="editjob(this)"><i class="fa fa-edit"></i></a>'+

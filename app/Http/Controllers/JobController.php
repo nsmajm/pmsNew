@@ -73,7 +73,7 @@ class JobController extends Controller
             $jobs=$jobs->where('client.clientId',$r->clientId);
         }
 
-        $jobs=$jobs->get();
+//        $jobs=$jobs->get();
 
         $datatables = Datatables::of($jobs);
         return $datatables->make(true);
