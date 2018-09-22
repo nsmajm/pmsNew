@@ -121,12 +121,11 @@
                 </td>
                 <td style="border: none;width:40%; margin-top: -100px;">
                     <table style="margin-bottom: 70px;">
-
                         <tr >
                             <td>Invoice Number:</td>
                             <td ><b>{{$invoiceNumber}}</b></td>
                         </tr>
-                        <tr >
+                        <tr>
                             <td>Invoice Date: </td>
                             <td >{{date('Y-m-d')}}</td>
                         </tr>

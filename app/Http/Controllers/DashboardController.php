@@ -413,33 +413,44 @@ class DashboardController extends Controller
             ->limit(1)
             ->first();
 
-
-        $onLeaveMorning=Leave::where(function ($query) {
+//        return $shifMain;
+        $onLeaveMorning='';
+        $onLeaveEvening='';
+        if($shifMain){
+            $onLeaveMorning=Leave::where(function ($query) {
                 $query->where('leave.startDate', '<=', date('Y-m-d'));
                 $query->where('leave.endDate', '>=', date('Y-m-d'));
             })
-            ->where('leave.statusId',8)
-            ->leftJoin('user','user.userId','leave.userId')
-            ->leftJoin('group','group.groupId','user.groupId')
-            ->leftJoin('shiftassign','shiftassign.groupId','group.groupId')
-            ->where('shiftassign.shiftmainId',$shifMain->shiftmainId)
-            ->where(function ($query) {
-                $query->orWhere('shiftassign.shiftId', 1);
-                $query->orWhere('shiftassign.shiftId',2);
-            })
-            ->count();
+                ->where('leave.statusId',8)
+                ->leftJoin('user','user.userId','leave.userId')
+                ->leftJoin('group','group.groupId','user.groupId')
+                ->leftJoin('shiftassign','shiftassign.groupId','group.groupId')
+                ->where('shiftassign.shiftmainId',$shifMain->shiftmainId)
+                ->where(function ($query) {
+                    $query->orWhere('shiftassign.shiftId', 1);
+                    $query->orWhere('shiftassign.shiftId',2);
+                })
+                ->distinct('user.userId')
+                ->count('user.userId');
 
-        $onLeaveEvening=Leave::where(function ($query) {
-            $query->where('leave.startDate', '<=', date('Y-m-d'));
-            $query->where('leave.endDate', '>=', date('Y-m-d'));
-        })
-            ->where('leave.statusId',8)
-            ->leftJoin('user','user.userId','leave.userId')
-            ->leftJoin('group','group.groupId','user.groupId')
-            ->leftJoin('shiftassign','shiftassign.groupId','group.groupId')
-            ->where('shiftassign.shiftmainId',$shifMain->shiftmainId)
-            ->where('shiftassign.shiftId',3)
-            ->count();
+            $onLeaveEvening=Leave::where(function ($query) {
+                $query->where('leave.startDate', '<=', date('Y-m-d'));
+                $query->where('leave.endDate', '>=', date('Y-m-d'));
+            })
+                ->where('leave.statusId',8)
+                ->leftJoin('user','user.userId','leave.userId')
+                ->leftJoin('group','group.groupId','user.groupId')
+                ->leftJoin('shiftassign','shiftassign.groupId','group.groupId')
+                ->where('shiftassign.shiftmainId',$shifMain->shiftmainId)
+                ->where('shiftassign.shiftId',3)
+                ->distinct('user.userId')
+                ->count('user.userId');
+        }
+
+
+//        return $onLeaveMorning;
+
+
 
         $absentMorning=Absent::where(DB::raw('DATE(absent.created_at)'),date('Y-m-d'))
             ->where(function ($query) {
