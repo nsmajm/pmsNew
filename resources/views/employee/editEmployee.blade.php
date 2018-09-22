@@ -1,7 +1,11 @@
 @extends('main')
 @section('header')
 
-
+<style>
+    strong{
+        color: red;
+    }
+</style>
 
 
 @endsection
@@ -41,9 +45,9 @@
                                 <input class="form-control" type="text" name="empUserName" value="{{$employee->loginId}}" placeholder="User Name" id="empUserName" required>
                             </div>
                             @if ($errors->has('empUserName'))
-                                <span class="invalid-feedback">
-                                                <strong>{{ $errors->first('empUserName') }}</strong>
-                                    </span>
+                                <span class="">
+                                    <strong>{{ $errors->first('empUserName') }}</strong>
+                                </span>
                             @endif
                         </div>
 
@@ -53,7 +57,7 @@
                                 <input class="form-control" type="text" name="employeeId" value="{{$employee->employeeId}}" placeholder="Employee ID" id="employeeId" >
                             </div>
                             @if ($errors->has('employeeId'))
-                                <span class="invalid-feedback">
+                                <span class="">
                                                 <strong>{{ $errors->first('employeeId') }}</strong>
                                     </span>
                             @endif
@@ -64,7 +68,7 @@
                                 <input class="form-control" type="text" name="employeemobileNo" value="{{$employee->number}}" placeholder="Employee Mobile NO" id="employeemobileNo" required>
                             </div>
                             @if ($errors->has('employeemobileNo'))
-                                <span class="invalid-feedback">
+                                <span class="">
                                                 <strong>{{ $errors->first('employeemobileNo') }}</strong>
                                     </span>
                             @endif
@@ -105,7 +109,7 @@
                             <div class="col-sm-10">
                                 <textarea name="address" class="form-control">{{$employee->address}}</textarea>
                                 @if ($errors->has('address'))
-                                    <span class="invalid-feedback">
+                                    <span class="">
                                                     <strong>{{$errors->first('address')}}</strong>
                                     </span>
                                 @endif
@@ -123,7 +127,7 @@
                                 <input class="form-control" type="text" name="empDesignation" value="{{$employee->designation}}" placeholder="Employee Designation" id="empDesignation" >
                             </div>
                             @if ($errors->has('empDesignation'))
-                                <span class="invalid-feedback">
+                                <span class="">
                                                 <strong>{{ $errors->first('empDesignation') }}</strong>
                                     </span>
                             @endif
@@ -134,7 +138,7 @@
                                 <input class="form-control" type="text" name="empSudoName" value="{{$employee->sudoName}}"placeholder="Sudo Name" id="empSudoName" >
                             </div>
                             @if ($errors->has('empSudoName'))
-                                <span class="invalid-feedback">
+                                <span class="">
                                                 <strong>{{ $errors->first('empSudoName') }}</strong>
                                     </span>
                             @endif
@@ -145,7 +149,7 @@
                                 <input class="form-control" type="text" name="empRfId" value="{{$employee->rfId}}" placeholder="RF ID" id="empRfId" >
                             </div>
                             @if ($errors->has('empRfId'))
-                                <span class="invalid-feedback">
+                                <span class="">
                                                 <strong>{{ $errors->first('empRfId') }}</strong>
                                     </span>
                             @endif
@@ -165,7 +169,7 @@
                             </div>
 
                             @if ($errors->has('empStatus'))
-                                <span class="invalid-feedback">
+                                <span class="">
                                                 <strong>{{ $errors->first('employeeStatus') }}</strong>
                                     </span>
                             @endif
@@ -176,7 +180,7 @@
                             <div class="col-sm-10">
                                 <input class="form-control" name="empJoinDate" type="text" value="{{$employee->joinDate}}" id="empJoinDate" readonly>
                                 @if ($errors->has('empJoinDate'))
-                                    <span class="invalid-feedback">
+                                    <span class="">
                                                     <strong>{{$errors->first('joinDate')}}</strong>
                                                 </span>
                                 @endif
@@ -226,7 +230,7 @@
 
                                 </div>
                                 @if ($errors->has('empImage'))
-                                    <span class="invalid-feedback">
+                                    <span class="">
                                                     <strong>{{$errors->first('image')}}</strong>
                                     </span>
                                 @endif
