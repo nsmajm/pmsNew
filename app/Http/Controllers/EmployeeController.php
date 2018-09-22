@@ -115,8 +115,9 @@ class EmployeeController extends Controller
     }
     public function updateEmployee($id, Request $r){
 
-        $this->validate($r,[
+        $r->validate([
             'empName'=>'required|max:45',
+            'empUserName' =>'required|max:45|unique:user,loginId,'.$r->empUserName.',userId',
 
         ]);
 
