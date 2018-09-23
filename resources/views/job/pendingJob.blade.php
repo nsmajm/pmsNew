@@ -47,7 +47,7 @@
 
     <div class="row">
         <div class="col-12">
-            <div class="card m-b-30">
+            <div class="card container">
                 <div class="card-body">
                     <h4 class="mt-0 header-title">Pending Jobs</h4>
                     <table id="datatable" class="table table-bordered">
