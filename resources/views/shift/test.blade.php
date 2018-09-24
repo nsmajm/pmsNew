@@ -151,26 +151,28 @@
         </table>
 
 
-        <table style="width:100%;">
+
+
+        <table  style="width:100%;">
 
             <tr>
-                <td colspan="5"  style="text-align: center; width: 5%;"><b>PD</b></td>
+                <td colspan="5"  style="text-align: center; width: 5%;"><b>Processing</b></td>
             </tr>
 
             <?php
 
-            $totalRow=Count($ProductionMorningFixed);
+            $totalRow=Count($ProcessingMoringFixed);
             $mod=ceil($totalRow%5);
             $temp=0;
 
             ?>
 
-            @for($i=0;$i<count($ProductionMorningFixed);$i++)
+            @for($i=0;$i<count($ProcessingMoringFixed);$i++)
                 @if($temp==0)
                     <tr>
                         @endif
                         @php($temp++)
-                        <td style="text-align: center; ">{{$ProductionMorningFixed[$i]->name}}</td>
+                        <td style="text-align: center; ">{{$ProcessingMoringFixed[$i]->name}}</td>
                         {{--<td style="text-align: center; ">{{$i}}</td>--}}
 
                         @if($temp==5)
@@ -191,27 +193,26 @@
 
 
         </table>
-
-        <table  style="width:100%;">
+        <table style="width:100%;">
 
             <tr>
-                <td colspan="5"  style="text-align: center; width: 5%;"><b>PR</b></td>
+                <td colspan="5"  style="text-align: center; width: 5%;"><b>Production</b></td>
             </tr>
 
             <?php
 
-            $totalRow=Count($ProcessingMoringFixed);
+            $totalRow=Count($ProductionMorningFixed);
             $mod=ceil($totalRow%5);
             $temp=0;
 
             ?>
 
-            @for($i=0;$i<count($ProcessingMoringFixed);$i++)
+            @for($i=0;$i<count($ProductionMorningFixed);$i++)
                 @if($temp==0)
                     <tr>
                         @endif
                         @php($temp++)
-                        <td style="text-align: center; ">{{$ProcessingMoringFixed[$i]->name}}</td>
+                        <td style="text-align: center; ">{{$ProductionMorningFixed[$i]->name}}</td>
                         {{--<td style="text-align: center; ">{{$i}}</td>--}}
 
                         @if($temp==5)
@@ -284,50 +285,12 @@
 
         </table>
 
-        <table border="0" style="width:100%;">
 
-            <tr>
-                <td colspan="5"  style="text-align: center; width: 5%;"><b>PD</b></td>
-            </tr>
-
-            <?php
-
-            $totalRow=Count($ProductionMorning);
-            $mod=ceil($totalRow%5);
-            $temp=0;
-
-            ?>
-
-            @for($i=0;$i<count($ProductionMorning);$i++)
-                @if($temp==0)
-                    <tr>
-                        @endif
-                        @php($temp++)
-                        <td style="text-align: center; ">{{$ProductionMorning[$i]->name}}</td>
-                        {{--<td style="text-align: center; ">{{$i}}</td>--}}
-
-                        @if($temp==5)
-                    </tr>
-                    @php($temp=0)
-                @endif
-
-
-            @endfor
-            @if($mod !=0)
-
-                <td colspan="{{5-$mod}}" style="text-align: center; ">-</td>
-
-
-                </tr>
-            @endif
-
-
-        </table>
 
         <table border="0" style="width:100%;">
 
             <tr>
-                <td colspan="5"  style="text-align: center; width: 5%;"><b>PR</b></td>
+                <td colspan="5"  style="text-align: center; width: 5%;"><b>Processing</b></td>
             </tr>
 
             <?php
@@ -361,6 +324,45 @@
                 </tr>
             @endif
 
+
+
+        </table>
+        <table border="0" style="width:100%;">
+
+            <tr>
+                <td colspan="5"  style="text-align: center; width: 5%;"><b>Production</b></td>
+            </tr>
+
+            <?php
+
+            $totalRow=Count($ProductionMorning);
+            $mod=ceil($totalRow%5);
+            $temp=0;
+
+            ?>
+
+            @for($i=0;$i<count($ProductionMorning);$i++)
+                @if($temp==0)
+                    <tr>
+                        @endif
+                        @php($temp++)
+                        <td style="text-align: center; ">{{$ProductionMorning[$i]->name}}</td>
+                        {{--<td style="text-align: center; ">{{$i}}</td>--}}
+
+                        @if($temp==5)
+                    </tr>
+                    @php($temp=0)
+                @endif
+
+
+            @endfor
+            @if($mod !=0)
+
+                <td colspan="{{5-$mod}}" style="text-align: center; ">-</td>
+
+
+                </tr>
+            @endif
 
 
         </table>
@@ -417,50 +419,12 @@
 
         </table>
 
-        <table border="0" style="width:100%;">
 
-            <tr>
-                <td colspan="5"  style="text-align: center; width: 5%;"><b>PD</b></td>
-            </tr>
-
-            <?php
-
-            $totalRow=Count($ProductionEvening);
-            $mod=ceil($totalRow%5);
-            $temp=0;
-
-            ?>
-
-            @for($i=0;$i<count($ProductionEvening);$i++)
-                @if($temp==0)
-                    <tr>
-                        @endif
-                        @php($temp++)
-                        <td style="text-align: center; ">{{$ProductionEvening[$i]->name}}</td>
-                        {{--<td style="text-align: center; ">{{$i}}</td>--}}
-
-                        @if($temp==5)
-                    </tr>
-                    @php($temp=0)
-                @endif
-
-
-            @endfor
-            @if($mod !=0)
-
-                <td colspan="{{5-$mod}}" style="text-align: center; ">-</td>
-
-
-                </tr>
-            @endif
-
-
-        </table>
 
         <table border="0" style="width:100%;">
 
             <tr>
-                <td colspan="5"  style="text-align: center; width: 5%;"><b>PR</b></td>
+                <td colspan="5"  style="text-align: center; width: 5%;"><b>Processing</b></td>
             </tr>
 
 
@@ -496,6 +460,45 @@
             @endif
 
 
+
+
+        </table>
+        <table border="0" style="width:100%;">
+
+            <tr>
+                <td colspan="5"  style="text-align: center; width: 5%;"><b>Production</b></td>
+            </tr>
+
+            <?php
+
+            $totalRow=Count($ProductionEvening);
+            $mod=ceil($totalRow%5);
+            $temp=0;
+
+            ?>
+
+            @for($i=0;$i<count($ProductionEvening);$i++)
+                @if($temp==0)
+                    <tr>
+                        @endif
+                        @php($temp++)
+                        <td style="text-align: center; ">{{$ProductionEvening[$i]->name}}</td>
+                        {{--<td style="text-align: center; ">{{$i}}</td>--}}
+
+                        @if($temp==5)
+                    </tr>
+                    @php($temp=0)
+                @endif
+
+
+            @endfor
+            @if($mod !=0)
+
+                <td colspan="{{5-$mod}}" style="text-align: center; ">-</td>
+
+
+                </tr>
+            @endif
 
 
         </table>

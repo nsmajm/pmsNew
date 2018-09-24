@@ -121,7 +121,9 @@ class EmployeeController extends Controller
 
         $r->validate([
             'empName'=>'required|max:45',
+
             'empUserName' =>'required|max:45|unique:user,loginId,'.$employee->userId.',userId',
+
 
         ]);
 
