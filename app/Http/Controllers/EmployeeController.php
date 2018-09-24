@@ -29,6 +29,10 @@ use Auth;
 
 class EmployeeController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }
     public function editEmployee($id){
 
         $employee=Employeeinfo::leftJoin('user','employee_info.userId','user.userId')->findOrFail($id);
@@ -188,7 +192,7 @@ class EmployeeController extends Controller
     //attendence
     public function allAttendence(){
 
-        if(Auth::user()->userType == USER_TYPE['Production Manager']){
+        if(Auth::user()->userType==USER_TYPE['Admin'] || Auth::user()->userType==USER_TYPE['Production Manager'] || Auth::user()->userType==USER_TYPE['Processing Manager'] || Auth::user()->userType==USER_TYPE['Qc Manager']  || Auth::user()->userType==USER_TYPE['Supervisor']  ||  Auth::user()->userType==USER_TYPE['Human Resource Management'] ){
             $employees=User::select('loginId','userId')->where('userType',USER_TYPE['User'])->get();
 
             $shifts=Shift::where(function ($q) {

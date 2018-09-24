@@ -16,6 +16,10 @@ use PDF;
 use DB;
 class InvoiceController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }
     public function index(){
         $clients=Client::select('clientId','clientName')
             ->get();

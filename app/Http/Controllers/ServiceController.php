@@ -13,6 +13,10 @@ use DB;
 
 class ServiceController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }
     public function add(){
 
         return view('service.add');

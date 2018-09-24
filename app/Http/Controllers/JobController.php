@@ -28,6 +28,10 @@ use Carbon\Carbon;
 
 class JobController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }
     public function information(){
 //        $job=Job::select('client.clientName','file.folderName','job.deadLine','job.quantity')
 //            ->leftJoin('file','file.jobId','job.jobId')

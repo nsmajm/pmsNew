@@ -147,19 +147,22 @@
 
                     <h4 class="mt-0 header-title">All Service</h4>
 
+                    <div class="table-responsive">
+                        <table id="datatable" class="table table-bordered">
+                            <thead>
+                            <tr>
+                                <th>Name</th>
+                                <th>Complexity</th>
+                                <th>Type</th>
+                                <th>Clients</th>
+                                <th>Action</th>
+                            </tr>
+                            </thead>
 
-                    <table id="datatable" class="table table-bordered">
-                        <thead>
-                        <tr>
-                            <th>Name</th>
-                            <th>Complexity</th>
-                            <th>Type</th>
-                            <th>Clients</th>
-                            <th>Action</th>
-                        </tr>
-                        </thead>
+                        </table>
 
-                    </table>
+                    </div>
+
 
                 </div>
             </div>
@@ -214,7 +217,7 @@
                         @if(USER_TYPE['Admin']== Auth::user()->userType ||
                             USER_TYPE['Supervisor']== Auth::user()->userType)
                         return ' <button type="button" class="btn btn-info btn-sm" data-panel-id="'+data.serviceId+'" onclick="showInfo(this)"> <i class="fa fa-edit"></i> </button>' +
-                            ' <button type="button" class="btn btn-info btn-sm" data-panel-id="'+data.serviceId+'" onclick="assign(this)"> <i class="fa fa-exchange"></i> </button>'
+                            ' <button type="button" class="btn btn-info btn-sm" data-panel-id="'+data.serviceId+'" onclick="assign(this)"> <i class="fa fa-plus"></i> </button>'
 
                             ;
                         @endif

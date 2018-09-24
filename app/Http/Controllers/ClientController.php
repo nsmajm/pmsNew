@@ -19,6 +19,10 @@ use Yajra\DataTables\DataTables;
 
 class ClientController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }
     public function add(){
         if(Auth::user()->userType ==USER_TYPE['Admin'] ||Auth::user()->userType ==USER_TYPE['Accounts'] || Auth::user()->userType ==USER_TYPE['Human Resource Management']){
             $services=Service::select('serviceId','serviceName')->get();

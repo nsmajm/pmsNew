@@ -12,6 +12,10 @@ use App\ClientServiceRelation;
 use Auth;
 class BillController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }
     public function addRate(){
         if(USER_TYPE['Admin']== Auth::user()->userType || USER_TYPE['Supervisor']== Auth::user()->userType || USER_TYPE['Accounts']== Auth::user()->userType){
             $status=Status::where('statusType','jobStatus')
@@ -46,7 +50,7 @@ class BillController extends Controller
     }
 
     public function rate(){
-        if(USER_TYPE['Admin']== Auth::user()->userType || USER_TYPE['Supervisor']== Auth::user()->userType || USER_TYPE['Accounts']== Auth::user()->userType) {
+        if(USER_TYPE['Admin']== Auth::user()->userType) {
             $clients = Client::select('clientId', 'clientName')->get();
 
             return view('bill.rate')

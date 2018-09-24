@@ -24,7 +24,7 @@ class TimeController extends Controller
     }
 
     public function overtime(){
-        if(Auth::user()->userType==USER_TYPE['Admin'] || Auth::user()->userType==USER_TYPE['Human Resource Management']){
+        if(Auth::user()->userType==USER_TYPE['Admin'] || Auth::user()->userType==USER_TYPE['Supervisor']  || Auth::user()->userType==USER_TYPE['Accounts']  || Auth::user()->userType==USER_TYPE['Human Resource Management']){
             $clients = Client::select('clientId', 'clientName')
                 ->get();
             $users=User::select('userId','loginId')
@@ -80,7 +80,7 @@ class TimeController extends Controller
     }
 
     public function late(){
-        if(Auth::user()->userType==USER_TYPE['Admin'] || Auth::user()->userType==USER_TYPE['Human Resource Management']){
+        if(Auth::user()->userType==USER_TYPE['Admin'] || Auth::user()->userType==USER_TYPE['Supervisor']  || Auth::user()->userType==USER_TYPE['Accounts']  || Auth::user()->userType==USER_TYPE['Human Resource Management']){
             $users=User::select('userId','loginId')
                 ->where('userType','!=',USER_TYPE['Admin'])
                 ->where('userType','!=',USER_TYPE['Client'])
@@ -118,7 +118,7 @@ class TimeController extends Controller
     }
 
     public function time(){
-        if(Auth::user()->userType==USER_TYPE['Admin'] || Auth::user()->userType==USER_TYPE['Human Resource Management']){
+        if(Auth::user()->userType==USER_TYPE['Admin'] || Auth::user()->userType==USER_TYPE['Supervisor']  || Auth::user()->userType==USER_TYPE['Accounts']  || Auth::user()->userType==USER_TYPE['Human Resource Management']){
             return view('time.time');
         }
 

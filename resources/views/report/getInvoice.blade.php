@@ -20,7 +20,7 @@ $totalReceive=0;
                 <td>{{$bil->bill}}</td>
                 @php($totalBill+=$bil->bill)
 
-                @if(Auth::user()->userType==USER_TYPE['Accounts'])
+                @if(Auth::user()->userType==USER_TYPE['Accounts']  || Auth::user()->userType==USER_TYPE['Admin'] )
                 <td data-panel-id="{{$bil->billingId}}" data-client-id="{{$bil->clientId}}"  onclick="listenForDoubleClick(this);" onblur="this.contentEditable=false;" onfocusout="changeTotal(this)">{{$bil->total}}</td>
                 @else
                     <td>{{$bil->total}}</td>
@@ -29,7 +29,7 @@ $totalReceive=0;
                 @php($totalReceive+=$bil->total)
 
                 <td>{{$bil->created_at}}</td>
-                @if(Auth::user()->userType==USER_TYPE['Accounts'])
+                @if(Auth::user()->userType==USER_TYPE['Accounts'] || Auth::user()->userType==USER_TYPE['Admin'] )
                     <td>
                         <select class="form-control" data-client-id="{{$bil->clientId}}" data-panel-id="{{$bil->billingId}}" onchange="changeStatus(this)">
                             @foreach($status as $s)

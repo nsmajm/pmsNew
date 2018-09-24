@@ -42,7 +42,7 @@
                     <li class="has-submenu">
                         <a href="#"><i class="ti-bookmark-alt"></i>Reporting</a>
                         <ul class="submenu">
-                            @if(Auth::user()->userType==USER_TYPE["Admin"] ||Auth::user()->userType==USER_TYPE["Human Resource Management"])
+                            @if(Auth::user()->userType==USER_TYPE["Admin"] ||Auth::user()->userType==USER_TYPE["Human Resource Management"] || Auth::user()->userType==USER_TYPE["Accounts"])
                                 <li><a href="{{route('report.all')}}">Report</a></li>
                             @endif
                             <li><a href="{{route('report.performance')}}">Performance</a></li>
@@ -173,13 +173,13 @@
                             </li>
 
                         @endif
-                        @if(Auth::user()->userType ==USER_TYPE['Production Manager'])
+                        @if(Auth::user()->userType==USER_TYPE['Admin'] || Auth::user()->userType==USER_TYPE['Production Manager'] || Auth::user()->userType==USER_TYPE['Processing Manager'] || Auth::user()->userType==USER_TYPE['Qc Manager']  || Auth::user()->userType==USER_TYPE['Supervisor']  ||  Auth::user()->userType==USER_TYPE['Human Resource Management'] )
                             <li><a href="{{route('employee.attendence')}}">Employee Attendence</a></li>
                         @endif
                     </ul>
                 </li>
 
-                @if(Auth::user()->userType==USER_TYPE['Admin'] || Auth::user()->userType==USER_TYPE['Human Resource Management'])
+                @if(Auth::user()->userType==USER_TYPE['Admin'] || Auth::user()->userType==USER_TYPE['Supervisor']  || Auth::user()->userType==USER_TYPE['Accounts']  || Auth::user()->userType==USER_TYPE['Human Resource Management'])
 
                     <li class="has-submenu">
                         <a href="#"><i class="fa fa-times"></i>Time</a>

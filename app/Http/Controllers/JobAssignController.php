@@ -14,6 +14,10 @@ use App\Job;
 
 class JobAssignController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }
     public function getTeamMembers(Request $r){
 
         $users=User::where('groupId',$r->groupId)
