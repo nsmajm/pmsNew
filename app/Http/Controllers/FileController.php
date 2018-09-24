@@ -19,9 +19,8 @@ class FileController extends Controller
 
     public function index(){
 
-        if(Auth::user()->userType != USER_TYPE['Supervisor']){
-            return back();
-        }
+        if(Auth::user()->userType == USER_TYPE['Supervisor'] || Auth::user()->userType == USER_TYPE['Admin']){
+
         $status=Status::where('statusType','jobStatus')->where('statusName','done')->first();
 
         $job=Job::select('job.jobId','job.created_at','client.clientName','file.folderName','job.quantity','user.name as doneBy')
@@ -50,6 +49,8 @@ class FileController extends Controller
         return view('job.filecheck')
             ->with('jobs',$job)
             ->with('jobService',$jobService);
+
+        }
     }
 
     public function doneCheck(Request $r){

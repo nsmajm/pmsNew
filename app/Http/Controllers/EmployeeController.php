@@ -117,7 +117,7 @@ class EmployeeController extends Controller
 
         $r->validate([
             'empName'=>'required|max:45',
-            'empUserName' =>'required|max:45|unique:user,loginId,'.$r->empUserName.',userId',
+//            'empUserName' =>'required|max:45|unique:user,loginId,'.$id.',userId',
 
         ]);
 
@@ -188,7 +188,7 @@ class EmployeeController extends Controller
     //attendence
     public function allAttendence(){
 
-        if(Auth::user()->userType ==USER_TYPE['Production Manager']){
+        if(Auth::user()->userType == USER_TYPE['Production Manager']){
             $employees=User::select('loginId','userId')->where('userType',USER_TYPE['User'])->get();
 
             $shifts=Shift::where(function ($q) {

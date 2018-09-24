@@ -38,6 +38,7 @@ class ShiftController extends Controller
 
 
     public function create(){
+
         if(Auth::user()->userType ==USER_TYPE['Admin'] ||Auth::user()->userType ==USER_TYPE['Supervisor'] ||Auth::user()->userType ==USER_TYPE['Human Resource Management']){
             $shifts=Shift::where('shiftName','!=','Night')->get();
             $groups=Group::get();

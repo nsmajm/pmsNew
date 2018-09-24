@@ -19,7 +19,9 @@
                             USER_TYPE['Production Manager']== Auth::user()->userType ||
                             USER_TYPE['Processing Manager']== Auth::user()->userType ||
                             USER_TYPE['Qc Manager']== Auth::user()->userType ||
-                            USER_TYPE['Human Resource Management']== Auth::user()->userType
+                            USER_TYPE['Human Resource Management']== Auth::user()->userType ||
+                            USER_TYPE['Accounts']== Auth::user()->userType ||
+                            USER_TYPE['Support']== Auth::user()->userType
                             )
                                 <li><a href="{{route('job.pending')}}">Pending Job</a></li>
                                 <li><a href="{{route('job.all')}}">Job Tally</a></li>
@@ -66,7 +68,7 @@
 
                 @endif
 
-                @if(USER_TYPE['Admin']== Auth::user()->userType || USER_TYPE['Accounts']== Auth::user()->userType)
+                @if(USER_TYPE['Admin']== Auth::user()->userType || USER_TYPE['Supervisor']== Auth::user()->userType || USER_TYPE['Accounts']== Auth::user()->userType)
                     <li class="has-submenu">
                         <a href="#"><i class="ti-money"></i>Billing</a>
                         <ul class="submenu">
@@ -103,12 +105,19 @@
                                 <li><a href="{{route('leave.show')}}">Show Leave</a></li>
                             </ul>
                         </li>
-
+                        @if(Auth::user()->userType == USER_TYPE['Admin'] ||
+                        Auth::user()->userType == USER_TYPE['Supervisor'] ||
+                        Auth::user()->userType == USER_TYPE['Supervisor'] ||
+                        Auth::user()->userType==USER_TYPE['Production Manager']  ||
+                        Auth::user()->userType==USER_TYPE['Processing Manager']  ||
+                        Auth::user()->userType==USER_TYPE['Qc Manager']
+                        )
                         <li><a href="{{route('assign.history')}}">Job Assign History</a></li>
+                        @endif
 
                         @if(Auth::user()->userType != USER_TYPE['User'])
 
-                            @if(Auth::user()->userType == USER_TYPE['Supervisor'])
+                            @if(Auth::user()->userType == USER_TYPE['Supervisor'] || Auth::user()->userType == USER_TYPE['Admin'])
                                 <li><a href="{{route('file.check')}}">File Check</a></li>
                             @endif
 

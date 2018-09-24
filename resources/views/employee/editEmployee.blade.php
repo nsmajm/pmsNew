@@ -191,7 +191,7 @@
                             <label for="example-text-input" class="col-sm-2 col-form-label">Team</label>
                             <div class="col-sm-10">
 
-                                <select  class="form-control" name="team">
+                                <select required class="form-control" name="team">
                                     <option value="">Select Team</option>
                                     @foreach($teams as $team)
                                         <option @if($team->teamId == $employee->teamId ) selected @endif value="{{$team->teamId}}">{{$team->teamName}}</option>
