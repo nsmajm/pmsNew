@@ -118,14 +118,15 @@ class EmployeeController extends Controller
 
     }
     public function updateEmployee($id, Request $r){
+        $employee=Employeeinfo::findOrFail($id);
 
         $r->validate([
             'empName'=>'required|max:45',
-//            'empUserName' =>'required|max:45|unique:user,loginId,'.$id.',userId',
+            'empUserName' =>'required|max:45|unique:user,loginId,'.$employee->userId.',userId',
 
         ]);
 
-        $employee=Employeeinfo::findOrFail($id);
+
 
         $employee->gender=$r->gender;
         $employee->number=$r->employeemobileNo;
