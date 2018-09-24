@@ -115,7 +115,6 @@ class EmployeeController extends Controller
         return redirect(route('employee.addNewEmp'));
 
 
-
     }
     public function updateEmployee($id, Request $r){
         $employee=Employeeinfo::findOrFail($id);
