@@ -10,6 +10,10 @@ use Image;
 use Auth;
 class BankController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }
     public function allBankInfo(){
         if(USER_TYPE['Admin']== Auth::user()->userType) {
             $bankInfo=Bank::select('bankId','bankName','image')->get();

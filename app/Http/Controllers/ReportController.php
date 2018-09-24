@@ -16,9 +16,14 @@ use DB;
 use stdClass;
 use App\JobServiceRelation;
 use App\Shift;
+use Auth;
 
 class ReportController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }
     public function performance(){
 
         return view('report.performance');
@@ -45,9 +50,13 @@ class ReportController extends Controller
 
 
     public function all(){
+        if(Auth::user()->userType==USER_TYPE["Admin"] ||Auth::user()->userType==USER_TYPE["Human Resource Management"] || Auth::user()->userType==USER_TYPE["Accounts"])
+        {
+            return view('report.all');
+        }
 
 
-        return view('report.all');
+
 
     }
 

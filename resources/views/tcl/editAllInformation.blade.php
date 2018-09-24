@@ -1,7 +1,7 @@
 @extends('main')
 @section('content')
 
-    <div class="card">
+    <div class="card container">
         <div class="card-header">
             <h6>Tech Cloud Information</h6>
         </div>

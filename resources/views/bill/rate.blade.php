@@ -8,7 +8,7 @@
 @endsection
 
 @section('content')
-<div class="card">
+<div class="card container">
     <div class="card-header">
         <div class="form-group col-md-12">
             <label>Select Client</label>

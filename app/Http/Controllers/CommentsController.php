@@ -8,6 +8,10 @@ use Auth;
 
 class CommentsController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }
     public function getComments(Request $r){
         $comments=Comment::select('comment.msg','comment.created_at','user.name')
             ->where('jobId',$r->jobId)

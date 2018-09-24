@@ -261,7 +261,7 @@
                     { data: 'deadline', name: 'deadline'},
 
 
-                    @if(Auth::user()->userType==USER_TYPE['Production Manager'] ) //For Production Manager
+                    @if(Auth::user()->userType==USER_TYPE['Production Manager'] || Auth::user()->userType==USER_TYPE['Admin'] ||  Auth::user()->userType==USER_TYPE['Supervisor']) //For Production Manager
                     { "data": function(data){
                         return '<select class="form-control"  onchange="productionChange(this)" data-panel-id="'+data.jobstateId+'" data-job-id="'+data.jobId+'">' +
                             '<option value="">'+data.statusName+'</option>'+
@@ -370,7 +370,7 @@
                     { data: 'folderName', name: 'folderName' },
                     { data: 'quantity', name: 'quantity'},
                     { data: 'briefType', name: 'briefType'},
-                    @if(Auth::user()->userType==USER_TYPE['Processing Manager'] ) //For Processing Manager
+                    @if(Auth::user()->userType==USER_TYPE['Processing Manager'] || Auth::user()->userType==USER_TYPE['Admin'] ||  Auth::user()->userType==USER_TYPE['Supervisor']) //For Processing Manager
                     { "data": function(data){
                         return '<select class="form-control" onchange="processingChange(this)" data-panel-id="'+data.jobstateId+'" data-job-id="'+data.jobId+'">' +
                             '<option value="">'+data.statusName+'</option>'+
@@ -472,7 +472,17 @@
                     { data: 'folderName', name: 'folderName' },
                     { data: 'quantity', name: 'quantity'},
                     { data: 'briefType', name: 'briefType'},
+                    @if(Auth::user()->userType==USER_TYPE['Qc Manager'] || Auth::user()->userType==USER_TYPE['Admin'] ||  Auth::user()->userType==USER_TYPE['Supervisor']) //For Processing Manager
+                    { "data": function(data){
+                        return '<select class="form-control" onchange="processingChange(this)" data-panel-id="'+data.jobstateId+'" data-job-id="'+data.jobId+'">' +
+                            '<option value="">'+data.statusName+'</option>'+
+                            '<option value="processing">Pass To Processing</option>'+
+                            '<option value="production">Pass To Production</option>'+
+                            '</select>';},
+                        "orderable": false, "searchable":false, "name":"selected_rows" },
+                        @else
                     { data: 'statusName', name: 'statusName'},
+                    @endif
 
                     @if(Auth::user()->userType==USER_TYPE['Admin']) //For Admin
                     { "data": function(data){

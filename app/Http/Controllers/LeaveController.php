@@ -13,6 +13,10 @@ use App\Absent;
 use DB;
 class LeaveController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }
     public function showLeaveRequest(){
         if(Auth::user()->userType == USER_TYPE['Human Resource Management'] || Auth::user()->userType == USER_TYPE['Admin'] ){
             $status=Status::where('statusType','leaveStatus')->get();

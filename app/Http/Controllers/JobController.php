@@ -28,6 +28,10 @@ use Carbon\Carbon;
 
 class JobController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }
     public function information(){
 //        $job=Job::select('client.clientName','file.folderName','job.deadLine','job.quantity')
 //            ->leftJoin('file','file.jobId','job.jobId')
@@ -46,12 +50,23 @@ class JobController extends Controller
 
 
     public function all(){
-        $clients=Client::select('clientId','clientName')->get();
-        $status=Status::where('statusType','jobStatus')->get();
+        if(USER_TYPE['Admin']== Auth::user()->userType ||
+            USER_TYPE['Supervisor']== Auth::user()->userType ||
+            USER_TYPE['Production Manager']== Auth::user()->userType ||
+            USER_TYPE['Processing Manager']== Auth::user()->userType ||
+            USER_TYPE['Qc Manager']== Auth::user()->userType ||
+            USER_TYPE['Human Resource Management']== Auth::user()->userType ||
+            USER_TYPE['Accounts']== Auth::user()->userType ||
+            USER_TYPE['Support']== Auth::user()->userType
+        ){
+            $clients=Client::select('clientId','clientName')->get();
+            $status=Status::where('statusType','jobStatus')->get();
 
-        return view('job.all')
+            return view('job.all')
                 ->with('clients',$clients)
                 ->with('status',$status);
+        }
+
     }
 
     public function getAllData(Request $r){
@@ -336,10 +351,21 @@ class JobController extends Controller
     }
 
     public function deadline(){
-        $todaysDate=date("Y-m-d");
+        if(USER_TYPE['Admin']== Auth::user()->userType ||
+            USER_TYPE['Supervisor']== Auth::user()->userType ||
+            USER_TYPE['Production Manager']== Auth::user()->userType ||
+            USER_TYPE['Processing Manager']== Auth::user()->userType ||
+            USER_TYPE['Qc Manager']== Auth::user()->userType ||
+            USER_TYPE['Human Resource Management']== Auth::user()->userType ||
+            USER_TYPE['Accounts']== Auth::user()->userType ||
+            USER_TYPE['Support']== Auth::user()->userType
+        ){
+            $todaysDate=date("Y-m-d");
 
-        return view('job.deadline')
-            ->with('todaysDate',$todaysDate);
+            return view('job.deadline')
+                ->with('todaysDate',$todaysDate);
+        }
+
 
     }
 
@@ -491,8 +517,17 @@ class JobController extends Controller
     }
 
     public function assignHistory(){
+        if(Auth::user()->userType == USER_TYPE['Admin'] ||
+            Auth::user()->userType == USER_TYPE['Supervisor'] ||
+            Auth::user()->userType == USER_TYPE['Supervisor'] ||
+            Auth::user()->userType==USER_TYPE['Production Manager']  ||
+            Auth::user()->userType==USER_TYPE['Processing Manager']  ||
+            Auth::user()->userType==USER_TYPE['Qc Manager']
+        ){
+            return view('job.history');
+        }
 
-        return view('job.history');
+
     }
 
     public function getAssignHistory(Request $r){
@@ -542,31 +577,37 @@ class JobController extends Controller
 
 
     public function assignJob($id){
-        if(Auth::user()->userType==USER_TYPE['User']){
-            return back();
+        if(Auth::user()->userType==USER_TYPE['Admin']  ||
+            Auth::user()->userType==USER_TYPE['Supervisor']  ||
+            Auth::user()->userType==USER_TYPE['Production Manager']  ||
+            Auth::user()->userType==USER_TYPE['Processing Manager']  ||
+            Auth::user()->userType==USER_TYPE['Qc Manager']
+
+        ){
+            $job=Job::where('job.jobId',$id)
+                ->leftJoin('file','file.jobId','job.jobId')
+                ->first();
+
+            if(Auth::user()->userType==USER_TYPE['Supervisor'] || Auth::user()->userType==USER_TYPE['Admin']){
+                $groups=Group::get();
+            }
+            else{
+                $groups=Group::where('groupId',Auth::user()->groupId)->get();
+            }
+
+
+            $jobAssignQuantity=Jobassign::where('jobId',$id)
+                ->where('leaveDate',null)
+                ->sum('quantity');
+
+            return view('job.assignJob')
+                ->with('groups',$groups)
+                ->with('job',$job)
+                ->with('jobAssignQuantity',$jobAssignQuantity);
+
         }
 
 
-        $job=Job::where('job.jobId',$id)
-            ->leftJoin('file','file.jobId','job.jobId')
-            ->first();
-
-        if(Auth::user()->userType==USER_TYPE['Supervisor']){
-            $groups=Group::get();
-        }
-        else{
-            $groups=Group::where('groupId',Auth::user()->groupId)->get();
-        }
-
-
-        $jobAssignQuantity=Jobassign::where('jobId',$id)
-            ->where('leaveDate',null)
-            ->sum('quantity');
-
-        return view('job.assignJob')
-            ->with('groups',$groups)
-            ->with('job',$job)
-            ->with('jobAssignQuantity',$jobAssignQuantity);
     }
 
     public function checkQuantity(Request $r){

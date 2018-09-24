@@ -12,7 +12,7 @@
 
 @section('content')
 
-<div class="card">
+<div class="card container">
     <div class="card-header">
         <div class="form-group">
             <label>Client</label>
