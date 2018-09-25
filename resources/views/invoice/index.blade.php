@@ -64,12 +64,14 @@
             $('#combobox').select2();
             $('#date1').datepicker({
                 format:'yyyy-m-d',
+                todayHighlight: true,
                 orientation: 'bottom'
 
             });
 
             $('#date2').datepicker({
                 format:'yyyy-m-d',
+                todayHighlight: true,
                 orientation: 'bottom'
             });
 

@@ -149,10 +149,12 @@
 
 
             $('#date1').datepicker({
-                format:'yyyy-mm-dd'
+                format:'yyyy-mm-dd',
+                todayHighlight: true
             });
             $('#date2').datepicker({
-                format:'yyyy-mm-dd'
+                format:'yyyy-mm-dd',
+                todayHighlight: true
             });
         } );
 

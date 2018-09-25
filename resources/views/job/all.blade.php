@@ -8,6 +8,7 @@
     <link href="{{url('public/assets/plugins/bootstrap-datepicker/css/bootstrap-datepicker.min.css')}}" rel="stylesheet">
 
 
+
 @endsection
 
 @section('content')
@@ -139,7 +140,8 @@
 
     <script>
         $('#date1').datepicker({
-            format:'yyyy-m-d'
+            format:'yyyy-m-d',
+            todayHighlight: true
         });
         $(document).ready( function () {
 

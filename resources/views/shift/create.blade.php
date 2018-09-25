@@ -149,10 +149,12 @@
     <script src="{{url('public/assets/plugins/bootstrap-datepicker/js/bootstrap-datepicker.min.js')}}"></script>
     <script>
         $('#date1').datepicker({
-            format:'yyyy-m-d'
+            format:'yyyy-m-d',
+            todayHighlight: true
         });
         $('#date2').datepicker({
-            format:'yyyy-m-d'
+            format:'yyyy-m-d',
+            todayHighlight: true
         });
         function showTeamMember(x) {
             divId= $(x).data('panel-id');

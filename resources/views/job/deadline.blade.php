@@ -23,7 +23,7 @@
                         <label>Search Date</label>
                         <div class="form-group">
                             <div>
-                                <input type="text" class="form-control" id="date1" name="start" placeholder="Start Date" value="" onchange="dateChange(this)"/>
+                                <input type="text" class="form-control" id="date1" name="start" placeholder="Start Date" value="{{date('Y-m-d')}}" onchange="dateChange(this)"/>
                             </div>
                         </div>
                         <br>
@@ -198,9 +198,16 @@
         } );
 
         $(document).ready( function () {
+            $('#date1').datepicker({
+                format:'yyyy-m-d',
+                todayHighlight: true
+
+            });
+
             var productionTotal=0;
             var processingTotal=0;
             var qcTotal=0;
+
             productionTable=  $('#datatable').DataTable({
                 rowReorder: {
                     selector: 'td:nth-child(0)'
@@ -523,9 +530,6 @@
 
 
 
-            $('#date1').datepicker({
-                format:'yyyy-m-d'
-            });
 
 
 

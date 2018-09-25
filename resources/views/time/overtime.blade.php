@@ -126,7 +126,8 @@
 
     <script>
         $('#date1').datepicker({
-            format:'yyyy-m-d'
+            format:'yyyy-m-d',
+            todayHighlight: true
         });
         $(function() {
             $('#combobox').select2();
